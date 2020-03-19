@@ -10,6 +10,7 @@ class Vase {
     hum: number;              // humidity value of the vase
     light: number;
     ping: number;             // ping
+    dying: boolean;
 
     constructor(id: number) {
         if (id) {
@@ -18,6 +19,7 @@ class Vase {
             this.light = 0;
             this.hum = 0;
             this.ping = input.runningTime()
+            this.dying = false;
         }
     }
 
@@ -66,10 +68,11 @@ class Vase {
 }
 /*--------------------------------- VARIABLE STATEMENTS --------------------------------*/
 
-const vase_map: Vase[] = [];           // list of vases
+const vase_map = new Map<number,Vase>();           // list of vases
 const conn_request: number[] = [];      // list of connection requests
 let dim_list: number = 0;               // size of vase_map
 let pause_time = 8000
+let current_time;
 
 /*------------------------------------- FUNCTIONS ---------------------------------------*/
 
@@ -80,43 +83,37 @@ let pause_time = 8000
  * @return the vase with serial number equal to id.
 */
 function getVase(id: number): Vase {
-    if (!id)
-        return undefined
-    //to search the vase in the list
-    for (const vase of vase_map) {
-        if (vase.getSerial() == id)
-            return vase;
-    }
-    return undefined;
+    return vase_map.get(id)
 }
 
 /**
- * @summary the function insert the vase, with serial number equal to id, into the list.
+ * @summary the function insert the vase, with serial number equal to id, into the map.
  * @param id (number) the serial number of the vase.
  * @return the vase with serial number equal to id or undefined.
 */
 function insertVase(id: number): Vase {
-
     if (!id) return undefined;
-
-    for (const vase of vase_map) {
-        if (vase.getSerial() == id)
-            return vase;
-    }
-
-    dim_list = vase_map.length
-    if (dim_list == 25)
+    if (vase_map.has(id)) 
+        return vase_map.get(id)
+    dim_list = vase_map.size
+    if (dim_list == 24)
         return undefined;
-
     const vase: Vase = new Vase(id)
     if (!vase) return undefined;
-
     //add a new plot that rappresents the new vase
     led.plot(dim_list % 5, dim_list / 5)
     //insert the new vase in the list
-    vase_map.push(vase)
+    vase_map.set(id,vase)
     dim_list += 1
     return vase;
+}
+
+function deleteVase(id:number){
+    if (!id) return;
+    if (!vase_map.has(id)) return;
+    vase_map.delete(id)
+    led.unplot(dim_list % 5, dim_list / 5)
+    dim_list -= 1
 }
 
 /**
@@ -234,10 +231,26 @@ led.setBrightness(50)
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 radio.setTransmitPower(7)
-dim_list = vase_map.length
+dim_list = vase_map.size
+let diedping = 300000;
 
 /*--------------------------------------- RADIO CODE -------------------------------------*/
 basic.forever(function () {
+    current_time = input.runningTime()
+    for (let key of vase_map.keys()){
+        const vase = vase_map.get(key)
+        if ((current_time - vase.getPing()) > diedping){
+            if (vase.dying) {
+                deleteVase(key)
+                basic.showString("del")
+                drawNumberOfVases()
+            }
+            else {
+                vase.dying = true;
+                sendRequest("ping",vase.serial_number)
+            }
+        }
+    }
     basic.pause(pause_time)
 })
 
@@ -266,11 +279,11 @@ radio.onReceivedString(function (receivedString: string) {
     if (receivedString == "join"){
         if (containRequest(serialNumber)) return;
         conn_request.push(serialNumber)
-    }/* else if (receivedString == "ping"){
-        const v:Vase = getVase(serialNumber)
+    } else if (receivedString == "ping"){
+        //non controllo se è in lista, ricevo ping solo da vasi il quale è stato rich.
+        const v = vase_map.get(serialNumber)
         if (v) v.setPing(input.runningTime())
-    }*/
-    
+    }
 })
 
 

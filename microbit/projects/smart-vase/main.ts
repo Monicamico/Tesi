@@ -27,7 +27,6 @@ function waters() {
     pins.digitalWritePin(DigitalPin.P2, 1)
     basic.pause(4000)
     pins.digitalWritePin(DigitalPin.P2, 0)
-    basic.clearScreen()
 }
 
 /**
@@ -74,7 +73,6 @@ function setLightMax(max: number) {
         light_max = max;
 }
 
-
 /**
  * @summary set time interval in wich the vase sends data to the radio-dashboard
  * @param x (number) interval
@@ -111,7 +109,6 @@ function readTemperature() {
  *@summary read light 
  */
 function readLight() {
-    basic.clearScreen()
     light_measure = input.lightLevel()
 }
 
@@ -235,12 +232,12 @@ radio.onReceivedBuffer(function () {
                 basic.clearScreen()
                 break
             }
-           /* case ("ping"): {
+            case ("ping"): {
                 basic.showString("P")
                 joined = 1; //se arriva una richiesta di ping è sicuramente presente nella lista dei vasi della radio
                 radio.sendString("ping") 
                 break
-            }*/
+            }
             case ("water"): {
                 waters()
                 break
