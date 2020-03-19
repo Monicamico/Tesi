@@ -1,6 +1,6 @@
 /**
  * Radio-dashboard
- * @author Monica Amico  
+ * @author Monica Amico 
  */
 
 /*-------------------------------- VASE CLASS ----------------------------------*/
@@ -119,13 +119,36 @@ function insertVase(id: number): Vase {
     return vase;
 }
 
-function containRequest(id:number):boolean {
+/**
+ * @summary the function check if the request has already been received
+ * @param id (number) the serial number of the vase.
+ * @return true if the list contains the request, false otherwise
+*/
+function containRequest(id: number):boolean {
     for (const n of conn_request){
         if (n == id) return true;
     }
     return false;
 }
 
+/**
+ * @summary to plot points that rappresents the vases contained in the vaselist
+ */
+function drawNumberOfVases() {
+    basic.clearScreen()
+    let i = 0;
+    while (i != dim_list) {
+        led.plot(i % 5, i / 5)
+        i++
+    }
+}
+
+/**
+ * @summary to send a request to smart-vase
+ * @param request contains a string that rappresent the type of request
+ * @param serial serial number of the smart-vase
+ * @param x optional parameter, it could be useful to insert an additional value
+ */
 function sendRequest(request: string, serial: number, x?: number) {
     let msg: Buffer
     let content: string
@@ -136,6 +159,8 @@ function sendRequest(request: string, serial: number, x?: number) {
     msg = control.createBufferFromUTF8(content)
     radio.sendBuffer(msg)
 }
+
+/*------------- TYPES OF REQUEST -----------*/
 /**
  * @summary send temperature request to the vase with serial number equal to the parameter id.
  *          if the param is 0 the request will be send to all.
@@ -202,18 +227,6 @@ function setPTime(id: number, p: number) {
 
 function setSTime(id: number, s: number) {
     sendRequest("send_time", id, s)
-}
-
-/**
- * @summary to plot points that rappresents the vases contained in the vaselist
- */
-function drawNumberOfVases() {
-    basic.clearScreen()
-    let i = 0;
-    while (i != dim_list) {
-        led.plot(i % 5, i / 5)
-        i++
-    }
 }
 
 /*------------------------------------- INITIAL CODE -------------------------------------*/
