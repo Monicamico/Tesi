@@ -15,8 +15,8 @@ let light_max = 255
 let temperature_measure = 0                       // temperature measure
 let humidity_measure = 0                          // humidity measure
 let light_measure = 0                             // light measure
-let send_time = 40000                             // time interval in wich the vase sends data    
-let pause_time = 20000
+let send_time = 8000                             // time interval in wich the vase sends data    
+let pause_time = 8000
 let radio_serial_number = 0;
 
 /*------------------------------------------- FUNCTIONS -----------------------------------------------*/
