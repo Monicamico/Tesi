@@ -68,7 +68,7 @@ class Vase {
 }
 /*--------------------------------- VARIABLE STATEMENTS --------------------------------*/
 
-const vase_map = new Map<number,Vase>();           // list of vases
+const vase_list: Vase[] = [];           // list of vases
 const conn_request: number[] = [];      // list of connection requests
 let dim_list: number = 0;               // size of vase_map
 let pause_time = 8000
@@ -83,7 +83,12 @@ let current_time;
  * @return the vase with serial number equal to id.
 */
 function getVase(id: number): Vase {
-    return vase_map.get(id)
+    if (!id) return undefined;
+    for (const vase of vase_list){
+        if (vase.getSerial() == id)
+            return vase;
+    }
+    return undefined;
 }
 
 /**
@@ -93,9 +98,9 @@ function getVase(id: number): Vase {
 */
 function insertVase(id: number): Vase {
     if (!id) return undefined;
-    if (vase_map.has(id)) 
-        return vase_map.get(id)
-    dim_list = vase_map.size
+    let v = getVase(id)
+    if (v!= undefined) return v
+    dim_list = vase_list.length
     if (dim_list == 24)
         return undefined;
     const vase: Vase = new Vase(id)
@@ -103,17 +108,25 @@ function insertVase(id: number): Vase {
     //add a new plot that rappresents the new vase
     led.plot(dim_list % 5, dim_list / 5)
     //insert the new vase in the list
-    vase_map.set(id,vase)
-    dim_list += 1
+    dim_list = vase_list.push(vase)
     return vase;
 }
 
 function deleteVase(id:number){
     if (!id) return;
-    if (!vase_map.has(id)) return;
-    vase_map.delete(id)
-    led.unplot(dim_list % 5, dim_list / 5)
-    dim_list -= 1
+    let i = 0
+    while (i < dim_list){
+        let vase = vase_list.shift()
+        if (vase.getSerial() != id)
+            vase_list.push(vase)
+        else {
+            led.unplot(dim_list % 5, dim_list / 5)
+            dim_list = vase_list.length
+            return;
+        }
+        i++;
+    }
+    
 }
 
 /**
@@ -231,17 +244,18 @@ led.setBrightness(50)
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 radio.setTransmitPower(7)
-dim_list = vase_map.size
+dim_list = vase_list.length
 let diedping = 300000;
 
 /*--------------------------------------- RADIO CODE -------------------------------------*/
 basic.forever(function () {
     current_time = input.runningTime()
-    for (let key of vase_map.keys()){
-        const vase = vase_map.get(key)
+
+    for (const vase of vase_list){
+
         if ((current_time - vase.getPing()) > diedping){
             if (vase.dying) {
-                deleteVase(key)
+                deleteVase(vase.serial_number)
                 basic.showString("del")
                 drawNumberOfVases()
             }
@@ -281,8 +295,7 @@ radio.onReceivedString(function (receivedString: string) {
         conn_request.push(serialNumber)
     } else if (receivedString == "ping"){
         //non controllo se è in lista, ricevo ping solo da vasi il quale è stato rich.
-        const v = vase_map.get(serialNumber)
-        if (v) v.setPing(input.runningTime())
+        getVase(serialNumber).setPing(input.runningTime())
     }
 })
 
