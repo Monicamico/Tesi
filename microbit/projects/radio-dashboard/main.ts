@@ -108,7 +108,8 @@ function insertVase(id: number): Vase {
     //add a new plot that rappresents the new vase
     led.plot(dim_list % 5, dim_list / 5)
     //insert the new vase in the list
-    dim_list = vase_list.push(vase)
+    vase_list.push(vase)
+    dim_list = vase_list.length
     return vase;
 }
 
@@ -292,6 +293,7 @@ radio.onReceivedString(function (receivedString: string) {
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
     if (receivedString == "join"){
         if (containRequest(serialNumber)) return;
+        
         conn_request.push(serialNumber)
     } else if (receivedString == "ping"){
         //non controllo se è in lista, ricevo ping solo da vasi il quale è stato rich.
