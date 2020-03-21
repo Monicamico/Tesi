@@ -71,8 +71,9 @@ class Vase {
 const vase_list: Vase[] = [];           // list of vases
 const conn_request: number[] = [];      // list of connection requests
 let dim_list: number = 0;               // size of vase_map
-let pause_time = 8000
+let pause_time = 80000
 let current_time;
+let diedping = 300000;
 
 /*------------------------------------- FUNCTIONS ---------------------------------------*/
 
@@ -92,7 +93,7 @@ function getVase(id: number): Vase {
 }
 
 /**
- * @summary the function insert the vase, with serial number equal to id, into the map.
+ * @summary the function insert the vase with serial number equal to id into the list.
  * @param id (number) the serial number of the vase.
  * @return the vase with serial number equal to id or undefined.
 */
@@ -113,6 +114,10 @@ function insertVase(id: number): Vase {
     return vase;
 }
 
+/**
+ * @summary the function delete the vase with serial number equal to id into the list.
+ * @param id (number) the serial number of the vase.
+*/
 function deleteVase(id:number){
     if (!id) return;
     let i = 0
@@ -131,8 +136,8 @@ function deleteVase(id:number){
 }
 
 /**
- * @summary the function check if the request has already been received
- * @param id (number) the serial number of the vase.
+ * @summary the function check if the connection request has already been received
+ * @param id the serial number of the vase.
  * @return true if the list contains the request, false otherwise
 */
 function containRequest(id: number):boolean {
@@ -246,10 +251,11 @@ radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 radio.setTransmitPower(7)
 dim_list = vase_list.length
-let diedping = 300000;
+diedping = 300000;
 
 /*--------------------------------------- RADIO CODE -------------------------------------*/
 basic.forever(function () {
+
     current_time = input.runningTime()
 
     for (const vase of vase_list){
@@ -293,16 +299,16 @@ radio.onReceivedString(function (receivedString: string) {
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
     if (receivedString == "join"){
         if (containRequest(serialNumber)) return;
-        
         conn_request.push(serialNumber)
     } else if (receivedString == "ping"){
-        //non controllo se è in lista, ricevo ping solo da vasi il quale è stato rich.
+        /* I don't check if it is on the list, 
+           I only receive ping from vases that have been requested*/
         getVase(serialNumber).setPing(input.runningTime())
     }
 })
 
 
-//code to be executed when a value is received
+//code to be executed when a value is received from a smart-vase
 radio.onReceivedValue(function (request: string, param: number) {
 
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)

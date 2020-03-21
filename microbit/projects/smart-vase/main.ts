@@ -15,8 +15,10 @@ let light_max = 255
 let temperature_measure = 0                       // temperature measure
 let humidity_measure = 0                          // humidity measure
 let light_measure = 0                             // light measure
-let send_time = 8000                             // time interval in wich the vase sends data    
-let pause_time = 8000
+let send_time = 500                               // time interval in wich the vase sends data    
+let pause_time = 300000
+let time = 0
+let joined = false;
 let radio_serial_number = 0;
 
 /*------------------------------------------- FUNCTIONS -----------------------------------------------*/
@@ -113,7 +115,7 @@ function readLight() {
 }
 
 /**
- * @summary read temperature and humidity
+ * @summary read temperature, humidity and light
  */
 function measure() {
     readHumidity()
@@ -152,19 +154,15 @@ serial_number = control.deviceSerialNumber()
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 led.setBrightness(20)
-let time = 0
-let joined = 0;
 
 /*-------------------------------------------- VASE CODE ------------------------------------------*/
 
 basic.forever(function () {
 
-    if (joined == 0) {
+    if (joined == false) {
         radio.sendString("join")
     }
-
     measure()
-
     if (humidity_measure < hum_min) {
         basic.showIcon(IconNames.Sad)
         basic.clearScreen()
@@ -180,8 +178,8 @@ basic.forever(function () {
     }
 
     basic.pause(pause_time)
-
-    time += 1000
+    
+    time += 1
     if (time == send_time) {
         basic.showString("-->")
         sendHumidity()
@@ -227,14 +225,16 @@ radio.onReceivedBuffer(function () {
         switch (request) {
             case ("joined"): {
                 basic.showString("J")
-                joined = 1;
+                joined = true;
                 radio_serial_number = radio.receivedPacket(RadioPacketProperty.SerialNumber)
                 basic.clearScreen()
                 break
             }
             case ("ping"): {
                 basic.showString("P")
-                joined = 1; //se arriva una richiesta di ping è sicuramente presente nella lista dei vasi della radio
+                /* if a ping request arrives
+                 the smart-vase is certainly present in the vaselist of the radio */
+                joined = true; 
                 radio.sendString("ping") 
                 break
             }
