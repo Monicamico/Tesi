@@ -6,7 +6,7 @@
 /*----------------------------------------- VARIABLE STATEMENTS --------------------------------------*/
 
 let serial_number = control.deviceSerialNumber()  // serial number of the vase
-let temp_min = 18                                 // minimum temperature value
+let temp_min = 15                                 // minimum temperature value
 let temp_max = 30                                 // maximum temperature value
 let hum_max = 1000                                // maximum humidity value
 let hum_min = 300                                 // minimum humidity value
@@ -21,6 +21,11 @@ let time = 0
 let joined = false;
 let radio_serial_number = 0;
 
+enum State {
+    Happy,
+    Sad
+}
+let currentState = State.Happy;
 /*------------------------------------------- FUNCTIONS -----------------------------------------------*/
 /**
  * @summary it feeds the vase
@@ -146,6 +151,16 @@ function sendLight() {
     radio.sendValue("getLight", light_measure)
     basic.pause(1000)
 }
+
+function setState() {
+    if ((humidity_measure <= hum_max && humidity_measure >= hum_min) && 
+        (light_measure <=light_max && light_measure >= light_min) &&
+        (temperature_measure <= temp_max && temperature_measure >= temp_min))
+        
+        currentState = State.Happy;
+    else 
+        currentState = State.Sad
+}
 /*------------------------------------------ END FUNCTIONS ----------------------------------------*/
 
 /*------------------------------------------- INITIAL CODE ----------------------------------------*/
@@ -162,21 +177,26 @@ basic.forever(function () {
     if (joined == false) {
         radio.sendString("join")
     }
+    
     measure()
-    if (humidity_measure < hum_min) {
+    setState()
+
+    if (currentState == State.Happy)
+        basic.showIcon(IconNames.Happy)
+    else 
         basic.showIcon(IconNames.Sad)
-        basic.clearScreen()
+
+    if (humidity_measure < hum_min) {
+        basic.showLeds(`
+            . . # . .
+            . . # . .
+            # # # # #
+            . # # # .
+            . . # . .
+        `)
         waters()
     }
-    else if (humidity_measure > hum_max) {
-        basic.showIcon(IconNames.Umbrella)
-        basic.clearScreen()
-    }
-    else if (humidity_measure >= hum_min && humidity_measure <= hum_max) {
-        basic.showIcon(IconNames.Happy)
-        basic.clearScreen()
-    }
-
+    basic.clearScreen()
     basic.pause(pause_time)
     
     time += 1
@@ -224,14 +244,12 @@ radio.onReceivedBuffer(function () {
 
         switch (request) {
             case ("joined"): {
-                basic.showString("J")
                 joined = true;
                 radio_serial_number = radio.receivedPacket(RadioPacketProperty.SerialNumber)
                 basic.clearScreen()
                 break
             }
             case ("ping"): {
-                basic.showString("P")
                 /* if a ping request arrives
                  the smart-vase is certainly present in the vaselist of the radio */
                 joined = true; 
@@ -288,4 +306,12 @@ radio.onReceivedBuffer(function () {
             } 
         }
     }
+})
+
+input.onButtonPressed(Button.A, function(){
+    basic.showNumber(humidity_measure) //humidity
+    basic.pause(1000)
+    basic.showNumber(temperature_measure)
+    basic.pause(1000)
+    basic.showNumber(light_measure)
 })
