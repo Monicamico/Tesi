@@ -201,7 +201,7 @@ basic.forever(function () {
     
     time += 1
     if (time == send_time) {
-        basic.showString("-->")
+        basic.showString("->")
         sendHumidity()
         basic.pause(2000)
         sendTemperature()

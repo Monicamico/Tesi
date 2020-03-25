@@ -3,6 +3,8 @@
  * @author Monica Amico 
  */
 
+import { write } from "fs";
+
 /*-------------------------------- VASE CLASS ----------------------------------*/
 class Vase {
     serial_number: number;    // serial number of the vase
@@ -12,13 +14,13 @@ class Vase {
     ping: number;             // ping
     dying: boolean;
 
-    constructor(id: number) {
+    constructor(id: number, ping: number) {
         if (id) {
             this.serial_number = id;
             this.temp = 0;
             this.light = 0;
             this.hum = 0;
-            this.ping = input.runningTime()
+            this.ping = ping
             this.dying = false;
         }
     }
@@ -66,10 +68,20 @@ class Vase {
         this.ping = ping;
     }
 }
+
+class Request {
+    serial_number: number
+    ping: number
+
+    constructor(s:number, ping:number){
+        this.serial_number = s
+        this.ping = ping;
+    }
+}
 /*--------------------------------- VARIABLE STATEMENTS --------------------------------*/
 
 const vase_list: Vase[] = [];           // list of vases
-const conn_request: number[] = [];      // list of connection requests
+const conn_request: Request[] = [];      // list of connection requests
 let dim_list: number = 0;               // size of vase_map
 let pause_time = 80000
 let current_time;
@@ -97,14 +109,14 @@ function getVase(id: number): Vase {
  * @param id (number) the serial number of the vase.
  * @return the vase with serial number equal to id or undefined.
 */
-function insertVase(id: number): Vase {
+function insertVase(id: number, p:number): Vase {
     if (!id) return undefined;
     let v = getVase(id)
     if (v!= undefined) return v
     dim_list = vase_list.length
     if (dim_list == 24)
         return undefined;
-    const vase: Vase = new Vase(id)
+    const vase: Vase = new Vase(id, p)
     if (!vase) return undefined;
     //add a new plot that rappresents the new vase
     led.plot(dim_list % 5, dim_list / 5)
@@ -141,12 +153,27 @@ function deleteVase(id:number){
  * @return true if the list contains the request, false otherwise
 */
 function containRequest(id: number):boolean {
-    for (const n of conn_request){
-        if (n == id) return true;
+    for (const r of conn_request){
+        if (r.serial_number == id) return true;
     }
     return false;
 }
 
+
+function deleteRequest(id:number): number {
+    if (!id) return;
+    let i = 0
+    while (i < conn_request.length){
+        let conn = conn_request.shift()
+        if (conn.serial_number != id)
+            conn_request.push(conn)
+        else {
+            return conn.ping;
+        }
+        i++;
+    }
+    return -1;
+}
 /**
  * @summary to plot points that rappresents the vases contained in the vaselist
  */
@@ -157,6 +184,14 @@ function drawNumberOfVases() {
         led.plot(i % 5, i / 5)
         i++
     }
+}
+
+function setDiedping(x: number){
+    diedping = x;
+}
+
+function setRadioPauseTime(x:number){
+    pause_time = x;
 }
 
 /**
@@ -176,10 +211,21 @@ function sendRequest(request: string, serial: number, x?: number) {
     radio.sendBuffer(msg)
 }
 
-/*------------- TYPES OF REQUEST -----------*/
+
+/**
+ * @summary to send a response to raspberry
+ * @param response contains a string that rappresent the response
+ */
+function sendResponse(response: string){
+    serial.writeString(response)
+}
+
+
+/*-------------------------- TYPES OF REQUEST TO SEND TO VASE ----------------------------*/
+
 /**
  * @summary send temperature request to the vase with serial number equal to the parameter id.
- *          if the param is 0 the request will be send to all.
+ *          if the param is -1 the request will be send to all.
  * @param id (number) rappresents the serial number of the vase.
  */
 function getTemp(id: number) {
@@ -188,7 +234,7 @@ function getTemp(id: number) {
 
 /**
  * @summary send humidity request to the vase with serial number equal to the parameter id.
- *          if the param is 0 the request will be send to all.
+ *          if the param is -1 the request will be send to all.
  * @param id (number) rappresents the serial number of the vase.
  */
 function getHum(id: number) {
@@ -197,7 +243,7 @@ function getHum(id: number) {
 
 /**
  * @summary send light request to the vase with serial number equal to the parameter id.
- *          if the param is 0 the request will be send to all.
+ *          if the param is -1 the request will be send to all.
  * @param id (number) rappresents the serial number of the vase.
  */
 function getLight(id: number) {
@@ -206,7 +252,7 @@ function getLight(id: number) {
 
 /**
  * @summary send the request to water the vase
- *          if the param is 0 the request will be send to all.
+ *          if the param is -1 the request will be send to all.
  * @param id (number) rappresents the serial number of the vase.
  */
 function putWater(id: number) {
@@ -245,7 +291,12 @@ function setSTime(id: number, s: number) {
     sendRequest("send_time", id, s)
 }
 
+function setJoined(id:number){
+    sendRequest("joined", id)
+}
+
 /*------------------------------------- INITIAL CODE -------------------------------------*/
+
 led.setBrightness(50)
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
@@ -278,32 +329,39 @@ basic.forever(function () {
 /*--------------------------------------- EVENTS CODE ------------------------------------*/
 
 
-//to accept the last request
+//to accept the request connection from the vase
 input.onButtonPressed(Button.A, function () {
-    let id = conn_request.pop()
-    insertVase(id)
-    sendRequest("joined",id)
+
+    let req = conn_request.shift()
+    insertVase(req.serial_number, req.ping)
+    setJoined(req.serial_number)//send the joined notification to smart-vase
+    sendResponse(`joined;${req.serial_number};${req.ping}`) //send joined notification to raspberry
+
 })
 
-//to refuse the last request
+//to refuse the request connection from the vase
 input.onButtonPressed(Button.B, function () {
-    conn_request.pop()
+    let req = conn_request.shift()
+    sendResponse(`refused;${req.serial_number}`)
 })
 
-input.onButtonPressed(Button.AB, function() {
 
-})
-
-//code to be executed when a connection request is recived
+/* code to be executed when a connection request or ping is received from the smartvase */
 radio.onReceivedString(function (receivedString: string) {
+
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
+
     if (receivedString == "join"){
         if (containRequest(serialNumber)) return;
-        conn_request.push(serialNumber)
+        conn_request.push(new Request(serialNumber, input.runningTime()))
+        sendResponse(`conn_req;${serialNumber}`) //send connection request to raspberry
+
     } else if (receivedString == "ping"){
         /* I don't check if it is on the list, 
            I only receive ping from vases that have been requested*/
-        getVase(serialNumber).setPing(input.runningTime())
+        let ping = input.runningTime();
+        getVase(serialNumber).setPing(ping)
+        sendResponse(`ping;${serialNumber};${ping}`)
     }
 })
 
@@ -314,6 +372,9 @@ radio.onReceivedValue(function (request: string, param: number) {
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
     const vase = getVase(serialNumber)
     if (!vase) return;
+    let ping = input.runningTime()
+    //send the received value to raspberry as a string
+    sendResponse(`${request};${serialNumber};${param};${ping}`) 
 
     switch (request){
         case ("getHum"): { 
@@ -336,4 +397,123 @@ radio.onReceivedValue(function (request: string, param: number) {
         }
     }
     drawNumberOfVases()
+})
+
+
+/* request received from RaspBerry */
+serial.onDataReceived(";", function(){
+
+    let received = serial.readUntil(serial.delimiters(Delimiters.Fullstop))
+    let r_list= received.split(";")
+    let request = r_list[0]
+    let serialNumber = parseInt(r_list[1])
+
+    switch(request){
+
+        case ("join"): {
+            let ping =deleteRequest(serialNumber)
+            if (ping!= -1){
+                insertVase(serialNumber,ping)
+                setJoined(serialNumber) //send the joined notification to smart-vase
+                sendResponse(`joined;${serialNumber};${ping}`) //send joined notification to raspberry
+            }
+            break;
+        }
+
+        case ("refuse"): {
+            let ping =deleteRequest(serialNumber)
+            if (ping!= -1){
+                sendResponse(`refused;${serialNumber}`)
+            }
+            break;
+        }
+
+        case ("ping"): {
+            if (getVase(serialNumber)){
+                sendRequest("ping",serialNumber)
+            }
+            break;
+        }
+
+        case ("getHum"): {
+            getHum(serialNumber)
+            break;
+        }
+
+        case ("getTemp"): {
+            getTemp(serialNumber)
+            break;
+        }
+        
+        case ("getLight"): {
+            getLight(serialNumber)
+            break;
+        }
+
+        case ("water"): {
+            putWater(serialNumber)
+            break;
+        }
+
+        case ("setTempMin"): {
+            let param = parseInt(r_list[2])
+            setTempMin(serialNumber,param)
+            break;
+        }
+
+        case ("setTempMax"): {
+            let param = parseInt(r_list[2])
+            setTempMax(serialNumber,param)
+            break;
+        }
+
+        case ("setLightMax"): {
+            let param = parseInt(r_list[2])
+            setLightMax(serialNumber,param)
+            break;
+        }
+        
+        case ("setLightMin"): {
+            let param = parseInt(r_list[2])
+            setLightMin(serialNumber,param)
+            break;
+        }
+
+        case ("setHumMin"): {
+            let param = parseInt(r_list[2])
+            setHumMin(serialNumber,param)
+            break;
+        }
+
+        case ("setHumMax"): {
+            let param = parseInt(r_list[2])
+            setHumMin(serialNumber,param)
+            break;
+        }
+
+        case ("setPtime"): {
+            let param = parseInt(r_list[2])
+            setPTime(serialNumber,param)
+            break;
+        }
+
+        case ("setStime"): {
+            let param = parseInt(r_list[2])
+            setSTime(serialNumber,param)
+            break;
+        }
+
+        case ("setDiedping"): {
+            let param = parseInt(r_list[1])
+            setDiedping(param)
+            break;
+        }
+
+        case ("setRadioPause"): {
+            let param = parseInt(r_list[1])
+            setRadioPauseTime(param)
+            break;
+        }
+    
+    }
 })
