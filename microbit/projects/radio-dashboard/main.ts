@@ -6,12 +6,12 @@
 
 /*--------------------------------- VARIABLE STATEMENTS --------------------------------*/
 
-const vase_list: Vase[] = [];           // list of vases
+const vase_list: Vase[] = [];            // list of vases
 const conn_request: Request[] = [];      // list of connection requests
-let dim_vase_list: number = 0;               // size of vase_map
+let dim_vase_list: number = 0;           // size of vase_list
 let pause_time = 80000
 let current_time;
-let diedping = 300000;
+let diedping = 500000;
 
 
 /*------------------------------------ INITIAL CODE -------------------------------------*/
@@ -21,7 +21,6 @@ radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 radio.setTransmitPower(7)
 dim_vase_list = vase_list.length
-diedping = 300000;
 
 /*--------------------------------------- RADIO CODE -------------------------------------*/
 basic.forever(function () {
@@ -35,9 +34,9 @@ basic.forever(function () {
                 dim_vase_list = deleteVase(vase.serial_number, vase_list)
                 if (dim_vase_list!= undefined){
                     basic.showString("del")
+                    sendResponse("deleted;"+vase.serial_number)
                     drawNumberOfVases(dim_vase_list)
-                }
-                
+                }    
             }
             else {
                 vase.dying = true;
@@ -48,8 +47,7 @@ basic.forever(function () {
     basic.pause(pause_time)
 })
 
-/*--------------------------------------- EVENTS CODE ------------------------------------*/
-
+/*--------------------------------------- EVENTS CODE --------------------------------------*/
 
 //to accept the request connection from the vase
 input.onButtonPressed(Button.A, function () {

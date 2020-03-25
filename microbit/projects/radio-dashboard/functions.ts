@@ -115,6 +115,14 @@ function setRadioPauseTime(x:number){
 }
 
 /**
+ * @summary to send a response to raspberry
+ * @param response contains a string that rappresent the response
+ */
+function sendResponse(response: string){
+    serial.writeString(response)
+}
+
+/**
  * @summary to send a request to smart-vase
  * @param request contains a string that rappresent the type of request
  * @param serial serial number of the smart-vase
@@ -129,14 +137,6 @@ function sendRequest(request: string, serial: number, x?: number) {
         content = request + ";" + serial;
     msg = control.createBufferFromUTF8(content)
     radio.sendBuffer(msg)
-}
-
-/**
- * @summary to send a response to raspberry
- * @param response contains a string that rappresent the response
- */
-function sendResponse(response: string){
-    serial.writeString(response)
 }
 
 /*-------------------------- TYPES OF REQUEST TO SEND TO VASE ----------------------------*/
