@@ -53,12 +53,13 @@ basic.forever(function () {
 
 //to accept the request connection from the vase
 input.onButtonPressed(Button.A, function () {
-
+    let n = dim_vase_list
     let req = conn_request.shift()
     dim_vase_list = insertVase(req.serial_number, req.ping, vase_list)
-    setJoined(req.serial_number)//send the joined notification to smart-vase
-    sendResponse(`joined;${req.serial_number};${req.ping}`) //send joined notification to raspberry
-
+    if (n == dim_vase_list - 1){
+        setJoined(req.serial_number)//send the joined notification to smart-vase
+        sendResponse(`joined;${req.serial_number};${req.ping}`) //send joined notification to raspberry
+    } 
 })
 
 //to refuse the request connection from the vase
@@ -134,10 +135,13 @@ serial.onDataReceived(";", function(){
 
         case ("join"): {
             let ping =deleteRequest(serialNumber,conn_request)
+            let n = dim_vase_list
             if (ping!= -1){
                 dim_vase_list = insertVase(serialNumber,ping,vase_list)
-                setJoined(serialNumber) //send the joined notification to smart-vase
-                sendResponse(`joined;${serialNumber};${ping}`) //send joined notification to raspberry
+                if (n == dim_vase_list - 1){
+                    setJoined(serialNumber) //send the joined notification to smart-vase
+                    sendResponse(`joined;${serialNumber};${ping}`) //send joined notification to raspberry
+                }
             }
             break;
         }

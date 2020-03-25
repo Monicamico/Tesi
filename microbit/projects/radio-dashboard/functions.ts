@@ -28,9 +28,9 @@ function getVase(id: number): Vase {
 */
 function insertVase(id: number, p:number, vase_list: Vase[]): number {
     if (!id) return undefined;
-    let v = getVase(id)
-    if (v!= undefined) return vase_list.length
     let dim_list = vase_list.length
+    let v = getVase(id)
+    if (v!= undefined) return dim_list
     if (dim_list == 24)
         return undefined;
     const vase: Vase = new Vase(id, p)
