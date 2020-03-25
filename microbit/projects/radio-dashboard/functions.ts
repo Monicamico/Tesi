@@ -26,11 +26,11 @@ function getVase(id: number): Vase {
  * @param id (number) the serial number of the vase.
  * @return the vase with serial number equal to id or undefined.
 */
-function insertVase(id: number, p:number): Vase {
+function insertVase(id: number, p:number, vase_list: Vase[]): number {
     if (!id) return undefined;
     let v = getVase(id)
-    if (v!= undefined) return v
-    dim_list = vase_list.length
+    if (v!= undefined) return vase_list.length
+    let dim_list = vase_list.length
     if (dim_list == 24)
         return undefined;
     const vase: Vase = new Vase(id, p)
@@ -40,16 +40,18 @@ function insertVase(id: number, p:number): Vase {
     //insert the new vase in the list
     vase_list.push(vase)
     dim_list = vase_list.length
-    return vase;
+    return dim_list;
 }
 
 /**
  * @summary the function delete the vase with serial number equal to id into the list.
  * @param id (number) the serial number of the vase.
+ * @returns lenght of the new list or undefined
 */
-function deleteVase(id:number){
-    if (!id) return;
+function deleteVase(id:number, vase_list: Vase[]): number{
+    if (!id) return undefined;
     let i = 0
+    let dim_list = vase_list.length
     while (i < dim_list){
         let vase = vase_list.shift()
         if (vase.getSerial() != id)
@@ -57,7 +59,7 @@ function deleteVase(id:number){
         else {
             led.unplot(dim_list % 5, dim_list / 5)
             dim_list = vase_list.length
-            return;
+            return dim_list;
         }
         i++;
     }
@@ -67,9 +69,10 @@ function deleteVase(id:number){
 /**
  * @summary the function check if the connection request has already been received
  * @param id the serial number of the vase.
+ * @param conn_request the list of requests
  * @return true if the list contains the request, false otherwise
 */
-function containRequest(id: number):boolean {
+function containRequest(id: number, conn_request: Request[]):boolean {
     for (const r of conn_request){
         if (r.serial_number == id) return true;
     }
@@ -77,7 +80,7 @@ function containRequest(id: number):boolean {
 }
 
 
-function deleteRequest(id:number): number {
+function deleteRequest(id:number, conn_request: Request[]): number {
     if (!id) return;
     let i = 0
     while (i < conn_request.length){
@@ -94,7 +97,7 @@ function deleteRequest(id:number): number {
 /**
  * @summary to plot points that rappresents the vases contained in the vaselist
  */
-function drawNumberOfVases() {
+function drawNumberOfVases(dim_list:number) {
     basic.clearScreen()
     let i = 0;
     while (i != dim_list) {

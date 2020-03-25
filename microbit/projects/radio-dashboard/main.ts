@@ -8,7 +8,7 @@
 
 const vase_list: Vase[] = [];           // list of vases
 const conn_request: Request[] = [];      // list of connection requests
-let dim_list: number = 0;               // size of vase_map
+let dim_vase_list: number = 0;               // size of vase_map
 let pause_time = 80000
 let current_time;
 let diedping = 300000;
@@ -20,7 +20,7 @@ led.setBrightness(50)
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 radio.setTransmitPower(7)
-dim_list = vase_list.length
+dim_vase_list = vase_list.length
 diedping = 300000;
 
 /*--------------------------------------- RADIO CODE -------------------------------------*/
@@ -32,9 +32,12 @@ basic.forever(function () {
 
         if ((current_time - vase.getPing()) > diedping){
             if (vase.dying) {
-                deleteVase(vase.serial_number)
-                basic.showString("del")
-                drawNumberOfVases()
+                dim_vase_list = deleteVase(vase.serial_number, vase_list)
+                if (dim_vase_list!= undefined){
+                    basic.showString("del")
+                    drawNumberOfVases(dim_vase_list)
+                }
+                
             }
             else {
                 vase.dying = true;
@@ -52,7 +55,7 @@ basic.forever(function () {
 input.onButtonPressed(Button.A, function () {
 
     let req = conn_request.shift()
-    insertVase(req.serial_number, req.ping)
+    dim_vase_list = insertVase(req.serial_number, req.ping, vase_list)
     setJoined(req.serial_number)//send the joined notification to smart-vase
     sendResponse(`joined;${req.serial_number};${req.ping}`) //send joined notification to raspberry
 
@@ -71,7 +74,7 @@ radio.onReceivedString(function (receivedString: string) {
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
 
     if (receivedString == "join"){
-        if (containRequest(serialNumber)) return;
+        if (containRequest(serialNumber, conn_request)) return;
         conn_request.push(new Request(serialNumber, input.runningTime()))
         sendResponse(`conn_req;${serialNumber}`) //send connection request to raspberry
 
@@ -115,7 +118,7 @@ radio.onReceivedValue(function (request: string, param: number) {
             break;
         }
     }
-    drawNumberOfVases()
+    drawNumberOfVases(dim_vase_list)
 })
 
 
@@ -130,9 +133,9 @@ serial.onDataReceived(";", function(){
     switch(request){
 
         case ("join"): {
-            let ping =deleteRequest(serialNumber)
+            let ping =deleteRequest(serialNumber,conn_request)
             if (ping!= -1){
-                insertVase(serialNumber,ping)
+                dim_vase_list = insertVase(serialNumber,ping,vase_list)
                 setJoined(serialNumber) //send the joined notification to smart-vase
                 sendResponse(`joined;${serialNumber};${ping}`) //send joined notification to raspberry
             }
@@ -140,7 +143,7 @@ serial.onDataReceived(";", function(){
         }
 
         case ("refuse"): {
-            let ping =deleteRequest(serialNumber)
+            let ping =deleteRequest(serialNumber,conn_request)
             if (ping!= -1){
                 sendResponse(`refused;${serialNumber}`)
             }
