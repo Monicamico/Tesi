@@ -12,8 +12,8 @@
  * @param id (number) the serial number of the vase.
  * @return the vase with serial number equal to id.
 */
-function getVase(id: number): Vase {
-    if (!id) return undefined;
+function getVase(id: number, vase_list: Vase[]): Vase {
+    if (!id || !vase_list) return undefined;
     for (const vase of vase_list){
         if (vase.getSerial() == id)
             return vase;
@@ -29,7 +29,7 @@ function getVase(id: number): Vase {
 function insertVase(id: number, p:number, vase_list: Vase[]): number {
     if (!id) return undefined;
     let dim_list = vase_list.length
-    let v = getVase(id)
+    let v = getVase(id,vase_list)
     if (v!= undefined) return dim_list
     if (dim_list == 24)
         return undefined;

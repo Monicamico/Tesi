@@ -81,7 +81,7 @@ radio.onReceivedString(function (receivedString: string) {
         /* I don't check if it is on the list, 
            I only receive ping from vases that have been requested*/
         let ping = input.runningTime();
-        getVase(serialNumber).setPing(ping)
+        getVase(serialNumber, vase_list).setPing(ping)
         sendResponse(`ping;${serialNumber};${ping}`)
     }
 })
@@ -91,7 +91,7 @@ radio.onReceivedString(function (receivedString: string) {
 radio.onReceivedValue(function (request: string, param: number) {
 
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
-    const vase = getVase(serialNumber)
+    const vase = getVase(serialNumber, vase_list)
     if (!vase) return;
     let ping = input.runningTime()
     //send the received value to raspberry as a string
@@ -153,7 +153,7 @@ serial.onDataReceived(";", function(){
         }
 
         case ("ping"): {
-            if (getVase(serialNumber)){
+            if (getVase(serialNumber, vase_list)){
                 sendRequest("ping",serialNumber)
             }
             break;
