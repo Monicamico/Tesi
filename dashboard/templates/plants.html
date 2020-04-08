@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html class="background">
+{% extends 'layout.html' %}
+
+<head>
+    <link href="{{ url_for('static', filename='stile.css') }}" rel="stylesheet" type="text/css">
+</head>
+<div id="box">
+ {% block content %}
+
+
+        <table class="greenTable" id="plant.id" align="center">
+        <thead>
+        <tr>
+            <th> Serial number</th>
+            <th> Ping</th>
+        </tr>
+        </thead>
+         <tbody>
+         {% for plant in plants: %}
+           <tr>
+               <td> {{ plant.id }} </td><td> {{ plant.ping }}</td>
+           </tr>
+        {% endfor %}
+         </tbody>
+        </table>
+     {% endblock %}
+</div>
+</html>

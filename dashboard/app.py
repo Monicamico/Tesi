@@ -1,0 +1,30 @@
+from flask import Flask, jsonify, render_template, Blueprint
+
+from home import homepage
+from plants import plants_page
+from gio_db import db, add_plant
+
+DEBUG = True
+
+
+def create_app():
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # suppress pytest warning
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///plants.db'
+
+    app.register_blueprint(plants_page)
+    app.register_blueprint(homepage)
+
+    db.init_app(app=app)
+    if DEBUG:
+        db.drop_all(app=app)
+    db.create_all(app=app)
+    return app
+
+
+if __name__ == "__main__":
+    app = create_app()
+    with app.app_context():
+        add_plant(34, 89080)
+        add_plant(83, 8708720)
+    app.run()

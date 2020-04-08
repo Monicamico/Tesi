@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+
+  <head>
+    <link rel="stylesheet" type="text/css" href="../static/stile.css" >
+  </head>
+
+  <body>
+   <header>
+      <div id="logo">
+          Gio-Vase
+      </div>
+
+
+
+ </header>
+  </body>
+
+<div id="page">
+    <meta charset="utf-8">
+    <main>
+        {% block content %}
+        {{title}}
+        <meta name="description" content={{description}}>
+        {% endblock %}
+    </main>
+</div>
+  <footer> Università di Pisa</footer>
+
+</html>

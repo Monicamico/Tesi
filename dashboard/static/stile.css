@@ -1,0 +1,275 @@
+
+body {
+    padding: 0px;
+    margin: 0px;
+    min-width: 900px;/*Larghezza minima della pagina web*/
+    min-height: 500px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+/******INIZIO HEADER******/
+
+/*
+ * Stile contenitore superiore che include il logo dell'azienda ed il menu dei gruppi (header)
+ */
+body>header {
+    font-size: 13px;
+    height: 70px;/*Altezza contenitore superiore (Dovrà contenere: NomeAzienda e Menu Gruppi)*/
+    background: rgba(18, 91, 34, 0.97);/*Colore sfondo*/
+}
+
+/*
+ * Stile contenitore logo
+ */
+header>#logo {
+    background: #125b22;/*Colore sfondo contenitore logo*/
+    width: 20%;
+    height: 70px;
+    min-width: 250px;
+    color: #fff;/*Colore testo: Nome Azienda*/
+    font-family: 'Carter One', cursive;/*Famiglia del font -Importato da GoogleFont-*/
+    font-size: 27px;/*Dimensione del font*/
+    text-align: center;/*Centra il testo orizzontalmente*/
+    align-content: center;
+    text-shadow: 1px 1px 1px #252525;/*Testo ombreggiato*/
+    padding: 0px;/*Annulla i margini interni*/
+}
+
+/******FINE HEADER******/
+
+
+/******INIZIO BODY******/
+
+/*
+ * Stile contenitore padre che include il tag aside e main
+ */
+div#page {
+    display: flex;
+    align-items: stretch;
+    font-size: 0px;
+    text-align: center;
+    height: 650px;
+}
+
+/*
+ * Stile contenitore principale della pagina web
+ */
+div#page>main {
+    width: calc( 75% - 20px );
+    text-align: center;
+    font-min-size: 13px;
+    flex-grow: 1;
+    margin: auto;
+    padding: 30px; /*Bordo interno*/
+}
+
+/*
+ * Stile tabella
+ */
+div#page>main>table {
+    width: 50%;
+    border: 10px;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+div#page>main>table th, tr, td {
+    padding: 9px 12px;
+}
+
+div#page>main>table th {
+    background-color: #125b22;
+    color: #fff;
+}
+
+div#page>main>table tr:nth-child(odd){
+  background-color: #E8E8E8;
+}
+
+div#page>main>table tr:nth-child(even){
+  background-color: #F6F6F6;
+}
+
+/*
+ * Stile dei bottoni
+ */
+div#page>main>button {
+	background-image: linear-gradient( #125b22, #131313);
+	color: rgba(177, 255, 195, 0.47);
+	border: 1px solid #044925;
+	border-radius: 5px;
+	font-size: 15px;
+}
+
+div#page>main>button:hover {
+	border: 1px solid #125b22;
+}
+
+div#page>main>button:active {
+	background-image: linear-gradient( #125b22, #044925);
+	border: 1px solid #b1ffc3;
+}
+
+/*
+ * Stile della form
+ */
+form {
+	border: 1px solid #b0b0b0;
+	border-radius: 5px;
+	width: 80%;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+/*
+ * Stile dei riquadri di input generici
+ */
+input {
+	margin: 8px 0;
+	border: 1px solid #b0b0b0;
+	border-radius: 3px;
+	padding-left: 3px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+input:hover {
+	border: 1px solid #555555;
+}
+
+input:focus{
+	border: 1px solid #555555;
+}
+
+/*
+ * Stile dei riquadri di input di testo
+ */
+input[type=text] {
+	width: 20%;
+	margin: 8px 0;
+	border: 1px solid #b0b0b0;
+	border-radius: 3px;
+	padding-left: 3px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+input[type=text]:hover {
+	border: 1px solid #555555;
+}
+
+input[type=text]:focus{
+	border: 1px solid #555555;
+}
+
+/*
+ * Stile dei campi di input password
+ */
+input[type=password] {
+	width: 20%;
+	margin: 8px 0;
+	border: 1px solid #b0b0b0;
+	border-radius: 3px;
+	padding-left: 3px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+input[type=password]:hover {
+	border: 1px solid #555555;
+}
+
+input[type=password]:focus{
+	border: 1px solid #555555;
+}
+
+
+/*
+ * Stile dei menù di selezione
+ */
+select{
+	border: 1px solid #b0b0b0;
+	border-radius: 3px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+select:hover{
+	border: 1px solid #555555;
+}
+
+select:focus{
+	border: 1px solid #555555;
+}
+
+/*
+ * Stile delle aree di testo
+ */
+textarea{
+	resize: vertical;
+	border: 1px solid #b0b0b0;
+	border-radius: 3px;
+	width: 96%;
+	padding-left: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+textarea:hover {
+	border: 1px solid #555555;
+}
+
+textarea:focus{
+	border: 1px solid #555555;
+}
+
+/*
+ * Stile dei label
+ */
+label {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+/*
+ * Stile dei fieldset
+ */
+fieldset {
+	padding: 0 0;
+	border: 1px solid #b0b0b0;
+	border-radius: 3px;
+	padding-left: 3px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+fieldset:hover {
+	border: 1px solid #555555;
+}
+
+fieldset:active {
+	border: 1px solid #555555;
+}
+
+
+/******FINE BODY******/
+
+
+/******INIZIO FOOTER******/
+
+/*
+ * Stile contenitore inferiore (footer)
+ */
+body>footer {
+    background: #f1f1f1;
+    color: #777;
+    font-size: 14px;
+    height: 70px;
+    line-height: 70px;
+    text-align: center;
+}
+
+/******FINE FOOTER******/
