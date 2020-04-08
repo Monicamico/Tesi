@@ -21,6 +21,7 @@ let pause_time = 300000
 let time = 0
 let joined = false;
 let radio_serial_number = 0;
+let DEBUG = true;
 
 enum State {
     Happy,
@@ -34,6 +35,11 @@ let currentState = State.Happy;
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 led.setBrightness(20)
+
+if (DEBUG) {
+    pause_time = 10000;
+    send_time = 5;
+} 
 
 /*-------------------------------------------- VASE CODE ------------------------------------------*/
 
@@ -52,15 +58,9 @@ basic.forever(function () {
         basic.showIcon(IconNames.Sad)
 
     if (humidity_measure < hum_min) {
-        basic.showLeds(`
-            . . # . .
-            . . # . .
-            # # # # #
-            . # # # .
-            . . # . .
-        `)
         waters()
     }
+
     basic.clearScreen()
     basic.pause(pause_time)
     
@@ -111,7 +111,6 @@ radio.onReceivedBuffer(function () {
             case ("joined"): {
                 joined = true;
                 radio_serial_number = radio.receivedPacket(RadioPacketProperty.SerialNumber)
-                basic.clearScreen()
                 break
             }
             case ("ping"): {

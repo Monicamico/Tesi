@@ -16,7 +16,7 @@ let diedping = 500000;
 
 /*------------------------------------ INITIAL CODE -------------------------------------*/
 
-led.setBrightness(50)
+led.setBrightness(120)
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 radio.setTransmitPower(7)
@@ -34,7 +34,7 @@ basic.forever(function () {
                 dim_vase_list = deleteVase(vase.serial_number, vase_list)
                 if (dim_vase_list!= undefined){
                     basic.showString("del")
-                    sendResponse("deleted;"+vase.serial_number)
+                    sendResponse("deleted;"+vase.serial_number+";0;0")
                     drawNumberOfVases(dim_vase_list)
                 }    
             }
@@ -53,17 +53,21 @@ basic.forever(function () {
 input.onButtonPressed(Button.A, function () {
     let n = dim_vase_list
     let req = conn_request.shift()
-    dim_vase_list = insertVase(req.serial_number, req.ping, vase_list)
-    if (n == dim_vase_list - 1){
-        setJoined(req.serial_number)//send the joined notification to smart-vase
-        sendResponse(`joined;${req.serial_number};${req.ping}`) //send joined notification to raspberry
-    } 
+    if (req){ 
+        dim_vase_list = insertVase(req.serial_number, req.ping, vase_list)
+        if (n == dim_vase_list - 1){
+            setJoined(req.serial_number)//send the joined notification to smart-vase
+            sendResponse(`joined;${req.serial_number};${req.ping};0`) //send joined notification to raspberry
+        } 
+    }
+    
 })
 
 //to refuse the request connection from the vase
 input.onButtonPressed(Button.B, function () {
     let req = conn_request.shift()
-    sendResponse(`refused;${req.serial_number}`)
+    if (req)
+        sendResponse(`refused;${req.serial_number};0;0`)
 })
 
 
@@ -75,14 +79,15 @@ radio.onReceivedString(function (receivedString: string) {
     if (receivedString == "join"){
         if (containRequest(serialNumber, conn_request)) return;
         conn_request.push(new Request(serialNumber, input.runningTime()))
-        sendResponse(`conn_req;${serialNumber}`) //send connection request to raspberry
+        sendResponse(`conn_req;${serialNumber};0;0`) //send connection request to raspberry
 
     } else if (receivedString == "ping"){
-        /* I don't check if it is on the list, 
-           I only receive ping from vases that have been requested*/
         let ping = input.runningTime();
-        getVase(serialNumber, vase_list).setPing(ping)
-        sendResponse(`ping;${serialNumber};${ping}`)
+        let vase = getVase(serialNumber, vase_list)
+        if (vase!= undefined) {
+            vase.setPing(ping)
+            sendResponse(`ping;${serialNumber};${ping};0;0`)
+        }
     }
 })
 
@@ -95,7 +100,7 @@ radio.onReceivedValue(function (request: string, param: number) {
     if (!vase) return;
     let ping = input.runningTime()
     //send the received value to raspberry as a string
-    sendResponse(`${request};${serialNumber};${param};${ping}`) 
+    sendResponse(`${request};${serialNumber};${ping};${param}`) 
 
     switch (request){
         case ("getHum"): { 
@@ -132,13 +137,16 @@ serial.onDataReceived(";", function(){
     switch(request){
 
         case ("join"): {
+            /*get and remove from the conn_list the ping of the vase*/
             let ping =deleteRequest(serialNumber,conn_request)
             let n = dim_vase_list
             if (ping!= -1){
                 dim_vase_list = insertVase(serialNumber,ping,vase_list)
                 if (n == dim_vase_list - 1){
                     setJoined(serialNumber) //send the joined notification to smart-vase
-                    sendResponse(`joined;${serialNumber};${ping}`) //send joined notification to raspberry
+                    sendResponse(`joined;${serialNumber};${ping};0`) //send joined notification to raspberry
+                } else {
+                    conn_request.push(new Request(serialNumber,ping))
                 }
             }
             break;
@@ -147,7 +155,7 @@ serial.onDataReceived(";", function(){
         case ("refuse"): {
             let ping =deleteRequest(serialNumber,conn_request)
             if (ping!= -1){
-                sendResponse(`refused;${serialNumber}`)
+                sendResponse(`refused;${serialNumber};0;0`)
             }
             break;
         }

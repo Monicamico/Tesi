@@ -30,7 +30,10 @@ function insertVase(id: number, p:number, vase_list: Vase[]): number {
     if (!id) return undefined;
     let dim_list = vase_list.length
     let v = getVase(id,vase_list)
-    if (v!= undefined) return dim_list
+    if (v!= undefined){
+        drawNumberOfVases(dim_list)
+        return dim_list
+    } 
     if (dim_list == 24)
         return undefined;
     const vase: Vase = new Vase(id, p)
@@ -63,7 +66,7 @@ function deleteVase(id:number, vase_list: Vase[]): number{
         }
         i++;
     }
-    
+    return dim_list;
 }
 
 /**
@@ -81,7 +84,7 @@ function containRequest(id: number, conn_request: Request[]):boolean {
 
 
 function deleteRequest(id:number, conn_request: Request[]): number {
-    if (!id) return;
+    if (!id) return -1;
     let i = 0
     while (i < conn_request.length){
         let conn = conn_request.shift()
@@ -108,10 +111,12 @@ function drawNumberOfVases(dim_list:number) {
 
 function setDiedping(x: number){
     diedping = x;
+    return;
 }
 
 function setRadioPauseTime(x:number){
     pause_time = x;
+    return;
 }
 
 /**
@@ -119,7 +124,8 @@ function setRadioPauseTime(x:number){
  * @param response contains a string that rappresent the response
  */
 function sendResponse(response: string){
-    serial.writeString(response)
+    serial.writeString(`${response}\n`)
+    return;
 }
 
 /**
@@ -137,6 +143,7 @@ function sendRequest(request: string, serial: number, x?: number) {
         content = request + ";" + serial;
     msg = control.createBufferFromUTF8(content)
     radio.sendBuffer(msg)
+    return;
 }
 
 /*-------------------------- TYPES OF REQUEST TO SEND TO VASE ----------------------------*/
@@ -148,6 +155,7 @@ function sendRequest(request: string, serial: number, x?: number) {
  */
 function getTemp(id: number) {
     sendRequest("getTemp",id)
+    return;
 }
 
 /**
@@ -157,6 +165,7 @@ function getTemp(id: number) {
  */
 function getHum(id: number) {
     sendRequest("getHum", id)
+    return;
 }
 
 /**
@@ -166,6 +175,7 @@ function getHum(id: number) {
  */
 function getLight(id: number) {
     sendRequest("getLight", id)
+    return;
 }
 
 /**
@@ -175,22 +185,27 @@ function getLight(id: number) {
  */
 function putWater(id: number) {
     sendRequest("water", id)
+    return;
 }
 
 function setTempMin(id: number, min: number) {
     sendRequest("temp_min", id, min)
+    return;
 }
 
 function setTempMax(id: number, max: number) {
     sendRequest("temp_max", id, max)
+    return;
 }
 
 function setHumMin(id: number, min: number) {
     sendRequest("hum_min", id, min)
+    return;
 }
 
 function setHumMax(id: number, max: number) {
     sendRequest("hum_max", id, max)
+    return;
 }
 
 function setLightMin(id: number, min: number) {

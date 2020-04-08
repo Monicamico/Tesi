@@ -4,3 +4,4 @@ node_modules/
 built/
 pxt*
 .idea/
+raspberry/venv
