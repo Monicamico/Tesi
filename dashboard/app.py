@@ -10,7 +10,7 @@ DEBUG = True
 def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # suppress pytest warning
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///plants.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///giovase.db'
 
     app.register_blueprint(plants_page)
     app.register_blueprint(homepage)
