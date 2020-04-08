@@ -5,3 +5,5 @@ built/
 pxt*
 .idea/
 raspberry/venv
+venv
+__pycache__

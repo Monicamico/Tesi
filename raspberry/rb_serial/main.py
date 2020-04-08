@@ -1,0 +1,54 @@
+import serial, requests as rq
+
+# Linux
+MICROBIT_PORT_LINUX = '/dev/ttyACM0'
+
+# Mac
+MICROBIT_PORT_MAC = '/dev/cu.usbmodem14202'
+
+
+def read_serial(port):
+    with serial.Serial(port, 115200) as s:
+        print("reading serial port...")
+        while True:
+            byte = s.readline()
+            line = byte.decode().strip()
+            try:
+                req, s_n, ping_, param_ = line.split(";")
+                yield req, s_n, ping_, param_
+            except ValueError as err:
+                print(err)
+
+
+if __name__ == "__main__":
+    header={'Content-type' : 'application/json'}
+    for request, serial_number, ping, param in read_serial(MICROBIT_PORT_MAC):
+        print(request + " " + serial_number)
+
+        if request == "conn_req":
+            reply = rq.put(url='http://127.0.0.1:5000/conn_request', json={'serial': serial_number , 'ping': ping})
+            print(reply)
+
+        elif request == "refused":
+            reply = rq.put(url='http://127.0.0.1:5000/delete_conn_request', json={'serial': serial_number, 'ping': ping})
+            print(reply)
+
+        elif request == "joined":
+            print("ping: " + ping)
+            reply = rq.put(url='http://127.0.0.1:5000/add_plant', json={'serial': serial_number, 'ping': ping})
+            print(reply)
+
+        elif request == "deleted":
+            print("deleted")
+
+        elif request == "getHum":
+            print("value: " + param + " ping: " + ping)
+
+        elif request == "getTemp":
+            print("value: " + param + " ping: " + ping)
+
+        elif request == "getLight":
+            print("value: " + param + " ping: " + ping)
+
+        elif request == "ping":
+            print(param)
