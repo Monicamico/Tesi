@@ -65,7 +65,7 @@ basic.forever(function () {
     basic.pause(pause_time)
     
     time += 1
-    if (time == send_time) {
+    if (time == send_time && joined) {
         basic.showString("->")
         sendHumidity()
         basic.pause(2000)
@@ -74,7 +74,8 @@ basic.forever(function () {
         sendLight()
         basic.pause(2000)
         time = 0;
-    }
+    } else if (time == send_time && !joined)
+        time = 0;
 })
 
 /*------------------------------------------- EVENTS CODE ------------------------------------------*/
@@ -109,8 +110,10 @@ radio.onReceivedBuffer(function () {
 
         switch (request) {
             case ("joined"): {
-                joined = true;
-                radio_serial_number = radio.receivedPacket(RadioPacketProperty.SerialNumber)
+                if (!joined){
+                    joined = true;
+                    radio_serial_number = radio.receivedPacket(RadioPacketProperty.SerialNumber)
+                }
                 break
             }
             case ("ping"): {
