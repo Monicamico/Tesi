@@ -1,11 +1,69 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700");
+@import url("https://fonts.googleapis.com/css?family=Pacifico&display=swap");
+
+* {
+  box-sizing: border-box; }
 
 body {
-    padding: 0px;
     margin: 0px;
+  	font-family: 'Roboto', sans-serif;
+	background-color: #F4F6F9;
     min-width: 900px;/*Larghezza minima della pagina web*/
     min-height: 500px;
-    font-family: 'Open Sans', sans-serif;
 }
+
+#sideMenu {
+    z-index: 0;
+    background: #282639;
+    width: 15%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    } #sideMenu #logo {
+        margin-top: 5px;
+        height: 70px;
+        font-family: 'Pacifico', cursive;
+        color: #AFEEEE;
+        font-size: 27px;/*Dimensione del font*/
+        text-align: center;/*Centra il testo orizzontalmente*/
+        align-content: center;
+        text-shadow: 1px 1px 1px #252525;/*Testo ombreggiato*/
+      }
+        #sideMenu nav {
+        margin-top: 5px;
+        padding-top: 50px;
+      }
+        #sideMenu nav a {
+          display: block;
+          color: #EAEDF3;
+          text-decoration: none;
+          padding: 15px 30px;
+          font-weight: 300;
+          transition: all 0.3s ease-in-out;
+        }
+          #sideMenu nav a:hover {
+            border-left: 5px solid #00CED1;
+            background: #302D43;
+            padding: 15px 30px 15px 25px;
+          }
+          #sideMenu nav a .fas {
+            color: #EAEDF3;
+            font-size: 1.4rem;
+            margin-right: 0.8rem;
+            display: inline-block;
+            width: 30px;
+            position: relative;
+            top: 2px;
+          }
+          #sideMenu nav a.active {
+              border-left: 5px solid #92CF4B;
+              color: #F0FFFF;
+              background: #302D43;
+              padding: 15px 30px 15px 25px;
+          }
+          #sideMenu nav a.active .fas {
+              color: #92CF4B; }
 
 
 /******INIZIO HEADER******/
@@ -13,27 +71,14 @@ body {
 /*
  * Stile contenitore superiore che include il logo dell'azienda ed il menu dei gruppi (header)
  */
-body>header {
+header {
+    font-family: 'Pacifico', cursive;
+    color: #aaf1e3;
+    background: #282639;
+    text-shadow: 1px 1px 1px #302D43;/*Testo ombreggiato*/
     font-size: 13px;
-    height: 70px;/*Altezza contenitore superiore (Dovrà contenere: NomeAzienda e Menu Gruppi)*/
-    background: rgba(18, 91, 34, 0.97);/*Colore sfondo*/
-}
-
-/*
- * Stile contenitore logo
- */
-header>#logo {
-    background: #125b22;/*Colore sfondo contenitore logo*/
-    width: 20%;
-    height: 70px;
-    min-width: 250px;
-    color: #fff;/*Colore testo: Nome Azienda*/
-    font-family: 'Carter One', cursive;/*Famiglia del font -Importato da GoogleFont-*/
-    font-size: 27px;/*Dimensione del font*/
-    text-align: center;/*Centra il testo orizzontalmente*/
-    align-content: center;
-    text-shadow: 1px 1px 1px #252525;/*Testo ombreggiato*/
-    padding: 0px;/*Annulla i margini interni*/
+    z-index: 1;
+    height: 80px; /*Altezza contenitore superiore (Dovrà contenere: NomeAzienda e Menu Gruppi)*/
 }
 
 /******FINE HEADER******/
@@ -47,7 +92,6 @@ header>#logo {
 div#page {
     display: flex;
     align-items: stretch;
-    font-size: 0px;
     text-align: center;
     height: 650px;
 }
@@ -55,20 +99,21 @@ div#page {
 /*
  * Stile contenitore principale della pagina web
  */
-div#page>main {
+div#page>main{
+    margin-left: 15%;
     width: calc( 75% - 20px );
     text-align: center;
     font-min-size: 13px;
     flex-grow: 1;
-    margin: auto;
-    padding: 30px; /*Bordo interno*/
 }
 
 /*
  * Stile tabella
  */
 div#page>main>table {
-    width: 50%;
+    margin-top: 60px;
+    margin-bottom: 30px;
+    width: 40%;
     border: 10px;
     border-collapse: collapse;
     font-size: 15px;
@@ -79,7 +124,7 @@ div#page>main>table th, tr, td {
 }
 
 div#page>main>table th {
-    background-color: #125b22;
+    background: #302D43;
     color: #fff;
 }
 
@@ -95,20 +140,19 @@ div#page>main>table tr:nth-child(even){
  * Stile dei bottoni
  */
 div#page>main>button {
-	background-image: linear-gradient( #125b22, #131313);
-	color: rgba(177, 255, 195, 0.47);
-	border: 1px solid #044925;
+	background-image: linear-gradient( #00CED1, #282639);
+	color: #AFEEEE;
+	border: 1px solid #AFEEEE;
 	border-radius: 5px;
 	font-size: 15px;
 }
 
 div#page>main>button:hover {
-	border: 1px solid #125b22;
+	border: 1px solid #AFEEEE;
 }
 
 div#page>main>button:active {
-	background-image: linear-gradient( #125b22, #044925);
-	border: 1px solid #b1ffc3;
+
 }
 
 /*
@@ -263,12 +307,13 @@ fieldset:active {
 /*
  * Stile contenitore inferiore (footer)
  */
-body>footer {
+footer {
+    padding-bottom: 2px;
     background: #f1f1f1;
     color: #777;
     font-size: 14px;
-    height: 70px;
-    line-height: 70px;
+    height: 50px;
+    line-height: 50px;
     text-align: center;
 }
 

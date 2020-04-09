@@ -31,6 +31,7 @@ def delete_plant_id():
     delete_plant(data['serial'])
     return "ok"
 
-@homepage.route("/home")
+
+@homepage.route('/')
 def home_page():
     return render_template('home.html', title="Gio-Vase")

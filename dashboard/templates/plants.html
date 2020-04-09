@@ -3,30 +3,38 @@
 
 {% extends 'layout.html' %}
 
-<head>
-    <link href="{{ url_for('static', filename='stile.css') }}" rel="stylesheet" type="text/css">
-</head>
 
-<div id="box">
  {% block content %}
 
+    <section id="sideMenu">
+      <section id="logo">
+          Gio Vase
+      </section>
+      <nav>
+        <a href="http://127.0.0.1:5000/">Home</a>
+        <a href="http://127.0.0.1:5000/plants"  class="active"> Plant-List</a>
+      </nav>
+  </section>
 
-        <table class="greenTable" id="plant.id" align="center">
-        <thead>
-        <tr>
-            <th> Serial number</th>
-            <th> Ping</th>
-        </tr>
-        </thead>
-         <tbody>
-         {% for plant in plants: %}
-           <tr>
-               <td> {{ plant.id }} </td><td> {{ plant.ping }}</td>
-           </tr>
-        {% endfor %}
-         </tbody>
-        </table>
-     {% endblock %}
+    <table id="plant.id" align="center">
+    <thead>
+    <tr>
+        <th> Serial number</th>
+        <th> Ping </th>
+        <th> Actions </th>
+    </tr>
+    </thead>
+     <tbody>
+     {% for plant in plants: %}
+       <tr>
+           <td> {{ plant.id }} </td>
+           <td> {{ plant.ping }}</td>
+           <td> update values </td>
+       </tr>
+    {% endfor %}
+     </tbody>
+    </table>
 
-</div>
+{% endblock %}
+
 </html>
