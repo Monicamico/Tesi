@@ -6,10 +6,11 @@ db = SQLAlchemy()
 class ConnectionRequest(db.Model):
     __tablename__ = 'connectionRequest'
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    ping =  db.Column(db.Integer)
 
 
-def add_conn_req(idv):
-    db.session.add(ConnectionRequest(id = idv))
+def add_conn_req(idv, pingv):
+    db.session.add(ConnectionRequest(id = idv, ping = pingv))
     db.session.commit()
 
 

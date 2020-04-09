@@ -5,14 +5,16 @@
     {% block content %}
 
     <section id="sideMenu">
-      <section id="logo">
-          Gio Vase
+        <section id="logo">
+          <img src="{{ url_for('static', filename='logo-piccolo.png') }}">
       </section>
       <nav>
-        <a href="http://127.0.0.1:5000/"   class="active">Home</a>
-        <a href="http://127.0.0.1:5000/plants"> Plant-List</a>
+         <a href="http://127.0.0.1:5000/" class="active"> <i class="fas fa-home"></i> Home</a>
+         <a href="http://127.0.0.1:5000/plants"> <i class="fas fa-seedling"></i> Lista Piante</a>
+          <a href="http://127.0.0.1:5000/plants"><i class="fas fa-exclamation"></i> Nuove Piante </a>
       </nav>
      </section>
 
     {% endblock %}
+
 </html>

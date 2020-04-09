@@ -8,5 +8,5 @@ raspberry/venv
 venv
 .dashboard/static/logo*
 __pycache__
-dashboard/css
-dashboard/webfonts
+dashboard/static/css
+dashboard/static/webfonts

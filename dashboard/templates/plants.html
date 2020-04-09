@@ -3,24 +3,28 @@
 
 {% extends 'layout.html' %}
 
-
  {% block content %}
 
     <section id="sideMenu">
-      <section id="logo">
-          Gio Vase
+        <section id="logo">
+          <img src="{{ url_for('static', filename='logo-piccolo.png') }}">
       </section>
       <nav>
-        <a href="http://127.0.0.1:5000/">Home</a>
-        <a href="http://127.0.0.1:5000/plants"  class="active"> Plant-List</a>
+        <a href="http://127.0.0.1:5000/"><i class="fas fa-home"></i>Home</a>
+        <a href="http://127.0.0.1:5000/plants"  class="active"> <i class="fas fa-seedling"></i>Lista Piante </a>
+          <a href="http://127.0.0.1:5000/connections"><i class="fas fa-exclamation"></i> Nuove Piante </a>
       </nav>
   </section>
 
+    <h2> Lista delle piante registrate:  </h2>
     <table id="plant.id" align="center">
     <thead>
     <tr>
         <th> Serial number</th>
         <th> Ping </th>
+        <th> Humidity </th>
+        <th> Temperature </th>
+        <th> Light </th>
         <th> Actions </th>
     </tr>
     </thead>
@@ -29,7 +33,10 @@
        <tr>
            <td> {{ plant.id }} </td>
            <td> {{ plant.ping }}</td>
-           <td> update values </td>
+           <td> {{ plant.humidity }} </td>
+           <td> {{ plant.temperature }} </td>
+           <td> {{ plant.light }} </td>
+           <td> <button> <i class="fas fa-edit"></i> </button> </td>
        </tr>
     {% endfor %}
      </tbody>

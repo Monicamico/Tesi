@@ -27,7 +27,7 @@ if __name__ == "__main__":
         print(request + " " + serial_number)
 
         if request == "conn_req":
-            reply = rq.put(url=URL + '/conn_request', json={'serial': serial_number, 'ping': ping})
+            reply = rq.put(url=URL + '/add_conn_request', json={'serial': serial_number, 'ping': ping})
             print(reply)
 
         elif request == "refused":
