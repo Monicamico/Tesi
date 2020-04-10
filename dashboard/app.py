@@ -29,7 +29,8 @@ def create_app():
 if __name__ == "__main__":
     app = create_app()
     with app.app_context():
+        add_conn_req(34,89080)
         add_plant(34, 89080)
-        add_conn_req(35, 53432)
+        add_conn_req(83, 8708720)
         add_plant(83, 8708720)
     app.run()

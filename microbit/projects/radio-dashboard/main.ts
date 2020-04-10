@@ -78,8 +78,9 @@ radio.onReceivedString(function (receivedString: string) {
 
     if (receivedString == "join"){
         if (containRequest(serialNumber, conn_request)) return;
-        conn_request.push(new Request(serialNumber, input.runningTime()))
-        sendResponse(`conn_req;${serialNumber};0;0`) //send connection request to raspberry
+        let ping_req = input.runningTime();
+        conn_request.push(new Request(serialNumber,ping_req ))
+        sendResponse(`conn_req;${serialNumber};${ping_req};0`) //send connection request to raspberry
 
     } else if (receivedString == "ping"){
         let ping = input.runningTime();

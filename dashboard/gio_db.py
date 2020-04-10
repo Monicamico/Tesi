@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import null
 
 db = SQLAlchemy()
 
@@ -10,12 +11,16 @@ class ConnectionRequest(db.Model):
 
 
 def add_conn_req(idv, pingv):
-    db.session.add(ConnectionRequest(id = idv, ping = pingv))
-    db.session.commit()
+    conn = ConnectionRequest.query.filter_by(id=idv).first()
+    if conn is None:
+        db.session.add(ConnectionRequest(id = idv, ping = pingv))
+        db.session.commit()
 
 
 def delete_conn_req(idv):
     req = ConnectionRequest.query.filter_by(id=idv).first()
+    if req is None:
+        return
     db.session.delete(req)
     db.session.commit()
 
@@ -46,7 +51,7 @@ def add_plant(idv, ping, hum_min=300, hum_max=1000, temp_min=15, temp_max=30, li
     :param li_min:
     :param li_max:
     """
-
+    delete_conn_req(idv)
     db.session.add(Plant(id=idv, ping=ping,
                          humidity_min=hum_min,
                          humidity_max=hum_max,

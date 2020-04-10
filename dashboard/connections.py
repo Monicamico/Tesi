@@ -8,7 +8,7 @@ connections_page = Blueprint('connections', __name__)
 @connections_page.route("/add_conn_request", methods=['POST', 'PUT'])
 def conn_req():
     data = http_req.json
-    add_conn_req(data['serial'])
+    add_conn_req(data['serial'], data['ping'])
     return 'ok'
 
 
