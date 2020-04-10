@@ -46,12 +46,20 @@ if __name__ == "__main__":
 
         elif request == "getHum":
             print("value: " + param + " ping: " + ping)
+            reply = rq.put(url=URL + '/update_hum', json={'serial': serial_number, 'ping': ping, 'hum': param})
+            print(reply)
 
         elif request == "getTemp":
             print("value: " + param + " ping: " + ping)
+            reply = rq.put(url=URL + '/update_temp', json={'serial': serial_number, 'ping': ping, 'temp': param})
+            print(reply)
 
         elif request == "getLight":
             print("value: " + param + " ping: " + ping)
+            reply = rq.put(url=URL + '/update_light', json={'serial': serial_number, 'ping': ping, 'light': param})
+            print(reply)
 
         elif request == "ping":
             print(param)
+            reply = rq.put(url=URL + '/update_ping', json={'serial': serial_number, 'ping': ping})
+            print(reply)

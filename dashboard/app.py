@@ -2,6 +2,7 @@ from flask import Flask, jsonify, render_template, Blueprint
 
 from home import homepage
 from connections import connections_page
+from plant import plant_id_page
 from plants import plants_page
 from gio_db import db, add_plant, add_conn_req
 
@@ -14,6 +15,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///giovase.db'
 
     app.register_blueprint(plants_page)
+    app.register_blueprint(plant_id_page)
     app.register_blueprint(homepage)
     app.register_blueprint(connections_page)
 
