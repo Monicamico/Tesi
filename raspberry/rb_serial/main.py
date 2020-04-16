@@ -24,8 +24,8 @@ def read_serial(port):
 if __name__ == "__main__":
     header = {'Content-type': 'application/json'}
     for request, serial_number, ping, param in read_serial(MICROBIT_PORT_MAC):
-        print(request + " " + serial_number)
 
+        print(request + " " + serial_number)
         if request == "conn_req":
             reply = rq.put(url=URL + '/add_conn_request', json={'serial': serial_number, 'ping': ping})
             print(reply)

@@ -12,7 +12,7 @@ let dim_vase_list: number = 0;           // size of vase_list
 let pause_time = 80000
 let current_time;
 let diedping = 500000;
-
+let DEBUG = true
 
 /*------------------------------------ INITIAL CODE -------------------------------------*/
 
@@ -21,12 +21,14 @@ radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 radio.setTransmitPower(7)
 dim_vase_list = vase_list.length
+if (DEBUG) diedping = 100000
 
 /*--------------------------------------- RADIO CODE -------------------------------------*/
 basic.forever(function () {
-
+ 
+    serial.redirectToUSB()
     current_time = input.runningTime()
-
+    
     for (const vase of vase_list){
 
         if ((current_time - vase.getPing()) > diedping){
@@ -45,6 +47,7 @@ basic.forever(function () {
         }
     }
     basic.pause(pause_time)
+
 })
 
 /*--------------------------------------- EVENTS CODE --------------------------------------*/
@@ -128,7 +131,13 @@ radio.onReceivedValue(function (request: string, param: number) {
 
 
 /* request received from RaspBerry */
-serial.onDataReceived(";", function(){
+
+serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), () => {
+    basic.showString(serial.readUntil(serial.delimiters(Delimiters.Fullstop)))
+})
+
+/*
+serial.onDataReceived("", function(){
 
     let received = serial.readUntil(serial.delimiters(Delimiters.Fullstop))
     let r_list= received.split(";")
@@ -136,10 +145,10 @@ serial.onDataReceived(";", function(){
     let serialNumber = parseInt(r_list[1])
 
     switch(request){
-
+             
         case ("join"): {
-            /*get and remove from the conn_list the ping of the vase*/
-            let ping =deleteRequest(serialNumber,conn_request)
+            //get and remove from the conn_list the ping of the vase
+            let ping = deleteRequest(serialNumber,conn_request)
             let n = dim_vase_list
             if (ping!= -1){
                 dim_vase_list = insertVase(serialNumber,ping,vase_list)
@@ -154,7 +163,7 @@ serial.onDataReceived(";", function(){
         }
 
         case ("refuse"): {
-            let ping =deleteRequest(serialNumber,conn_request)
+            let ping = deleteRequest(serialNumber,conn_request)
             if (ping!= -1){
                 sendResponse(`refused;${serialNumber};0;0`)
             }
@@ -249,4 +258,4 @@ serial.onDataReceived(";", function(){
         }
     
     }
-})
+})*/

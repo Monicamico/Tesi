@@ -1,12 +1,10 @@
 from flask import Flask, jsonify, render_template, Blueprint
-
+from constant import DEBUG
 from home import homepage
 from connections import connections_page
 from plant import plant_id_page
 from plants import plants_page
 from gio_db import db, add_plant, add_conn_req
-
-DEBUG = True
 
 
 def create_app():
@@ -28,9 +26,6 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    with app.app_context():
-        add_conn_req(34,89080)
-        add_plant(34, 89080)
-        add_conn_req(83, 8708720)
-        add_plant(83, 8708720)
-    app.run()
+    app.run(port=5000)
+
+

@@ -6,15 +6,19 @@ db = SQLAlchemy()
 
 class ConnectionRequest(db.Model):
     __tablename__ = 'connectionRequest'
-    id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    id = db.Column(db.String, primary_key=True, unique=True, nullable=False)
     ping =  db.Column(db.Integer)
 
 
 def add_conn_req(idv, pingv):
-    conn = ConnectionRequest.query.filter_by(id=idv).first()
-    if conn is None:
-        db.session.add(ConnectionRequest(id = idv, ping = pingv))
-        db.session.commit()
+    plant = Plant.query.filter_by(id=idv).first()
+    if plant is None:
+        conn = ConnectionRequest.query.filter_by(id=idv).first()
+        if conn is None:
+            db.session.add(ConnectionRequest(id = idv, ping = pingv))
+            db.session.commit()
+    #se risulta già tra le piante inserite non faccio nulla dei db
+    # e invio un avviso (la pianta è già stata registrata)
 
 
 def delete_conn_req(idv):
@@ -27,7 +31,7 @@ def delete_conn_req(idv):
 
 class Plant(db.Model):
     __tablename__ = 'plant'
-    id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    id = db.Column(db.String, primary_key=True, unique=True, nullable=False)
     humidity = db.Column(db.Integer)
     temperature = db.Column(db.Integer)
     light = db.Column(db.Integer)
