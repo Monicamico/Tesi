@@ -133,7 +133,9 @@ radio.onReceivedValue(function (request: string, param: number) {
 /* request received from RaspBerry */
 
 serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), () => {
+
     basic.showString(serial.readUntil(serial.delimiters(Delimiters.Fullstop)))
+    
 })
 
 /*
