@@ -20,14 +20,15 @@ led.setBrightness(120)
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 radio.setTransmitPower(7)
+serial.redirectToUSB()
+
 dim_vase_list = vase_list.length
 if (DEBUG) diedping = 100000
 
 /*--------------------------------------- RADIO CODE -------------------------------------*/
 basic.forever(function () {
  
-    serial.redirectToUSB()
-    current_time = input.runningTime()
+   /*current_time = input.runningTime()
     
     for (const vase of vase_list){
 
@@ -46,7 +47,7 @@ basic.forever(function () {
             }
         }
     }
-    basic.pause(pause_time)
+    basic.pause(pause_time)*/
 
 })
 
@@ -132,132 +133,136 @@ radio.onReceivedValue(function (request: string, param: number) {
 
 /* request received from RaspBerry */
 
-serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), () => {
+serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
 
-    basic.showString(serial.readUntil(serial.delimiters(Delimiters.Fullstop)))
-    
-})
+    basic.showString("s")
+    let received = serial.readBuffer(5).toString()
 
-/*
-serial.onDataReceived("", function(){
-
-    let received = serial.readUntil(serial.delimiters(Delimiters.Fullstop))
     let r_list= received.split(";")
     let request = r_list[0]
     let serialNumber = parseInt(r_list[1])
 
-    switch(request){
-             
-        case ("join"): {
-            //get and remove from the conn_list the ping of the vase
-            let ping = deleteRequest(serialNumber,conn_request)
-            let n = dim_vase_list
-            if (ping!= -1){
-                dim_vase_list = insertVase(serialNumber,ping,vase_list)
-                if (n == dim_vase_list - 1){
-                    setJoined(serialNumber) //send the joined notification to smart-vase
-                    sendResponse(`joined;${serialNumber};${ping};0`) //send joined notification to raspberry
-                } else {
-                    conn_request.push(new Request(serialNumber,ping))
-                }
-            }
-            break;
-        }
+    if (getVase(serialNumber, vase_list)){
 
-        case ("refuse"): {
-            let ping = deleteRequest(serialNumber,conn_request)
-            if (ping!= -1){
-                sendResponse(`refused;${serialNumber};0;0`)
-            }
-            break;
-        }
+        switch(request){
 
-        case ("ping"): {
-            if (getVase(serialNumber, vase_list)){
+            case ("ping"): {
                 sendRequest("ping",serialNumber)
+                break;
             }
-            break;
+
+            case ("getHum"): {
+                getHum(serialNumber)
+                break;
+            }
+
+            case ("getTemp"): {
+                getTemp(serialNumber)
+                break;
+            }
+            
+            case ("getLight"): {
+                getLight(serialNumber)
+                break;
+            }
+
+            case ("water"): {
+                basic.showString("w")
+                putWater(serialNumber)
+                break;
+            }
+
+            case ("setTempMin"): {
+                let param = parseInt(r_list[2])
+                setTempMin(serialNumber,param)
+                break;
+            }
+
+            case ("setTempMax"): {
+                let param = parseInt(r_list[2])
+                setTempMax(serialNumber,param)
+                break;
+            }
+
+            case ("setLightMax"): {
+                let param = parseInt(r_list[2])
+                setLightMax(serialNumber,param)
+                break;
+            }
+            
+            case ("setLightMin"): {
+                let param = parseInt(r_list[2])
+                setLightMin(serialNumber,param)
+                break;
+            }
+
+            case ("setHumMin"): {
+                let param = parseInt(r_list[2])
+                setHumMin(serialNumber,param)
+                break;
+            }
+
+            case ("setHumMax"): {
+                let param = parseInt(r_list[2])
+                setHumMin(serialNumber,param)
+                break;
+            }
+
+            case ("setPtime"): {
+                let param = parseInt(r_list[2])
+                setPTime(serialNumber,param)
+                break;
+            }
+
+            case ("setStime"): {
+                let param = parseInt(r_list[2])
+                setSTime(serialNumber,param)
+                break;
+            }
+
         }
 
-        case ("getHum"): {
-            getHum(serialNumber)
-            break;
+    } else {
+        switch(request)
+        {
+            case ("join"): {
+                //get and remove from the conn_list the ping of the vase
+                let ping = deleteRequest(serialNumber,conn_request)
+                let n = dim_vase_list
+                if (ping!= -1){
+                    dim_vase_list = insertVase(serialNumber,ping,vase_list)
+                    if (n == dim_vase_list - 1){
+                        setJoined(serialNumber) //send the joined notification to smart-vase
+                        sendResponse(`joined;${serialNumber};${ping};0`) //send joined notification to raspberry
+                    } else {
+                        conn_request.push(new Request(serialNumber,ping))
+                    }
+                }
+                break;
+            }
+            case ("refuse"): {
+                let ping = deleteRequest(serialNumber,conn_request)
+                if (ping!= -1){
+                    sendResponse(`refused;${serialNumber};0;0`)
+                }
+                break;
+            }
         }
+    }
 
-        case ("getTemp"): {
-            getTemp(serialNumber)
-            break;
-        }
-        
-        case ("getLight"): {
-            getLight(serialNumber)
-            break;
-        }
-
-        case ("water"): {
-            putWater(serialNumber)
-            break;
-        }
-
-        case ("setTempMin"): {
-            let param = parseInt(r_list[2])
-            setTempMin(serialNumber,param)
-            break;
-        }
-
-        case ("setTempMax"): {
-            let param = parseInt(r_list[2])
-            setTempMax(serialNumber,param)
-            break;
-        }
-
-        case ("setLightMax"): {
-            let param = parseInt(r_list[2])
-            setLightMax(serialNumber,param)
-            break;
-        }
-        
-        case ("setLightMin"): {
-            let param = parseInt(r_list[2])
-            setLightMin(serialNumber,param)
-            break;
-        }
-
-        case ("setHumMin"): {
-            let param = parseInt(r_list[2])
-            setHumMin(serialNumber,param)
-            break;
-        }
-
-        case ("setHumMax"): {
-            let param = parseInt(r_list[2])
-            setHumMin(serialNumber,param)
-            break;
-        }
-
-        case ("setPtime"): {
-            let param = parseInt(r_list[2])
-            setPTime(serialNumber,param)
-            break;
-        }
-
-        case ("setStime"): {
-            let param = parseInt(r_list[2])
-            setSTime(serialNumber,param)
-            break;
-        }
+    switch(request) {
 
         case ("setDiedping"): {
             let param = parseInt(r_list[1])
             setDiedping(param)
             break;
         }
-
+    
         case ("setRadioPause"): {
             let param = parseInt(r_list[1])
             setRadioPauseTime(param)
             break;
         }
-    
     }
-})*/
+
+})

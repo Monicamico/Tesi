@@ -26,40 +26,41 @@ if __name__ == "__main__":
     for request, serial_number, ping, param in read_serial(MICROBIT_PORT_MAC):
 
         print(request + " " + serial_number)
-        if request == "conn_req":
+
+        if "conn_req" in request:
             reply = rq.put(url=URL + '/add_conn_request', json={'serial': serial_number, 'ping': ping})
             print(reply)
 
-        elif request == "refused":
+        elif "refused" in request:
             reply = rq.put(url=URL + '/delete_conn_request',
                            json={'serial': serial_number, 'ping': ping})
             print(reply)
 
-        elif request == "joined":
+        elif "joined" in request:
             print("ping: " + ping)
             reply = rq.put(url=URL + '/add_plant', json={'serial': serial_number, 'ping': ping})
             print(reply)
 
-        elif request == "deleted":
+        elif "deleted" in request:
             reply = rq.put(url=URL + '/delete_plant', json={'serial': serial_number})
             print(reply)
 
-        elif request == "getHum":
+        elif "getHum" in request:
             print("value: " + param + " ping: " + ping)
             reply = rq.put(url=URL + '/update_hum', json={'serial': serial_number, 'ping': ping, 'hum': param})
             print(reply)
 
-        elif request == "getTemp":
+        elif "getTemp" in request:
             print("value: " + param + " ping: " + ping)
             reply = rq.put(url=URL + '/update_temp', json={'serial': serial_number, 'ping': ping, 'temp': param})
             print(reply)
 
-        elif request == "getLight":
+        elif "getLight" in request:
             print("value: " + param + " ping: " + ping)
             reply = rq.put(url=URL + '/update_light', json={'serial': serial_number, 'ping': ping, 'light': param})
             print(reply)
 
-        elif request == "ping":
+        elif "ping" in request:
             print(param)
             reply = rq.put(url=URL + '/update_ping', json={'serial': serial_number, 'ping': ping})
             print(reply)
