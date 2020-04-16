@@ -4,6 +4,8 @@ node_modules/
 built/
 pxt*
 .idea/
+dashboard/static/css
+dashboard/static/webfonts
 raspberry/venv
 venv
 .dashboard/static/logo*
