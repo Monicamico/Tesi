@@ -6,5 +6,6 @@ pxt*
 .idea/
 raspberry/venv
 venv
-.dashboard/static/logo*
+dashboard/static/css
+dashboard/static/webfonts
 __pycache__
