@@ -27,8 +27,8 @@ if (DEBUG) diedping = 100000
 
 /*--------------------------------------- RADIO CODE -------------------------------------*/
 basic.forever(function () {
- 
-   /*current_time = input.runningTime()
+   
+   current_time = input.runningTime()
     
     for (const vase of vase_list){
 
@@ -43,11 +43,11 @@ basic.forever(function () {
             }
             else {
                 vase.dying = true;
-                sendRequest("ping",vase.serial_number)
+                ping(vase.serial_number)
             }
         }
     }
-    basic.pause(pause_time)*/
+    basic.pause(pause_time)
 
 })
 
@@ -109,21 +109,18 @@ radio.onReceivedValue(function (request: string, param: number) {
 
     switch (request){
         case ("getHum"): { 
-            basic.showNumber(param)
+            basic.showString("H")
             basic.clearScreen()
-            vase.setHumidity(param)
             break;
         }
         case ("getTemp"):{
-            basic.showNumber(param)
+            basic.showString("T")
             basic.clearScreen()
-            vase.setTemperature(param)
             break;
         }
         case ("getLight"):{
-            basic.showNumber(param)
+            basic.showString("L")
             basic.clearScreen()
-            vase.setLight(param)
             break;
         }
     }
@@ -132,89 +129,87 @@ radio.onReceivedValue(function (request: string, param: number) {
 
 
 /* request received from RaspBerry */
-
 serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
-
-    basic.showString("s")
-    let received = serial.readBuffer(5).toString()
+    
+    let received = serial.readUntil(serial.delimiters(Delimiters.Fullstop))
 
     let r_list= received.split(";")
     let request = r_list[0]
-    let serialNumber = parseInt(r_list[1])
+    let serialNumber = parseInt(r_list[1]) 
 
     if (getVase(serialNumber, vase_list)){
 
         switch(request){
 
-            case ("ping"): {
-                sendRequest("ping",serialNumber)
+            case ("p"): {
+                ping(serialNumber)
                 break;
             }
 
-            case ("getHum"): {
+            case ("h"): {
                 getHum(serialNumber)
                 break;
             }
 
-            case ("getTemp"): {
+            case ("t"): {
                 getTemp(serialNumber)
                 break;
             }
             
-            case ("getLight"): {
+            case ("l"): {
                 getLight(serialNumber)
                 break;
             }
 
-            case ("water"): {
+            case ("w"): {
                 basic.showString("w")
                 putWater(serialNumber)
                 break;
             }
 
-            case ("setTempMin"): {
+            case ("tm"): {
                 let param = parseInt(r_list[2])
                 setTempMin(serialNumber,param)
                 break;
             }
 
-            case ("setTempMax"): {
+            case ("tM"): {
                 let param = parseInt(r_list[2])
                 setTempMax(serialNumber,param)
                 break;
             }
 
-            case ("setLightMax"): {
+            case ("lM"): {
                 let param = parseInt(r_list[2])
                 setLightMax(serialNumber,param)
                 break;
             }
             
-            case ("setLightMin"): {
+            case ("lm"): {
                 let param = parseInt(r_list[2])
                 setLightMin(serialNumber,param)
                 break;
             }
 
-            case ("setHumMin"): {
+            case ("hm"): {
                 let param = parseInt(r_list[2])
                 setHumMin(serialNumber,param)
                 break;
             }
 
-            case ("setHumMax"): {
+            case ("hM"): {
                 let param = parseInt(r_list[2])
                 setHumMin(serialNumber,param)
                 break;
             }
 
-            case ("setPtime"): {
+            case ("pt"): {
                 let param = parseInt(r_list[2])
                 setPTime(serialNumber,param)
                 break;
             }
 
-            case ("setStime"): {
+            case ("st"): {
                 let param = parseInt(r_list[2])
                 setSTime(serialNumber,param)
                 break;
@@ -223,24 +218,28 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
         }
 
     } else {
+
         switch(request)
         {
-            case ("join"): {
+            case ("j"): {
                 //get and remove from the conn_list the ping of the vase
                 let ping = deleteRequest(serialNumber,conn_request)
                 let n = dim_vase_list
                 if (ping!= -1){
                     dim_vase_list = insertVase(serialNumber,ping,vase_list)
                     if (n == dim_vase_list - 1){
-                        setJoined(serialNumber) //send the joined notification to smart-vase
-                        sendResponse(`joined;${serialNumber};${ping};0`) //send joined notification to raspberry
+                        //send the joined notification to smart-vase
+                        //and send the request to get the values (hum, light, temp)
+                        setJoined(serialNumber)
+                        //send joined notification to raspberry
+                        sendResponse(`joined;${serialNumber};${ping};0`) 
                     } else {
                         conn_request.push(new Request(serialNumber,ping))
                     }
                 }
                 break;
             }
-            case ("refuse"): {
+            case ("r"): {
                 let ping = deleteRequest(serialNumber,conn_request)
                 if (ping!= -1){
                     sendResponse(`refused;${serialNumber};0;0`)
@@ -252,13 +251,13 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
 
     switch(request) {
 
-        case ("setDiedping"): {
+        case ("sdp"): {
             let param = parseInt(r_list[1])
             setDiedping(param)
             break;
         }
     
-        case ("setRadioPause"): {
+        case ("srp"): {
             let param = parseInt(r_list[1])
             setRadioPauseTime(param)
             break;

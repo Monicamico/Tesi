@@ -124,7 +124,7 @@ function setRadioPauseTime(x:number){
  * @param response contains a string that rappresent the response
  */
 function sendResponse(response: string){
-    serial.writeString(`${response}\n`)
+    serial.writeLine(`${response}`)
     return;
 }
 
@@ -154,7 +154,12 @@ function sendRequest(request: string, serial: number, x?: number) {
  * @param id (number) rappresents the serial number of the vase.
  */
 function getTemp(id: number) {
-    sendRequest("getTemp",id)
+    sendRequest("t",id)
+    return;
+}
+
+function ping(id: number){
+    sendRequest("ping",id)
     return;
 }
 
@@ -164,7 +169,7 @@ function getTemp(id: number) {
  * @param id (number) rappresents the serial number of the vase.
  */
 function getHum(id: number) {
-    sendRequest("getHum", id)
+    sendRequest("h", id)
     return;
 }
 
@@ -174,7 +179,7 @@ function getHum(id: number) {
  * @param id (number) rappresents the serial number of the vase.
  */
 function getLight(id: number) {
-    sendRequest("getLight", id)
+    sendRequest("l", id)
     return;
 }
 
@@ -184,46 +189,52 @@ function getLight(id: number) {
  * @param id (number) rappresents the serial number of the vase.
  */
 function putWater(id: number) {
-    sendRequest("water", id)
+    sendRequest("w", id)
     return;
 }
 
 function setTempMin(id: number, min: number) {
-    sendRequest("temp_min", id, min)
+    sendRequest("tm", id, min)
     return;
 }
 
 function setTempMax(id: number, max: number) {
-    sendRequest("temp_max", id, max)
+    sendRequest("tM", id, max)
     return;
 }
 
 function setHumMin(id: number, min: number) {
-    sendRequest("hum_min", id, min)
+    sendRequest("hn", id, min)
     return;
 }
 
 function setHumMax(id: number, max: number) {
-    sendRequest("hum_max", id, max)
+    sendRequest("hM", id, max)
     return;
 }
 
 function setLightMin(id: number, min: number) {
-    sendRequest("light_min", id, min)
+    sendRequest("lm", id, min)
 }
 
 function setLightMax(id: number, max: number) {
-    sendRequest("light_max", id, max)
+    sendRequest("lM", id, max)
 }
 
 function setPTime(id: number, p: number) {
-    sendRequest("pause_time", id, p)
+    sendRequest("pt", id, p)
 }
 
 function setSTime(id: number, s: number) {
-    sendRequest("send_time", id, s)
+    sendRequest("st", id, s)
 }
 
 function setJoined(id:number){
-    sendRequest("joined", id)
+    sendRequest("j", id)
+    basic.pause(2000)
+    getHum(id)
+    basic.pause(2000)
+    getTemp(id)
+    basic.pause(2000)
+    getLight(id)
 }

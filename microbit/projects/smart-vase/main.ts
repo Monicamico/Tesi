@@ -109,65 +109,65 @@ radio.onReceivedBuffer(function () {
         basic.clearScreen()
 
         switch (request) {
-            case ("joined"): {
+            case ("j"): {
                 if (!joined){
                     joined = true;
                     radio_serial_number = radio.receivedPacket(RadioPacketProperty.SerialNumber)
                 }
                 break
             }
-            case ("ping"): {
+            case ("p"): {
                 /* if a ping request arrives
                  the smart-vase is certainly present in the vaselist of the radio */
                 joined = true; 
                 radio.sendString("ping") 
                 break
             }
-            case ("water"): {
+            case ("w"): {
                 waters()
                 break
             }
-            case ("getHum"): {
+            case ("h"): {
                 sendHumidity()
                 break
             }
-            case ("getTemp"): {
+            case ("t"): {
                 sendTemperature()
                 break
             }
-            case ("getLight"): {
+            case ("l"): {
                 sendLight()
                 break
             }
-            case ("pause_time"): {
+            case ("pt"): {
                 setPauseTime(x)
                 break
             }
-            case ("send_time"): {
+            case ("st"): {
                 setSendTime(x)
                 break
             }
-            case ("hum_min"): {
+            case ("hm"): {
                 setHumMin(x)
                 break
             }
-            case ("hum_max"): {
+            case ("hM"): {
                 setHumMax(x)
                 break
             }
-            case ("temp_min"): {
+            case ("tm"): {
                 setTempMin(x)
                 break
             }
-            case ("temp_max"): {
+            case ("tM"): {
                 setTempMax(x)
                 break
             }
-            case ("light_min"): {
+            case ("lm"): {
                 setLightMin(x)
                 break
             }
-            case ("light_max"): {
+            case ("lM"): {
                 setLightMax(x)
                 break
             } 
