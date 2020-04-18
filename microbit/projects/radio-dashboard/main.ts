@@ -9,10 +9,9 @@
 const vase_list: Vase[] = [];            // list of vases
 const conn_request: Request[] = [];      // list of connection requests
 let dim_vase_list: number = 0;           // size of vase_list
-let pause_time = 80000
+let pause_time = 600000                  //(10 min)
 let current_time;
-let diedping = 500000;
-let DEBUG = true
+let diedping = 1200000;                  // (20 min)
 
 /*------------------------------------ INITIAL CODE -------------------------------------*/
 
@@ -23,8 +22,10 @@ radio.setTransmitPower(7)
 serial.redirectToUSB()
 
 dim_vase_list = vase_list.length
-if (DEBUG) diedping = 100000
 
+if (DEBUG) {
+    diedping = 500000   // 8 min
+}
 /*--------------------------------------- RADIO CODE -------------------------------------*/
 basic.forever(function () {
    
@@ -75,7 +76,7 @@ input.onButtonPressed(Button.B, function () {
 })
 
 
-/* code to be executed when a connection request or ping is received from the smartvase */
+/* code to be executed when a CONNECTION REQUEST or PING is received from the SMARTVASE */
 radio.onReceivedString(function (receivedString: string) {
 
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
@@ -97,7 +98,7 @@ radio.onReceivedString(function (receivedString: string) {
 })
 
 
-//code to be executed when a value is received from a smart-vase
+//code to be executed when a VALUE is received from a SMART-VASE
 radio.onReceivedValue(function (request: string, param: number) {
 
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
@@ -128,88 +129,90 @@ radio.onReceivedValue(function (request: string, param: number) {
 })
 
 
-/* request received from RaspBerry */
+/* REQUEST received from RASPBERRY */
 serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
     
     let received = serial.readUntil(serial.delimiters(Delimiters.Fullstop))
-
     let r_list= received.split(";")
+
     let request = r_list[0]
     let serialNumber = parseInt(r_list[1]) 
 
-    if (getVase(serialNumber, vase_list)){
+    let vase_exist = getVase(serialNumber, vase_list)
+
+    if (vase_exist) {
 
         switch(request){
 
-            case ("p"): {
+            case (OPERATION.PING): {
                 ping(serialNumber)
                 break;
             }
 
-            case ("h"): {
+            case (OPERATION.HUMIDITY): {
                 getHum(serialNumber)
                 break;
             }
 
-            case ("t"): {
+            case (OPERATION.TEMPERATURE): {
                 getTemp(serialNumber)
                 break;
             }
             
-            case ("l"): {
+            case (OPERATION.LIGHT): {
                 getLight(serialNumber)
                 break;
             }
 
-            case ("w"): {
+            case (OPERATION.WATER): {
                 basic.showString("w")
                 putWater(serialNumber)
                 break;
             }
 
-            case ("tm"): {
+            case (OPERATION.SET_TEMPERATURE_MIN): {
                 let param = parseInt(r_list[2])
                 setTempMin(serialNumber,param)
                 break;
             }
 
-            case ("tM"): {
+            case (OPERATION.SET_TEMPERATURE_MAX): {
                 let param = parseInt(r_list[2])
                 setTempMax(serialNumber,param)
                 break;
             }
 
-            case ("lM"): {
+            case (OPERATION.SET_LIGHT_MAX): {
                 let param = parseInt(r_list[2])
                 setLightMax(serialNumber,param)
                 break;
             }
             
-            case ("lm"): {
+            case (OPERATION.SET_LIGHT_MIN): {
                 let param = parseInt(r_list[2])
                 setLightMin(serialNumber,param)
                 break;
             }
 
-            case ("hm"): {
+            case (OPERATION.SET_HUMIDITY_MIN): {
                 let param = parseInt(r_list[2])
                 setHumMin(serialNumber,param)
                 break;
             }
 
-            case ("hM"): {
+            case (OPERATION.SET_HUMIDITY_MAX): {
                 let param = parseInt(r_list[2])
-                setHumMin(serialNumber,param)
+                setHumMax(serialNumber,param)
                 break;
             }
 
-            case ("pt"): {
+            case (OPERATION.SET_VASE_PAUSE_TIME): {
                 let param = parseInt(r_list[2])
                 setPTime(serialNumber,param)
                 break;
             }
 
-            case ("st"): {
+            case (OPERATION.SET_VASE_SEND_TIME): {
                 let param = parseInt(r_list[2])
                 setSTime(serialNumber,param)
                 break;
@@ -221,7 +224,8 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
 
         switch(request)
         {
-            case ("j"): {
+            case (OPERATION.JOINED): {
+
                 //get and remove from the conn_list the ping of the vase
                 let ping = deleteRequest(serialNumber,conn_request)
                 let n = dim_vase_list
@@ -239,7 +243,8 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
                 }
                 break;
             }
-            case ("r"): {
+            case (OPERATION.REFUSED): {
+
                 let ping = deleteRequest(serialNumber,conn_request)
                 if (ping!= -1){
                     sendResponse(`refused;${serialNumber};0;0`)
@@ -251,13 +256,13 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
 
     switch(request) {
 
-        case ("sdp"): {
+        case (OPERATION.SET_RADIO_DIEDPING_TIME): {
             let param = parseInt(r_list[1])
             setDiedping(param)
             break;
         }
     
-        case ("srp"): {
+        case (OPERATION.SET_RADIO_PAUSE_TIME): {            
             let param = parseInt(r_list[1])
             setRadioPauseTime(param)
             break;
