@@ -8,21 +8,21 @@
 let DEBUG = true
 
 enum OPERATION {
-    JOINED = "j",
-    REFUSED = "r",
-    PING = "p",
-    HUMIDITY = "h",
-    TEMPERATURE = "t",
-    LIGHT = "l",
-    WATER = "w",
-    SET_HUMIDITY_MIN = "hm",
-    SET_HUMIDITY_MAX = "hM",
-    SET_TEMPERATURE_MIN = "tm",
-    SET_TEMPERATURE_MAX = "tM",
-    SET_LIGHT_MAX = "lM",
-    SET_LIGHT_MIN = "lm",
-    SET_VASE_PAUSE_TIME = "pt",
-    SET_VASE_SEND_TIME = "st",
-    SET_RADIO_PAUSE_TIME = "srp",
-    SET_RADIO_DIEDPING_TIME = "sdp"
+    JOINED = 0, //j
+    REFUSED = 1, //r
+    PING = 2,
+    HUMIDITY = 3,
+    TEMPERATURE = 4,
+    LIGHT = 5,
+    WATER = 6,
+    SET_HUMIDITY_MIN = 7,
+    SET_HUMIDITY_MAX = 8,
+    SET_TEMPERATURE_MIN = 9,
+    SET_TEMPERATURE_MAX = 10,
+    SET_LIGHT_MAX = 11,
+    SET_LIGHT_MIN = 12,
+    SET_VASE_PAUSE_TIME = 13,
+    SET_VASE_SEND_TIME = 14,
+    SET_RADIO_PAUSE_TIME = 15,
+    SET_RADIO_DIEDPING_TIME = 16
 };

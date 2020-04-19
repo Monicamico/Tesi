@@ -1,43 +1,44 @@
 import threading
 import time
 import requests as rq
-from costants import URL_DASHBOARD
+import serial
+from costants import URL_DASHBOARD, MICROBIT_PORT_MAC
 from plant import requests
+
+s = serial.Serial(MICROBIT_PORT_MAC, 115200)
 
 
 class Reader(threading.Thread):
-    def __init__(self, nome, serial):
+    def __init__(self, nome):
         threading.Thread.__init__(self)
         self.nome = nome
-        self.serial = serial
 
     def run(self):
-        print(self.nome + "started!")
-        reader(self.serial)
+        print(self.nome + " started!")
+        reader()
 
 
 class Writer(threading.Thread):
-    def __init__(self, nome, serial):
+    def __init__(self, nome):
         threading.Thread.__init__(self)
         self.nome = nome
-        self.serial = serial
 
     def run(self):
-        print(self.nome + "started!")
-        writer(self.serial)
+        print(self.nome + " started!")
+        writer()
 
 
-def read_serial(s):
+def read_serial():
     byte = s.readline()
     line = byte.decode().strip()
     try:
         req, s_n, ping_, param_ = line.split(";")
-        return req, s_n, ping_, param_
+        yield req, s_n, ping_, param_
     except ValueError as err:
         print(err)
 
 
-def write_serial(data, s):
+def write_serial(data):
     content = bytes(data, 'utf-8')
     try:
         s.write(content)
@@ -45,9 +46,9 @@ def write_serial(data, s):
         print(err)
 
 
-def reader(s):
+def reader():
     while True:
-        for request, serial_number, ping, param in read_serial(s):
+        for request, serial_number, ping, param in read_serial():
 
             print(request + " " + serial_number)
 
@@ -90,10 +91,11 @@ def reader(s):
                 print(reply)
 
 
-def writer(s):
+def writer():
     while True:
         w = 0
-        while requests.count() != 0 | w != 5:
+        while len(requests) != 0 and w != 5:
             st = requests.pop()
-            write_serial(st, s)
+            write_serial(st)
+            w = w + 1
         time.sleep(20)

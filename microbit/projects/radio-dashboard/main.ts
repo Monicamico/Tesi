@@ -94,7 +94,7 @@ radio.onReceivedString(function (receivedString: string) {
         let vase = getVase(serialNumber, vase_list)
         if (vase!= undefined) {
             vase.setPing(ping)
-            sendResponse(`ping;${serialNumber};${ping};0;0`)
+            sendResponse(`ping;${serialNumber};${ping};0`)
         }
     }
 })
@@ -144,7 +144,7 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
 
     if (vase_exist) {
 
-        switch(request){
+        switch(parseInt(request)){
 
             case (OPERATION.PING): {
                 ping(serialNumber)
@@ -224,7 +224,7 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
 
     } else {
 
-        switch(request)
+        switch(parseInt(request))
         {
             case (OPERATION.JOINED): {
 
@@ -256,7 +256,7 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
         }
     }
 
-    switch(request) {
+    switch(parseInt(request)) {
 
         case (OPERATION.SET_RADIO_DIEDPING_TIME): {
             let param = parseInt(r_list[1])

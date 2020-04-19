@@ -100,7 +100,7 @@ radio.onReceivedBuffer(function () {
         `)
         basic.clearScreen()
 
-        switch (request) {
+        switch (parseInt(request)) {
 
             case (OPERATION.JOINED): {
 

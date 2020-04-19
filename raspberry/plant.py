@@ -21,5 +21,4 @@ def request():
         req = "l;" + id_s + '.'
     print(req)
     requests.append(req)
-    redirect(URL_DASHBOARD + '/plant/' + data['serial'])
-    return '200'
+    return redirect(URL_DASHBOARD + '/plant/' + data['serial'])

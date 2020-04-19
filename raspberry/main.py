@@ -2,7 +2,6 @@ import serial
 from flask import Flask
 from plant import plant
 from threads import Reader, Writer
-from costants import MICROBIT_PORT_MAC
 
 
 def create_app():
@@ -14,15 +13,8 @@ def create_app():
 if __name__ == "__main__":
 
     try:
-        with serial.Serial(MICROBIT_PORT_MAC, 115200) as s:
-            print("port opened...")
-    except serial.serialutil.SerialException:
-        print("\n Porta seriale non trovata")
-        exit(2)
-
-    try:
-        thread_reader = Reader("Thread Reader", s)
-        thread_writer = Writer("Thread Writer", s)
+        thread_reader = Reader("Thread Reader")
+        thread_writer = Writer("Thread Writer")
         thread_reader.start()
         thread_writer.start()
     except NameError:

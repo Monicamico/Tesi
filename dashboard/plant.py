@@ -59,7 +59,7 @@ def temperature(idv):
 
 
 @plant_id_page.route("/light/<string:idv>", methods=['GET'])
-def temperature(idv):
+def light(idv):
     reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'light', 'serial': idv})
     print(reply)
     redirect(URL+'/plant/<string:idv>')
