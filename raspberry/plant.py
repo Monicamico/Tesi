@@ -1,31 +1,25 @@
 from flask import Blueprint, render_template, request as http_req, redirect
-import serial
-
-URL_RASPBERRY = 'http://127.0.0.1:5001'
-URL_DASHBOARD = 'http://127.0.0.1:5000'
-MICROBIT_PORT_MAC = '/dev/cu.usbmodem14202'
+from costants import URL_DASHBOARD
 
 plant = Blueprint('plant', __name__)
 requests = []
 
 
-@plant.route("/water", methods=['POST', 'PUT'])
-def water():
+@plant.route("/request", methods=['POST', 'PUT'])
+def request():
     data = http_req.json
     id_s = str(data['serial'])
-    req = "w;" + id_s + '.'
-    print(req)
-    requests.append(req)
-    redirect(URL_DASHBOARD + "/plant/" + data['serial'])
-    return "ok"
+    req_type = str(data['request'])
 
-
-@plant.route("/humidity", methods=['POST', 'PUT'])
-def humidity():
-    data = http_req.json
-    id_s = str(data['serial'])
-    req = "h;" + id_s + '.'
+    if req_type == 'water':
+        req = "w;" + id_s + '.'
+    if req_type == "humidity":
+        req = "h;" + id_s + '.'
+    if req_type == "temperature":
+        req = "t;" + id_s + '.'
+    if req_type == "light":
+        req = "l;" + id_s + '.'
     print(req)
     requests.append(req)
     redirect(URL_DASHBOARD + '/plant/' + data['serial'])
-    return "ok"
+    return '200'

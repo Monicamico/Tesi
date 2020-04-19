@@ -1,10 +1,9 @@
-from flask import Blueprint, render_template, request as rcv_req
+from flask import Blueprint, render_template, request as rcv_req, redirect
 from gio_db import Plant, update_hum, update_light, update_temp, update_ping
-from constant import URL_RASPBERRY
+from constant import URL_RASPBERRY, URL
 import requests as snd_req
 
 plant_id_page = Blueprint('plant_id_page', __name__)
-
 
 
 @plant_id_page.route("/update_hum", methods=['POST', 'PUT'])
@@ -37,12 +36,34 @@ def update_plant_ping():
 
 @plant_id_page.route("/water/<string:idv>", methods=['GET'])
 def water(idv):
-    reply = snd_req.put(URL_RASPBERRY + "/water", json={"serial": idv})
-    #if reply.status_code != 200:
-        #plant_ = Plant.query.filter_by(id=idv).first()
-        #render_template('plant.html',
-         #               plant=plant_)
-    return plant(idv=idv)
+    reply = snd_req.put(URL_RASPBERRY + '/request', json={"request": "water", "serial": idv})
+    print(reply)
+    redirect(URL+'/plant/<string:idv>')
+    return '200'
+
+
+@plant_id_page.route("/humidity/<string:idv>", methods=['GET'])
+def humidity(idv):
+    reply = snd_req.put(URL_RASPBERRY + '/request', json={"request": "humidity", "serial": idv})
+    print(reply)
+    redirect(URL+'/plant/<string:idv>')
+    return '200'
+
+
+@plant_id_page.route("/temperature/<string:idv>", methods=['GET'])
+def temperature(idv):
+    reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temperature', 'serial': idv})
+    print(reply)
+    redirect(URL+'/plant/<string:idv>')
+    return '200'
+
+
+@plant_id_page.route("/light/<string:idv>", methods=['GET'])
+def temperature(idv):
+    reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'light', 'serial': idv})
+    print(reply)
+    redirect(URL+'/plant/<string:idv>')
+    return '200'
 
 
 @plant_id_page.route('/plant/<string:idv>')
