@@ -81,13 +81,15 @@ radio.onReceivedString(function (receivedString: string) {
 
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
 
-    if (receivedString == "join"){
+    if (receivedString == "join") {
+
         if (containRequest(serialNumber, conn_request)) return;
         let ping_req = input.runningTime();
         conn_request.push(new Request(serialNumber,ping_req ))
         sendResponse(`conn_req;${serialNumber};${ping_req};0`) //send connection request to raspberry
 
-    } else if (receivedString == "ping"){
+    } else if (receivedString == "ping") {
+        
         let ping = input.runningTime();
         let vase = getVase(serialNumber, vase_list)
         if (vase!= undefined) {
