@@ -9,7 +9,7 @@
 const vase_list: Vase[] = [];            // list of vases
 const conn_request: Request[] = [];      // list of connection requests
 let dim_vase_list: number = 0;           // size of vase_list
-let pause_time = 600000                  //(10 min)
+let pause_time = 200000                  //(
 let current_time;
 let diedping = 1200000;                  // (20 min)
 
@@ -22,10 +22,12 @@ radio.setTransmitPower(7)
 serial.redirectToUSB()
 serial.writeLine('')
 dim_vase_list = vase_list.length
+DEBUG = true
 
 if (DEBUG) {
-    diedping = 500000   // 8 min
+    diedping = 100000
 }
+
 /*--------------------------------------- RADIO CODE -------------------------------------*/
 basic.forever(function () {
    

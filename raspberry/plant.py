@@ -7,6 +7,7 @@ requests = []
 
 @plant.route("/request", methods=['POST', 'PUT'])
 def request():
+    global req
     try:
         data = http_req.json
         id_s = str(data['serial'])
@@ -21,6 +22,7 @@ def request():
         if req_type == "light":
             req = str(Operation.LIGHT.value) + ";" + id_s + '.'
         requests.append(req)
+
         return redirect(URL_DASHBOARD + '/plant/' + data['serial'])
 
     except ValueError:

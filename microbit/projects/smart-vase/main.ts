@@ -27,10 +27,11 @@ let radio_serial_number = 0
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 led.setBrightness(20)
+DEBUG = true 
 
 if (DEBUG) {
-    pause_time = 100000 // 1 minuto circa
-    send_time =  400000 
+    pause_time = 100000 
+    send_time =  100000 
 } 
 
 /*-------------------------------------------- VASE CODE ------------------------------------------*/
