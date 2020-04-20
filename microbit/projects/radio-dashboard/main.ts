@@ -85,9 +85,14 @@ radio.onReceivedNumber(function (received: number) {
 
     if (received == OPERATION.CONNECTION) {
 
-        if (containRequest(serialNumber, conn_request)) return;
+        if (getVase(serialNumber, vase_list))
+            setJoined(serialNumber) 
+
+        if (containRequest(serialNumber, conn_request)) 
+            return;
+
         let ping_req = input.runningTime();
-        conn_request.push(new Request(serialNumber,ping_req ))
+        conn_request.push(new Request(serialNumber,ping_req))
         //send connection request to raspberry
         sendResponse(`${OPERATION.CONNECTION.toString()};${serialNumber};${ping_req};0`) 
 
@@ -188,16 +193,17 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
                     //and send the request to get the values (hum, light, temp)
                     setJoined(serialNumber)
                     //send joined notification to raspberry
-                    sendResponse(`joined;${serialNumber};${ping};0`) 
+                    sendResponse(`${OPERATION.JOINED};${serialNumber};${ping};0`) 
                 } else {
                     conn_request.push(new Request(serialNumber,ping))
                 }
             }
         }
-        else if (request == OPERATION.REFUSED){
+        else if (request == OPERATION.REFUSED) {
+            
             let ping = deleteRequest(serialNumber,conn_request)
             if (ping!= -1){
-                sendResponse(`refused;${serialNumber};0;0`)
+                sendResponse(`${OPERATION.REFUSED};${serialNumber};0;0`)
             }
         }
     }

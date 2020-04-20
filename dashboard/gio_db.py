@@ -7,7 +7,7 @@ db = SQLAlchemy()
 class ConnectionRequest(db.Model):
     __tablename__ = 'connectionRequest'
     id = db.Column(db.String, primary_key=True, unique=True, nullable=False)
-    ping =  db.Column(db.Integer)
+    ping = db.Column(db.Integer)
 
 
 def add_conn_req(idv, pingv):
@@ -24,9 +24,10 @@ def add_conn_req(idv, pingv):
 def delete_conn_req(idv):
     req = ConnectionRequest.query.filter_by(id=idv).first()
     if req is None:
-        return
+        return None
     db.session.delete(req)
     db.session.commit()
+    return req
 
 
 class Plant(db.Model):

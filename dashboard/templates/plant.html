@@ -32,14 +32,18 @@
            <td> {{ plant.temperature }}</td>
            <td> {{ plant.light }}</td>
            <td>
-               <a href="http://127.0.0.1:5000/humidity/{{plant.id}}">
-                   <i class="fas fa-tint"></i> </a>
-               <a href="http://127.0.0.1:5000/temperature/{{plant.id}}">
-                   <i class="fas fa-temperature-high"></i> </a>
-               <a href="http://127.0.0.1:5000/light/{{plant.id}}">
-                   <i class="fas fa-sun"></i> </a>
-               <a href="http://127.0.0.1:5000/water/{{plant.id}}">
-                   <i class="fas fa-shower"></i> </a>
+               <a class="myButton" href="http://127.0.0.1:5000/humidity/{{plant.id}}">
+                   <i class="fas fa-tint"></i>
+               </a>
+               <a class="myButton" href="http://127.0.0.1:5000/temperature/{{plant.id}}">
+                   <i class="fas fa-temperature-high"></i>
+               </a>
+               <a class="myButton" href="http://127.0.0.1:5000/light/{{plant.id}}">
+                   <i class="fas fa-sun"></i>
+               </a>
+               <a class="myButton" href="http://127.0.0.1:5000/water/{{plant.id}}">
+                   <i class="fas fa-shower"></i>
+               </a>
            </td>
        </tr>
      </tbody>
@@ -68,14 +72,14 @@
            <td> {{ plant.temperature_max }}</td>
            <td> {{ plant.light_min }}</td>
            <td> {{ plant.light_max }}</td>
-           <td> <a href=""><i class="fas fa-edit"></i> </a> </td>
+           <td> <a class="myButton"  href=""><i class="fas fa-edit"></i> </a> </td>
 
        </tr>
      </tbody>
     </table>
 
     <h3>
-        <a href="http://127.0.0.1:5000/plants"> <i class="fas fa-arrow-circle-left"></i> Torna alla lista </a>
+        <a class="myButton" href="http://127.0.0.1:5000/plants"> <i class="fas fa-arrow-circle-left"></i> Torna alla lista </a>
     </h3>
     {% endblock %}
 

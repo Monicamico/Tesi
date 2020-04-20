@@ -1,12 +1,12 @@
 import serial
 from flask import Flask
-from plant import plant
+from request import request_
 from threads import Reader, Writer
 
 
 def create_app():
     app = Flask(__name__)
-    app.register_blueprint(plant)
+    app.register_blueprint(request_)
     return app
 
 

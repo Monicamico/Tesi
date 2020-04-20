@@ -111,6 +111,28 @@ div#page>main{
     flex-grow: 1;
 }
 
+
+.myButton {
+	background-color:#b3e3f5;
+	border-radius:16px;
+	border:2px solid #3eb5e0;
+	display:inline-block;
+	cursor:pointer;
+	color:#3e2b63;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:8px 6px;
+	text-decoration:none;
+}
+.myButton:hover {
+	background-color:#8de3f0;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
 /*
  * Stile tabella
  */
@@ -127,37 +149,20 @@ div#page>main>table {
 div#page>main>table th, tr, td {
     padding: 9px 12px;
     border: #211f2d;
+    text-decoration: none;
 }
-div#page>main>table th {
+
+div#page > main > table th {
     background: #8ce3e6;
     color: #222030;
 }
 
-div#page>main>table tr:nth-child(odd){
+div#page > main >table tr:nth-child(odd){
   background-color: rgb(227, 248, 245);
 }
 
-div#page>main>table tr:nth-child(even){
+div#page > main > table tr:nth-child(even){
   background-color: rgb(243, 248, 244);
-}
-
-/*
- * Stile dei bottoni
- */
-div#page>main>button {
-	background-image: linear-gradient( cadetblue, #282639);
-	color: #AFEEEE;
-	border: 1px solid #AFEEEE;
-	border-radius: 5px;
-	font-size: 15px;
-}
-
-div#page>main>button:hover {
-	border: 1px solid #AFEEEE;
-}
-
-div#page>main>button:active {
-
 }
 
 /*

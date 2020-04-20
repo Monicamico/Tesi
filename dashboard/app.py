@@ -1,10 +1,10 @@
-from flask import Flask, jsonify, render_template, Blueprint
+from flask import Flask
 from constant import DEBUG
 from home import homepage
 from connections import connections_page
 from plant import plant_id_page
 from plants import plants_page
-from gio_db import db, add_plant, add_conn_req
+from gio_db import db
 
 
 def create_app():

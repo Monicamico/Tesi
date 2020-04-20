@@ -26,13 +26,18 @@
     </thead>
     <tbody>
     {% for conn in connections: %}
-    <tr>
-        <td> {{ conn.id }} </td>
-        <td> {{ conn.ping }} </td>
-        <td>
-            <a href=""> <i class="fas fa-check"></i>     </a>
-            <a href=""> <i class="fas fa-times"></i> </a>
-        </td>
-    </tr>
+        <tr>
+            <td> {{ conn.id }} </td>
+            <td> {{ conn.ping }} </td>
+            <td>
+                <a class="myButton" href="http://127.0.0.1:5000/add_plant_from_conn/{{ conn.id }}">
+                    <i class="fas fa-check"></i>
+                </a>
+                <a class="myButton" href="http://127.0.0.1:5000/refuse_plant_from_conn/{{ conn.id }}">
+                    <i class="fas fa-times"></i>
+                </a>
+            </td>
+        </tr>
     {% endfor %}
+
     {% endblock %}

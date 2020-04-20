@@ -5,7 +5,7 @@ request_ = Blueprint('request_', __name__)
 requests = []
 
 
-@plant.route("/request", methods=['POST', 'PUT'])
+@request_.route("/request", methods=['POST', 'PUT'])
 def request():
     global req
     try:
@@ -27,6 +27,9 @@ def request():
 
         elif req_type == 'joined':
             req = str(Operation.JOINED.value) + ";" + id_s + '.'
+
+        elif req_type == 'refused':
+            req = str(Operation.REFUSED.value) + ";" + id_s + '.'
 
         requests.append(req)
 
