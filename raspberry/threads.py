@@ -2,7 +2,7 @@ import threading
 import time
 import requests as rq
 import serial
-from costants import URL_DASHBOARD, MICROBIT_PORT_MAC
+from constants import URL_DASHBOARD, MICROBIT_PORT_MAC, Operation
 from plant import requests
 
 s = serial.Serial(MICROBIT_PORT_MAC, 115200)
@@ -50,43 +50,47 @@ def reader():
     while True:
         for request, serial_number, ping, param in read_serial():
 
-            print(request + " " + serial_number)
-
-            if "conn_req" in request:
+            if int(request) == Operation.CONNECTION:
+                print("connection request: " + serial_number)
                 reply = rq.put(url=URL_DASHBOARD + '/add_conn_request', json={'serial': serial_number, 'ping': ping})
                 print(reply)
 
-            elif "refused" in request:
+            elif int(request) == Operation.REFUSED:
+                print('refused: ' + serial_number)
                 reply = rq.put(url=URL_DASHBOARD + '/delete_conn_request',
                                json={'serial': serial_number, 'ping': ping})
                 print(reply)
 
-            elif "joined" in request:
-                print("ping: " + ping)
+            elif int(request) == Operation.JOINED:
+                print("joined: " + serial_number + ", " + ping)
                 reply = rq.put(url=URL_DASHBOARD + '/add_plant', json={'serial': serial_number, 'ping': ping})
                 print(reply)
 
-            elif "deleted" in request:
+            elif int(request) == Operation.DELETED in request:
+                print("deleted: " + serial_number)
                 reply = rq.put(url=URL_DASHBOARD + '/delete_plant', json={'serial': serial_number})
                 print(reply)
 
-            elif "getHum" in request:
-                print("value: " + param + " ping: " + ping)
-                reply = rq.put(url=URL_DASHBOARD + '/update_hum', json={'serial': serial_number, 'ping': ping, 'hum': param})
+            elif int(request) == Operation.HUMIDITY:
+                print('humidity ' + serial_number + ': ' + param + ' ping: ' + ping)
+                reply = rq.put(url=URL_DASHBOARD + '/update_hum',
+                               json={'serial': serial_number, 'ping': ping, 'hum': param})
                 print(reply)
 
-            elif "getTemp" in request:
-                print("value: " + param + " ping: " + ping)
-                reply = rq.put(url=URL_DASHBOARD + '/update_temp', json={'serial': serial_number, 'ping': ping, 'temp': param})
+            elif int(request) == Operation.TEMPERATURE:
+                print("temperature " + serial_number + ': ' + param + " ping: " + ping)
+                reply = rq.put(url=URL_DASHBOARD + '/update_temp',
+                               json={'serial': serial_number, 'ping': ping, 'temp': param})
                 print(reply)
 
-            elif "getLight" in request:
-                print("value: " + param + " ping: " + ping)
-                reply = rq.put(url=URL_DASHBOARD + '/update_light', json={'serial': serial_number, 'ping': ping, 'light': param})
+            elif int(request) == Operation.LIGHT:
+                print("light " + serial_number + ': ' + param + " ping: " + ping)
+                reply = rq.put(url=URL_DASHBOARD + '/update_light',
+                               json={'serial': serial_number, 'ping': ping, 'light': param})
                 print(reply)
 
-            elif "ping" in request:
-                print(param)
+            elif int(request) == Operation.PING:
+                print("ping " + serial_number + ': ' + ping)
                 reply = rq.put(url=URL_DASHBOARD + '/update_ping', json={'serial': serial_number, 'ping': ping})
                 print(reply)
 

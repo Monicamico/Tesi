@@ -110,7 +110,7 @@ function measure() {
  * @summary sends the temperature value to the radio-dashboard
  */
 function sendTemperature() {
-    radio.sendValue("getTemp", temperature_measure)
+    radio.sendValue(OPERATION.TEMPERATURE.toString(), temperature_measure)
     basic.pause(1000)
 }
 
@@ -118,7 +118,7 @@ function sendTemperature() {
  * @summary sends the humidity value to the radio-dashboard
  */
 function sendHumidity() {
-    radio.sendValue("getHum", humidity_measure)
+    radio.sendValue(OPERATION.HUMIDITY.toString(), humidity_measure)
     basic.pause(1000)
 }
 
@@ -126,7 +126,7 @@ function sendHumidity() {
  * @summary sends the light value
  */
 function sendLight() {
-    radio.sendValue("getLight", light_measure)
+    radio.sendValue((OPERATION.LIGHT).toString(), light_measure)
     basic.pause(1000)
 }
 

@@ -26,7 +26,8 @@ enum OPERATION {
     SET_LIGHT_MAX = 11,
     SET_LIGHT_MIN = 12,
     SET_VASE_PAUSE_TIME = 13,
-    SET_VASE_SEND_TIME = 14
+    SET_VASE_SEND_TIME = 14,
+    CONNECTION = 17
 }
 
 let currentState = State.Happy

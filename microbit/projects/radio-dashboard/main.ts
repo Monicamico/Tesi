@@ -38,7 +38,7 @@ basic.forever(function () {
                 dim_vase_list = deleteVase(vase.serial_number, vase_list)
                 if (dim_vase_list!= undefined){
                     basic.showString("del")
-                    sendResponse("deleted;"+vase.serial_number+";0;0")
+                    sendResponse(`${OPERATION.DELETED};${vase.serial_number};0;0`)
                     drawNumberOfVases(dim_vase_list)
                 }    
             }
@@ -62,7 +62,7 @@ input.onButtonPressed(Button.A, function () {
         dim_vase_list = insertVase(req.serial_number, req.ping, vase_list)
         if (n == dim_vase_list - 1){
             setJoined(req.serial_number)//send the joined notification to smart-vase
-            sendResponse(`joined;${req.serial_number};${req.ping};0`) //send joined notification to raspberry
+            sendResponse(`${OPERATION.JOINED};${req.serial_number};${req.ping};0`) //send joined notification to raspberry
         } 
     }
     
@@ -72,29 +72,30 @@ input.onButtonPressed(Button.A, function () {
 input.onButtonPressed(Button.B, function () {
     let req = conn_request.shift()
     if (req)
-        sendResponse(`refused;${req.serial_number};0;0`)
+        sendResponse(`${OPERATION.REFUSED};${req.serial_number};0;0`)
 })
 
 
 /* code to be executed when a CONNECTION REQUEST or PING is received from the SMARTVASE */
-radio.onReceivedString(function (receivedString: string) {
+radio.onReceivedNumber(function (received: number) {
 
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
 
-    if (receivedString == "join") {
+    if (received == OPERATION.CONNECTION) {
 
         if (containRequest(serialNumber, conn_request)) return;
         let ping_req = input.runningTime();
         conn_request.push(new Request(serialNumber,ping_req ))
-        sendResponse(`conn_req;${serialNumber};${ping_req};0`) //send connection request to raspberry
+        //send connection request to raspberry
+        sendResponse(`${OPERATION.CONNECTION};${serialNumber};${ping_req};0`) 
 
-    } else if (receivedString == "ping") {
+    } else if (received == OPERATION.PING) {
         
         let ping = input.runningTime();
         let vase = getVase(serialNumber, vase_list)
         if (vase!= undefined) {
             vase.setPing(ping)
-            sendResponse(`ping;${serialNumber};${ping};0`)
+            sendResponse(`${OPERATION.PING};${serialNumber};${ping};0`)
         }
     }
 })
@@ -105,29 +106,17 @@ radio.onReceivedValue(function (request: string, param: number) {
 
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
     const vase = getVase(serialNumber, vase_list)
-    if (!vase) return;
     let ping = input.runningTime()
+    if (!vase){
+        if (containRequest(serialNumber, conn_request))
+            return
+        conn_request.push(new Request(serialNumber,ping))
+        sendResponse(`${OPERATION.CONNECTION};${serialNumber};${ping};0`) 
+        return
+    }
     //send the received value to raspberry as a string
     sendResponse(`${request};${serialNumber};${ping};${param}`) 
-
-    switch (request){
-        case ("getHum"): { 
-            basic.showString("H")
-            basic.clearScreen()
-            break;
-        }
-        case ("getTemp"):{
-            basic.showString("T")
-            basic.clearScreen()
-            break;
-        }
-        case ("getLight"):{
-            basic.showString("L")
-            basic.clearScreen()
-            break;
-        }
-    }
-    drawNumberOfVases(dim_vase_list)
+    
 })
 
 

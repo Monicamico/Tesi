@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request as http_req, redirect
-from costants import URL_DASHBOARD
+from constants import URL_DASHBOARD, Operation
 
 plant = Blueprint('plant', __name__)
 requests = []
@@ -12,13 +12,13 @@ def request():
     req_type = str(data['request'])
 
     if req_type == 'water':
-        req = "w;" + id_s + '.'
+        req = Operation.WATER + ";" + id_s + '.'
     if req_type == "humidity":
-        req = "h;" + id_s + '.'
+        req = Operation.HUMIDITY + ";" + id_s + '.'
     if req_type == "temperature":
-        req = "t;" + id_s + '.'
+        req = Operation.TEMPERATURE + ";" + id_s + '.'
     if req_type == "light":
-        req = "l;" + id_s + '.'
+        req = Operation.LIGHT + ";" + id_s + '.'
     print(req)
     requests.append(req)
     return redirect(URL_DASHBOARD + '/plant/' + data['serial'])

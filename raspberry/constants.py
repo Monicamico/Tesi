@@ -1,0 +1,28 @@
+from enum import Enum
+
+URL_RASPBERRY = 'http://127.0.0.1:5001'
+URL_DASHBOARD = 'http://127.0.0.1:5000'
+MICROBIT_PORT_MAC = '/dev/cu.usbmodem14202'
+
+
+class Operation(Enum):
+    JOINED = 0
+    REFUSED = 1
+    PING = 2
+    HUMIDITY = 3
+    TEMPERATURE = 4
+    LIGHT = 5
+    WATER = 6
+    SET_HUMIDITY_MIN = 7
+    SET_HUMIDITY_MAX = 8
+    SET_TEMPERATURE_MIN = 9
+    SET_TEMPERATURE_MAX = 10
+    SET_LIGHT_MAX = 11
+    SET_LIGHT_MIN = 12
+    SET_VASE_PAUSE_TIME = 13
+    SET_VASE_SEND_TIME = 14
+    SET_RADIO_PAUSE_TIME = 15
+    SET_RADIO_DIED_PING = 16
+    CONNECTION = 17
+    DELETED = 18
+
