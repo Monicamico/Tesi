@@ -7,18 +7,22 @@ requests = []
 
 @plant.route("/request", methods=['POST', 'PUT'])
 def request():
-    data = http_req.json
-    id_s = str(data['serial'])
-    req_type = str(data['request'])
+    try:
+        data = http_req.json
+        id_s = str(data['serial'])
+        req_type = str(data['request'])
 
-    if req_type == 'water':
-        req = Operation.WATER + ";" + id_s + '.'
-    if req_type == "humidity":
-        req = Operation.HUMIDITY + ";" + id_s + '.'
-    if req_type == "temperature":
-        req = Operation.TEMPERATURE + ";" + id_s + '.'
-    if req_type == "light":
-        req = Operation.LIGHT + ";" + id_s + '.'
-    print(req)
-    requests.append(req)
-    return redirect(URL_DASHBOARD + '/plant/' + data['serial'])
+        if req_type == 'water':
+            req = str(Operation.WATER.value) + ";" + id_s + '.'
+        if req_type == "humidity":
+            req = str(Operation.HUMIDITY.value) + ";" + id_s + '.'
+        if req_type == "temperature":
+            req = str(Operation.TEMPERATURE.value) + ";" + id_s + '.'
+        if req_type == "light":
+            req = str(Operation.LIGHT.value) + ";" + id_s + '.'
+        requests.append(req)
+        return redirect(URL_DASHBOARD + '/plant/' + data['serial'])
+
+    except ValueError:
+        pass
+

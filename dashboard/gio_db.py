@@ -75,37 +75,42 @@ def delete_plant(idv):
 
 def update_hum(idv, ping, humidity):
     plant = Plant.query.filter_by(id=idv).first()
-    plant.humidity = humidity
-    plant.ping = ping
-    db.session.commit()
+    if plant is not None:
+        plant.humidity = humidity
+        plant.ping = ping
+        db.session.commit()
 
 
 def update_temp(idv, ping, temperature):
     plant = Plant.query.filter_by(id=idv).first()
-    plant.temperature = temperature
-    plant.ping = ping
-    db.session.commit()
+    if plant is not None:
+        plant.temperature = temperature
+        plant.ping = ping
+        db.session.commit()
 
 
 def update_light(idv, ping, light):
     plant = Plant.query.filter_by(id=idv).first()
-    plant.light = light
-    plant.ping = ping
-    db.session.commit()
+    if plant is not None:
+        plant.light = light
+        plant.ping = ping
+        db.session.commit()
 
 
 def update_temp_min(idv, ping, temp_m):
     plant = Plant.query.filter_by(id=idv).first()
-    plant.temperature_min = temp_m
-    plant.ping = ping
-    db.session.commit()
+    if plant is not None:
+        plant.temperature_min = temp_m
+        plant.ping = ping
+        db.session.commit()
 
 
 def update_temp_max(idv, ping, temp_m):
     plant = Plant.query.filter_by(id=idv).first()
-    plant.temperature_max = temp_m
-    plant.ping = ping
-    db.session.commit()
+    if plant is not None:
+        plant.temperature_max = temp_m
+        plant.ping = ping
+        db.session.commit()
 
 
 def update_hum_min(idv, ping, hum_m):
@@ -138,5 +143,6 @@ def update_light_min(idv, ping, li_m):
 
 def update_ping(idv, ping):
     plant = Plant.query.filter_by(id=idv).first()
-    plant.ping = ping
-    db.session.commit()
+    if plant is not None:
+        plant.ping = ping
+        db.session.commit()

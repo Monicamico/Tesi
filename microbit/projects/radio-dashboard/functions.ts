@@ -231,10 +231,4 @@ function setSTime(id: number, s: number) {
 
 function setJoined(id:number){
     sendRequest(OPERATION.JOINED, id)
-    basic.pause(2000)
-    getHum(id)
-    basic.pause(2000)
-    getTemp(id)
-    basic.pause(2000)
-    getLight(id)
 }

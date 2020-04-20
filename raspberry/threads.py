@@ -5,7 +5,13 @@ import serial
 from constants import URL_DASHBOARD, MICROBIT_PORT_MAC, Operation
 from plant import requests
 
-s = serial.Serial(MICROBIT_PORT_MAC, 115200)
+try:
+    s = serial.Serial(MICROBIT_PORT_MAC, 115200)
+    dummy = s.readline()
+    print('Dummy byte received: ' + str(dummy))
+except serial.serialutil.SerialException:
+    print("\nNo such file or directory: "+MICROBIT_PORT_MAC)
+    exit(1)
 
 
 class Reader(threading.Thread):
@@ -30,7 +36,7 @@ class Writer(threading.Thread):
 
 def read_serial():
     byte = s.readline()
-    line = byte.decode().strip()
+    line = byte.decode(encoding='UTF-8').strip()
     try:
         req, s_n, ping_, param_ = line.split(";")
         yield req, s_n, ping_, param_
@@ -48,51 +54,58 @@ def write_serial(data):
 
 def reader():
     while True:
-        for request, serial_number, ping, param in read_serial():
 
-            if int(request) == Operation.CONNECTION:
-                print("connection request: " + serial_number)
-                reply = rq.put(url=URL_DASHBOARD + '/add_conn_request', json={'serial': serial_number, 'ping': ping})
-                print(reply)
+        try:
+            for request, serial_number, ping, param in read_serial():
 
-            elif int(request) == Operation.REFUSED:
-                print('refused: ' + serial_number)
-                reply = rq.put(url=URL_DASHBOARD + '/delete_conn_request',
-                               json={'serial': serial_number, 'ping': ping})
-                print(reply)
+                request = int(request)
 
-            elif int(request) == Operation.JOINED:
-                print("joined: " + serial_number + ", " + ping)
-                reply = rq.put(url=URL_DASHBOARD + '/add_plant', json={'serial': serial_number, 'ping': ping})
-                print(reply)
+                if request == Operation.CONNECTION.value:
+                    print("connection request: " + serial_number)
+                    reply = rq.put(url=URL_DASHBOARD + '/add_conn_request', json={'serial': serial_number, 'ping': ping})
+                    print(reply)
 
-            elif int(request) == Operation.DELETED in request:
-                print("deleted: " + serial_number)
-                reply = rq.put(url=URL_DASHBOARD + '/delete_plant', json={'serial': serial_number})
-                print(reply)
+                elif request == Operation.REFUSED.value:
+                    print('refused: ' + serial_number)
+                    reply = rq.put(url=URL_DASHBOARD + '/delete_conn_request',
+                                   json={'serial': serial_number, 'ping': ping})
+                    print(reply)
 
-            elif int(request) == Operation.HUMIDITY:
-                print('humidity ' + serial_number + ': ' + param + ' ping: ' + ping)
-                reply = rq.put(url=URL_DASHBOARD + '/update_hum',
-                               json={'serial': serial_number, 'ping': ping, 'hum': param})
-                print(reply)
+                elif request == Operation.JOINED.value:
+                    print("joined: " + serial_number + ", " + ping)
+                    reply = rq.put(url=URL_DASHBOARD + '/add_plant', json={'serial': serial_number, 'ping': ping})
+                    print(reply)
 
-            elif int(request) == Operation.TEMPERATURE:
-                print("temperature " + serial_number + ': ' + param + " ping: " + ping)
-                reply = rq.put(url=URL_DASHBOARD + '/update_temp',
-                               json={'serial': serial_number, 'ping': ping, 'temp': param})
-                print(reply)
+                elif request == Operation.DELETED.value:
+                    print("deleted: " + serial_number)
+                    reply = rq.put(url=URL_DASHBOARD + '/delete_plant', json={'serial': serial_number})
+                    print(reply)
 
-            elif int(request) == Operation.LIGHT:
-                print("light " + serial_number + ': ' + param + " ping: " + ping)
-                reply = rq.put(url=URL_DASHBOARD + '/update_light',
-                               json={'serial': serial_number, 'ping': ping, 'light': param})
-                print(reply)
+                elif request == Operation.HUMIDITY.value:
+                    print('humidity ' + serial_number + ': ' + param + ' ping: ' + ping)
+                    reply = rq.put(url=URL_DASHBOARD + '/update_hum',
+                                   json={'serial': serial_number, 'ping': ping, 'hum': param})
+                    print(reply)
 
-            elif int(request) == Operation.PING:
-                print("ping " + serial_number + ': ' + ping)
-                reply = rq.put(url=URL_DASHBOARD + '/update_ping', json={'serial': serial_number, 'ping': ping})
-                print(reply)
+                elif request == Operation.TEMPERATURE.value:
+                    print("temperature " + serial_number + ': ' + param + "\nping: " + ping)
+                    reply = rq.put(url=URL_DASHBOARD + '/update_temp',
+                                   json={'serial': serial_number, 'ping': ping, 'temp': param})
+                    print(reply)
+
+                elif request == Operation.LIGHT.value:
+                    print("light " + serial_number + ': ' + param + "\nping: " + ping)
+                    reply = rq.put(url=URL_DASHBOARD + '/update_light',
+                                   json={'serial': serial_number, 'ping': ping, 'light': param})
+                    print(reply)
+
+                elif request == Operation.PING.value:
+                    print("ping " + serial_number + ': ' + ping)
+                    reply = rq.put(url=URL_DASHBOARD + '/update_ping', json={'serial': serial_number, 'ping': ping})
+                    print(reply)
+
+        except ValueError:
+            pass
 
 
 def writer():

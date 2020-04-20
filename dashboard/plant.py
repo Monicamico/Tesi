@@ -38,32 +38,28 @@ def update_plant_ping():
 def water(idv):
     reply = snd_req.put(URL_RASPBERRY + '/request', json={"request": "water", "serial": idv})
     print(reply)
-    redirect(URL+'/plant/<string:idv>')
-    return '200'
+    return redirect(URL+'/plant/'+str(idv))
 
 
 @plant_id_page.route("/humidity/<string:idv>", methods=['GET'])
 def humidity(idv):
     reply = snd_req.put(URL_RASPBERRY + '/request', json={"request": "humidity", "serial": idv})
     print(reply)
-    redirect(URL+'/plant/<string:idv>')
-    return '200'
+    return redirect(URL+'/plant/'+str(idv))
 
 
 @plant_id_page.route("/temperature/<string:idv>", methods=['GET'])
 def temperature(idv):
     reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temperature', 'serial': idv})
     print(reply)
-    redirect(URL+'/plant/<string:idv>')
-    return '200'
+    return redirect(URL+'/plant/'+str(idv))
 
 
 @plant_id_page.route("/light/<string:idv>", methods=['GET'])
 def light(idv):
     reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'light', 'serial': idv})
     print(reply)
-    redirect(URL+'/plant/<string:idv>')
-    return '200'
+    return redirect(URL+'/plant/'+str(idv))
 
 
 @plant_id_page.route('/plant/<string:idv>')

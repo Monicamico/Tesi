@@ -10,7 +10,6 @@ enum State {
     Sad
 }
 
-
 enum OPERATION {
     JOINED = 0, //j
     REFUSED = 1, //r

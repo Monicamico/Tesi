@@ -20,7 +20,7 @@ radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 radio.setTransmitPower(7)
 serial.redirectToUSB()
-
+serial.writeLine('')
 dim_vase_list = vase_list.length
 
 if (DEBUG) {
@@ -87,7 +87,7 @@ radio.onReceivedNumber(function (received: number) {
         let ping_req = input.runningTime();
         conn_request.push(new Request(serialNumber,ping_req ))
         //send connection request to raspberry
-        sendResponse(`${OPERATION.CONNECTION};${serialNumber};${ping_req};0`) 
+        sendResponse(`${OPERATION.CONNECTION.toString()};${serialNumber};${ping_req};0`) 
 
     } else if (received == OPERATION.PING) {
         
@@ -107,13 +107,8 @@ radio.onReceivedValue(function (request: string, param: number) {
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
     const vase = getVase(serialNumber, vase_list)
     let ping = input.runningTime()
-    if (!vase){
-        if (containRequest(serialNumber, conn_request))
-            return
-        conn_request.push(new Request(serialNumber,ping))
-        sendResponse(`${OPERATION.CONNECTION};${serialNumber};${ping};0`) 
+    if (!vase)
         return
-    }
     //send the received value to raspberry as a string
     sendResponse(`${request};${serialNumber};${ping};${param}`) 
     

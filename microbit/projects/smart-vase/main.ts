@@ -30,7 +30,7 @@ led.setBrightness(20)
 
 if (DEBUG) {
     pause_time = 100000 // 1 minuto circa
-    send_time =  400000 // 6 minuti circa
+    send_time =  400000 
 } 
 
 /*-------------------------------------------- VASE CODE ------------------------------------------*/
@@ -99,7 +99,6 @@ radio.onReceivedBuffer(function () {
         # . . . #
         # # # # #
         `)
-        basic.clearScreen()
        
         if (request == OPERATION.JOINED) {
             if(!joined) {
@@ -148,12 +147,15 @@ radio.onReceivedBuffer(function () {
         else if (request == OPERATION.SET_LIGHT_MAX)
             setLightMax(x)
     }
+
+    basic.clearScreen()
+       
 })
 
 input.onButtonPressed(Button.A, function(){
-    basic.showNumber(humidity_measure) //humidity
+    sendHumidity()
     basic.pause(1000)
-    basic.showNumber(temperature_measure)
+    sendLight()
     basic.pause(1000)
-    basic.showNumber(light_measure)
+    sendTemperature()
 })
