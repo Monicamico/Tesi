@@ -18,8 +18,8 @@ let light_measure = 0                             // light measure
 let send_time = 1000000                           // time interval in wich the vase sends data  (16 MINUTI)
 let pause_time = 600000                           // 10 MINUTI
 let time = 0
-let joined = false;
-let radio_serial_number = 0;
+let joined = false
+let radio_serial_number = 0
 
 
 /*------------------------------------------- INITIAL CODE ----------------------------------------*/
@@ -29,8 +29,8 @@ radio.setGroup(18)
 led.setBrightness(20)
 
 if (DEBUG) {
-    pause_time = 100000; // 1 minuto circa
-    send_time =  400000; // 6 minuti circa
+    pause_time = 100000 // 1 minuto circa
+    send_time =  400000 // 6 minuti circa
 } 
 
 /*-------------------------------------------- VASE CODE ------------------------------------------*/
@@ -65,9 +65,9 @@ basic.forever(function () {
         basic.pause(2000)
         sendLight()
         basic.pause(2000)
-        time = 0;
+        time = 0
     } else if (time == send_time && !joined)
-        time = 0;
+        time = 0
 })
 
 /*------------------------------------------- EVENTS CODE ------------------------------------------*/
@@ -78,13 +78,13 @@ radio.onReceivedBuffer(function () {
     const content_list: string[] = content.split(";")
 
     let size = content_list.length
-    let request;
-    let id = 0;
-    let x;
+    let request = 0
+    let id = 0
+    let x = 0
 
-    if (size <= 1) return;
+    if (size <= 1) return
     if (size == 2) {
-        request = content_list[0]
+        request = parseInt(content_list[0])
         id = parseInt(content_list[1])
     }
     if (size == 3) x = parseInt(content_list[2])
@@ -99,75 +99,71 @@ radio.onReceivedBuffer(function () {
         # # # # #
         `)
         basic.clearScreen()
-
-        switch (parseInt(request)) {
-
-            case (OPERATION.JOINED): {
-
-                if (!joined){
-                    joined = true;
-                    radio_serial_number = radio.receivedPacket(RadioPacketProperty.SerialNumber)
-                }
-                break
-            }
-            case (OPERATION.PING): {
-
-                /* if a ping request arrives
-                 the smart-vase is certainly present in the vaselist of the radio */
-                joined = true; 
-                radio.sendString("ping") 
-                break;
-            }
-
-            case (OPERATION.WATER): {
-                waters()
-                break
-            }
-            case (OPERATION.HUMIDITY): {
-                sendHumidity()
-                break
-            }
-            case (OPERATION.TEMPERATURE): {
-                sendTemperature()
-                break
-            }
-            case (OPERATION.LIGHT): {
-                sendLight()
-                break
-            }
-            case (OPERATION.SET_VASE_PAUSE_TIME): {
-                setPauseTime(x)
-                break
-            }
-            case (OPERATION.SET_VASE_SEND_TIME): {
-                setSendTime(x)
-                break
-            }
-            case (OPERATION.SET_HUMIDITY_MIN): {
-                setHumMin(x)
-                break
-            }
-            case (OPERATION.SET_HUMIDITY_MAX): {
-                setHumMax(x)
-                break
-            }
-            case (OPERATION.SET_TEMPERATURE_MIN): {
-                setTempMin(x)
-                break
-            }
-            case (OPERATION.SET_TEMPERATURE_MAX): {
-                setTempMax(x)
-                break
-            }
-            case (OPERATION.SET_LIGHT_MIN): {
-                setLightMin(x)
-                break
-            }
-            case (OPERATION.SET_LIGHT_MAX): {
-                setLightMax(x)
-                break
-            } 
+       
+        if(request == OPERATION.JOINED) {
+            if(!joined) {
+                joined=true
+                radio_serial_number= radio.receivedPacket(RadioPacketProperty.SerialNumber)
+            }   
         }
+
+        else if(request == OPERATION.PING) {
+            /* if a ping request arrives
+               the smart-vase is certainly present in the vaselist of the radio */
+            joined = true; 
+            radio.sendString("ping") 
+        }
+
+        else if(request == OPERATION.WATER) {
+            waters()
+        }
+       
+        else if(request == OPERATION.HUMIDITY) {
+            sendHumidity()
+        }
+
+        else if (request == OPERATION.TEMPERATURE) {
+            sendTemperature()   
+        }
+
+        else if (request == OPERATION.LIGHT){
+            sendLight()
+        }
+
+        else if (request == OPERATION.SET_VASE_PAUSE_TIME){
+            setPauseTime(x)
+        }
+
+        else if (request == OPERATION.SET_VASE_SEND_TIME){
+            setSendTime(x)
+        }
+
+        else if (request == OPERATION.SET_HUMIDITY_MIN){
+            setHumMin(x)
+      
+        }
+
+        else if (request == OPERATION.SET_HUMIDITY_MAX){
+            setHumMax(x)
+
+        }
+
+        else if (request == OPERATION.SET_TEMPERATURE_MIN){
+            setTempMin(x)
+     
+        }
+
+        else if (request == OPERATION.SET_TEMPERATURE_MAX){
+            setTempMax(x)
+   
+        }
+        else if (request == OPERATION.SET_LIGHT_MIN){
+            setLightMin(x)
+       
+        }
+        else if (request == OPERATION.SET_LIGHT_MAX){
+            setLightMax(x)
+       } 
     }
 })
 
