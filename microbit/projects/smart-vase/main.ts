@@ -100,70 +100,52 @@ radio.onReceivedBuffer(function () {
         `)
         basic.clearScreen()
        
-        if(request == OPERATION.JOINED) {
+        if ( request == OPERATION.JOINED) {
             if(!joined) {
                 joined=true
-                radio_serial_number= radio.receivedPacket(RadioPacketProperty.SerialNumber)
+                radio_serial_number= radio.receivedPacket(RadioPacketProperty.SerialNumber) 
             }   
-        }
-
-        else if(request == OPERATION.PING) {
+        } else if (request == OPERATION.PING) {
             /* if a ping request arrives
                the smart-vase is certainly present in the vaselist of the radio */
             joined = true; 
             radio.sendString("ping") 
-        }
-
-        else if(request == OPERATION.WATER) {
+            
+        } else if (request == OPERATION.WATER) 
             waters()
-        }
-       
-        else if(request == OPERATION.HUMIDITY) {
+
+        else if (request == OPERATION.HUMIDITY)
             sendHumidity()
-        }
 
-        else if (request == OPERATION.TEMPERATURE) {
+        else if (request == OPERATION.TEMPERATURE)
             sendTemperature()   
-        }
 
-        else if (request == OPERATION.LIGHT){
+        else if (request == OPERATION.LIGHT)
             sendLight()
-        }
 
-        else if (request == OPERATION.SET_VASE_PAUSE_TIME){
+        else if (request == OPERATION.SET_VASE_PAUSE_TIME)
             setPauseTime(x)
-        }
-
-        else if (request == OPERATION.SET_VASE_SEND_TIME){
+    
+        else if (request == OPERATION.SET_VASE_SEND_TIME)
             setSendTime(x)
-        }
-
-        else if (request == OPERATION.SET_HUMIDITY_MIN){
+        
+        else if (request == OPERATION.SET_HUMIDITY_MIN)
             setHumMin(x)
-      
-        }
 
-        else if (request == OPERATION.SET_HUMIDITY_MAX){
+        else if (request == OPERATION.SET_HUMIDITY_MAX)
             setHumMax(x)
 
-        }
-
-        else if (request == OPERATION.SET_TEMPERATURE_MIN){
+        else if (request == OPERATION.SET_TEMPERATURE_MIN)
             setTempMin(x)
-     
-        }
 
-        else if (request == OPERATION.SET_TEMPERATURE_MAX){
+        else if (request == OPERATION.SET_TEMPERATURE_MAX)
             setTempMax(x)
    
-        }
-        else if (request == OPERATION.SET_LIGHT_MIN){
+        else if (request == OPERATION.SET_LIGHT_MIN)
             setLightMin(x)
        
-        }
-        else if (request == OPERATION.SET_LIGHT_MAX){
+        else if (request == OPERATION.SET_LIGHT_MAX)
             setLightMax(x)
-       } 
     }
 })
 

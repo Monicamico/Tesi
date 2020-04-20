@@ -93,9 +93,9 @@ function deleteRequest(id:number, conn_request: Request[]): number {
         else {
             return conn.ping;
         }
-        i++;
+        i++
     }
-    return -1;
+    return -1
 }
 /**
  * @summary to plot points that rappresents the vases contained in the vaselist
@@ -111,12 +111,12 @@ function drawNumberOfVases(dim_list:number) {
 
 function setDiedping(x: number){
     diedping = x;
-    return;
+    return
 }
 
 function setRadioPauseTime(x:number){
     pause_time = x;
-    return;
+    return
 }
 
 /**
@@ -125,25 +125,25 @@ function setRadioPauseTime(x:number){
  */
 function sendResponse(response: string){
     serial.writeLine(`${response}`)
-    return;
+    return
 }
 
 /**
  * @summary to send a request to smart-vase
- * @param request contains a string that rappresent the type of request
+ * @param request contains a number that rappresent the type of operation
  * @param serial serial number of the smart-vase
  * @param x optional parameter, it could be useful to insert an additional value
  */
-function sendRequest(request: string, serial: number, x?: number) {
+function sendRequest(request: number, serial: number, x?: number) {
     let msg: Buffer
     let content: string
     if (x) 
-        content = request + ";" + serial + ";" + x;
+        content = request + ";" + serial + ";" + x
     else 
-        content = request + ";" + serial;
+        content = request + ";" + serial
     msg = control.createBufferFromUTF8(content)
     radio.sendBuffer(msg)
-    return;
+    return
 }
 
 /*-------------------------- TYPES OF REQUEST TO SEND TO VASE ----------------------------*/
@@ -154,12 +154,12 @@ function sendRequest(request: string, serial: number, x?: number) {
  * @param id (number) rappresents the serial number of the vase.
  */
 function getTemp(id: number) {
-    sendRequest("t",id)
+    sendRequest(OPERATION.TEMPERATURE,id)
     return;
 }
 
 function ping(id: number){
-    sendRequest("ping",id)
+    sendRequest(OPERATION.PING,id)
     return;
 }
 
@@ -169,7 +169,7 @@ function ping(id: number){
  * @param id (number) rappresents the serial number of the vase.
  */
 function getHum(id: number) {
-    sendRequest("h", id)
+    sendRequest(OPERATION.HUMIDITY, id)
     return;
 }
 
@@ -179,7 +179,7 @@ function getHum(id: number) {
  * @param id (number) rappresents the serial number of the vase.
  */
 function getLight(id: number) {
-    sendRequest("l", id)
+    sendRequest(OPERATION.LIGHT, id)
     return;
 }
 
@@ -189,48 +189,48 @@ function getLight(id: number) {
  * @param id (number) rappresents the serial number of the vase.
  */
 function putWater(id: number) {
-    sendRequest("w", id)
+    sendRequest(OPERATION.WATER, id)
     return;
 }
 
 function setTempMin(id: number, min: number) {
-    sendRequest("tm", id, min)
+    sendRequest(OPERATION.SET_TEMPERATURE_MIN, id, min)
     return;
 }
 
 function setTempMax(id: number, max: number) {
-    sendRequest("tM", id, max)
+    sendRequest(OPERATION.SET_TEMPERATURE_MAX, id, max)
     return;
 }
 
 function setHumMin(id: number, min: number) {
-    sendRequest("hn", id, min)
+    sendRequest(OPERATION.SET_HUMIDITY_MIN, id, min)
     return;
 }
 
 function setHumMax(id: number, max: number) {
-    sendRequest("hM", id, max)
+    sendRequest(OPERATION.SET_HUMIDITY_MAX, id, max)
     return;
 }
 
 function setLightMin(id: number, min: number) {
-    sendRequest("lm", id, min)
+    sendRequest(OPERATION.SET_LIGHT_MIN, id, min)
 }
 
 function setLightMax(id: number, max: number) {
-    sendRequest("lM", id, max)
+    sendRequest(OPERATION.SET_LIGHT_MAX, id, max)
 }
 
 function setPTime(id: number, p: number) {
-    sendRequest("pt", id, p)
+    sendRequest(OPERATION.SET_VASE_PAUSE_TIME, id, p)
 }
 
 function setSTime(id: number, s: number) {
-    sendRequest("st", id, s)
+    sendRequest(OPERATION.SET_VASE_SEND_TIME, id, s)
 }
 
 function setJoined(id:number){
-    sendRequest("j", id)
+    sendRequest(OPERATION.JOINED, id)
     basic.pause(2000)
     getHum(id)
     basic.pause(2000)
