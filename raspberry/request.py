@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request as http_req, redirect
 from constants import URL_DASHBOARD, Operation
 
-plant = Blueprint('plant', __name__)
+request_ = Blueprint('request_', __name__)
 requests = []
 
 
@@ -15,12 +15,19 @@ def request():
 
         if req_type == 'water':
             req = str(Operation.WATER.value) + ";" + id_s + '.'
-        if req_type == "humidity":
+
+        elif req_type == 'humidity':
             req = str(Operation.HUMIDITY.value) + ";" + id_s + '.'
-        if req_type == "temperature":
+
+        elif req_type == 'temperature':
             req = str(Operation.TEMPERATURE.value) + ";" + id_s + '.'
-        if req_type == "light":
+
+        elif req_type == 'light':
             req = str(Operation.LIGHT.value) + ";" + id_s + '.'
+
+        elif req_type == 'joined':
+            req = str(Operation.JOINED.value) + ";" + id_s + '.'
+
         requests.append(req)
 
         return redirect(URL_DASHBOARD + '/plant/' + data['serial'])
