@@ -27,6 +27,7 @@ let radio_serial_number = 0
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 led.setBrightness(20)
+
 DEBUG = true 
 
 if (DEBUG) {

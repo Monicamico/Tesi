@@ -32,9 +32,7 @@ if (DEBUG) {
 basic.forever(function () {
    
    current_time = input.runningTime()
-    
     for (const vase of vase_list){
-
         if ((current_time - vase.getPing()) > diedping){
             if (vase.dying) {
                 dim_vase_list = deleteVase(vase.serial_number, vase_list)
@@ -43,18 +41,17 @@ basic.forever(function () {
                     sendToRB(`${OPERATION.DELETED};${vase.serial_number};0;0`)
                     drawNumberOfVases(dim_vase_list)
                 }    
-            }
-            else {
+            } else {
                 vase.dying = true;
                 sendToVase(OPERATION.PING,vase.serial_number)
             }
         }
     }
     basic.pause(pause_time)
-
 })
 
-/* --------------------------------------- EVENTS CODE -------------------------------------- */
+
+/* --------------------------------------- EVENTS CODE -------------------------------------------- */
 
 //to accept the request connection from the vase
 input.onButtonPressed(Button.A, function () {
@@ -80,9 +77,12 @@ input.onButtonPressed(Button.B, function () {
         sendToRB(`${OPERATION.REFUSED};${req.serial_number};0;0`)
 })
 
-/*-------------------------------------- FROM SMART-VASE -------------------------------------------*/
+/*------------------------------------ RECEIVED FROM SMART-VASE ---------------------------------------*/
 
-/* code to be executed when a CONNECTION REQUEST or PING is received from the SMARTVASE */
+/* code to be executed when:
+ *  - CONNECTION REQUEST is received from the SMARTVASE
+ *  - PING is received from the SMARTVASE 
+*/
 radio.onReceivedNumber(function (received: number) {
 
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
@@ -111,7 +111,12 @@ radio.onReceivedNumber(function (received: number) {
 })
 
 
-//code to be executed when a VALUE is received from a SMART-VASE
+/*
+ * code to be executed when:
+ *   - HUMIDITY VALUE is received from a SMART-VASE
+ *   - TEMPERATURE VALUE is received from a SMART-VASE
+ *   - LIGHT VALUE is received from a SMART-VASE
+*/
 radio.onReceivedValue(function (request: string, param: number) {
 
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
@@ -124,10 +129,10 @@ radio.onReceivedValue(function (request: string, param: number) {
     
 })
 
-
 /*-------------------------------------- FROM RASPBERRY -------------------------------------------*/
 
-/* REQUEST received from RASPBERRY */
+/* REQUEST received from RASPBERRY needs to be send to the vase*/
+
 serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
     
     let received = serial.readUntil(serial.delimiters(Delimiters.Fullstop))
@@ -166,7 +171,7 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
             let ping = deleteRequest(serialNumber,conn_request)
             let n = dim_vase_list
 
-            if (ping!= -1){
+            if (ping!= -1) {
                 dim_vase_list = insertVase(serialNumber,ping,vase_list)
                 if (n == dim_vase_list - 1){
                     //send the joined notification to smart-vase
