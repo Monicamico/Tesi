@@ -1,11 +1,11 @@
-from flask import Blueprint, render_template, request as http_req, redirect
+from flask import Blueprint, request as http_req, redirect
 from constants import URL_DASHBOARD, Operation
 
-request_ = Blueprint('request_', __name__)
+request_page = Blueprint('request_page', __name__)
 requests = []
 
 
-@request_.route("/request", methods=['POST', 'PUT'])
+@request_blueprint.route("/request", methods=['POST', 'PUT'])
 def request():
     global req
     try:

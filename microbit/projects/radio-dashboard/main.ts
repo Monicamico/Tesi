@@ -28,7 +28,7 @@ if (DEBUG) {
     diedping = 100000
 }
 
-/*--------------------------------------- RADIO CODE -------------------------------------*/
+/*--------------------------------------- MAIN CODE -------------------------------------*/
 basic.forever(function () {
    
    current_time = input.runningTime()
@@ -40,13 +40,13 @@ basic.forever(function () {
                 dim_vase_list = deleteVase(vase.serial_number, vase_list)
                 if (dim_vase_list!= undefined){
                     basic.showString("del")
-                    sendResponse(`${OPERATION.DELETED};${vase.serial_number};0;0`)
+                    sendToRB(`${OPERATION.DELETED};${vase.serial_number};0;0`)
                     drawNumberOfVases(dim_vase_list)
                 }    
             }
             else {
                 vase.dying = true;
-                ping(vase.serial_number)
+                sendToVase(OPERATION.PING,vase.serial_number)
             }
         }
     }
@@ -54,7 +54,7 @@ basic.forever(function () {
 
 })
 
-/*--------------------------------------- EVENTS CODE --------------------------------------*/
+/* --------------------------------------- EVENTS CODE -------------------------------------- */
 
 //to accept the request connection from the vase
 input.onButtonPressed(Button.A, function () {
@@ -63,8 +63,11 @@ input.onButtonPressed(Button.A, function () {
     if (req){ 
         dim_vase_list = insertVase(req.serial_number, req.ping, vase_list)
         if (n == dim_vase_list - 1){
-            setJoined(req.serial_number)//send the joined notification to smart-vase
-            sendResponse(`${OPERATION.JOINED};${req.serial_number};${req.ping};0`) //send joined notification to raspberry
+            //send the joined notification to smart-vase
+            sendToVase(OPERATION.JOINED,req.serial_number)
+            //send joined notification to raspberry
+            sendToRB(`${OPERATION.JOINED};${req.serial_number};${req.ping};0`) 
+            
         } 
     }
     
@@ -74,9 +77,10 @@ input.onButtonPressed(Button.A, function () {
 input.onButtonPressed(Button.B, function () {
     let req = conn_request.shift()
     if (req)
-        sendResponse(`${OPERATION.REFUSED};${req.serial_number};0;0`)
+        sendToRB(`${OPERATION.REFUSED};${req.serial_number};0;0`)
 })
 
+/*-------------------------------------- FROM SMART-VASE -------------------------------------------*/
 
 /* code to be executed when a CONNECTION REQUEST or PING is received from the SMARTVASE */
 radio.onReceivedNumber(function (received: number) {
@@ -84,17 +88,16 @@ radio.onReceivedNumber(function (received: number) {
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
 
     if (received == OPERATION.CONNECTION) {
-
-        if (getVase(serialNumber, vase_list))
-            setJoined(serialNumber) 
-
+        if (getVase(serialNumber, vase_list)){
+            sendToVase(OPERATION.JOINED,serialNumber) 
+            return
+        }
         if (containRequest(serialNumber, conn_request)) 
-            return;
-
+            return
         let ping_req = input.runningTime();
         conn_request.push(new Request(serialNumber,ping_req))
         //send connection request to raspberry
-        sendResponse(`${OPERATION.CONNECTION.toString()};${serialNumber};${ping_req};0`) 
+        sendToRB(`${OPERATION.CONNECTION};${serialNumber};${ping_req};0`) 
 
     } else if (received == OPERATION.PING) {
         
@@ -102,7 +105,7 @@ radio.onReceivedNumber(function (received: number) {
         let vase = getVase(serialNumber, vase_list)
         if (vase!= undefined) {
             vase.setPing(ping)
-            sendResponse(`${OPERATION.PING};${serialNumber};${ping};0`)
+            sendToRB(`${OPERATION.PING};${serialNumber};${ping};0`)
         }
     }
 })
@@ -117,68 +120,44 @@ radio.onReceivedValue(function (request: string, param: number) {
     if (!vase)
         return
     //send the received value to raspberry as a string
-    sendResponse(`${request};${serialNumber};${ping};${param}`) 
+    sendToRB(`${request};${serialNumber};${ping};${param}`) 
     
 })
 
+
+/*-------------------------------------- FROM RASPBERRY -------------------------------------------*/
 
 /* REQUEST received from RASPBERRY */
 serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
     
     let received = serial.readUntil(serial.delimiters(Delimiters.Fullstop))
-    let r_list= received.split(";")
+    let r_list= received.split(";") 
+    let size = r_list.length
 
-    let param = 0;
+    if (size == 0 || size == 1) return
+    
     let request = parseInt(r_list[0])
     let serialNumber = parseInt(r_list[1]) 
+    let param = 0;
 
-    if (r_list.length == 3)
+    if (size == 3)
         param = parseInt(r_list[2])
-
-    console.log(request.toString())
 
     let vase_exist = getVase(serialNumber, vase_list)
 
     if (vase_exist) {
 
-        if (request == OPERATION.PING) 
-            ping(serialNumber)
+        if (request == OPERATION.PING || request == OPERATION.HUMIDITY ||
+            request == OPERATION.TEMPERATURE || request == OPERATION.LIGHT || request == OPERATION.WATER) 
+            sendToVase(request, serialNumber)
             
-        else if (request == OPERATION.HUMIDITY)
-            getHum(serialNumber)
-
-        else if (request == OPERATION.TEMPERATURE)
-            getTemp(serialNumber)
-            
-        else if (request == OPERATION.LIGHT)
-            getLight(serialNumber)
-
-        else if (request == OPERATION.WATER)
-            putWater(serialNumber)
-
-        else if (request == OPERATION.SET_TEMPERATURE_MIN)
-            setTempMin(serialNumber,param)
+        else if (request == OPERATION.SET_TEMPERATURE_MIN || request == OPERATION.SET_TEMPERATURE_MAX ||
+                 request == OPERATION.SET_LIGHT_MIN || request == OPERATION.SET_LIGHT_MAX ||
+                 request == OPERATION.SET_HUMIDITY_MAX || request == OPERATION.SET_HUMIDITY_MIN )
+            sendToVase(request,serialNumber,param)
     
-        else if(request == OPERATION.SET_TEMPERATURE_MAX)
-            setTempMax(serialNumber,param)
-
-        else if (request == OPERATION.SET_LIGHT_MAX)
-            setLightMax(serialNumber,param)
-
-        else if (request == OPERATION.SET_LIGHT_MIN)
-            setLightMin(serialNumber,param)
-
-        else if (request == OPERATION.SET_HUMIDITY_MIN)
-            setHumMin(serialNumber,param)
-  
-        else if (request == OPERATION.SET_HUMIDITY_MAX)
-            setHumMax(serialNumber,param)
-  
-        else if (request == OPERATION.SET_VASE_PAUSE_TIME)
-            setPTime(serialNumber,param)
-
-        else if (request == OPERATION.SET_VASE_SEND_TIME)
-            setSTime(serialNumber,param)
+        else if (request == OPERATION.SET_VASE_PAUSE_TIME || request == OPERATION.SET_VASE_SEND_TIME)
+            sendToVase(request,serialNumber,param)
 
     } else {
 
@@ -186,24 +165,24 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
             //get and remove from the conn_list the ping of the vase
             let ping = deleteRequest(serialNumber,conn_request)
             let n = dim_vase_list
+
             if (ping!= -1){
                 dim_vase_list = insertVase(serialNumber,ping,vase_list)
                 if (n == dim_vase_list - 1){
                     //send the joined notification to smart-vase
-                    //and send the request to get the values (hum, light, temp)
-                    setJoined(serialNumber)
+                    sendToVase(OPERATION.JOINED,serialNumber)
                     //send joined notification to raspberry
-                    sendResponse(`${OPERATION.JOINED};${serialNumber};${ping};0`) 
+                    sendToRB(`${OPERATION.JOINED};${serialNumber};${ping};0`) 
                 } else {
                     conn_request.push(new Request(serialNumber,ping))
                 }
             }
         }
+
         else if (request == OPERATION.REFUSED) {
-            
             let ping = deleteRequest(serialNumber,conn_request)
             if (ping!= -1){
-                sendResponse(`${OPERATION.REFUSED};${serialNumber};0;0`)
+                sendToRB(`${OPERATION.REFUSED};${serialNumber};0;0`)
             }
         }
     }

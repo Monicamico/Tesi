@@ -4,7 +4,7 @@
  * @author Monica Amico 
  */
 
-/*------------------------------------- FUNCTIONS ---------------------------------------*/
+/*---------------------------------------- FUNCTIONS -------------------------------------------*/
 
 /**
  * @summary the function getVase returns the vase with serial number equal to id. 
@@ -82,7 +82,6 @@ function containRequest(id: number, conn_request: Request[]):boolean {
     return false;
 }
 
-
 function deleteRequest(id:number, conn_request: Request[]): number {
     if (!id) return -1;
     let i = 0
@@ -123,10 +122,11 @@ function setRadioPauseTime(x:number){
  * @summary to send a response to raspberry
  * @param response contains a string that rappresent the response
  */
-function sendResponse(response: string){
+
+function sendToRB(response: string){
     serial.writeLine(`${response}`)
     return
-}
+} 
 
 /**
  * @summary to send a request to smart-vase
@@ -134,7 +134,8 @@ function sendResponse(response: string){
  * @param serial serial number of the smart-vase
  * @param x optional parameter, it could be useful to insert an additional value
  */
-function sendRequest(request: number, serial: number, x?: number) {
+
+function sendToVase(request: number, serial: number, x?: number) {
     let msg: Buffer
     let content: string
     if (x) 
@@ -146,89 +147,3 @@ function sendRequest(request: number, serial: number, x?: number) {
     return
 }
 
-/*-------------------------- TYPES OF REQUEST TO SEND TO VASE ----------------------------*/
-
-/**
- * @summary send temperature request to the vase with serial number equal to the parameter id.
- *          if the param is -1 the request will be send to all.
- * @param id (number) rappresents the serial number of the vase.
- */
-function getTemp(id: number) {
-    sendRequest(OPERATION.TEMPERATURE,id)
-    return;
-}
-
-function ping(id: number){
-    sendRequest(OPERATION.PING,id)
-    return;
-}
-
-/**
- * @summary send humidity request to the vase with serial number equal to the parameter id.
- *          if the param is -1 the request will be send to all.
- * @param id (number) rappresents the serial number of the vase.
- */
-function getHum(id: number) {
-    sendRequest(OPERATION.HUMIDITY, id)
-    return;
-}
-
-/**
- * @summary send light request to the vase with serial number equal to the parameter id.
- *          if the param is -1 the request will be send to all.
- * @param id (number) rappresents the serial number of the vase.
- */
-function getLight(id: number) {
-    sendRequest(OPERATION.LIGHT, id)
-    return;
-}
-
-/**
- * @summary send the request to water the vase
- *          if the param is -1 the request will be send to all.
- * @param id (number) rappresents the serial number of the vase.
- */
-function putWater(id: number) {
-    sendRequest(OPERATION.WATER, id)
-    return;
-}
-
-function setTempMin(id: number, min: number) {
-    sendRequest(OPERATION.SET_TEMPERATURE_MIN, id, min)
-    return;
-}
-
-function setTempMax(id: number, max: number) {
-    sendRequest(OPERATION.SET_TEMPERATURE_MAX, id, max)
-    return;
-}
-
-function setHumMin(id: number, min: number) {
-    sendRequest(OPERATION.SET_HUMIDITY_MIN, id, min)
-    return;
-}
-
-function setHumMax(id: number, max: number) {
-    sendRequest(OPERATION.SET_HUMIDITY_MAX, id, max)
-    return;
-}
-
-function setLightMin(id: number, min: number) {
-    sendRequest(OPERATION.SET_LIGHT_MIN, id, min)
-}
-
-function setLightMax(id: number, max: number) {
-    sendRequest(OPERATION.SET_LIGHT_MAX, id, max)
-}
-
-function setPTime(id: number, p: number) {
-    sendRequest(OPERATION.SET_VASE_PAUSE_TIME, id, p)
-}
-
-function setSTime(id: number, s: number) {
-    sendRequest(OPERATION.SET_VASE_SEND_TIME, id, s)
-}
-
-function setJoined(id:number){
-    sendRequest(OPERATION.JOINED, id)
-}
