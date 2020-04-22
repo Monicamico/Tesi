@@ -4,7 +4,7 @@
  * @author Monica Amico  
  */
 
-/*----------------------------------------- VARIABLE STATEMENTS --------------------------------------*/
+/* ----------------------------------------- VARIABLE STATEMENTS --------------------------------------- */
 
 let temp_min = 15                                 // minimum temperature value
 let temp_max = 30                                 // maximum temperature value
@@ -22,7 +22,7 @@ let joined = false
 let radio_serial_number = 0
 
 
-/*------------------------------------------- INITIAL CODE ----------------------------------------*/
+/* ------------------------------------------- INITIAL CODE ------------------------------------------- */
 
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
@@ -35,14 +35,12 @@ if (DEBUG) {
     send_time =  100000 
 } 
 
-/*-------------------------------------------- VASE CODE ------------------------------------------*/
+/*---------------------------------------------- MAIN CODE ------------------------------------------- */
 
 basic.forever(function () {
 
-    if (joined == false) {
+    if (joined == false) 
         radio.sendNumber(OPERATION.CONNECTION)
-    }
-    
     measure()
     setState()
 
@@ -51,26 +49,23 @@ basic.forever(function () {
     else 
         basic.showIcon(IconNames.Sad)
 
-    if (humidity_measure < hum_min) {
+    if (humidity_measure < hum_min) 
         waters()
-    }
 
     basic.clearScreen()
-    basic.pause(pause_time)
     
     time += pause_time
     if (time == send_time) {
         if (joined){
             basic.showString("->")
             sendHumidity()
-            basic.pause(2000)
             sendTemperature()
-            basic.pause(2000)
             sendLight()
-            basic.pause(2000)
         }
         time = 0
     } 
+
+    basic.pause(pause_time)
 })
 
 /*------------------------------------------- EVENTS CODE ------------------------------------------*/
@@ -81,6 +76,7 @@ radio.onReceivedBuffer(function () {
     const content_list: string[] = content.split(";")
 
     let size = content_list.length
+
     let request = 0
     let id = 0
     let x = 0
@@ -156,8 +152,6 @@ radio.onReceivedBuffer(function () {
 
 input.onButtonPressed(Button.A, function(){
     sendHumidity()
-    basic.pause(1000)
     sendLight()
-    basic.pause(1000)
     sendTemperature()
 })

@@ -7,13 +7,13 @@ from request import requests
 
 try:
     s = serial.Serial(MICROBIT_PORT_MAC, 115200)
-    s.timeout = 1
+    #s.timeout = 1
     dummy = s.readline()
-    s.timeout = None
-
+    #s.timeout = None
     print('Dummy byte received: ' + str(dummy))
+
 except serial.serialutil.SerialException:
-    print("\nNo such file or directory: "+MICROBIT_PORT_MAC)
+    print("\nNo such file or directory: " + MICROBIT_PORT_MAC)
     exit(1)
 
 
@@ -114,6 +114,7 @@ def reader():
                     pass
             else:
                 print("No serial number received.")
+
 
 def writer():
     while True:

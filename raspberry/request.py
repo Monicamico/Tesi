@@ -5,7 +5,7 @@ request_page = Blueprint('request_page', __name__)
 requests = []
 
 
-@request_blueprint.route("/request", methods=['POST', 'PUT'])
+@request_page.route("/request", methods=['POST', 'PUT'])
 def request():
     global req
     try:

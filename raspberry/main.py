@@ -13,10 +13,12 @@ def create_app():
 if __name__ == "__main__":
 
     try:
+
         thread_reader = Reader("Thread Reader")
         thread_writer = Writer("Thread Writer")
         thread_reader.start()
         thread_writer.start()
+
     except NameError:
         print("Parametro s inesistente\n")
         exit(1)

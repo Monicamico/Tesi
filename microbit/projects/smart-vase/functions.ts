@@ -112,7 +112,7 @@ function measure() {
 function sendTemperature() {
     readTemperature()
     radio.sendValue(OPERATION.TEMPERATURE.toString(), temperature_measure)
-    basic.pause(1000)
+    basic.pause(2000)
 }
 
 /**
@@ -121,7 +121,7 @@ function sendTemperature() {
 function sendHumidity() {
     readHumidity()
     radio.sendValue(OPERATION.HUMIDITY.toString(), humidity_measure)
-    basic.pause(1000)
+    basic.pause(2000)
 }
 
 /**
@@ -130,7 +130,7 @@ function sendHumidity() {
 function sendLight() {
     readLight()
     radio.sendValue((OPERATION.LIGHT).toString(), light_measure)
-    basic.pause(1000)
+    basic.pause(2000)
 }
 
 function setState() {
@@ -138,7 +138,7 @@ function setState() {
         (light_measure <=light_max && light_measure >= light_min) &&
         (temperature_measure <= temp_max && temperature_measure >= temp_min))
         
-        currentState = State.Happy;
+        currentState = State.Happy
     else 
         currentState = State.Sad
 }

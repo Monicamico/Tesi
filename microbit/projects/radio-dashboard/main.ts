@@ -20,7 +20,7 @@ radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 radio.setTransmitPower(7)
 serial.redirectToUSB()
-serial.writeLine('')
+serial.writeLine('') //utile per bytes b'\x00 che scrive il microbit all'avvio
 dim_vase_list = vase_list.length
 DEBUG = true
 
@@ -28,7 +28,8 @@ if (DEBUG) {
     diedping = 100000
 }
 
-/*--------------------------------------- MAIN CODE -------------------------------------*/
+/*------------------------------------------ MAIN CODE ------------------------------------------- */
+
 basic.forever(function () {
    
    current_time = input.runningTime()
@@ -77,7 +78,7 @@ input.onButtonPressed(Button.B, function () {
         sendToRB(`${OPERATION.REFUSED};${req.serial_number};0;0`)
 })
 
-/*------------------------------------ RECEIVED FROM SMART-VASE ---------------------------------------*/
+/* ----------------------------------- RECEIVED FROM SMART-VASE ------------------------------------- */
 
 /* code to be executed when:
  *  - CONNECTION REQUEST is received from the SMARTVASE
@@ -131,7 +132,7 @@ radio.onReceivedValue(function (request: string, param: number) {
 
 /*-------------------------------------- FROM RASPBERRY -------------------------------------------*/
 
-/* REQUEST received from RASPBERRY needs to be send to the vase*/
+/* REQUEST received from RASPBERRY */
 
 serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
     
@@ -158,12 +159,10 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
             
         else if (request == OPERATION.SET_TEMPERATURE_MIN || request == OPERATION.SET_TEMPERATURE_MAX ||
                  request == OPERATION.SET_LIGHT_MIN || request == OPERATION.SET_LIGHT_MAX ||
-                 request == OPERATION.SET_HUMIDITY_MAX || request == OPERATION.SET_HUMIDITY_MIN )
+                 request == OPERATION.SET_HUMIDITY_MAX || request == OPERATION.SET_HUMIDITY_MIN ||
+                 request == OPERATION.SET_VASE_PAUSE_TIME || request == OPERATION.SET_VASE_SEND_TIME )
             sendToVase(request,serialNumber,param)
     
-        else if (request == OPERATION.SET_VASE_PAUSE_TIME || request == OPERATION.SET_VASE_SEND_TIME)
-            sendToVase(request,serialNumber,param)
-
     } else {
 
         if (request == OPERATION.JOINED) {   
