@@ -107,7 +107,7 @@ radio.onReceivedNumber(function (received: number) {
         
         let ping = input.runningTime();
         let vase = getVase(serialNumber, vase_list)
-        if (vase!= undefined) {
+        if (vase) {
             vase.setPing(ping)
             sendToRB(`${OPERATION.PING};${serialNumber};${ping};0`)
         }
@@ -126,10 +126,18 @@ radio.onReceivedValue(function (request: string, param: number) {
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
     const vase = getVase(serialNumber, vase_list)
     let ping = input.runningTime()
+    let requestInt = parseInt(request)
     if (!vase)
+            return
+    vase.setPing(ping) //update ping value of the vase
+
+    if (requestInt == OPERATION.SET_WATER_CONTAINER_STATE){
+        if (param == 0) // 0 = empty, 1 = full
+            sendToRB(`${OPERATION.SET_WATER_CONTAINER_STATE};${serialNumber};${ping};${param}`) 
         return
-    //send the received value to raspberry as a string
-    sendToRB(`${request};${serialNumber};${ping};${param}`) 
+    } else if (requestInt == OPERATION.LIGHT || requestInt == OPERATION.TEMPERATURE || requestInt == OPERATION.HUMIDITY)
+        //send the received value to raspberry as a string
+        sendToRB(`${request};${serialNumber};${ping};${param}`) 
     
 })
 
@@ -147,7 +155,7 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
     
     let request = parseInt(r_list[0])
     let serialNumber = parseInt(r_list[1]) 
-    let param = 0;
+    let param = -1;
 
     if (size == 3)
         param = parseInt(r_list[2])
@@ -164,12 +172,12 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
                  request == OPERATION.SET_LIGHT_MIN || request == OPERATION.SET_LIGHT_MAX ||
                  request == OPERATION.SET_HUMIDITY_MAX || request == OPERATION.SET_HUMIDITY_MIN ||
                  request == OPERATION.SET_VASE_PAUSE_TIME || request == OPERATION.SET_VASE_SEND_TIME ||
-                 request == OPERATION.SET_WATER_CONTAINER_FULL || request == OPERATION.SET_WATERING_LIGHT ) {
-                     if (param != 0) 
+                 request == OPERATION.SET_WATER_CONTAINER_STATE || request == OPERATION.SET_WATERING_LIGHT ) {
+                     if (param != -1) 
                         sendToVase(request,serialNumber,param)
                  }
 
-        else if (request == OPERATION.SET_WATER_CONTAIER_SIZE && size == 3){
+        else if (request == OPERATION.SET_WATER_CONTAINER_SIZE && size == 3){
             param = parseFloat(r_list[2])
             sendToVase(request,serialNumber,param)
         }

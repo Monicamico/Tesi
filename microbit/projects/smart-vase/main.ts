@@ -21,8 +21,9 @@ let time = 0
 let joined = false
 let radio_serial_number = 0
 let watering_light = 23
-let water_container_size = 1                       //in liters
-let water_container_full = true
+let water_container_size = 1                       //in liters (default 1 liter)
+let water_container_full = true                    
+let amount_water = 0
 
 
 /* ------------------------------------------- INITIAL CODE ------------------------------------------- */
@@ -30,6 +31,7 @@ let water_container_full = true
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 led.setBrightness(20)
+amount_water = water_container_size
 
 DEBUG = true 
 
@@ -53,10 +55,12 @@ basic.forever(function () {
     else
          basic.showIcon(IconNames.Sad)
 
-    if (humidity_measure < hum_min && 
-            light_measure <= watering_light &&
-                water_container_full) 
-        waters()
+    if (humidity_measure < hum_min && light_measure <= watering_light && water_container_full){
+        if (amount_water >= 0.2)
+            waters() //feeds the plant and update the amount_water
+        if (amount_water < 0.2)
+            radio.sendValue(OPERATION.SET_WATER_CONTAINER_STATE.toString(), 0) // 0 = empty, 1 = full
+    }
 
     basic.clearScreen()
 
@@ -159,13 +163,13 @@ radio.onReceivedBuffer(function () {
         else if (request == OPERATION.SET_WATERING_LIGHT && size == 3)
             setWateringLight(x)
 
-        else if (request == OPERATION.SET_WATER_CONTAIER_SIZE && size == 3)
+        else if (request == OPERATION.SET_WATER_CONTAINER_SIZE && size == 3)
             setWaterContainerSize(s)
 
-        else if (request == OPERATION.SET_WATER_CONTAINER_FULL && size == 3) {
-            if (s == '1')
+        else if (request == OPERATION.SET_WATER_CONTAINER_STATE && size == 3) {
+            if (s == '1') // 1 = full
                 setWaterContainerFull(true)
-            if (s == '0')
+            if (s == '0') // 0 = empty
                 setWaterContainerFull(false)
         }
             

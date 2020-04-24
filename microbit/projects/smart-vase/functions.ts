@@ -6,12 +6,13 @@
 
 /*-------------------------------------------------------------*/
 /**
- * @summary it feeds the vase
+ * @summary it feeds the vase and update the amount of water in the container
  */
 function waters() {
     pins.digitalWritePin(DigitalPin.P2, 1)
     basic.pause(4000)
     pins.digitalWritePin(DigitalPin.P2, 0)
+    amount_water -= 0.2  //da rivedere
 }
 
 /**
@@ -78,10 +79,16 @@ function setWateringLight(x: number) {
 
 function setWaterContainerFull(b: boolean) {
     water_container_full = b
+    if (b == true) 
+        amount_water = water_container_size
+    else amount_water = 0
 }
 
 function setWaterContainerSize(l: string) {
     water_container_size = parseFloat(l)
+    if (amount_water > water_container_size)
+        amount_water = water_container_size
+    
 }
 
 
