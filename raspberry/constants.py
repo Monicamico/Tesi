@@ -2,8 +2,8 @@ from enum import Enum
 
 URL_RASPBERRY = 'http://127.0.0.1:5001'
 URL_DASHBOARD = 'http://127.0.0.1:5000'
-MICROBIT_PORT_MAC = '/dev/cu.usbmodem14102'
-MICROBIT_PORT_MAC2 = '/dev/cu.usbmodem14202'
+MICROBIT_PORT_MAC = '/dev/cu.usbmodem14102'  # right
+MICROBIT_PORT_MAC2 = '/dev/cu.usbmodem14202'  # left
 
 
 class Operation(Enum):
@@ -26,4 +26,3 @@ class Operation(Enum):
     SET_RADIO_DIED_PING = 16
     CONNECTION = 17
     DELETED = 18
-

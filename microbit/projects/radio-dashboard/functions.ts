@@ -108,8 +108,8 @@ function drawNumberOfVases(dim_list:number) {
     }
 }
 
-function setDiedping(x: number){
-    diedping = x;
+function setDeadping(x: number){
+    deadping = x;
     return
 }
 

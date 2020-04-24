@@ -11,7 +11,7 @@ const conn_request: Request[] = [];      // list of connection requests
 let dim_vase_list: number = 0;           // size of vase_list
 let pause_time = 200000                  //(
 let current_time;
-let diedping = 1200000;                  // (20 min)
+let deadping = 1200000;                  // (20 min)
 
 /*------------------------------------ INITIAL CODE -------------------------------------*/
 
@@ -25,7 +25,7 @@ dim_vase_list = vase_list.length
 DEBUG = true
 
 if (DEBUG) {
-    diedping = 100000
+    deadping = 300000
 }
 
 /*------------------------------------------ MAIN CODE ------------------------------------------- */
@@ -34,8 +34,9 @@ basic.forever(function () {
    
    current_time = input.runningTime()
     for (const vase of vase_list){
-        if ((current_time - vase.getPing()) > diedping){
-            if (vase.dying) {
+        if ((current_time - vase.getPing()) > deadping){
+            if (vase.dying) 
+            {
                 dim_vase_list = deleteVase(vase.serial_number, vase_list)
                 if (dim_vase_list!= undefined){
                     basic.showString("del")
@@ -56,6 +57,7 @@ basic.forever(function () {
 
 //to accept the request connection from the vase
 input.onButtonPressed(Button.A, function () {
+
     let n = dim_vase_list
     let req = conn_request.shift()
     if (req){ 
@@ -73,6 +75,7 @@ input.onButtonPressed(Button.A, function () {
 
 //to refuse the request connection from the vase
 input.onButtonPressed(Button.B, function () {
+
     let req = conn_request.shift()
     if (req)
         sendToRB(`${OPERATION.REFUSED};${req.serial_number};0;0`)
@@ -160,8 +163,18 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
         else if (request == OPERATION.SET_TEMPERATURE_MIN || request == OPERATION.SET_TEMPERATURE_MAX ||
                  request == OPERATION.SET_LIGHT_MIN || request == OPERATION.SET_LIGHT_MAX ||
                  request == OPERATION.SET_HUMIDITY_MAX || request == OPERATION.SET_HUMIDITY_MIN ||
-                 request == OPERATION.SET_VASE_PAUSE_TIME || request == OPERATION.SET_VASE_SEND_TIME )
+                 request == OPERATION.SET_VASE_PAUSE_TIME || request == OPERATION.SET_VASE_SEND_TIME ||
+                 request == OPERATION.SET_WATER_CONTAINER_FULL || request == OPERATION.SET_WATERING_LIGHT ) {
+                     if (param != 0) 
+                        sendToVase(request,serialNumber,param)
+                 }
+
+        else if (request == OPERATION.SET_WATER_CONTAIER_SIZE && size == 3){
+            param = parseFloat(r_list[2])
             sendToVase(request,serialNumber,param)
+        }
+         
+        return
     
     } else {
 
@@ -181,6 +194,7 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
                     conn_request.push(new Request(serialNumber,ping))
                 }
             }
+            return
         }
 
         else if (request == OPERATION.REFUSED) {
@@ -188,12 +202,14 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
             if (ping!= -1){
                 sendToRB(`${OPERATION.REFUSED};${serialNumber};0;0`)
             }
+            return
         }
+
     }
 
-    if (request == OPERATION.SET_RADIO_DIEDPING_TIME){
+    if (request == OPERATION.SET_RADIO_DEADPING_TIME){
         param = parseInt(r_list[1])
-        setDiedping(param)
+        setDeadping(param)
     }
     
     else if ( request == OPERATION.SET_RADIO_PAUSE_TIME){            

@@ -20,6 +20,9 @@ let pause_time = 600000                           // 10 MINUTI
 let time = 0
 let joined = false
 let radio_serial_number = 0
+let watering_light = 23
+let water_container_size = 1                       //in liters
+let water_container_full = true
 
 
 /* ------------------------------------------- INITIAL CODE ------------------------------------------- */
@@ -32,7 +35,7 @@ DEBUG = true
 
 if (DEBUG) {
     pause_time = 100000 
-    send_time =  100000 
+    send_time =  400000 
 } 
 
 /*---------------------------------------------- MAIN CODE ------------------------------------------- */
@@ -41,20 +44,22 @@ basic.forever(function () {
 
     if (joined == false) 
         radio.sendNumber(OPERATION.CONNECTION)
+
     measure()
     setState()
 
     if (currentState == State.Happy)
         basic.showIcon(IconNames.Happy)
-    else 
-        basic.showIcon(IconNames.Sad)
+    else
+         basic.showIcon(IconNames.Sad)
 
-    if (humidity_measure < hum_min) 
+    if (humidity_measure < hum_min && 
+            light_measure <= watering_light &&
+                water_container_full) 
         waters()
 
     basic.clearScreen()
-    
-    time += pause_time
+
     if (time == send_time) {
         if (joined){
             basic.showString("->")
@@ -66,6 +71,7 @@ basic.forever(function () {
     } 
 
     basic.pause(pause_time)
+    time += pause_time
 })
 
 /*------------------------------------------- EVENTS CODE ------------------------------------------*/
@@ -80,13 +86,18 @@ radio.onReceivedBuffer(function () {
     let request = 0
     let id = 0
     let x = 0
+    let s 
 
     if (size <= 1) return
     if (size == 2) {
         request = parseInt(content_list[0])
         id = parseInt(content_list[1])
     }
-    if (size == 3) x = parseInt(content_list[2])
+    if (size == 3){
+         x = parseInt(content_list[2])
+         s = content_list[2]
+    }
+       
 
     if (id == serial_number || id == -1) {
 
@@ -121,29 +132,43 @@ radio.onReceivedBuffer(function () {
         else if (request == OPERATION.LIGHT)
             sendLight()
 
-        else if (request == OPERATION.SET_VASE_PAUSE_TIME)
+        else if (request == OPERATION.SET_VASE_PAUSE_TIME && size == 3)
             setPauseTime(x)
     
-        else if (request == OPERATION.SET_VASE_SEND_TIME)
+        else if (request == OPERATION.SET_VASE_SEND_TIME && size == 3)
             setSendTime(x)
         
-        else if (request == OPERATION.SET_HUMIDITY_MIN)
+        else if (request == OPERATION.SET_HUMIDITY_MIN && size == 3)
             setHumMin(x)
 
-        else if (request == OPERATION.SET_HUMIDITY_MAX)
+        else if (request == OPERATION.SET_HUMIDITY_MAX && size == 3)
             setHumMax(x)
 
-        else if (request == OPERATION.SET_TEMPERATURE_MIN)
+        else if (request == OPERATION.SET_TEMPERATURE_MIN && size == 3)
             setTempMin(x)
 
-        else if (request == OPERATION.SET_TEMPERATURE_MAX)
+        else if (request == OPERATION.SET_TEMPERATURE_MAX && size == 3)
             setTempMax(x)
    
-        else if (request == OPERATION.SET_LIGHT_MIN)
+        else if (request == OPERATION.SET_LIGHT_MIN && size == 3)
             setLightMin(x)
        
-        else if (request == OPERATION.SET_LIGHT_MAX)
+        else if (request == OPERATION.SET_LIGHT_MAX && size == 3)
             setLightMax(x)
+
+        else if (request == OPERATION.SET_WATERING_LIGHT && size == 3)
+            setWateringLight(x)
+
+        else if (request == OPERATION.SET_WATER_CONTAIER_SIZE && size == 3)
+            setWaterContainerSize(s)
+
+        else if (request == OPERATION.SET_WATER_CONTAINER_FULL && size == 3) {
+            if (s == '1')
+                setWaterContainerFull(true)
+            if (s == '0')
+                setWaterContainerFull(false)
+        }
+            
     }
 
     basic.clearScreen()

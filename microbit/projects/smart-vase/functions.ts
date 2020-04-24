@@ -48,15 +48,43 @@ function setTempMin(min: number) {
     temp_min = min
 }
 
+/**
+ * @summary to set the minimum light value
+ * @param min (number) light value
+ */
 function setLightMin(min: number) {
     if (min >= 0 && min <= 255)
         light_min = min;
 }
 
+/**
+ * @summary to set the maximum light value
+ * @param max (number) light value
+ */
 function setLightMax(max: number) {
     if (max >= 0 && max <= 255)
         light_max = max;
 }
+
+/**
+ * @summary to set the maximum light value to water the plant
+ * @param x (number) light value
+ */
+function setWateringLight(x: number) {
+    if (x >= 0 && x <= 255)
+        watering_light = x;
+}
+
+
+function setWaterContainerFull(b: boolean) {
+    water_container_full = b
+}
+
+function setWaterContainerSize(l: string) {
+    water_container_size = parseFloat(l)
+}
+
+
 
 /**
  * @summary set time interval in wich the vase sends data to the radio-dashboard
@@ -134,6 +162,7 @@ function sendLight() {
 }
 
 function setState() {
+    
     if ((humidity_measure <= hum_max && humidity_measure >= hum_min) && 
         (light_measure <=light_max && light_measure >= light_min) &&
         (temperature_measure <= temp_max && temperature_measure >= temp_min))
