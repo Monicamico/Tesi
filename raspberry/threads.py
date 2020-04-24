@@ -111,8 +111,9 @@ def reader():
                     print(reply)
 
                 elif request == Operation.WATER_CONTAINER_STATE.value:
-                    print("ping " + serial_number + ': ' + ping)
-                    reply = rq.put(url=URL_DASHBOARD + '/update_ping', json={'serial': serial_number, 'ping': ping})
+                    print("water container state " + serial_number + ': ' + param)
+                    reply = rq.put(url=URL_DASHBOARD + '/update_water_container_state',
+                                   json={'serial': serial_number, 'ping': ping, 'state': param})
                     print(reply)
 
                 else:

@@ -10,6 +10,11 @@ enum State {
     Sad
 }
 
+enum WaterContainerState {
+    Full = 1,
+    Empty = 0
+}
+
 enum OPERATION {
     JOINED = 0, //j
     REFUSED = 1, //r
