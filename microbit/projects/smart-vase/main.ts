@@ -59,7 +59,7 @@ basic.forever(function () {
         if (amount_water >= 0.2)
             waters() //feeds the plant and update the amount_water
         if (amount_water < 0.2)
-            radio.sendValue(OPERATION.SET_WATER_CONTAINER_STATE.toString(), 0) // 0 = empty, 1 = full
+            radio.sendValue(OPERATION.WATER_CONTAINER_STATE.toString(), 0) // 0 = empty, 1 = full
     }
 
     basic.clearScreen()
@@ -166,7 +166,7 @@ radio.onReceivedBuffer(function () {
         else if (request == OPERATION.SET_WATER_CONTAINER_SIZE && size == 3)
             setWaterContainerSize(s)
 
-        else if (request == OPERATION.SET_WATER_CONTAINER_STATE && size == 3) {
+        else if (request == OPERATION.WATER_CONTAINER_STATE && size == 3) {
             if (s == '1') // 1 = full
                 setWaterContainerFull(true)
             if (s == '0') // 0 = empty

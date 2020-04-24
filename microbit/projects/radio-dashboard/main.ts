@@ -131,9 +131,9 @@ radio.onReceivedValue(function (request: string, param: number) {
             return
     vase.setPing(ping) //update ping value of the vase
 
-    if (requestInt == OPERATION.SET_WATER_CONTAINER_STATE){
+    if (requestInt == OPERATION.WATER_CONTAINER_STATE){
         if (param == 0) // 0 = empty, 1 = full
-            sendToRB(`${OPERATION.SET_WATER_CONTAINER_STATE};${serialNumber};${ping};${param}`) 
+            sendToRB(`${OPERATION.WATER_CONTAINER_STATE};${serialNumber};${ping};${param}`) 
         return
     } else if (requestInt == OPERATION.LIGHT || requestInt == OPERATION.TEMPERATURE || requestInt == OPERATION.HUMIDITY)
         //send the received value to raspberry as a string
@@ -172,7 +172,7 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
                  request == OPERATION.SET_LIGHT_MIN || request == OPERATION.SET_LIGHT_MAX ||
                  request == OPERATION.SET_HUMIDITY_MAX || request == OPERATION.SET_HUMIDITY_MIN ||
                  request == OPERATION.SET_VASE_PAUSE_TIME || request == OPERATION.SET_VASE_SEND_TIME ||
-                 request == OPERATION.SET_WATER_CONTAINER_STATE || request == OPERATION.SET_WATERING_LIGHT ) {
+                 request == OPERATION.WATER_CONTAINER_STATE || request == OPERATION.SET_WATERING_LIGHT ) {
                      if (param != -1) 
                         sendToVase(request,serialNumber,param)
                  }
@@ -181,7 +181,6 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
             param = parseFloat(r_list[2])
             sendToVase(request,serialNumber,param)
         }
-         
         return
     
     } else {
@@ -204,7 +203,6 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
             }
             return
         }
-
         else if (request == OPERATION.REFUSED) {
             let ping = deleteRequest(serialNumber,conn_request)
             if (ping!= -1){
@@ -212,7 +210,6 @@ serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
             }
             return
         }
-
     }
 
     if (request == OPERATION.SET_RADIO_DEADPING_TIME){

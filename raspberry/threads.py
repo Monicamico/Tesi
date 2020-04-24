@@ -110,6 +110,11 @@ def reader():
                     reply = rq.put(url=URL_DASHBOARD + '/update_ping', json={'serial': serial_number, 'ping': ping})
                     print(reply)
 
+                elif request == Operation.WATER_CONTAINER_STATE.value:
+                    print("ping " + serial_number + ': ' + ping)
+                    reply = rq.put(url=URL_DASHBOARD + '/update_ping', json={'serial': serial_number, 'ping': ping})
+                    print(reply)
+
                 else:
                     pass
             else:
