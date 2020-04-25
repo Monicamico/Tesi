@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request as rcv_req, redirect
 from gio_db import Plant, update_hum, update_light, update_temp, update_ping
 from constant import URL_RASPBERRY, URL
 import requests as snd_req
+import time
 
 plant_id_page = Blueprint('plant_id_page', __name__)
 
@@ -45,6 +46,7 @@ def water(idv):
 def humidity(idv):
     reply = snd_req.put(URL_RASPBERRY + '/request', json={"request": "humidity", "serial": idv})
     print(reply)
+    time.sleep(2)
     return redirect(URL+'/plant/'+str(idv))
 
 
@@ -52,6 +54,7 @@ def humidity(idv):
 def temperature(idv):
     reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temperature', 'serial': idv})
     print(reply)
+    time.sleep(2)
     return redirect(URL+'/plant/'+str(idv))
 
 
@@ -59,6 +62,7 @@ def temperature(idv):
 def light(idv):
     reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'light', 'serial': idv})
     print(reply)
+    time.sleep(2)
     return redirect(URL+'/plant/'+str(idv))
 
 

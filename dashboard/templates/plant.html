@@ -10,27 +10,67 @@
         </section>
       <nav>
         <a href="http://127.0.0.1:5000/"><i class="fas fa-home"></i>Home</a>
-        <a href="http://127.0.0.1:5000/plants"  class="active"> <i class="fas fa-seedling"></i> Plants </a>
-          <a href="http://127.0.0.1:5000/connections"><i class="fas fa-exclamation"></i> New plants </a>
+        <a href="http://127.0.0.1:5000/plants"  class="active"> <i class="fas fa-seedling"></i>Piante </a>
+          <a href="http://127.0.0.1:5000/connections"><i class="fas fa-exclamation"></i>Nuove piante </a>
       </nav>
     </section>
 
-    <h2> Stato della pianta {{ plant.id }} </h2>
+    <h2> Stato della pianta {{ plant.num }} </h2>
+
+    <table align="center">
+        <thead>
+            <tr>
+                <th> Luce per innaffiare </th>
+                <th> Dimensione contenitore acqua </th>
+                <th> Contenitore Acqua </th>
+                <th> Azioni </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td> {{ plant.watering_light * 100 // 255 }}% </td>
+                <td> {{plant.water_container_size}} litri</td>
+                <td> {% if plant.water_container_state is sameas True %}
+                    Pieno
+                {% else %}
+                    Vuoto
+                {% endif %}
+                </td>
+                <td> <a class="myButton"  href=""><i class="fas fa-edit"></i> </a> </td>
+            </tr>
+        </tbody>
+    </table>
 
     <table align="center">
     <thead>
     <tr>
-        <th> Humidity </th>
-        <th> Temperature </th>
-        <th> Light </th>
-        <th> Actions </th>
+        <th> Umidita' </th>
+        <th> Temperatura </th>
+        <th> Luce </th>
+        <th> Azioni </th>
     </tr>
     </thead>
      <tbody>
        <tr>
-           <td> {{ plant.humidity }}</td>
-           <td> {{ plant.temperature }}</td>
-           <td> {{ plant.light }}</td>
+           <td> {% if plant.humidity is sameas None %}
+                    -
+                {% else %}
+                    {{ plant.humidity * 100 // 1023 }}%
+                {% endif %}
+           </td>
+           <td> {% if plant.temperature is sameas None %}
+                      -
+                 {% else %}
+                     {{ plant.temperature }}C
+                 {% endif %}
+           </td>
+           <td> {% if plant.light is sameas None %}
+                    -
+                 {% else %}
+                     {{ plant.light * 100 // 255 }}%
+                 {% endif %}
+           </td>
+
            <td>
                <a class="myButton" href="http://127.0.0.1:5000/humidity/{{plant.id}}">
                    <i class="fas fa-tint"></i>
@@ -49,29 +89,29 @@
      </tbody>
     </table>
 
-     <h2>  Valori </h2>
+    <h2>  Valori </h2>
 
     <table align="center">
     <thead>
     <tr>
-        <th> Humidity min </th>
-        <th> Humidity max </th>
-        <th> Temperature min </th>
-        <th> Temperature max </th>
-        <th> Light min </th>
-        <th> Light max </th>
-        <th> Actions </th>
+        <th> Umidita' minima </th>
+        <th> Umidita' massima </th>
+        <th> Temperatura minima</th>
+        <th> Temperatura massima </th>
+        <th> Luce minima </th>
+        <th> Luce massima </th>
+        <th> Azioni </th>
 
     </tr>
     </thead>
      <tbody>
        <tr>
-           <td> {{ plant.humidity_min }}</td>
-           <td> {{ plant.humidity_max }}</td>
-           <td> {{ plant.temperature_min }}</td>
-           <td> {{ plant.temperature_max }}</td>
-           <td> {{ plant.light_min }}</td>
-           <td> {{ plant.light_max }}</td>
+           <td> {{ plant.humidity_min * 100 // 1023 }}% </td>
+           <td> {{ plant.humidity_max * 100 // 1023 }}% </td>
+           <td> {{ plant.temperature_min }} C </td>
+           <td> {{ plant.temperature_max }} C </td>
+           <td> {{ plant.light_min * 100 // 255 }}% </td>
+           <td> {{ plant.light_max * 100 // 255 }}% </td>
            <td> <a class="myButton"  href=""><i class="fas fa-edit"></i> </a> </td>
 
        </tr>

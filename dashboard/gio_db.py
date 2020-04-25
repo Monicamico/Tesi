@@ -43,13 +43,13 @@ class Plant(db.Model):
     light_max = db.Column(db.Integer)
     light_min = db.Column(db.Integer)
     ping = db.Column(db.Integer, nullable=False)
-    watering_light = db.Column(db.Integer, default=23)
+    watering_light = db.Column(db.Integer, default=70)
     water_container_state = db.Column(db.Boolean, nullable=False, default=True)
-    water_container_size = db.Column(db.Float, nullable=False, default=1.0)
+    water_container_size = db.Column(db.Float, nullable=False, default=0.5)
 
 
-def add_plant(idv, ping, hum_min=300, hum_max=1000, temp_min=15, temp_max=30, li_min=20, li_max=220, wl=23, ws=True,
-              wcs=1):
+def add_plant(idv, ping, hum_min=300, hum_max=1000, temp_min=15, temp_max=30, li_min=50, li_max=250, wl=70, ws=True,
+              wcs=0.5):
     delete_conn_req(idv)
     db.session.add(Plant(id=idv, ping=ping,
                          humidity_min=hum_min,
@@ -66,8 +66,9 @@ def add_plant(idv, ping, hum_min=300, hum_max=1000, temp_min=15, temp_max=30, li
 
 def delete_plant(idv):
     plant = Plant.query.filter_by(id=idv).first()
-    db.session.delete(plant)
-    db.session.commit()
+    if plant is not None:
+        db.session.delete(plant)
+        db.session.commit()
 
 
 def update_hum(idv, ping, humidity):
@@ -112,30 +113,34 @@ def update_temp_max(idv, ping, temp_m):
 
 def update_hum_min(idv, ping, hum_m):
     plant = Plant.query.filter_by(id=idv).first()
-    plant.humidity_min = hum_m
-    plant.ping = ping
-    db.session.commit()
+    if plant is not None:
+        plant.humidity_min = hum_m
+        plant.ping = ping
+        db.session.commit()
 
 
 def update_hum_max(idv, ping, hum_m):
     plant = Plant.query.filter_by(id=idv).first()
-    plant.humidity_max = hum_m
-    plant.ping = ping
-    db.session.commit()
+    if plant is not None:
+        plant.humidity_max = hum_m
+        plant.ping = ping
+        db.session.commit()
 
 
 def update_light_max(idv, ping, li_m):
     plant = Plant.query.filter_by(id=idv).first()
-    plant.light_max = li_m
-    plant.ping = ping
-    db.session.commit()
+    if plant is not None:
+        plant.light_max = li_m
+        plant.ping = ping
+        db.session.commit()
 
 
 def update_light_min(idv, ping, li_m):
     plant = Plant.query.filter_by(id=idv).first()
-    plant.light_min = li_m
-    plant.ping = ping
-    db.session.commit()
+    if plant is not None:
+        plant.light_min = li_m
+        plant.ping = ping
+        db.session.commit()
 
 
 def update_ping(idv, ping):

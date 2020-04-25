@@ -10,8 +10,8 @@ let temp_min = 15                                 // minimum temperature value
 let temp_max = 30                                 // maximum temperature value
 let hum_max = 1000                                // maximum humidity value
 let hum_min = 300                                 // minimum humidity value
-let light_min = 0
-let light_max = 255
+let light_min = 50
+let light_max = 250
 let temperature_measure = 0                       // temperature measure
 let humidity_measure = 0                          // humidity measure
 let light_measure = 0                             // light measure
@@ -20,7 +20,7 @@ let pause_time = 600000                           // 10 MINUTI
 let time = 0
 let joined = false
 let radio_serial_number = 0
-let watering_light = 100
+let watering_light = 70
 let water_container_size = 0.5                    //in liters (default 1 liter)
 let water_container_full = true                     
 let amount_water = 0.5
@@ -47,25 +47,24 @@ if (DEBUG) {
 
 basic.forever(function () {
 
-    if (joined == false) 
+    if (!joined) 
         radio.sendNumber(OPERATION.CONNECTION)
 
     measure()
     setState()
-    basic.showNumber(humidity_measure)
 
     if (currentState == State.Happy)
         basic.showIcon(IconNames.Happy)
     else
          basic.showIcon(IconNames.Sad)
 
-    // && light_measure <= watering_light (da aggiungere)
-    if (humidity_measure < hum_min  && water_container_full){
+    if (humidity_measure < hum_min && light_measure <= watering_light && water_container_full){
         if (amount_water >= single_water_amount)
             waters() //feeds the plant and update the amount_water
         if (amount_water < single_water_amount){
             setWaterContainerFull(false)
-            radio.sendValue( (OPERATION.WATER_CONTAINER_STATE.toString()), WaterContainerState.Empty) // 0 = empty, 1 = full
+            if (joined)
+                radio.sendValue( (OPERATION.WATER_CONTAINER_STATE.toString()), WaterContainerState.Empty) // 0 = empty, 1 = full
             basic.showString('!')
         }     
     }
@@ -77,6 +76,7 @@ basic.forever(function () {
             sendHumidity()
             sendTemperature()
             sendLight()
+            basic.clearScreen()
         }
         time = 0
     } 

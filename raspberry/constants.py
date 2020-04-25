@@ -4,6 +4,7 @@ URL_RASPBERRY = 'http://127.0.0.1:5001'
 URL_DASHBOARD = 'http://127.0.0.1:5000'
 MICROBIT_PORT_MAC = '/dev/cu.usbmodem14102'  # right
 MICROBIT_PORT_MAC2 = '/dev/cu.usbmodem14202'  # left
+DELIMITER = '#'
 
 
 class Operation(Enum):

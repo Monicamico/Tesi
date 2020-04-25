@@ -2,19 +2,29 @@ import threading
 import time
 import requests as rq
 import serial
-from constants import URL_DASHBOARD, MICROBIT_PORT_MAC, Operation
-from request import requests
+from constants import URL_DASHBOARD, MICROBIT_PORT_MAC, Operation, MICROBIT_PORT_MAC2
+from request import request_queue
 
 try:
     s = serial.Serial(MICROBIT_PORT_MAC, 115200)
-    #s.timeout = 1
+    print(MICROBIT_PORT_MAC + ' opened...')
+    s.timeout = 1
     dummy = s.readline()
-    #s.timeout = None
+    s.timeout = None
     print('Dummy byte received: ' + str(dummy))
 
 except serial.serialutil.SerialException:
     print("\nNo such file or directory: " + MICROBIT_PORT_MAC)
-    exit(1)
+    try:
+        s = serial.Serial(MICROBIT_PORT_MAC2, 115200)
+        print(MICROBIT_PORT_MAC2 + ' opened...')
+        s.timeout = 1
+        dummy = s.readline()
+        s.timeout = None
+        print('Dummy byte received: ' + str(dummy))
+    except serial.serialutil.SerialException:
+        print("\nNo such file or directory: " + MICROBIT_PORT_MAC2)
+        exit(1)
 
 
 class Reader(threading.Thread):
@@ -125,8 +135,8 @@ def reader():
 def writer():
     while True:
         w = 0
-        while len(requests) != 0 and w != 5:
-            st = requests.pop()
+        while len(request_queue) != 0 and w != 5:
+            st = request_queue.pop()
             write_serial(st)
             w = w + 1
             time.sleep(2)

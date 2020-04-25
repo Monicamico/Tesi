@@ -1,8 +1,8 @@
 from gio_db import add_conn_req, delete_conn_req, ConnectionRequest
-from gio_db import Plant, add_plant, delete_plant
 from flask import Blueprint, render_template, request as http_req, redirect
 import requests as snd_req
 from constant import URL_RASPBERRY, URL
+import time
 
 connections_page = Blueprint('connections', __name__)
 
@@ -28,13 +28,15 @@ def add_plant_from_conn(idv):
         return redirect(URL+'/connections')
     reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'joined', 'serial': idv})
     print(reply)
-    return redirect(URL+'/connections')
+    time.sleep(2)
+    return redirect(URL+'/plants')
 
 
 @connections_page.route("/refuse_plant_from_conn/<string:idv>", methods=['GET'])
 def refuse_plant_from_conn(idv):
     reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'refused', 'serial': idv})
     print(reply)
+    time.sleep(2)
     return redirect(URL+'/connections')
 
 
