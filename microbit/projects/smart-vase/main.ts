@@ -20,7 +20,7 @@ let pause_time = 600000                           // 10 MINUTI
 let time = 0
 let joined = false
 let radio_serial_number = 0
-let watering_light = 23
+let watering_light = 100
 let water_container_size = 0.5                    //in liters (default 1 liter)
 let water_container_full = true                     
 let amount_water = 0.5
@@ -52,13 +52,15 @@ basic.forever(function () {
 
     measure()
     setState()
+    basic.showNumber(humidity_measure)
 
     if (currentState == State.Happy)
         basic.showIcon(IconNames.Happy)
     else
          basic.showIcon(IconNames.Sad)
 
-    if (humidity_measure < hum_min && light_measure <= watering_light && water_container_full){
+    // && light_measure <= watering_light (da aggiungere)
+    if (humidity_measure < hum_min  && water_container_full){
         if (amount_water >= single_water_amount)
             waters() //feeds the plant and update the amount_water
         if (amount_water < single_water_amount){
@@ -67,6 +69,8 @@ basic.forever(function () {
             basic.showString('!')
         }     
     }
+    basic.clearScreen()
+
     if (time == send_time) {
         if (joined){
             basic.showString(">")
