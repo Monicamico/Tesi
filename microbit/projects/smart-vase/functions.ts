@@ -10,9 +10,9 @@
  */
 function waters() {
     pins.digitalWritePin(DigitalPin.P2, 1)
-    basic.pause(4000)
+    basic.pause(3000)
     pins.digitalWritePin(DigitalPin.P2, 0)
-    amount_water -= 0.2  //da rivedere
+    amount_water = amount_water - single_water_amount 
 }
 
 /**

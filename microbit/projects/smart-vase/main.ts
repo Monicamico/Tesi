@@ -21,9 +21,9 @@ let time = 0
 let joined = false
 let radio_serial_number = 0
 let watering_light = 23
-let water_container_size = 1                       //in liters (default 1 liter)
+let water_container_size = 0.5                    //in liters (default 1 liter)
 let water_container_full = true                     
-let amount_water = 0
+let amount_water = 0.5
 
 
 /* ------------------------------------------- INITIAL CODE ------------------------------------------- */
@@ -32,6 +32,9 @@ radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 led.setBrightness(20)
 amount_water = water_container_size
+amount_water -=  single_water_amount
+// problema: anche se e' presente ancora acqua nel contenitore non riesce a prenderla perche' troppo poca.
+// considero un waters() in meno 
 
 DEBUG = true 
 
@@ -56,17 +59,17 @@ basic.forever(function () {
          basic.showIcon(IconNames.Sad)
 
     if (humidity_measure < hum_min && light_measure <= watering_light && water_container_full){
-        if (amount_water >= 0.2)
+        if (amount_water >= single_water_amount)
             waters() //feeds the plant and update the amount_water
-        if (amount_water < 0.2)
-            radio.sendValue(OPERATION.WATER_CONTAINER_STATE.toString(), WaterContainerState.Empty) // 0 = empty, 1 = full
+        if (amount_water < single_water_amount){
+            setWaterContainerFull(false)
+            radio.sendValue( (OPERATION.WATER_CONTAINER_STATE.toString()), WaterContainerState.Empty) // 0 = empty, 1 = full
+            basic.showString('!')
+        }     
     }
-
-    basic.clearScreen()
-
     if (time == send_time) {
         if (joined){
-            basic.showString("->")
+            basic.showString(">")
             sendHumidity()
             sendTemperature()
             sendLight()

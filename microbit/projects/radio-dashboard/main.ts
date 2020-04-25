@@ -120,6 +120,7 @@ radio.onReceivedNumber(function (received: number) {
  *   - HUMIDITY VALUE is received from a SMART-VASE
  *   - TEMPERATURE VALUE is received from a SMART-VASE
  *   - LIGHT VALUE is received from a SMART-VASE
+ *   - WATER CONTAINER STATE is received from a smart-vase
 */
 radio.onReceivedValue(function (request: string, param: number) {
 

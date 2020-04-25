@@ -15,9 +15,9 @@ def add_conn_req(idv, pingv):
     if plant is None:
         conn = ConnectionRequest.query.filter_by(id=idv).first()
         if conn is None:
-            db.session.add(ConnectionRequest(id = idv, ping = pingv))
+            db.session.add(ConnectionRequest(id=idv, ping=pingv))
             db.session.commit()
-    #se risulta già tra le piante inserite non faccio nulla dei db
+    # se risulta già tra le piante inserite non faccio nulla dei db
     # e invio un avviso (la pianta è già stata registrata)
 
 
@@ -43,19 +43,13 @@ class Plant(db.Model):
     light_max = db.Column(db.Integer)
     light_min = db.Column(db.Integer)
     ping = db.Column(db.Integer, nullable=False)
+    watering_light = db.Column(db.Integer, default=23)
+    water_container_state = db.Column(db.Boolean, nullable=False, default=True)
+    water_container_size = db.Column(db.Float, nullable=False, default=1.0)
 
 
-def add_plant(idv, ping, hum_min=300, hum_max=1000, temp_min=15, temp_max=30, li_min=20, li_max=220, ):
-    """
-    :param idv: serial number of the vase
-    :param ping:
-    :param hum_min:
-    :param hum_max:
-    :param temp_min:
-    :param temp_max:
-    :param li_min:
-    :param li_max:
-    """
+def add_plant(idv, ping, hum_min=300, hum_max=1000, temp_min=15, temp_max=30, li_min=20, li_max=220, wl=23, ws=True,
+              wcs=1):
     delete_conn_req(idv)
     db.session.add(Plant(id=idv, ping=ping,
                          humidity_min=hum_min,
@@ -63,8 +57,10 @@ def add_plant(idv, ping, hum_min=300, hum_max=1000, temp_min=15, temp_max=30, li
                          temperature_max=temp_max,
                          temperature_min=temp_min,
                          light_max=li_max,
-                         light_min=li_min))
-
+                         light_min=li_min,
+                         watering_light=wl,
+                         water_container_size=wcs,
+                         water_container_state=ws))
     db.session.commit()
 
 
@@ -146,4 +142,15 @@ def update_ping(idv, ping):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         plant.ping = ping
+        db.session.commit()
+
+
+def update_water_container_state(idv, ping, state):
+    plant = Plant.query.filter_by(id=idv).first()
+    if plant is not None:
+        plant.ping = ping
+        if state == 0:
+            plant.water_container_state = False
+        if state == 1:
+            plant.water_container_state = True
         db.session.commit()
