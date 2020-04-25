@@ -146,9 +146,9 @@ radio.onReceivedValue(function (request: string, param: number) {
 
 /* REQUEST received from RASPBERRY */
 
-serial.onDataReceived(serial.delimiters(Delimiters.Fullstop), function(){
+serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
     
-    let received = serial.readUntil(serial.delimiters(Delimiters.Fullstop))
+    let received = serial.readUntil(serial.delimiters(Delimiters.Hash))
     let r_list= received.split(";") 
     let size = r_list.length
 
