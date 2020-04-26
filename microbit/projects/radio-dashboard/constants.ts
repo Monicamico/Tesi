@@ -32,3 +32,5 @@ enum OPERATION {
     SET_WATER_CONTAINER_SIZE = 20,
     WATER_CONTAINER_STATE = 21
 };
+
+const serial_number = control.deviceSerialNumber()

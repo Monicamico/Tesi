@@ -136,7 +136,7 @@ radio.onReceivedValue(function (request: string, param: number) {
         dim_vase_list = insertVase(serialNumber,ping,vase_list)
         if (n == dim_vase_list - 1) {
             //send joined notification to raspberry
-            sendToRB(`${OPERATION.JOINED};${serialNumber};${ping};0`) 
+            sendToRB(`${OPERATION.JOINED};${serialNumber};${ping};${serial_number}`) 
         } else {
             sendToRB(`${OPERATION.REFUSED};${serialNumber};0;0`) 
             sendToVase(OPERATION.REFUSED,serialNumber)
