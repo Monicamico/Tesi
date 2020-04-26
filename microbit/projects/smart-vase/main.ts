@@ -31,7 +31,7 @@ let amount_water = 0.5
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 led.setBrightness(20)
-const pairing_number = getRandomIntInclusive()
+let pairing_number = getRandomIntInclusive()
 amount_water = water_container_size
 amount_water -=  single_water_amount
 // problema: anche se e' presente ancora acqua nel contenitore non riesce a prenderla perche' troppo poca.
@@ -130,9 +130,11 @@ radio.onReceivedBuffer(function () {
         //checking if the operation has been requested from the radio
         if (serial_packet == radio_serial_number) {
 
-            //Join operation failed
-            if (request == OPERATION.REFUSED) 
+            //Join operation failed or the vase has been deleted from the list
+            if (request == OPERATION.REFUSED || request == OPERATION.DELETED){
                 joined = false
+                pairing_number = getRandomIntInclusive()
+            } 
 
             else if (request == OPERATION.WATER) 
                 waters()
