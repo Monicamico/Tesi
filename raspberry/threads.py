@@ -78,7 +78,9 @@ def reader():
 
                 if request == Operation.CONNECTION.value:
                     print("connection request: " + serial_number)
-                    reply = rq.put(url=URL_DASHBOARD + '/add_conn_request', json={'serial': serial_number, 'ping': ping})
+                    reply = rq.put(url=URL_DASHBOARD + '/add_conn_request', json={'serial': serial_number,
+                                                                                  'ping': ping,
+                                                                                  'pairing': param})
                     print(reply)
 
                 elif request == Operation.REFUSED.value:
@@ -89,7 +91,9 @@ def reader():
 
                 elif request == Operation.JOINED.value:
                     print("joined: " + serial_number + ", " + ping)
-                    reply = rq.put(url=URL_DASHBOARD + '/add_plant', json={'serial': serial_number, 'ping': ping})
+                    reply = rq.put(url=URL_DASHBOARD + '/add_plant', json={'serial': serial_number,
+                                                                           'ping': ping,
+                                                                           'radio_serial': param })
                     print(reply)
 
                 elif request == Operation.DELETED.value:

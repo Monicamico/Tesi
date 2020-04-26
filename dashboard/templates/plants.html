@@ -22,6 +22,7 @@
     <tr>
         <th> ID Seriale </th>
         <th> Ping </th>
+        <th> Seriale della radio</th>
         <th> Informazioni </th>
     </tr>
     </thead>
@@ -30,6 +31,7 @@
        <tr>
            <td> {{ plant.id }} </td>
            <td> {{ plant.ping // 1000 }}</td>
+           <td> {{ plant.radio_id }} </td>
            <td>
                 <a class="myButton" href="http://127.0.0.1:5000/plant/{{ plant.id }}"> <i class="fas fa-info"></i> </a>
            </td>

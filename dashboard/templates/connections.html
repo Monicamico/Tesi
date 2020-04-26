@@ -20,7 +20,7 @@
     <thead>
     <tr>
         <th> Numero Seriale </th>
-        <th> Ping </th>
+        <th> Numero pairing </th>
         <th> Azioni </th>
     </tr>
     </thead>
@@ -28,7 +28,7 @@
     {% for conn in connections: %}
         <tr>
             <td> {{ conn.id }} </td>
-            <td> {{ conn.ping // 1000 }} </td>
+            <td> {{ conn.pairing }} </td>
             <td>
                 <a class="myButton" href="http://127.0.0.1:5000/add_plant_from_conn/{{ conn.id }}">
                     <i class="fas fa-check"></i>

@@ -8,7 +8,7 @@ plants_page = Blueprint('plants_page',__name__)
 @plants_page.route("/add_plant", methods=['POST', 'PUT'])
 def add_plant_id():
     data = http_req.json
-    add_plant(data['serial'], data['ping'])
+    add_plant(data['serial'], data['ping'], data['radio_serial'])
     return "ok"
 
 

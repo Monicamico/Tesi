@@ -8,14 +8,15 @@ class ConnectionRequest(db.Model):
     __tablename__ = 'connectionRequest'
     id = db.Column(db.String, primary_key=True, unique=True, nullable=False)
     ping = db.Column(db.Integer)
+    pairing = db.Column(db.Integer)
 
 
-def add_conn_req(idv, pingv):
+def add_conn_req(idv, pingv, pairingv):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is None:
         conn = ConnectionRequest.query.filter_by(id=idv).first()
         if conn is None:
-            db.session.add(ConnectionRequest(id=idv, ping=pingv))
+            db.session.add(ConnectionRequest(id=idv, ping=pingv, pairing=pairingv))
             db.session.commit()
     # se risulta già tra le piante inserite non faccio nulla dei db
     # e invio un avviso (la pianta è già stata registrata)
@@ -33,6 +34,7 @@ def delete_conn_req(idv):
 class Plant(db.Model):
     __tablename__ = 'plant'
     id = db.Column(db.String, primary_key=True, unique=True, nullable=False)
+    radio_id = db.Column(db.String, nullable=False)
     humidity = db.Column(db.Integer)
     temperature = db.Column(db.Integer)
     light = db.Column(db.Integer)
@@ -48,10 +50,12 @@ class Plant(db.Model):
     water_container_size = db.Column(db.Float, nullable=False, default=0.5)
 
 
-def add_plant(idv, ping, hum_min=300, hum_max=1000, temp_min=15, temp_max=30, li_min=50, li_max=250, wl=70, ws=True,
+def add_plant(idv, ping, radio, hum_min=300, hum_max=1000, temp_min=15, temp_max=30, li_min=50, li_max=250, wl=70, ws=True,
               wcs=0.5):
     delete_conn_req(idv)
-    db.session.add(Plant(id=idv, ping=ping,
+    db.session.add(Plant(id=idv,
+                         radio_id=radio,
+                         ping=ping,
                          humidity_min=hum_min,
                          humidity_max=hum_max,
                          temperature_max=temp_max,
