@@ -39,10 +39,12 @@ class Vase {
 class Request {
     serial_number: number
     ping: number
+    pairing_number: number
 
-    constructor(s:number, ping:number){
+    constructor(s:number, ping:number, casual: number){
         this.serial_number = s
         this.ping = ping;
+        this.pairing_number = casual
     }
 }
 

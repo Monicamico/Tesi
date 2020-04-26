@@ -24,7 +24,7 @@ function getVase(id: number, vase_list: Vase[]): Vase {
 /**
  * @summary the function insert the vase with serial number equal to id into the list.
  * @param id (number) the serial number of the vase.
- * @return the vase with serial number equal to id or undefined.
+ * @return the size of the list
 */
 function insertVase(id: number, p:number, vase_list: Vase[]): number {
     if (!id) return undefined;
@@ -96,6 +96,18 @@ function deleteRequest(id:number, conn_request: Request[]): number {
     }
     return -1
 }
+
+
+/**
+ * @summary shows the pairing numbers received in the CONNECTION requests
+ */
+function showCasualNumbers(conn_request: Request[]){
+    for (const r of conn_request){
+       basic.showNumber(r.pairing_number)
+       basic.showString(' - ')
+    }
+}
+
 /**
  * @summary to plot points that rappresents the vases contained in the vaselist
  */

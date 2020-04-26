@@ -91,8 +91,6 @@ function setWaterContainerSize(l: string) {
     
 }
 
-
-
 /**
  * @summary set time interval in wich the vase sends data to the radio-dashboard
  * @param x (number) interval
@@ -178,4 +176,9 @@ function setState() {
     else 
         currentState = State.Sad
 }
+
+function getRandomIntInclusive() {
+    return Math.floor(Math.random() * (400 - 100 + 1)) + 100; //Il max è incluso e il min è incluso 
+  }
+
 /*------------------------------------------ END FUNCTIONS ----------------------------------------*/

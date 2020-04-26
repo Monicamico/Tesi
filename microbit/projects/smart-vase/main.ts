@@ -31,6 +31,7 @@ let amount_water = 0.5
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 led.setBrightness(20)
+const pairing_number = getRandomIntInclusive()
 amount_water = water_container_size
 amount_water -=  single_water_amount
 // problema: anche se e' presente ancora acqua nel contenitore non riesce a prenderla perche' troppo poca.
@@ -48,7 +49,7 @@ if (DEBUG) {
 basic.forever(function () {
 
     if (!joined) 
-        radio.sendNumber(OPERATION.CONNECTION)
+        radio.sendValue(OPERATION.CONNECTION.toString(), pairing_number)
 
     measure()
     setState()
@@ -89,6 +90,7 @@ basic.forever(function () {
 
 radio.onReceivedBuffer(function () {
 
+    const serial_packet = radio.receivedPacket(RadioPacketProperty.SerialNumber)
     const content = radio.lastPacket.bufferPayload.toString()
     const content_list: string[] = content.split(";")
 
@@ -119,63 +121,68 @@ radio.onReceivedBuffer(function () {
         if (request == OPERATION.JOINED) {
             if(!joined) {
                 joined=true
-                radio_serial_number= radio.receivedPacket(RadioPacketProperty.SerialNumber) 
+                radio_serial_number = serial_packet
+                radio.sendValue(OPERATION.JOINED.toString(),radio_serial_number) 
             }   
-        } else if (request == OPERATION.PING) {
-            /* if a ping request arrives
-               the smart-vase is certainly present in the vaselist of the radio */
-            joined = true; 
+        } else if (request == OPERATION.PING) 
             radio.sendNumber(OPERATION.PING)
 
-        } else if (request == OPERATION.WATER) 
-            waters()
+        //checking if the operation has been requested from the radio
+        if (serial_packet == radio_serial_number) {
 
-        else if (request == OPERATION.HUMIDITY)
-            sendHumidity()
+            //Join operation failed
+            if (request == OPERATION.REFUSED) 
+                joined = false
 
-        else if (request == OPERATION.TEMPERATURE)
-            sendTemperature()   
-
-        else if (request == OPERATION.LIGHT)
-            sendLight()
-
-        else if (request == OPERATION.SET_VASE_PAUSE_TIME && size == 3)
-            setPauseTime(x)
-    
-        else if (request == OPERATION.SET_VASE_SEND_TIME && size == 3)
-            setSendTime(x)
-        
-        else if (request == OPERATION.SET_HUMIDITY_MIN && size == 3)
-            setHumMin(x)
-
-        else if (request == OPERATION.SET_HUMIDITY_MAX && size == 3)
-            setHumMax(x)
-
-        else if (request == OPERATION.SET_TEMPERATURE_MIN && size == 3)
-            setTempMin(x)
-
-        else if (request == OPERATION.SET_TEMPERATURE_MAX && size == 3)
-            setTempMax(x)
-   
-        else if (request == OPERATION.SET_LIGHT_MIN && size == 3)
-            setLightMin(x)
-       
-        else if (request == OPERATION.SET_LIGHT_MAX && size == 3)
-            setLightMax(x)
-
-        else if (request == OPERATION.SET_WATERING_LIGHT && size == 3)
-            setWateringLight(x)
-
-        else if (request == OPERATION.SET_WATER_CONTAINER_SIZE && size == 3)
-            setWaterContainerSize(content_list[2])
-
-        else if (request == OPERATION.WATER_CONTAINER_STATE && size == 3) {
-            if (x == WaterContainerState.Full)
-                setWaterContainerFull(true)
-            if (x == WaterContainerState.Empty) 
-                setWaterContainerFull(false)
-        }
+            else if (request == OPERATION.WATER) 
+                waters()
             
+            else if (request == OPERATION.HUMIDITY)
+                sendHumidity()
+
+            else if (request == OPERATION.TEMPERATURE)
+                sendTemperature()   
+
+            else if (request == OPERATION.LIGHT)
+                sendLight()
+
+            else if (request == OPERATION.SET_VASE_PAUSE_TIME && size == 3)
+                setPauseTime(x)
+    
+            else if (request == OPERATION.SET_VASE_SEND_TIME && size == 3)
+                setSendTime(x)
+            
+            else if (request == OPERATION.SET_HUMIDITY_MIN && size == 3)
+                setHumMin(x)
+
+            else if (request == OPERATION.SET_HUMIDITY_MAX && size == 3)
+                setHumMax(x)
+
+            else if (request == OPERATION.SET_TEMPERATURE_MIN && size == 3)
+                setTempMin(x)
+
+            else if (request == OPERATION.SET_TEMPERATURE_MAX && size == 3)
+                setTempMax(x)
+    
+            else if (request == OPERATION.SET_LIGHT_MIN && size == 3)
+                setLightMin(x)
+        
+            else if (request == OPERATION.SET_LIGHT_MAX && size == 3)
+                setLightMax(x)
+
+            else if (request == OPERATION.SET_WATERING_LIGHT && size == 3)
+                setWateringLight(x)
+
+            else if (request == OPERATION.SET_WATER_CONTAINER_SIZE && size == 3)
+                setWaterContainerSize(content_list[2])
+
+            else if (request == OPERATION.WATER_CONTAINER_STATE && size == 3) {
+                if (x == WaterContainerState.Full)
+                    setWaterContainerFull(true)
+                if (x == WaterContainerState.Empty) 
+                    setWaterContainerFull(false)
+            }
+        }   
     }
     basic.clearScreen()
        
@@ -185,4 +192,13 @@ input.onButtonPressed(Button.A, function(){
     sendHumidity()
     sendLight()
     sendTemperature()
+})
+
+input.onButtonPressed(Button.B, function(){
+    basic.showNumber(serial_number)
+})
+
+//to show the pairing number
+input.onButtonPressed(Button.AB, function(){
+    basic.showNumber(pairing_number)
 })

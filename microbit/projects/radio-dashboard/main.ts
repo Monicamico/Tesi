@@ -57,54 +57,39 @@ basic.forever(function () {
 
 //to accept the request connection from the vase
 input.onButtonPressed(Button.A, function () {
-
     let n = dim_vase_list
     let req = conn_request.shift()
     if (req){ 
-        dim_vase_list = insertVase(req.serial_number, req.ping, vase_list)
-        if (n == dim_vase_list - 1){
-            //send the joined notification to smart-vase
-            sendToVase(OPERATION.JOINED,req.serial_number)
-            //send joined notification to raspberry
-            sendToRB(`${OPERATION.JOINED};${req.serial_number};${req.ping};0`) 
-            
-        } 
+        //send the joined notification to smart-vase
+        sendToVase(OPERATION.JOINED,req.serial_number)
     }
     
 })
 
 //to refuse the request connection from the vase
 input.onButtonPressed(Button.B, function () {
-
     let req = conn_request.shift()
-    if (req)
+    if (req){
         sendToRB(`${OPERATION.REFUSED};${req.serial_number};0;0`)
+    }
+        
+})
+
+//to show the pairing numbers
+input.onButtonPressed(Button.AB, function(){
+    showCasualNumbers(conn_request)
 })
 
 /* ----------------------------------- RECEIVED FROM SMART-VASE ------------------------------------- */
 
 /* code to be executed when:
- *  - CONNECTION REQUEST is received from the SMARTVASE
  *  - PING is received from the SMARTVASE 
 */
 radio.onReceivedNumber(function (received: number) {
 
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
 
-    if (received == OPERATION.CONNECTION) {
-        if (getVase(serialNumber, vase_list)){
-            sendToVase(OPERATION.JOINED,serialNumber) 
-            return
-        }
-        if (containRequest(serialNumber, conn_request)) 
-            return
-        let ping_req = input.runningTime();
-        conn_request.push(new Request(serialNumber,ping_req))
-        //send connection request to raspberry
-        sendToRB(`${OPERATION.CONNECTION};${serialNumber};${ping_req};0`) 
-
-    } else if (received == OPERATION.PING) {
-        
+    if (received == OPERATION.PING) {
         let ping = input.runningTime();
         let vase = getVase(serialNumber, vase_list)
         if (vase) {
@@ -117,25 +102,57 @@ radio.onReceivedNumber(function (received: number) {
 
 /*
  * code to be executed when:
- *   - HUMIDITY VALUE is received from a SMART-VASE
- *   - TEMPERATURE VALUE is received from a SMART-VASE
- *   - LIGHT VALUE is received from a SMART-VASE
- *   - WATER CONTAINER STATE is received from a smart-vase
+ *   - JOINED notification has been received
+ *   - CONNECTION request has been received
+ *   - HUMIDITY VALUE has been received from a SMART-VASE
+ *   - TEMPERATURE VALUE has been received from a SMART-VASE
+ *   - LIGHT VALUE has been received from a SMART-VASE
+ *   - WATER CONTAINER STATE has been received from a smart-vase
 */
 radio.onReceivedValue(function (request: string, param: number) {
 
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
-    const vase = getVase(serialNumber, vase_list)
     let ping = input.runningTime()
-    let requestInt = parseInt(request)
-    if (!vase)
+    const requestInt = parseInt(request)
+    const vase = getVase(serialNumber, vase_list)
+
+    if (requestInt == OPERATION.CONNECTION) {
+         // if the vase has already been joined to the vase list
+        // the radio will send to vase a 'joined' notification
+        if (vase){
+            sendToVase(OPERATION.JOINED,serialNumber) 
             return
+        }
+        if (containRequest(serialNumber, conn_request)) return
+        let ping_req = input.runningTime();
+        conn_request.push(new Request(serialNumber, ping_req, param))
+        //send connection request to raspberry
+        sendToRB(`${OPERATION.CONNECTION};${serialNumber};${ping_req};${param}`) 
+
+    } else if (requestInt == OPERATION.JOINED) {
+        if (vase) 
+            return
+        let n = dim_vase_list
+        dim_vase_list = insertVase(serialNumber,ping,vase_list)
+        if (n == dim_vase_list - 1) {
+            //send joined notification to raspberry
+            sendToRB(`${OPERATION.JOINED};${serialNumber};${ping};0`) 
+        } else {
+            sendToRB(`${OPERATION.REFUSED};${serialNumber};0;0`) 
+            sendToVase(OPERATION.REFUSED,serialNumber)
+        }
+        return
+    }
+    
+    if (!vase)
+        return
     vase.setPing(ping) //update ping value of the vase
 
-    if (requestInt == OPERATION.WATER_CONTAINER_STATE){
+    if (requestInt == OPERATION.WATER_CONTAINER_STATE) {
         if (param == 0) // 0 = empty, 1 = full
             sendToRB(`${OPERATION.WATER_CONTAINER_STATE};${serialNumber};${ping};${param}`) 
         return
+
     } else if (requestInt == OPERATION.LIGHT || requestInt == OPERATION.TEMPERATURE || requestInt == OPERATION.HUMIDITY)
         //send the received value to raspberry as a string
         sendToRB(`${request};${serialNumber};${ping};${param}`) 
@@ -189,24 +206,15 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
         if (request == OPERATION.JOINED) {   
             //get and remove from the conn_list the ping of the vase
             let ping = deleteRequest(serialNumber,conn_request)
-            let n = dim_vase_list
-
             if (ping!= -1) {
-                dim_vase_list = insertVase(serialNumber,ping,vase_list)
-                if (n == dim_vase_list - 1){
-                    //send the joined notification to smart-vase
-                    sendToVase(OPERATION.JOINED,serialNumber)
-                    //send joined notification to raspberry
-                    sendToRB(`${OPERATION.JOINED};${serialNumber};${ping};0`) 
-                } else {
-                    conn_request.push(new Request(serialNumber,ping))
-                }
+                sendToVase(OPERATION.JOINED,serialNumber)
             }
             return
         }
         else if (request == OPERATION.REFUSED) {
             let ping = deleteRequest(serialNumber,conn_request)
             if (ping!= -1){
+                sendToVase(OPERATION.REFUSED,serialNumber)
                 sendToRB(`${OPERATION.REFUSED};${serialNumber};0;0`)
             }
             return
