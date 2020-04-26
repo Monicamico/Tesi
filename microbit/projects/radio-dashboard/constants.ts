@@ -34,3 +34,6 @@ enum OPERATION {
 };
 
 const serial_number = control.deviceSerialNumber()
+const vase_list: Vase[] = [];            // list of vases
+const conn_request: Request[] = [];      // list of connection requests
+const deleted_vases: number[] = []       // list of deleted vases

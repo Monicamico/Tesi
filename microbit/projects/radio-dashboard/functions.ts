@@ -98,6 +98,19 @@ function deleteRequest(id:number, conn_request: Request[]): number {
 }
 
 
+
+function isDeletedVase(id: number): boolean{
+    if (!id) return false;
+    let i = 0
+    while (i < deleted_vases.length) {
+        let serial = deleted_vases.shift()
+        if (serial != id) deleted_vases.push(serial)
+        else return true;
+        i++
+    }
+    return false
+}
+
 /**
  * @summary shows the pairing numbers received in the CONNECTION requests
  */

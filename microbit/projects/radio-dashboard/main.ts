@@ -6,8 +6,6 @@
 
 /*--------------------------------- VARIABLE STATEMENTS --------------------------------*/
 
-const vase_list: Vase[] = [];            // list of vases
-const conn_request: Request[] = [];      // list of connection requests
 let dim_vase_list: number = 0;           // size of vase_list
 let pause_time = 200000                  //(
 let current_time;
@@ -35,11 +33,12 @@ basic.forever(function () {
    current_time = input.runningTime()
     for (const vase of vase_list){
         if ((current_time - vase.getPing()) > deadping){
-            if (vase.dying) 
-            {
+            if (vase.dying)  {
                 dim_vase_list = deleteVase(vase.serial_number, vase_list)
                 if (dim_vase_list!= undefined){
                     basic.showString("del")
+                    deleted_vases.push(vase.serial_number)
+                    sendToVase(OPERATION.DELETED,vase.serial_number)
                     sendToRB(`${OPERATION.DELETED};${vase.serial_number};0;0`)
                     drawNumberOfVases(dim_vase_list)
                 }    
@@ -119,7 +118,7 @@ radio.onReceivedValue(function (request: string, param: number) {
     if (requestInt == OPERATION.CONNECTION) {
          // if the vase has already been joined to the vase list
         // the radio will send to vase a 'joined' notification
-        if (vase){
+        if ( vase || isDeletedVase(serialNumber) ){
             sendToVase(OPERATION.JOINED,serialNumber) 
             return
         }
@@ -130,6 +129,7 @@ radio.onReceivedValue(function (request: string, param: number) {
         sendToRB(`${OPERATION.CONNECTION};${serialNumber};${ping_req};${param}`) 
 
     } else if (requestInt == OPERATION.JOINED) {
+        
         if (vase) 
             return
         let n = dim_vase_list
