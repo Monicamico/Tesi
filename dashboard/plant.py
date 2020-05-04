@@ -66,6 +66,14 @@ def light(idv):
     return redirect(URL+'/plant/'+str(idv))
 
 
+@plant_id_page.route("/container_full/<string:idv>", methods=['GET'])
+def container_full(idv):
+    reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'container_full', 'serial': idv, 'state': 1})
+    print(reply)
+    time.sleep(2)
+    return redirect(URL+'/plant/'+str(idv))
+
+
 @plant_id_page.route('/plant/<string:idv>')
 def plant(idv):
     plant_ = Plant.query.filter_by(id=idv).first()

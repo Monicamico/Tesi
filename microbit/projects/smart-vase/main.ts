@@ -64,8 +64,6 @@ basic.forever(function () {
             waters() //feeds the plant and update the amount_water
         if (amount_water < single_water_amount){
             setWaterContainerFull(false)
-            if (joined)
-                radio.sendValue( (OPERATION.WATER_CONTAINER_STATE.toString()), WaterContainerState.Empty) // 0 = empty, 1 = full
             basic.showString('!')
         }     
     }
@@ -136,8 +134,10 @@ radio.onReceivedBuffer(function () {
                 pairing_number = getRandomIntInclusive()
             } 
 
-            else if (request == OPERATION.WATER) 
-                waters()
+            else if (request == OPERATION.WATER) {
+                if ( amount_water >= single_water_amount )
+                    waters()
+            }
             
             else if (request == OPERATION.HUMIDITY)
                 sendHumidity()

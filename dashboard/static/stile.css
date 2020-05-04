@@ -10,12 +10,14 @@ body {
     min-height: 500px;
 }
 
-.h2 {
-    color: #211f2d;
+
+h2 {
+    color: #423c5c;
 }
 
-.h3 {
-   color: #302D43;
+h3 {
+    font-size: 16px;
+    color: #423c5c;
 }
 
 #sideMenu {
@@ -105,20 +107,22 @@ div#page {
     display: flex;
     align-items: stretch;
     text-align: center;
-    height: 100%;
+    bottom: 0
+
 }
 
 /*
  * Stile contenitore principale della pagina web
  */
 div#page>main{
+    align-items: center;
+    align-content: center;
     margin-left: 15%;
     width: calc( 75% - 20px );
     text-align: center;
     font-min-size: 13px;
     flex-grow: 1;
 }
-
 
 .myButton {
 	background-color:#b3e3f5;
@@ -141,131 +145,118 @@ div#page>main{
 	top:1px;
 }
 
+
+.box-2 {
+    alignment: inherit;
+    align-self: center;
+    width: 100%;
+    height: 500px;
+    overflow: auto;
+}
+
 /*
  * Stile tabella
  */
-div#page>main>table {
-
-    margin-top: 30px;
-    margin-bottom: 30px;
-    width: 60%;
-    border: 10px;
+table {
+    max-height: 50%;
+    margin-bottom: 25px;
+    margin-top: 10px;
+    min-width: 60%;
+    max-width: 90%;
+    border: 5px;
     border-collapse: collapse;
     font-size: 15px;
 }
 
-div#page>main>table th, tr, td {
-    padding: 9px 12px;
+table th, tr, td {
+    padding: 10px 12px;
     border: #211f2d;
     text-decoration: none;
 }
 
-div#page > main > table th {
+table th {
     background: #8ce3e6;
     color: #222030;
 }
 
-div#page > main >table tr:nth-child(odd){
+table tr:nth-child(odd){
   background-color: rgb(227, 248, 245);
 }
 
-div#page > main > table tr:nth-child(even){
+table tr:nth-child(even){
   background-color: rgb(243, 248, 244);
 }
+
+
+.Table2 {
+    text-align: left;
+    max-height: 50%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    min-width: 20%;
+    max-width: 50%;
+    border: 5px;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
 
 /*
  * Stile della form
  */
 form {
-	border: 1px solid #b0b0b0;
-	border-radius: 5px;
-	width: 80%;
-	padding-left: 15px;
-	padding-right: 15px;
-	padding-top: 15px;
-	padding-bottom: 15px;
+	width: 100%;
+}
+
+ul {
+    text-align: left;
 }
 
 /*
  * Stile dei riquadri di input generici
  */
+
+
 input {
-	margin: 8px 0;
-	border: 1px solid #b0b0b0;
-	border-radius: 3px;
-	padding-left: 3px;
-	padding-top: 3px;
-	padding-bottom: 3px;
+    color:#3e2b63;
+    border-radius:16px;
+    border:2px solid #3eb5e0;
+    background-color:#b3e3f5;
+	display:inline-block;
+	cursor:pointer;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:8px 6px;
+	text-decoration:none;
 }
 
-input:hover {
-	border: 1px solid #555555;
+input [type=submit]:hover {
+    background-color:#8de3f0;
 }
 
-input:focus{
-	border: 1px solid #555555;
+input [type=submit]:active {
+	position:relative;
+	top:1px;
 }
 
 /*
  * Stile dei riquadri di input di testo
  */
 input[type=text] {
-	width: 20%;
-	margin: 8px 0;
-	border: 1px solid #b0b0b0;
-	border-radius: 3px;
-	padding-left: 3px;
-	padding-top: 3px;
-	padding-bottom: 3px;
+    border-radius:0px;
+    background-color:#b3e3f5;
+	border:1px solid #3eb5e0;
+	display:inline-block;
+	cursor:pointer;
+	color: #222030;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:8px 6px;
+	text-decoration:none;
 }
 
-input[type=text]:hover {
-	border: 1px solid #555555;
-}
-
-input[type=text]:focus{
-	border: 1px solid #555555;
-}
-
-/*
- * Stile dei campi di input password
- */
-input[type=password] {
-	width: 20%;
-	margin: 8px 0;
-	border: 1px solid #b0b0b0;
-	border-radius: 3px;
-	padding-left: 3px;
-	padding-top: 3px;
-	padding-bottom: 3px;
-}
-
-input[type=password]:hover {
-	border: 1px solid #555555;
-}
-
-input[type=password]:focus{
-	border: 1px solid #555555;
-}
-
-
-/*
- * Stile dei menù di selezione
- */
-select{
-	border: 1px solid #b0b0b0;
-	border-radius: 3px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-}
-
-select:hover{
-	border: 1px solid #555555;
-}
-
-select:focus{
-	border: 1px solid #555555;
-}
 
 /*
  * Stile delle aree di testo

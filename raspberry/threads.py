@@ -104,31 +104,43 @@ def reader():
                 elif request == Operation.HUMIDITY.value:
                     print('humidity ' + serial_number + ': ' + param + ' ping: ' + ping)
                     reply = rq.put(url=URL_DASHBOARD + '/update_hum',
-                                   json={'serial': serial_number, 'ping': ping, 'hum': param})
+                                   json={'serial': serial_number,
+                                         'ping': ping,
+                                         'hum': param})
                     print(reply)
 
                 elif request == Operation.TEMPERATURE.value:
                     print("temperature " + serial_number + ': ' + param + "\nping: " + ping)
                     reply = rq.put(url=URL_DASHBOARD + '/update_temp',
-                                   json={'serial': serial_number, 'ping': ping, 'temp': param})
+                                   json={'serial': serial_number,
+                                         'ping': ping,
+                                         'temp': param})
                     print(reply)
 
                 elif request == Operation.LIGHT.value:
                     print("light " + serial_number + ': ' + param + "\nping: " + ping)
                     reply = rq.put(url=URL_DASHBOARD + '/update_light',
-                                   json={'serial': serial_number, 'ping': ping, 'light': param})
+                                   json={'serial': serial_number,
+                                         'ping': ping,
+                                         'light': param})
                     print(reply)
 
                 elif request == Operation.PING.value:
                     print("ping " + serial_number + ': ' + ping)
-                    reply = rq.put(url=URL_DASHBOARD + '/update_ping', json={'serial': serial_number, 'ping': ping})
+                    reply = rq.put(url=URL_DASHBOARD + '/update_ping', json={'serial': serial_number,
+                                                                             'ping': ping})
                     print(reply)
 
                 elif request == Operation.WATER_CONTAINER_STATE.value:
                     print("water container state " + serial_number + ': ' + param)
-                    reply = rq.put(url=URL_DASHBOARD + '/update_water_container_state',
-                                   json={'serial': serial_number, 'ping': ping, 'state': param})
-                    print(reply)
+                    if param == str(1) or str(0):
+                        reply = rq.put(url=URL_DASHBOARD + '/update_water_container_state',
+                                       json={'serial': serial_number,
+                                             'ping': ping,
+                                             'state': param})
+                        print(reply)
+                    else:
+                        print('errore parametro')
 
                 else:
                     pass

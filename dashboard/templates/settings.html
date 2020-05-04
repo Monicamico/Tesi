@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'layout.html' %}
+
+    {% block content %}
+
+    <section id="sideMenu">
+        <section id="logo">
+          <img src="{{ url_for('static', filename='GioVase.png') }}">
+        </section>
+      <nav>
+        <a href="http://127.0.0.1:5000/"><i class="fas fa-home"></i>Home</a>
+        <a href="http://127.0.0.1:5000/plants"  class="active"> <i class="fas fa-seedling"></i>Piante </a>
+          <a href="http://127.0.0.1:5000/connections"><i class="fas fa-exclamation"></i>Nuove piante </a>
+      </nav>
+    </section>
+
+     <h2> Impostazioni di {{ plant.id }} </h2>
+
+     <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+         <table class="Table2" align="center">
+
+             <tr>
+                 <td> <h3>{{ form.hum_min.label }}</h3> </td>
+                 <td>{{ form.hum_min(size=4, value=plant.humidity_min) }} </td>
+                  <td>  <h3>{{ form.hum_max.label }}</h3> </td>
+                 <td>{{ form.hum_max(size=4, value=plant.humidity_max) }}</td>
+             </tr>
+
+             <tr>
+                 <td>  <h3>{{ form.light_min.label }}</h3> </td>
+                 <td> {{ form.light_min(size=3, value=plant.light_min) }} </td>
+                  <td> <h3>{{ form.light_max.label }}</h3> </td>
+                 <td> {{ form.light_max(size=3, value=plant.light_max) }} </td>
+             </tr>
+
+              <tr>
+                 <td> <h3>{{ form.temp_min.label }}</h3> </td>
+                 <td> {{ form.temp_min(size=3, value=plant.temperature_min) }} </td>
+                  <td> <h3>{{ form.temp_max.label }}</h3> </td>
+                 <td> {{ form.temp_max(size=3, value=plant.temperature_max) }} </td>
+             </tr>
+
+         </table>
+         <p> {{ form.submit()}} </p>
+
+    </form>
+
+    <br>
+    <br>
+    <br>
+    <a class="myButton" href="http://127.0.0.1:5000/plants"> <i class="fas fa-arrow-circle-left"></i> Indietro </a>
+
+    {% endblock %}

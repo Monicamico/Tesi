@@ -115,6 +115,7 @@ radio.onReceivedValue(function (request: string, param: number) {
     const requestInt = parseInt(request)
     const vase = getVase(serialNumber, vase_list)
 
+    
     if (requestInt == OPERATION.CONNECTION) {
          // if the vase has already been joined to the vase list
         // the radio will send to vase a 'joined' notification
@@ -128,8 +129,9 @@ radio.onReceivedValue(function (request: string, param: number) {
         //send connection request to raspberry
         sendToRB(`${OPERATION.CONNECTION};${serialNumber};${ping_req};${param}`) 
 
+
     } else if (requestInt == OPERATION.JOINED) {
-        
+
         if (vase) 
             return
         let n = dim_vase_list
@@ -148,12 +150,7 @@ radio.onReceivedValue(function (request: string, param: number) {
         return
     vase.setPing(ping) //update ping value of the vase
 
-    if (requestInt == OPERATION.WATER_CONTAINER_STATE) {
-        if (param == 0) // 0 = empty, 1 = full
-            sendToRB(`${OPERATION.WATER_CONTAINER_STATE};${serialNumber};${ping};${param}`) 
-        return
-
-    } else if (requestInt == OPERATION.LIGHT || requestInt == OPERATION.TEMPERATURE || requestInt == OPERATION.HUMIDITY)
+    if (requestInt == OPERATION.WATER_CONTAINER_STATE || requestInt == OPERATION.LIGHT || requestInt == OPERATION.TEMPERATURE || requestInt == OPERATION.HUMIDITY)
         //send the received value to raspberry as a string
         sendToRB(`${request};${serialNumber};${ping};${param}`) 
     
@@ -191,9 +188,9 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
                  request == OPERATION.SET_HUMIDITY_MAX || request == OPERATION.SET_HUMIDITY_MIN ||
                  request == OPERATION.SET_VASE_PAUSE_TIME || request == OPERATION.SET_VASE_SEND_TIME ||
                  request == OPERATION.WATER_CONTAINER_STATE || request == OPERATION.SET_WATERING_LIGHT ) {
-                     if (param != -1) 
+                    if (param != -1) 
                         sendToVase(request,serialNumber,param)
-                 }
+        }
 
         else if (request == OPERATION.SET_WATER_CONTAINER_SIZE && size == 3){
             param = parseFloat(r_list[2])

@@ -115,9 +115,9 @@ function isDeletedVase(id: number): boolean{
  * @summary shows the pairing numbers received in the CONNECTION requests
  */
 function showCasualNumbers(conn_request: Request[]){
-    for (const r of conn_request){
-       basic.showNumber(r.pairing_number)
-       basic.showString(' - ')
+    for (const r of conn_request){ 
+        basic.showString(' - ')
+        basic.showNumber(r.pairing_number) 
     }
 }
 

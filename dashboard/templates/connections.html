@@ -5,7 +5,7 @@
 
 <section id="sideMenu">
     <section id="logo">
-        <img src="{{ url_for('static', filename='logo-piccolo.png') }}">
+        <img src="{{ url_for('static', filename='GioVase.png') }}">
     </section>
     <nav>
         <a href="http://127.0.0.1:5000/"> <i class="fas fa-home"> </i>Home</a>
@@ -26,6 +26,7 @@
     </thead>
     <tbody>
     {% for conn in connections: %}
+
         <tr>
             <td> {{ conn.id }} </td>
             <td> {{ conn.pairing }} </td>

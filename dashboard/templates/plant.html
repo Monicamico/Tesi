@@ -6,7 +6,7 @@
 
     <section id="sideMenu">
         <section id="logo">
-          <img src="{{ url_for('static', filename='logo-piccolo.png') }}">
+          <img src="{{ url_for('static', filename='GioVase.png') }}">
         </section>
       <nav>
         <a href="http://127.0.0.1:5000/"><i class="fas fa-home"></i>Home</a>
@@ -15,9 +15,9 @@
       </nav>
     </section>
 
-    <h2> Stato della pianta {{ plant.num }} </h2>
+    <h2> Stato della pianta {{ plant.id }} </h2>
 
-    <table align="center">
+     <table  align="center">
         <thead>
             <tr>
                 <th> Luce per innaffiare </th>
@@ -28,7 +28,7 @@
         </thead>
         <tbody>
             <tr>
-                <td> {{ plant.watering_light * 100 // 255 }}% </td>
+                <td> {{ plant.watering_light * 100 // 255 }} % </td>
                 <td> {{plant.water_container_size}} litri</td>
                 <td> {% if plant.water_container_state is sameas True %}
                     Pieno
@@ -36,12 +36,15 @@
                     Vuoto
                 {% endif %}
                 </td>
-                <td> <a class="myButton"  href=""><i class="fas fa-edit"></i> </a> </td>
+                <td>
+                    <a class="myButton"  href=""><i class="fas fa-edit"></i> </a>
+                    <a class="myButton"  title="Riempi container" href="http://127.0.0.1:5000/container_full/{{ plant.id }}"> <i class="fas fa-fill-drip"></i></a>
+                </td>
             </tr>
         </tbody>
     </table>
 
-    <table align="center">
+   <table class="table1" align="center">
     <thead>
     <tr>
         <th> Umidita' </th>
@@ -72,16 +75,21 @@
            </td>
 
            <td>
-               <a class="myButton" href="http://127.0.0.1:5000/humidity/{{plant.id}}">
+               <a class="myButton"
+                  href="http://127.0.0.1:5000/humidity/{{plant.id}}"
+                  title="Richiedi umidita">
                    <i class="fas fa-tint"></i>
                </a>
-               <a class="myButton" href="http://127.0.0.1:5000/temperature/{{plant.id}}">
+               <a class="myButton"
+                  href="http://127.0.0.1:5000/temperature/{{plant.id}}"
+                  title="Richiedi temperatura">
                    <i class="fas fa-temperature-high"></i>
                </a>
-               <a class="myButton" href="http://127.0.0.1:5000/light/{{plant.id}}">
+               <a class="myButton"
+                  href="http://127.0.0.1:5000/light/{{plant.id}}" title="Richiedi luce">
                    <i class="fas fa-sun"></i>
                </a>
-               <a class="myButton" href="http://127.0.0.1:5000/water/{{plant.id}}">
+               <a class="myButton" href="http://127.0.0.1:5000/water/{{plant.id}}" title="Innaffia">
                    <i class="fas fa-shower"></i>
                </a>
            </td>
@@ -89,34 +97,41 @@
      </tbody>
     </table>
 
-    <h2>  Valori </h2>
+    <p>
 
-    <table align="center">
+    </p>
+
+    <table  align="center">
     <thead>
-    <tr>
-        <th> Umidita' minima </th>
-        <th> Umidita' massima </th>
-        <th> Temperatura minima</th>
-        <th> Temperatura massima </th>
-        <th> Luce minima </th>
-        <th> Luce massima </th>
-        <th> Azioni </th>
-
-    </tr>
+        <tr>
+            <th> Umidita' minima </th>
+            <th> Luce minima</th>
+            <th> Temperatura minima</th>
+        </tr>
     </thead>
-     <tbody>
+    <tbody>
+         <tr>
+               <td> {{ plant.humidity_min * 100 // 1023 }}% </td>
+               <td> {{ plant.light_min * 100 // 255 }}%  </td>
+               <td> {{ plant.temperature_min }} C </td>
+         </tr>
+    </tbody>
+    <thead>
+        <tr>
+            <th> Umidita' massima </th>
+            <th> Luce massima  </th>
+            <th> Temperatura massima </th>
+        </tr>
+    </thead>
+        <tbody>
        <tr>
-           <td> {{ plant.humidity_min * 100 // 1023 }}% </td>
            <td> {{ plant.humidity_max * 100 // 1023 }}% </td>
-           <td> {{ plant.temperature_min }} C </td>
-           <td> {{ plant.temperature_max }} C </td>
-           <td> {{ plant.light_min * 100 // 255 }}% </td>
            <td> {{ plant.light_max * 100 // 255 }}% </td>
-           <td> <a class="myButton"  href=""><i class="fas fa-edit"></i> </a> </td>
-
+           <td> {{ plant.temperature_max }} C </td>
        </tr>
-     </tbody>
+        </tbody>
     </table>
+
 
     <h3>
         <a class="myButton" href="http://127.0.0.1:5000/plants"> <i class="fas fa-arrow-circle-left"></i> Torna alla lista </a>

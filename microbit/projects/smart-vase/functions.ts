@@ -79,9 +79,16 @@ function setWateringLight(x: number) {
 
 function setWaterContainerFull(b: boolean) {
     water_container_full = b
-    if (b == true) 
+    if (b == true){
         amount_water = water_container_size
-    else amount_water = 0
+        if (joined)
+            radio.sendValue(OPERATION.WATER_CONTAINER_STATE.toString(), WaterContainerState.Full)
+    }
+    else {
+        amount_water = 0
+        if (joined) 
+            radio.sendValue(OPERATION.WATER_CONTAINER_STATE.toString(), WaterContainerState.Empty)
+    }
 }
 
 function setWaterContainerSize(l: string) {

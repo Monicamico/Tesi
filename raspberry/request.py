@@ -32,8 +32,11 @@ def request():
         elif req_type == 'refused':
             req = str(Operation.REFUSED.value) + ";" + id_s + DELIMITER
 
-        request_queue.append(req)
+        elif req_type == 'container_full':
+            param = str(data['state'])
+            req = str(Operation.WATER_CONTAINER_STATE.value) + ";" + id_s + ";" + param + DELIMITER
 
+        request_queue.append(req)
         return redirect(URL_DASHBOARD + '/plant/' + data['serial'])
 
     except ValueError:
