@@ -10,6 +10,14 @@ body {
     min-height: 500px;
 }
 
+.h2 {
+    color: #211f2d;
+}
+
+.h3 {
+   color: #302D43;
+}
+
 #sideMenu {
     padding-top: 10px;
     z-index: 0;
