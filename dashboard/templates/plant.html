@@ -4,26 +4,14 @@
 
     {% block content %}
 
-    <section id="sideMenu">
-        <section id="logo">
-          <img src="{{ url_for('static', filename='GioVase.png') }}">
-        </section>
-      <nav>
-        <a href="http://127.0.0.1:5000/"><i class="fas fa-home"></i>Home</a>
-        <a href="http://127.0.0.1:5000/plants"  class="active"> <i class="fas fa-seedling"></i>Piante </a>
-          <a href="http://127.0.0.1:5000/connections"><i class="fas fa-exclamation"></i>Nuove piante </a>
-      </nav>
-    </section>
+    <h1 class="mt-3"> Stato della pianta {{ plant.id }} </h1>
 
-    <h2> Stato della pianta {{ plant.id }} </h2>
-
-     <table  align="center">
+     <table class="MyTable" align="center">
         <thead>
             <tr>
                 <th> Luce per innaffiare </th>
                 <th> Dimensione contenitore acqua </th>
                 <th> Contenitore Acqua </th>
-                <th> Azioni </th>
             </tr>
         </thead>
         <tbody>
@@ -36,15 +24,11 @@
                     Vuoto
                 {% endif %}
                 </td>
-                <td>
-                    <a class="myButton"  href=""><i class="fas fa-edit"></i> </a>
-                    <a class="myButton"  title="Riempi container" href="http://127.0.0.1:5000/container_full/{{ plant.id }}"> <i class="fas fa-fill-drip"></i></a>
-                </td>
             </tr>
         </tbody>
     </table>
 
-   <table class="table1" align="center">
+   <table class="MyTable" align="center">
     <thead>
     <tr>
         <th> Umidita' </th>
@@ -75,18 +59,15 @@
            </td>
 
            <td>
-               <a class="myButton"
-                  href="http://127.0.0.1:5000/humidity/{{plant.id}}"
+               <a class="myButton" href="http://127.0.0.1:5000/humidity/{{plant.id}}"
                   title="Richiedi umidita">
                    <i class="fas fa-tint"></i>
                </a>
-               <a class="myButton"
-                  href="http://127.0.0.1:5000/temperature/{{plant.id}}"
+               <a class="myButton" href="http://127.0.0.1:5000/temperature/{{plant.id}}"
                   title="Richiedi temperatura">
                    <i class="fas fa-temperature-high"></i>
                </a>
-               <a class="myButton"
-                  href="http://127.0.0.1:5000/light/{{plant.id}}" title="Richiedi luce">
+               <a class="myButton" href="http://127.0.0.1:5000/light/{{plant.id}}" title="Richiedi luce">
                    <i class="fas fa-sun"></i>
                </a>
                <a class="myButton" href="http://127.0.0.1:5000/water/{{plant.id}}" title="Innaffia">
@@ -101,7 +82,7 @@
 
     </p>
 
-    <table  align="center">
+    <table class="MyTable" align="center">
     <thead>
         <tr>
             <th> Umidita' minima </th>
@@ -134,8 +115,9 @@
 
 
     <h3>
-        <a class="myButton" href="http://127.0.0.1:5000/plants"> <i class="fas fa-arrow-circle-left"></i> Torna alla lista </a>
+        <a class="myButton"href="http://127.0.0.1:5000/plants"> <i class="fas fa-arrow-circle-left"></i> Torna alla lista </a>
     </h3>
+
     {% endblock %}
 
 </html>

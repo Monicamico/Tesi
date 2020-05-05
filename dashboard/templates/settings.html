@@ -2,25 +2,15 @@
 <html lang="en">
 {% extends 'layout.html' %}
 
+
     {% block content %}
 
-    <section id="sideMenu">
-        <section id="logo">
-          <img src="{{ url_for('static', filename='GioVase.png') }}">
-        </section>
-      <nav>
-        <a href="http://127.0.0.1:5000/"><i class="fas fa-home"></i>Home</a>
-        <a href="http://127.0.0.1:5000/plants"  class="active"> <i class="fas fa-seedling"></i>Piante </a>
-          <a href="http://127.0.0.1:5000/connections"><i class="fas fa-exclamation"></i>Nuove piante </a>
-      </nav>
-    </section>
-
-     <h2> Impostazioni di {{ plant.id }} </h2>
+     <h2 class="mt-3"> Impostazioni di {{ plant.id }} </h2>
 
      <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
 
-         <table class="Table2" align="center">
+         <table align="center">
 
              <tr>
                  <td> <h3>{{ form.hum_min.label }}</h3> </td>

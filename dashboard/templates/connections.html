@@ -2,21 +2,9 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+<h2 class="mt-3"> Richieste di connessione </h2>
 
-<section id="sideMenu">
-    <section id="logo">
-        <img src="{{ url_for('static', filename='GioVase.png') }}">
-    </section>
-    <nav>
-        <a href="http://127.0.0.1:5000/"> <i class="fas fa-home"> </i>Home</a>
-        <a href="http://127.0.0.1:5000/plants"> <i class="fas fa-seedling"></i>Piante </a>
-        <a href="http://127.0.0.1:5000/connections" class="active"> <i class="fas fa-exclamation"></i>Nuove piante </a>
-    </nav>
-</section>
-
-<h2> Richieste di connessione </h2>
-
-<table align="center">
+<table class="MyTable" align="center">
     <thead>
     <tr>
         <th> Numero Seriale </th>
@@ -25,8 +13,8 @@
     </tr>
     </thead>
     <tbody>
-    {% for conn in connections: %}
 
+    {% for conn in connections: %}
         <tr>
             <td> {{ conn.id }} </td>
             <td> {{ conn.pairing }} </td>

@@ -4,33 +4,8 @@
 
     {% block content %}
 
-        <section id="sideMenu">
-            <section id="logo">
-              <img src="{{ url_for('static', filename='GioVase.png') }}">
-          </section>
-          <nav>
-             <a href="http://127.0.0.1:5000/" class="active"> <i class="fas fa-home"></i>Home </a>
-             <a href="http://127.0.0.1:5000/plants"> <i class="fas fa-seedling"></i>Piante </a>
-              <a href="http://127.0.0.1:5000/connections"><i class="fas fa-exclamation"></i>Nuove piante </a>
-          </nav>
-         </section>
+    <h1 class="mt-4"> Benvenuto su GioVase!  </h1>
 
-         <h2> Statistiche Piante </h2>
-
-        <table align="center">
-        <thead>
-        <tr>
-            <th> Numero piante registrate </th>
-            <th> Numero nuove connessioni </th>
-        </tr>
-        </thead>
-         <tbody>
-           <tr>
-               <td> </td>
-               <td> </td>
-           </tr>
-         </tbody>
-        </table>
     {% endblock %}
 
 </html>

@@ -1,28 +1,90 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+
+      <title>Gio Vase</title>
+
+  <!-- Bootstrap core CSS -->
+      <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+
+  <!-- Custom styles for this template -->
       <link href="{{ url_for('static', filename='css/all.css') }}" rel="stylesheet">
-      <link href="{{ url_for('static', filename='stile.css') }}" rel="stylesheet" type="text/css">
+      <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='css/simple-sidebar.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='css/solid.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='css/fontawesome.css') }}" rel="stylesheet">
   </head>
 
-  <header>
-
-  </header>
-
-  <footer> Università di Pisa</footer>
 
   <body>
 
-      <div id="page">
-        <meta charset="utf-8">
-        <main>
-            {% block content %}
-            {{title}}
-            <meta name="description" content={{description}}>
-            {% endblock %}
-        </main>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-dark border-right" id="sidebar-wrapper">
+        <IMG src="{{ url_for('static', filename='logo-piccolo.png') }}">
+      <div class="list-group list-group-flush">
+          <a href="http://127.0.0.1:5000/home" class="list-group-item list-group-item-action bg-dark">
+              <i class="fas fa-home"></i> Home</a>
+          <a href="http://127.0.0.1:5000/home" class="list-group-item list-group-item-action bg-dark">
+              <i class="fas fa-chart-area"></i> Dashboard</a>
+          <a href="http://127.0.0.1:5000/plants" class="list-group-item list-group-item-action bg-dark">
+              <i class="fab fa-envira"></i> Piante</a>
+          <a href="http://127.0.0.1:5000/connections" class="list-group-item list-group-item-action bg-dark">
+              <i class="fas fa-rss"></i> Nuove connessioni</a>
+          <a href="http://127.0.0.1:5000/home" class="list-group-item list-group-item-action bg-dark">
+              <i class="fas fa-map-marked"></i> Mappa</a>
       </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
+        <button class="btn btn-primary" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+
+          </ul>
+        </div>
+
+      </nav>
+
+      <div class="container-fluid">
+          {% block content %}
+          {% endblock %}
+      </div>
+
+    </div>
+
+    <!-- /#page-content-wrapper -->
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+   <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
+   <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
 
   </body>
 

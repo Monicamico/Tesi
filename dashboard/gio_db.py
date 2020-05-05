@@ -50,22 +50,25 @@ class Plant(db.Model):
     water_container_size = db.Column(db.Float, nullable=False, default=0.5)
 
 
-def add_plant(idv, ping, radio, hum_min=300, hum_max=1000, temp_min=15, temp_max=30, li_min=50, li_max=250, wl=70, ws=True,
+def add_plant(idv, ping, radio, hum_min=300, hum_max=1000, temp_min=15, temp_max=30, li_min=50, li_max=250, wl=70,
+              ws=True,
               wcs=0.5):
-    delete_conn_req(idv)
-    db.session.add(Plant(id=idv,
-                         radio_id=radio,
-                         ping=ping,
-                         humidity_min=hum_min,
-                         humidity_max=hum_max,
-                         temperature_max=temp_max,
-                         temperature_min=temp_min,
-                         light_max=li_max,
-                         light_min=li_min,
-                         watering_light=wl,
-                         water_container_size=wcs,
-                         water_container_state=ws))
-    db.session.commit()
+    #if delete_conn_req(idv) is not None:
+    plant = Plant.query.filter_by(id=idv).first()
+    if plant is None:
+        db.session.add(Plant(id=idv,
+                             radio_id=radio,
+                             ping=ping,
+                             humidity_min=hum_min,
+                             humidity_max=hum_max,
+                             temperature_max=temp_max,
+                             temperature_min=temp_min,
+                             light_max=li_max,
+                             light_min=li_min,
+                             watering_light=wl,
+                             water_container_size=wcs,
+                             water_container_state=ws))
+        db.session.commit()
 
 
 def delete_plant(idv):
