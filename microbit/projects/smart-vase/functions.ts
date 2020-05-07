@@ -20,8 +20,11 @@ function waters() {
  * @param max (number) humidity value
  */
 function setHumMax(max: number) {
-    if (max >= 0 && max <= 1023)
+    if (max >= 0 && max <= 1023){
         hum_max = max
+        radio.sendValue(OPERATION.SET_HUMIDITY_MAX.toString(),max)
+    }
+        
 }
 
 /**
@@ -29,8 +32,11 @@ function setHumMax(max: number) {
  * @param min (number) humidity value
  */
 function setHumMin(min: number) {
-    if (min >= 0 && min <= 1023)
+    if (min >= 0 && min <= 1023){
         hum_min = min
+        radio.sendValue(OPERATION.SET_HUMIDITY_MIN.toString(),min)
+    }
+        
 }
 
 /**
@@ -38,7 +44,8 @@ function setHumMin(min: number) {
  * @param max (number) temperature value
  */
 function setTempMax(max: number) {
-    temp_max = max
+    temp_max = max 
+    radio.sendValue(OPERATION.SET_TEMPERATURE_MAX.toString(),max)
 }
 
 /**
@@ -47,6 +54,7 @@ function setTempMax(max: number) {
  */
 function setTempMin(min: number) {
     temp_min = min
+    radio.sendValue(OPERATION.SET_TEMPERATURE_MIN.toString(),min)
 }
 
 /**
@@ -78,8 +86,11 @@ function setLightMax(max: number) {
  * @param x (number) light value
  */
 function setWateringLight(x: number) {
-    if (x >= 0 && x <= 255)
+    if (x >= 0 && x <= 255){
         watering_light = x;
+        radio.sendValue(OPERATION.SET_WATERING_LIGHT.toString(),x)
+    }
+        
 }
 
 
@@ -101,6 +112,7 @@ function setWaterContainerSize(l: string) {
     water_container_size = parseFloat(l)
     if (amount_water > water_container_size)
         amount_water = water_container_size
+    radio.sendValue(OPERATION.SET_WATER_CONTAINER_SIZE.toString(),water_container_size)
     
 }
 
