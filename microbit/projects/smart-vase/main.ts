@@ -21,7 +21,7 @@ let time = 0
 let joined = false
 let radio_serial_number = 0
 let watering_light = 70
-let water_container_size = 0.5                    //in liters (default 1 liter)
+let water_container_size = 0.5                    //in liters (default 0.5 liter)
 let water_container_full = true                     
 let amount_water = 0.5
 
@@ -191,13 +191,16 @@ radio.onReceivedBuffer(function () {
 })
 
 input.onButtonPressed(Button.A, function(){
-    sendHumidity()
-    sendLight()
-    sendTemperature()
+    if (joined){
+        sendHumidity()
+        sendLight()
+        sendTemperature()
+    } else
+        basic.showNumber(pairing_number)
 })
 
 input.onButtonPressed(Button.B, function(){
-    basic.showNumber(serial_number)
+    setWaterContainerFull(true)
 })
 
 //to show the pairing number
