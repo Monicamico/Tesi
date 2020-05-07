@@ -54,8 +54,11 @@ function setTempMin(min: number) {
  * @param min (number) light value
  */
 function setLightMin(min: number) {
-    if (min >= 0 && min <= 255)
+    if (min >= 0 && min <= 255){
         light_min = min;
+        radio.sendValue(OPERATION.SET_LIGHT_MIN.toString(),min)
+    }
+        
 }
 
 /**
@@ -63,8 +66,11 @@ function setLightMin(min: number) {
  * @param max (number) light value
  */
 function setLightMax(max: number) {
-    if (max >= 0 && max <= 255)
+    if (max >= 0 && max <= 255){
         light_max = max;
+        radio.sendValue(OPERATION.SET_LIGHT_MAX.toString(),max)
+    }
+        
 }
 
 /**

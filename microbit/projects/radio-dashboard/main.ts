@@ -21,6 +21,7 @@ serial.redirectToUSB()
 serial.writeLine('') //utile per bytes b'\x00 che scrive il microbit all'avvio
 dim_vase_list = vase_list.length
 DEBUG = true
+sendToRB(`${OPERATION.RADIO_JOIN};${serial_number};0;0`)
 
 if (DEBUG) {
     deadping = 300000
@@ -150,7 +151,18 @@ radio.onReceivedValue(function (request: string, param: number) {
         return
     vase.setPing(ping) //update ping value of the vase
 
-    if (requestInt == OPERATION.WATER_CONTAINER_STATE || requestInt == OPERATION.LIGHT || requestInt == OPERATION.TEMPERATURE || requestInt == OPERATION.HUMIDITY)
+    if (requestInt == OPERATION.WATER_CONTAINER_STATE ||
+        requestInt == OPERATION.SET_WATER_CONTAINER_SIZE ||
+        requestInt == OPERATION.SET_WATERING_LIGHT ||
+        requestInt == OPERATION.LIGHT ||
+        requestInt == OPERATION.TEMPERATURE ||
+        requestInt == OPERATION.HUMIDITY ||
+        requestInt == OPERATION.SET_LIGHT_MIN ||
+        requestInt == OPERATION.SET_LIGHT_MAX ||
+        requestInt == OPERATION.SET_HUMIDITY_MIN ||
+        requestInt == OPERATION.SET_HUMIDITY_MAX ||
+        requestInt == OPERATION.SET_TEMPERATURE_MIN ||
+        requestInt == OPERATION.SET_TEMPERATURE_MAX)
         //send the received value to raspberry as a string
         sendToRB(`${request};${serialNumber};${ping};${param}`) 
     

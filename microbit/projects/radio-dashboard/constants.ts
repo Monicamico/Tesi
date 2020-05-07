@@ -30,7 +30,8 @@ enum OPERATION {
     DELETED = 18,
     SET_WATERING_LIGHT = 19,
     SET_WATER_CONTAINER_SIZE = 20,
-    WATER_CONTAINER_STATE = 21
+    WATER_CONTAINER_STATE = 21,
+    RADIO_JOIN = 22
 };
 
 const serial_number = control.deviceSerialNumber()
