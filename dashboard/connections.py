@@ -1,10 +1,17 @@
-from gio_db import add_conn_req, delete_conn_req, ConnectionRequest
+from gio_db import add_conn_req, delete_conn_req, ConnectionRequest, add_radio
 from flask import Blueprint, render_template, request as http_req, redirect
 import requests as snd_req
 from constant import URL_RASPBERRY, URL
 import time
 
 connections_page = Blueprint('connections', __name__)
+
+
+@connections_page.route("/radio_conn_request", methods=['POST', 'PUT'])
+def radio_conn_req():
+    data = http_req.json
+    add_radio(data['serial'], data['url'])
+    return 'ok'
 
 
 @connections_page.route("/add_conn_request", methods=['POST', 'PUT'])

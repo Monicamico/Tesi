@@ -7,6 +7,8 @@
       <meta name="description" content="">
       <meta name="author" content="">
 
+      <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+
       <title>Gio Vase</title>
 
   <!-- Bootstrap core CSS -->
@@ -26,16 +28,18 @@
   <div class="d-flex" id="wrapper">
     <!-- Sidebar -->
     <div class="bg-dark border-right" id="sidebar-wrapper">
-        <IMG src="{{ url_for('static', filename='logo-piccolo.png') }}">
+        <IMG src="{{ url_for('static', filename='logoVerdepiccolo.png') }}">
       <div class="list-group list-group-flush">
           <a href="http://127.0.0.1:5000/home" class="list-group-item list-group-item-action bg-dark">
               <i class="fas fa-home"></i> Home</a>
-          <a href="http://127.0.0.1:5000/home" class="list-group-item list-group-item-action bg-dark">
+          <a href="http://127.0.0.1:5000/dashboard" class="list-group-item list-group-item-action bg-dark">
               <i class="fas fa-chart-area"></i> Dashboard</a>
+          <a href="http://127.0.0.1:5000/radio" class="list-group-item list-group-item-action bg-dark">
+              <i class="fas fa-rss"></i> Radio</a>
           <a href="http://127.0.0.1:5000/plants" class="list-group-item list-group-item-action bg-dark">
               <i class="fab fa-envira"></i> Piante</a>
           <a href="http://127.0.0.1:5000/connections" class="list-group-item list-group-item-action bg-dark">
-              <i class="fas fa-rss"></i> Nuove connessioni</a>
+              <i class="fas fa-plus"></i> Nuove piante</a>
           <a href="http://127.0.0.1:5000/home" class="list-group-item list-group-item-action bg-dark">
               <i class="fas fa-map-marked"></i> Mappa</a>
       </div>
@@ -46,12 +50,8 @@
     <div id="page-content-wrapper">
 
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
-        <button class="btn btn-primary" id="menu-toggle">
+        <button class="myButton" id="menu-toggle">
             <i class="fas fa-bars"></i>
-        </button>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">

@@ -37,32 +37,44 @@ def update_plant_ping():
 
 @plant_id_page.route("/water/<string:idv>", methods=['GET'])
 def water(idv):
-    reply = snd_req.put(URL_RASPBERRY + '/request', json={"request": "water", "serial": idv})
-    print(reply)
+    try:
+        reply = snd_req.put(URL_RASPBERRY + '/request', json={"request": "water", "serial": idv})
+        print(reply)
+    except snd_req.exceptions.ConnectionError:
+        print('errore di connessione con RaspberryFlask')
     return redirect(URL+'/plant/'+str(idv))
 
 
 @plant_id_page.route("/humidity/<string:idv>", methods=['GET'])
 def humidity(idv):
-    reply = snd_req.put(URL_RASPBERRY + '/request', json={"request": "humidity", "serial": idv})
-    print(reply)
-    time.sleep(2)
+    try:
+        reply = snd_req.put(URL_RASPBERRY + '/request', json={"request": "humidity", "serial": idv})
+        print(reply)
+        time.sleep(2)
+    except snd_req.exceptions.ConnectionError:
+        print('errore di connessione con RaspberryFlask')
     return redirect(URL+'/plant/'+str(idv))
 
 
 @plant_id_page.route("/temperature/<string:idv>", methods=['GET'])
 def temperature(idv):
-    reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temperature', 'serial': idv})
-    print(reply)
-    time.sleep(2)
+    try:
+        reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temperature', 'serial': idv})
+        print(reply)
+        time.sleep(2)
+    except snd_req.exceptions.ConnectionError:
+        print('errore di connessione con RaspberryFlask')
     return redirect(URL+'/plant/'+str(idv))
 
 
 @plant_id_page.route("/light/<string:idv>", methods=['GET'])
 def light(idv):
-    reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'light', 'serial': idv})
-    print(reply)
-    time.sleep(2)
+    try:
+        reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'light', 'serial': idv})
+        print(reply)
+        time.sleep(2)
+    except snd_req.exceptions.ConnectionError:
+        print('errore di connessione con RaspberryFlask')
     return redirect(URL+'/plant/'+str(idv))
 
 

@@ -8,13 +8,18 @@ homepage = Blueprint('homepage', __name__)
 def layout_page():
     conn_list = ConnectionRequest.query.all()
     return render_template('home.html',
-                           connections=conn_list,
-                           title="Gio-Vase")
+                           connections=conn_list)
 
 
 @homepage.route('/home')
 def home_page():
     conn_list = ConnectionRequest.query.all()
     return render_template('home.html',
-                           connections=conn_list,
-                           title="Gio-Vase")
+                           connections=conn_list)
+
+
+@homepage.route('/dashboard')
+def dash_page():
+    conn_list = ConnectionRequest.query.all()
+    return render_template('dashboard.html',
+                           connections=conn_list)

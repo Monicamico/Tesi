@@ -5,6 +5,7 @@ URL_DASHBOARD = 'http://127.0.0.1:5000'
 MICROBIT_PORT_MAC = '/dev/cu.usbmodem14102'   # right
 MICROBIT_PORT_MAC2 = '/dev/cu.usbmodem14202'  # left
 DELIMITER = '#'
+PORT = 5001
 
 
 class Operation(Enum):
@@ -30,3 +31,4 @@ class Operation(Enum):
     SET_WATERING_LIGHT = 19
     SET_WATER_CONTAINER_SIZE = 20
     WATER_CONTAINER_STATE = 21
+    RADIO_JOIN = 22
