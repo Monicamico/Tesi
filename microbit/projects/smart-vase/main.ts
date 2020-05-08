@@ -21,9 +21,10 @@ let time = 0
 let joined = false
 let radio_serial_number = 0
 let watering_light = 70
-let water_container_size = 0.5                    //in liters (default 0.5 liter)
+let water_container_size = 0.5                    // in liters (default 0.5 liter)
 let water_container_full = true                     
 let amount_water = 0.5
+let transmit_power = 5                             // range = (0...7) lower to upper
 
 
 /* ------------------------------------------- INITIAL CODE ------------------------------------------- */
@@ -31,6 +32,7 @@ let amount_water = 0.5
 radio.setTransmitSerialNumber(true)
 radio.setGroup(18)
 led.setBrightness(20)
+radio.setTransmitPower(transmit_power)
 let pairing_number = getRandomIntInclusive()
 amount_water = water_container_size
 amount_water -=  single_water_amount
@@ -41,7 +43,7 @@ DEBUG = true
 
 if (DEBUG) {
     pause_time = 100000 
-    send_time =  400000 
+    send_time =  200000 
 } 
 
 /*---------------------------------------------- MAIN CODE ------------------------------------------- */
@@ -89,6 +91,7 @@ basic.forever(function () {
 radio.onReceivedBuffer(function () {
 
     const serial_packet = radio.receivedPacket(RadioPacketProperty.SerialNumber)
+    const segnal_strenght = radio.receivedPacket(RadioPacketProperty.SignalStrength)
     const content = radio.lastPacket.bufferPayload.toString()
     const content_list: string[] = content.split(";")
 
@@ -117,7 +120,12 @@ radio.onReceivedBuffer(function () {
         `)
        
         if (request == OPERATION.JOINED) {
-            if(!joined) {
+            /**
+             * min_signal_strength = -100
+             * the signal stranght value ranges from -128 to -42 
+             * (-128 means a weak signal and -42 means a strong one.) 
+             */
+            if(!joined && segnal_strenght > min_signal_strenght) {
                 joined=true
                 radio_serial_number = serial_packet
                 radio.sendValue(OPERATION.JOINED.toString(),radio_serial_number) 

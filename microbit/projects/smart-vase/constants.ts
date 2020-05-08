@@ -35,10 +35,17 @@ enum OPERATION {
     DELETED = 18,
     SET_WATERING_LIGHT = 19,
     SET_WATER_CONTAINER_SIZE = 20,
-    WATER_CONTAINER_STATE = 21
+    WATER_CONTAINER_STATE = 21,
+    VASE_TRANSMIT_POWER = 24
 }
 
 let currentState = State.Happy
 let serial_number = control.deviceSerialNumber()  // serial number of the vase
 let DEBUG = true
 let single_water_amount = 0.02
+/*
+ * signal strength:
+ * the value ranges from -128 to -42 
+ * (-128 means a weak signal and -42 means a strong one.) 
+ */
+let min_signal_strenght = -100

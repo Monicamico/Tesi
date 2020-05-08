@@ -31,7 +31,9 @@ enum OPERATION {
     SET_WATERING_LIGHT = 19,
     SET_WATER_CONTAINER_SIZE = 20,
     WATER_CONTAINER_STATE = 21,
-    RADIO_JOIN = 22
+    RADIO_JOIN = 22,
+    RADIO_TRANSMIT_POWER = 23,
+    VASE_TRANSMIT_POWER = 24,
 };
 
 const serial_number = control.deviceSerialNumber()
