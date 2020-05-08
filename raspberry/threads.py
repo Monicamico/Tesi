@@ -1,10 +1,11 @@
 import threading
 import time
-import socket
-import requests as rq
 import serial
-from constants import URL_DASHBOARD, MICROBIT_PORT_MAC, Operation, MICROBIT_PORT_MAC2, PORT
+import requests as rq
+from constants import URL_DASHBOARD, Operation, PORT
 from request import request_queue
+from utility import get_ip
+from constants import MICROBIT_PORT_MAC, MICROBIT_PORT_MAC2
 
 
 try:
@@ -14,7 +15,6 @@ try:
     dummy = s.readline()
     s.timeout = None
     print('Dummy byte received: ' + str(dummy))
-
 except serial.serialutil.SerialException:
     print("\nNo such file or directory: " + MICROBIT_PORT_MAC)
     try:
@@ -26,10 +26,10 @@ except serial.serialutil.SerialException:
         print('Dummy byte received: ' + str(dummy))
     except serial.serialutil.SerialException:
         print("\nNo such file or directory: " + MICROBIT_PORT_MAC2)
-        exit(1)
+        #exit(1)
 
-hostname = socket.gethostname()
-ip_address = socket.gethostbyname(hostname)
+
+ip_address = get_ip()
 URL = 'http://' + str(ip_address) + ':' + str(PORT)
 print(URL)
 

@@ -1,9 +1,8 @@
-from flask import Flask
-
 from constants import PORT
-from request import request_page
+from utility import get_ip
 from threads import Reader, Writer
-import socket
+from flask import Flask
+from request import request_page
 
 
 def create_app():
@@ -13,20 +12,14 @@ def create_app():
 
 
 if __name__ == "__main__":
-
     try:
         thread_reader = Reader("Thread Reader")
         thread_writer = Writer("Thread Writer")
         thread_reader.start()
         thread_writer.start()
-
-    except NameError:
-        print("Parametro s inesistente\n")
+    except:
+        print("ERRORE THREADS\n")
         exit(1)
-
-    hostname = socket.gethostname()
-    ip_address = socket.gethostbyname(hostname)
-
     app = create_app()
-    #host=ip_address
-    app.run(port=PORT)
+    IP = get_ip()
+    app.run(host=IP, port=PORT)
