@@ -157,6 +157,7 @@ radio.onReceivedValue(function (request: string, param: number) {
         requestInt == OPERATION.LIGHT ||
         requestInt == OPERATION.TEMPERATURE ||
         requestInt == OPERATION.HUMIDITY ||
+        requestInt == OPERATION.VASE_STATE ||
         requestInt == OPERATION.SET_LIGHT_MIN ||
         requestInt == OPERATION.SET_LIGHT_MAX ||
         requestInt == OPERATION.SET_HUMIDITY_MIN ||
@@ -192,14 +193,16 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
     if (vase_exist) {
 
         if (request == OPERATION.PING || request == OPERATION.HUMIDITY ||
-            request == OPERATION.TEMPERATURE || request == OPERATION.LIGHT || request == OPERATION.WATER) 
+            request == OPERATION.TEMPERATURE || request == OPERATION.LIGHT ||
+            request == OPERATION.WATER || request == OPERATION.WATER_CONTAINER_STATE ||
+            request == OPERATION.VASE_STATE) 
             sendToVase(request, serialNumber)
             
         else if (request == OPERATION.SET_TEMPERATURE_MIN || request == OPERATION.SET_TEMPERATURE_MAX ||
                  request == OPERATION.SET_LIGHT_MIN || request == OPERATION.SET_LIGHT_MAX ||
                  request == OPERATION.SET_HUMIDITY_MAX || request == OPERATION.SET_HUMIDITY_MIN ||
                  request == OPERATION.SET_VASE_PAUSE_TIME || request == OPERATION.SET_VASE_SEND_TIME ||
-                 request == OPERATION.WATER_CONTAINER_STATE || request == OPERATION.SET_WATERING_LIGHT ) {
+                 request == OPERATION.SET_WATERING_LIGHT ) {
                     if (param != -1) 
                         sendToVase(request,serialNumber,param)
         }

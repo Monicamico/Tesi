@@ -6,8 +6,8 @@
 
 
 enum State {
-    Happy,
-    Sad
+    Sad,
+    Happy
 }
 
 enum WaterContainerState {
@@ -36,7 +36,8 @@ enum OPERATION {
     SET_WATERING_LIGHT = 19,
     SET_WATER_CONTAINER_SIZE = 20,
     WATER_CONTAINER_STATE = 21,
-    VASE_TRANSMIT_POWER = 24
+    VASE_TRANSMIT_POWER = 24,
+    VASE_STATE = 25
 }
 
 let currentState = State.Happy

@@ -34,6 +34,7 @@ enum OPERATION {
     RADIO_JOIN = 22,
     RADIO_TRANSMIT_POWER = 23,
     VASE_TRANSMIT_POWER = 24,
+    VASE_STATE = 25
 };
 
 const serial_number = control.deviceSerialNumber()

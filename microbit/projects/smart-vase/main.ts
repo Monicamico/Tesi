@@ -43,7 +43,7 @@ DEBUG = true
 
 if (DEBUG) {
     pause_time = 100000 
-    send_time =  200000 
+    send_time =  100000 
 } 
 
 /*---------------------------------------------- MAIN CODE ------------------------------------------- */
@@ -77,6 +77,7 @@ basic.forever(function () {
             sendHumidity()
             sendTemperature()
             sendLight()
+            sendCurrentState()
             basic.clearScreen()
         }
         time = 0
@@ -156,6 +157,12 @@ radio.onReceivedBuffer(function () {
             else if (request == OPERATION.LIGHT)
                 sendLight()
 
+            else if (request == OPERATION.VASE_STATE)
+                sendCurrentState()
+            
+            else if (request == OPERATION.WATER_CONTAINER_STATE) 
+                sendWaterContainerState()
+
             else if (request == OPERATION.SET_VASE_PAUSE_TIME && size == 3)
                 setPauseTime(x)
     
@@ -184,14 +191,8 @@ radio.onReceivedBuffer(function () {
                 setWateringLight(x)
 
             else if (request == OPERATION.SET_WATER_CONTAINER_SIZE && size == 3)
-                setWaterContainerSize(content_list[2])
-
-            else if (request == OPERATION.WATER_CONTAINER_STATE && size == 3) {
-                if (x == WaterContainerState.Full)
-                    setWaterContainerFull(true)
-                if (x == WaterContainerState.Empty) 
-                    setWaterContainerFull(false)
-            }
+                setWaterContainerSize(content_list[2])                
+            
         }   
     }
     basic.clearScreen()
@@ -203,6 +204,7 @@ input.onButtonPressed(Button.A, function(){
         sendHumidity()
         sendLight()
         sendTemperature()
+        sendCurrentState()
     } else
         basic.showNumber(pairing_number)
 })

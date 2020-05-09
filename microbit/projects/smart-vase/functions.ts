@@ -191,6 +191,19 @@ function sendLight() {
     basic.pause(2000)
 }
 
+function sendCurrentState() {
+    radio.sendValue(OPERATION.VASE_STATE.toString(), currentState)
+    basic.pause(2000)
+}
+
+function sendWaterContainerState() {
+    if (water_container_full)
+        radio.sendValue(OPERATION.WATER_CONTAINER_STATE.toString(),WaterContainerState.Full)
+    else 
+    radio.sendValue(OPERATION.WATER_CONTAINER_STATE.toString(),WaterContainerState.Empty)
+    basic.pause(2000)
+}
+
 function setState() {
     
     if ((humidity_measure <= hum_max && humidity_measure >= hum_min) && 
@@ -200,6 +213,7 @@ function setState() {
         currentState = State.Happy
     else 
         currentState = State.Sad
+
 }
 
 function getRandomIntInclusive() {
