@@ -52,6 +52,7 @@ class Plant(db.Model):
     id = db.Column(db.String(13), primary_key=True, unique=True, nullable=False)
     radio_id = db.Column(db.String(13), nullable=False)
     name = db.Column(db.String(24), unique=True)
+    state = db.Column(db.Boolean)
     humidity = db.Column(db.Integer())
     temperature = db.Column(db.Integer())
     light = db.Column(db.Integer())
@@ -79,6 +80,7 @@ def add_plant(idv, ping, radio, hum_min=300, hum_max=1000, temp_min=15, temp_max
                                      radio_id=radio,
                                      name=idv,
                                      ping=ping,
+                                     state=True,
                                      humidity_min=hum_min,
                                      humidity_max=hum_max,
                                      temperature_max=temp_max,
@@ -125,6 +127,17 @@ def update_light(idv, ping, light):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         plant.light = light
+        plant.ping = ping
+        db.session.commit()
+
+
+def update_vase_state(idv, ping, state):
+    plant = Plant.query.filter_by(id=idv).first()
+    if plant is not None:
+        if state == 0:
+            plant.state = False
+        else:
+            plant.state = True
         plant.ping = ping
         db.session.commit()
 

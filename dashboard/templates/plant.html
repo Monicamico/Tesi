@@ -4,14 +4,21 @@
 
     {% block content %}
 
-    <h1 class="mt-3"> Stato della pianta {{ plant.name }} </h1>
+    <h1 class="mt-3">
+        Stato della pianta {{ plant.name }}: {% if plant.state is sameas True %}
+                    Happy
+                {% else %}
+                    Sad
+                {% endif %}
+    </h1>
 
      <table class="MyTable" align="center">
         <thead>
             <tr>
-                <th> Luce per innaffiare </th>
-                <th> Dimensione contenitore acqua </th>
-                <th> Stato contenitore acqua </th>
+                <th>Luce per innaffiare </th>
+                <th>Dimensione contenitore </th>
+                <th>Stato contenitore </th>
+                <th>Azioni </th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +31,21 @@
                     Vuoto
                 {% endif %}
                 </td>
+                <td>
+
+                     <a class="myButton" href="http://127.0.0.1:5000/vase_state/{{plant.id}}" title="Richiedi stato">
+                        <i class="fas fa-smile-beam"></i>
+                     </a>
+
+                    <a class="myButton" href="http://127.0.0.1:5000/water/{{plant.id}}" title="Innaffia">
+                       <i class="fas fa-shower"></i>
+                    </a>
+                    <a class="myButton" href="http://127.0.0.1:5000/container_state/{{plant.id}}" title="Stato contenitore">
+                        <i class="fas fa-water"></i>
+                    </a>
+
+
+                    </td>
             </tr>
         </tbody>
     </table>
@@ -70,9 +92,7 @@
                <a class="myButton" href="http://127.0.0.1:5000/light/{{plant.id}}" title="Richiedi luce">
                    <i class="fas fa-sun"></i>
                </a>
-               <a class="myButton" href="http://127.0.0.1:5000/water/{{plant.id}}" title="Innaffia">
-                   <i class="fas fa-shower"></i>
-               </a>
+
            </td>
        </tr>
      </tbody>

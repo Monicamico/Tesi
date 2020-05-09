@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request as rcv_req, redirect
-from gio_db import Plant, update_hum, update_light, update_temp, update_ping
+from gio_db import Plant, update_hum, update_light, update_temp, update_ping, update_water_container_state, \
+    update_vase_state
 from constant import URL_RASPBERRY, URL
 import requests as snd_req
 import time
@@ -32,6 +33,20 @@ def update_plant_light():
 def update_plant_ping():
     data = rcv_req.json
     update_ping(data['serial'], data['ping'])
+    return "ok"
+
+
+@plant_id_page.route("/update_water_container_state", methods=['POST', 'PUT'])
+def update_water_container_state():
+    data = rcv_req.json
+    update_water_container_state(data['serial'], data['ping'], data['state'])
+    return "ok"
+
+
+@plant_id_page.route("/update_vase_state", methods=['POST', 'PUT'])
+def update_vase_state():
+    data = rcv_req.json
+    update_vase_state(data['serial'], data['ping'], data['state'])
     return "ok"
 
 
@@ -78,11 +93,25 @@ def light(idv):
     return redirect(URL+'/plant/'+str(idv))
 
 
-@plant_id_page.route("/container_full/<string:idv>", methods=['GET'])
-def container_full(idv):
-    reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'container_full', 'serial': idv, 'state': 1})
-    print(reply)
-    time.sleep(2)
+@plant_id_page.route("/container_state/<string:idv>", methods=['GET'])
+def container_state(idv):
+    try:
+        reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'container_state', 'serial': idv})
+        print(reply)
+        time.sleep(2)
+    except snd_req.exceptions.ConnectionError:
+        print('errore di connessione con RaspberryFlask')
+    return redirect(URL+'/plant/'+str(idv))
+
+
+@plant_id_page.route("/vase_state/<string:idv>", methods=['GET'])
+def vase_state_req(idv):
+    try:
+        reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'vase_state', 'serial': idv})
+        print(reply)
+        time.sleep(2)
+    except snd_req.exceptions.ConnectionError:
+        print('errore di connessione con RaspberryFlask')
     return redirect(URL+'/plant/'+str(idv))
 
 
