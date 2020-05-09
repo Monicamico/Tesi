@@ -25,6 +25,10 @@
         var options = {
           title: 'Status Vasi',
           pieHole: 0.5 ,
+          pieStartAngle: 100,
+          pieSliceTextStyle: {
+            color: 'black',
+          },
           colors: ['#6495ed', '#66cdaa']
         };
 
@@ -35,6 +39,7 @@
     {% endblock %}
   </head>
   <body class="B2">
+    <h2 class="mt-3"> Dashboard </h2>
     <div id="donutchart" style="width: 900px; height: 500px;"></div>
   </body>
 
