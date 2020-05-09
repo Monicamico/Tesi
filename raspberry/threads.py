@@ -2,7 +2,7 @@ import threading
 import time
 import serial
 import requests as rq
-from constants import URL_DASHBOARD, Operation, PORT
+from constants import URL_DASHBOARD, Operation, PORT, WaterContainerState, VaseState
 from request import request_queue
 from utility import get_ip
 from constants import MICROBIT_PORT_MAC, MICROBIT_PORT_MAC2
@@ -155,7 +155,7 @@ def reader():
                     print(reply)
 
                 elif request == Operation.WATER_CONTAINER_STATE.value:
-                    if param is not None and (param == 1 or 0):
+                    if param is not None and (param == WaterContainerState.Full or WaterContainerState.Empty):
                         print("water container state " + serial_number + ': ' + param)
                         reply = rq.put(url=URL_DASHBOARD + '/update_water_container_state',
                                        json={'serial': serial_number,
@@ -164,6 +164,17 @@ def reader():
                         print(reply)
                     else:
                         print("water container state " + serial_number + ": errore parametro")
+
+                elif request == Operation.VASE_STATE.value:
+                    if param is not None and (param == VaseState.Happy or VaseState.Empty):
+                        print("vase state " + serial_number + ': ' + param)
+                        reply = rq.put(url=URL_DASHBOARD + '/update_vase_state',
+                                       json={'serial': serial_number,
+                                             'ping': ping,
+                                             'state': param})
+                        print(reply)
+                    else:
+                        print("vase state " + serial_number + ": errore parametro")
 
                 elif request == Operation.SET_LIGHT_MIN.value:
                     if param is not None and (0 <= param <= 255):

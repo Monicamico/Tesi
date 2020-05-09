@@ -40,9 +40,11 @@ def request():
             req = str(Operation.REFUSED.value) + ";" + id_s + DELIMITER
             print(req)
 
-        elif req_type == 'container_full':
-            param = str(data['state'])
-            req = str(Operation.WATER_CONTAINER_STATE.value) + ";" + id_s + ";" + param + DELIMITER
+        elif req_type == 'vase_state':
+            req = str(Operation.VASE_STATE.value) + ";" + id_s + DELIMITER
+
+        elif req_type == 'container_state':
+            req = str(Operation.WATER_CONTAINER_STATE.value) + ";" + id_s + DELIMITER
 
         elif req_type == 'light_max':
             param = str(data['param'])
