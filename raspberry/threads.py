@@ -2,10 +2,10 @@ import threading
 import time
 import serial
 import requests as rq
-from constants import URL_DASHBOARD, Operation, PORT, WaterContainerState, VaseState
+from constants import URL_DASHBOARD, PORT, WaterContainerState, VaseState
 from request import request_queue
 from utility import get_ip
-from constants import MICROBIT_PORT_MAC, MICROBIT_PORT_MAC2
+from constants import MICROBIT_PORT_MAC, MICROBIT_PORT_MAC2, Operation, DELIMITER
 
 
 try:
@@ -91,6 +91,8 @@ def reader():
                     reply = rq.put(url=URL_DASHBOARD + '/radio_conn_request',
                                    json={'serial': serial_number,
                                          'url': URL})
+                    tosend = str(Operation.RADIO_JOIN.value) + DELIMITER
+                    request_queue.append(tosend)
                     print(reply)
 
                 elif request == Operation.CONNECTION.value:
@@ -98,13 +100,14 @@ def reader():
                     reply = rq.put(url=URL_DASHBOARD + '/add_conn_request',
                                    json={'serial': serial_number,
                                          'ping': ping,
-                                         'pairing': param})
+                                         'pairing': param,
+                                         'url': URL})
                     print(reply)
 
                 elif request == Operation.REFUSED.value:
                     print('refused: ' + serial_number)
                     reply = rq.put(url=URL_DASHBOARD + '/delete_conn_request',
-                                   json={'serial': serial_number, 'ping': ping})
+                                   json={'serial': serial_number, 'ping': ping, 'url': URL})
                     print(reply)
 
                 elif request == Operation.JOINED.value:
@@ -112,18 +115,19 @@ def reader():
                     reply = rq.put(url=URL_DASHBOARD + '/add_plant',
                                    json={'serial': serial_number,
                                          'ping': ping,
-                                         'radio_serial': param })
+                                         'radio_serial': param,
+                                         'url': URL})
                     print(reply)
 
                 elif request == Operation.DELETED.value:
                     print("deleted: " + serial_number)
                     reply = rq.put(url=URL_DASHBOARD + '/delete_plant',
-                                   json={'serial': serial_number})
+                                   json={'serial': serial_number, 'url': URL})
                     print(reply)
 
                 elif request == Operation.HUMIDITY.value:
                     if 0 <= param <= 1023:
-                        print('humidity ' + serial_number + ': ' + param + " ping: " + ping)
+                        print('humidity ' + serial_number + ': ' + str(param) + " ping: " + ping)
                         reply = rq.put(url=URL_DASHBOARD + '/update_hum',
                                        json={'serial': serial_number,
                                              'ping': ping,
@@ -131,7 +135,7 @@ def reader():
                         print(reply)
 
                 elif request == Operation.TEMPERATURE.value:
-                    print("temperature " + serial_number + ': ' + param + 'ping: ' + ping)
+                    print("temperature " + serial_number + ': ' + str(param) + 'ping: ' + ping)
                     reply = rq.put(url=URL_DASHBOARD + '/update_temp',
                                    json={'serial': serial_number,
                                          'ping': ping,
@@ -140,7 +144,7 @@ def reader():
 
                 elif request == Operation.LIGHT.value:
                     if 0 <= param <= 255:
-                        print("light " + serial_number + ': ' + param + 'ping: ' + ping)
+                        print("light " + serial_number + ': ' + str(param) + 'ping: ' + ping)
                         reply = rq.put(url=URL_DASHBOARD + '/update_light',
                                        json={'serial': serial_number,
                                              'ping': ping,
@@ -156,7 +160,7 @@ def reader():
 
                 elif request == Operation.WATER_CONTAINER_STATE.value:
                     if param is not None and (param == WaterContainerState.Full or WaterContainerState.Empty):
-                        print("water container state " + serial_number + ': ' + param)
+                        print("water container state " + serial_number + ': ' + str(param))
                         reply = rq.put(url=URL_DASHBOARD + '/update_water_container_state',
                                        json={'serial': serial_number,
                                              'ping': ping,
@@ -166,19 +170,19 @@ def reader():
                         print("water container state " + serial_number + ": errore parametro")
 
                 elif request == Operation.VASE_STATE.value:
-                    if param is not None and (param == VaseState.Happy or VaseState.Empty):
-                        print("vase state " + serial_number + ': ' + param)
-                        reply = rq.put(url=URL_DASHBOARD + '/update_vase_state',
-                                       json={'serial': serial_number,
-                                             'ping': ping,
-                                             'state': param})
-                        print(reply)
+                    if param is not None:
+                        if param == 0 or 1:
+                            print("vase state " + serial_number + ': ' + str(param))
+                            reply = rq.put(url=URL_DASHBOARD + '/update_vase_state', json={'serial': serial_number,
+                                                                                            'ping': ping,
+                                                                                            'state': param})
+                            print(reply)
                     else:
                         print("vase state " + serial_number + ": errore parametro")
 
                 elif request == Operation.SET_LIGHT_MIN.value:
                     if param is not None and (0 <= param <= 255):
-                        print("set light min " + serial_number + ': ' + param)
+                        print("set light min " + serial_number + ': ' + str(param))
                         reply = rq.put(url=URL_DASHBOARD + '/update_light_min',
                                        json={'serial': serial_number,
                                              'ping': ping,
@@ -189,7 +193,7 @@ def reader():
 
                 elif request == Operation.SET_LIGHT_MAX.value:
                     if param is not None and (0 <= param <= 255):
-                        print("set light max " + serial_number + ': ' + param)
+                        print("set light max " + serial_number + ': ' +str(param))
                         reply = rq.put(url=URL_DASHBOARD + '/update_light_max',
                                        json={'serial': serial_number,
                                              'ping': ping,
@@ -200,7 +204,7 @@ def reader():
 
                 elif request == Operation.SET_WATERING_LIGHT.value:
                     if param is not None and (0 <= param <= 255):
-                        print("set watering light " + serial_number + ': ' + param)
+                        print("set watering light " + serial_number + ': ' +str(param))
                         reply = rq.put(url=URL_DASHBOARD + '/update_watering_light',
                                        json={'serial': serial_number,
                                              'ping': ping,
@@ -211,7 +215,7 @@ def reader():
 
                 elif request == Operation.SET_HUMIDITY_MIN.value:
                     if param is not None and (0 <= param <= 1023):
-                        print("set humidity min " + serial_number + ': ' + param)
+                        print("set humidity min " + serial_number + ': ' + str(param))
                         reply = rq.put(url=URL_DASHBOARD + '/update_hum_min',
                                        json={'serial': serial_number,
                                              'ping': ping,
@@ -222,7 +226,7 @@ def reader():
 
                 elif request == Operation.SET_HUMIDITY_MAX.value:
                     if param is not None and (0 <= param <= 1023):
-                        print("set humidity max " + serial_number + ': ' + param)
+                        print("set humidity max " + serial_number + ': ' + str(param))
                         reply = rq.put(url=URL_DASHBOARD + '/update_hum_max',
                                        json={'serial': serial_number,
                                              'ping': ping,
@@ -233,7 +237,7 @@ def reader():
 
                 elif request == Operation.SET_TEMPERATURE_MIN.value:
                     if param is not None and (0 <= param):
-                        print("set temp min " + serial_number + ': ' + param)
+                        print("set temp min " + serial_number + ': ' + str(param))
                         reply = rq.put(url=URL_DASHBOARD + '/update_temp_min',
                                        json={'serial': serial_number,
                                              'ping': ping,
@@ -244,7 +248,7 @@ def reader():
 
                 elif request == Operation.SET_TEMPERATURE_MAX.value:
                     if param is not None and (0 <= param):
-                        print("set temp max " + serial_number + ': ' + param)
+                        print("set temp max " + serial_number + ': ' + str(param))
                         reply = rq.put(url=URL_DASHBOARD + '/update_temp_max',
                                        json={'serial': serial_number,
                                              'ping': ping,
@@ -264,4 +268,3 @@ def writer():
             st = request_queue.pop()
             write_serial(st)
             w = w + 1
-            time.sleep(2)
