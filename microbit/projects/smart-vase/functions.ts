@@ -162,6 +162,7 @@ function measure() {
     readHumidity()
     readTemperature()
     readLight()
+    setState()
 }
 
 /**

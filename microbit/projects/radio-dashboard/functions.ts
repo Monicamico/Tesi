@@ -154,6 +154,15 @@ function sendToRB(response: string){
 } 
 
 /**
+ * @summary to send a register request to raspberry (useful to save the url of the radio
+ * into the dashboard)
+ */
+function register(){
+    sendToRB(`${OPERATION.RADIO_JOIN};${serial_number};0;0`)
+}
+
+
+/**
  * @summary to send a request to smart-vase
  * @param request contains a number that rappresent the type of operation
  * @param serial serial number of the smart-vase

@@ -7,9 +7,11 @@
 /*--------------------------------- VARIABLE STATEMENTS --------------------------------*/
 
 let dim_vase_list: number = 0;           // size of vase_list
-let pause_time = 200000                  //(
+let pause_time = 200000                  //
+let not_registered_pause_time = 8000
 let current_time;
 let deadping = 1200000;                  // (20 min)
+let registered = false
 
 /*------------------------------------ INITIAL CODE -------------------------------------*/
 
@@ -21,7 +23,7 @@ serial.redirectToUSB()
 serial.writeLine('') //utile per bytes b'\x00 che scrive il microbit all'avvio
 dim_vase_list = vase_list.length
 DEBUG = true
-sendToRB(`${OPERATION.RADIO_JOIN};${serial_number};0;0`)
+
 
 if (DEBUG) {
     deadping = 300000
@@ -30,26 +32,34 @@ if (DEBUG) {
 /*------------------------------------------ MAIN CODE ------------------------------------------- */
 
 basic.forever(function () {
-   
-   current_time = input.runningTime()
-    for (const vase of vase_list){
-        if ((current_time - vase.getPing()) > deadping){
-            if (vase.dying)  {
-                dim_vase_list = deleteVase(vase.serial_number, vase_list)
-                if (dim_vase_list!= undefined){
-                    basic.showString("del")
-                    deleted_vases.push(vase.serial_number)
-                    sendToVase(OPERATION.DELETED,vase.serial_number)
-                    sendToRB(`${OPERATION.DELETED};${vase.serial_number};0;0`)
-                    drawNumberOfVases(dim_vase_list)
-                }    
-            } else {
-                vase.dying = true;
-                sendToVase(OPERATION.PING,vase.serial_number)
+    
+    if (!registered){
+        register()
+        basic.pause(not_registered_pause_time)
+    }
+       
+    else {
+        current_time = input.runningTime()
+        for (const vase of vase_list){
+            if ((current_time - vase.getPing()) > deadping){
+                if (vase.dying)  {
+                    dim_vase_list = deleteVase(vase.serial_number, vase_list)
+                    if (dim_vase_list!= undefined){
+                        basic.showString("del")
+                        deleted_vases.push(vase.serial_number)
+                        sendToVase(OPERATION.DELETED,vase.serial_number)
+                        sendToRB(`${OPERATION.DELETED};${vase.serial_number};0;0`)
+                        drawNumberOfVases(dim_vase_list)
+                    }    
+                } else {
+                    vase.dying = true;
+                    sendToVase(OPERATION.PING,vase.serial_number)
+                }
             }
         }
+        basic.pause(pause_time)
     }
-    basic.pause(pause_time)
+   
 })
 
 
@@ -125,6 +135,7 @@ radio.onReceivedValue(function (request: string, param: number) {
             return
         }
         if (containRequest(serialNumber, conn_request)) return
+
         let ping_req = input.runningTime();
         conn_request.push(new Request(serialNumber, ping_req, param))
         //send connection request to raspberry
@@ -156,16 +167,21 @@ radio.onReceivedValue(function (request: string, param: number) {
         requestInt == OPERATION.SET_WATERING_LIGHT ||
         requestInt == OPERATION.LIGHT ||
         requestInt == OPERATION.TEMPERATURE ||
-        requestInt == OPERATION.HUMIDITY ||
-        requestInt == OPERATION.VASE_STATE ||
+        requestInt == OPERATION.HUMIDITY)
+
+        sendToRB(`${request};${serialNumber};${ping};${param}`) 
+
+    if (requestInt == OPERATION.VASE_STATE ||
         requestInt == OPERATION.SET_LIGHT_MIN ||
         requestInt == OPERATION.SET_LIGHT_MAX ||
         requestInt == OPERATION.SET_HUMIDITY_MIN ||
         requestInt == OPERATION.SET_HUMIDITY_MAX ||
         requestInt == OPERATION.SET_TEMPERATURE_MIN ||
         requestInt == OPERATION.SET_TEMPERATURE_MAX)
-        //send the received value to raspberry as a string
+        
         sendToRB(`${request};${serialNumber};${ping};${param}`) 
+        //send the received value to raspberry as a string
+       
     
 })
 
@@ -178,10 +194,16 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
     let received = serial.readUntil(serial.delimiters(Delimiters.Hash))
     let r_list= received.split(";") 
     let size = r_list.length
-
-    if (size == 0 || size == 1) return
-    
     let request = parseInt(r_list[0])
+
+    if (size == 0)
+        return
+    if (size == 1){
+        if (request == OPERATION.RADIO_JOIN)
+            registered = true
+        return
+    }
+
     let serialNumber = parseInt(r_list[1]) 
     let param = -1;
 

@@ -95,7 +95,6 @@ radio.onReceivedBuffer(function () {
     const segnal_strenght = radio.receivedPacket(RadioPacketProperty.SignalStrength)
     const content = radio.lastPacket.bufferPayload.toString()
     const content_list: string[] = content.split(";")
-
     let size = content_list.length
 
     let request = 0
@@ -103,12 +102,12 @@ radio.onReceivedBuffer(function () {
     let x = 0
 
     if (size <= 1) return
-    if (size == 2) {
+    if (size >= 2) {
         request = parseInt(content_list[0])
         id = parseInt(content_list[1])
     }
     if (size == 3)
-         x = parseInt(content_list[2])
+        x = parseInt(content_list[2])
     
     if (id == serial_number || id == -1) {
 
