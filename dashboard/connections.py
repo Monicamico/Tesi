@@ -1,7 +1,7 @@
-from gio_db import add_conn_req, delete_conn_req, ConnectionRequest, add_radio
+from gio_db import add_conn_req, delete_conn_req, ConnectionRequest, add_radio, url_from_plant, url_from_conn
 from flask import Blueprint, render_template, request as http_req, redirect
 import requests as snd_req
-from constant import URL_RASPBERRY, URL
+from constant import URL
 import time
 
 connections_page = Blueprint('connections', __name__)
@@ -17,7 +17,7 @@ def radio_conn_req():
 @connections_page.route("/add_conn_request", methods=['POST', 'PUT'])
 def conn_req():
     data = http_req.json
-    add_conn_req(data['serial'], data['ping'], data['pairing'])
+    add_conn_req(data['serial'], data['ping'], data['pairing'], data['url'])
     return 'ok'
 
 
@@ -30,21 +30,32 @@ def del_conn_req():
 
 @connections_page.route("/add_plant_from_conn/<string:idv>", methods=['GET'])
 def add_plant_from_conn(idv):
-    plant = delete_conn_req(idv=idv)
-    if plant is None:
-        return redirect(URL+'/connections')
-    reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'joined', 'serial': idv})
-    print(reply)
-    time.sleep(2)
-    return redirect(URL+'/plants')
+    url = str(url_from_conn(idv))
+    print(url)
+    plant = ConnectionRequest.query.filter_by(id=idv).first()
+    if plant is not None:
+        if url != str(-1):
+            try:
+                reply = snd_req.put(url + '/request', json={'request': 'joined', 'serial': idv})
+                print(reply)
+                time.sleep(2)
+                return redirect(URL + '/plants')
+            except:
+                print('errore di connessione')
+                return redirect(URL + '/connections')
 
 
 @connections_page.route("/refuse_plant_from_conn/<string:idv>", methods=['GET'])
 def refuse_plant_from_conn(idv):
-    reply = snd_req.put(URL_RASPBERRY + '/request', json={'request': 'refused', 'serial': idv})
-    print(reply)
-    time.sleep(2)
-    return redirect(URL+'/connections')
+    url = str(url_from_conn(idv))
+    if url != str(-1):
+        try:
+            reply = snd_req.put(url + '/request', json={'request': 'refused', 'serial': idv})
+            print(reply)
+            time.sleep(2)
+        except:
+            print('errore di connessione')
+        return redirect(URL + '/connections')
 
 
 @connections_page.route('/connections')

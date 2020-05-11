@@ -1,23 +1,34 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import null
+from sqlalchemy import PrimaryKeyConstraint
 
 db = SQLAlchemy()
 
 
 class ConnectionRequest(db.Model):
     __tablename__ = 'connectionRequest'
-    id = db.Column(db.String, primary_key=True, unique=True, nullable=False)
+    id = db.Column(db.String, primary_key=True, nullable=False)
     ping = db.Column(db.Integer)
     pairing = db.Column(db.Integer)
+    url = db.Column(db.String, primary_key=True)
 
 
-def add_conn_req(idv, pingv, pairingv):
+def url_from_conn(idv):
+    c = ConnectionRequest.query.filter_by(id=idv).first()
+    if c is not None:
+        return c.url
+    else:
+        return -1
+
+
+def add_conn_req(idv, pingv, pairingv, urlv):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is None:
         conn = ConnectionRequest.query.filter_by(id=idv).first()
         if conn is None:
-            db.session.add(ConnectionRequest(id=idv, ping=pingv, pairing=pairingv))
+            db.session.add(ConnectionRequest(id=idv, ping=pingv, pairing=pairingv, url=urlv))
             db.session.commit()
+    else:
+        pass
     # se risulta già tra le piante inserite non faccio nulla dei db
     # e invio un avviso (la pianta è già stata registrata)
 
@@ -38,13 +49,29 @@ class Radio(db.Model):
     url_radio = db.Column(db.String(), nullable=False)
 
 
+def update_radio_name(radio,name):
+    r = Radio.query.filter_by(id=radio).first()
+    if r is not None:
+        try:
+            r.name = name
+        except:
+            pass
+        db.session.commit()
+
+
 def add_radio(radio, url_radio):
     r = Radio.query.filter_by(id=radio).first()
     if r is None:
-        db.session.add(Radio(id=radio,
-                              name=radio,
-                              url_radio=url_radio))
+        db.session.add(Radio(id=radio, name=radio, url_radio=url_radio))
         db.session.commit()
+
+
+def url_from_radio(radio):
+    r = Radio.query.filter_by(id=radio).first()
+    if r is not None:
+        return r.url_radio
+    else:
+        return None
 
 
 class Plant(db.Model):
@@ -93,6 +120,15 @@ def add_plant(idv, ping, radio, hum_min=300, hum_max=1000, temp_min=15, temp_max
                 db.session.commit()
 
 
+def url_from_plant(idv):
+    plant = Plant.query.filter_by(id=idv).first()
+    if plant is not None:
+        radio = Radio.query.filter_by(id=plant.radio_id).first()
+        if radio is not None:
+            return radio.url_radio
+    return -1
+
+
 def delete_plant(idv):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
@@ -103,7 +139,10 @@ def delete_plant(idv):
 def update_name(idv, name):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
-        plant.name = name
+        try:
+            plant.name = name
+        except:
+            pass
         db.session.commit()
 
 

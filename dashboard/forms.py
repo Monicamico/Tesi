@@ -13,4 +13,5 @@ class SettingsForm(FlaskForm):
     watering_light = IntegerField('Luce per innaffiare:')
     water_container_size = FloatField('Dimensione contenitore (litri):')
     name = StringField('Nome del vaso:')
+    radio_name = StringField('Nome della radio: ')
     submit = SubmitField('Imposta')

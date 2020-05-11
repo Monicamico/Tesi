@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request as http_req
-from gio_db import Radio, add_radio
+from gio_db import Radio, add_radio, ConnectionRequest
 
 radios_page = Blueprint('radios_page',__name__)
 
@@ -7,6 +7,8 @@ radios_page = Blueprint('radios_page',__name__)
 @radios_page.route('/radios')
 def radios():
     radios_list = Radio.query.all()
+    conn_list = ConnectionRequest.query.all()
     return render_template('radios.html',
+                           connections=conn_list,
                            radio_list=radios_list)
 

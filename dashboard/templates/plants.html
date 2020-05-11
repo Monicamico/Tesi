@@ -5,26 +5,31 @@
 
 
  {% block content %}
+ {% if plants %}
 
-    <h2 class="mt-3"> Lista delle piante registrate </h2>
+    <h2 class="mt-3"> Piante registrate </h2>
 
     <table width="500px" class="MyTable" align="center">
 
         <thead>
         <tr>
-            <th> Nome del vaso </th>
-            <th> ID Radio</th>
-            <th> Azioni </th>
+            <th> Nome Vaso </th>
+            <th> Nome Radio </th>
+            <th> Dettagli </th>
         </tr>
         </thead>
 
         <tbody>
-         {% for plant in plants: %}
+         {% for plant in plants|sort(attribute="radio_id") %}
            <tr>
                <td> {{ plant.name }} </td>
-               <td> {{ plant.radio_id }} </td>
+               <td>  {% for radio in radios: %}
+                        {% if radio.id == plant.radio_id %}
+                            {{radio.name}}
+                        {% endif %}
+                     {% endfor %}
+               </td>
                <td>
-                    <a class="myButton" title="Modifica" href="http://127.0.0.1:5000/settings/{{ plant.id }}"> <i class="fas fa-cog"></i> </a>
                     <a class="myButton" title="Info" href="http://127.0.0.1:5000/plant/{{ plant.id }}"><i class="fab fa-sistrix"></i></a>
                </td>
            </tr>
@@ -32,6 +37,9 @@
         </tbody>
 
     </table>
+    {% else %}
+        <h2 class="mt-3"> Nessuna pianta registrata</h2>
+    {% endif %}
 
     {% endblock %}
 

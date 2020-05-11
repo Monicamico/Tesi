@@ -2,33 +2,37 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h2 class="mt-3"> Richieste di connessione</h2>
+ {% if connections %}
+    <h2 class="mt-3"> Richieste di connessione: </h2>
 
-<table width="500px" class="MyTable" align="center">
-    <thead>
-    <tr>
-        <th> ID Vaso </th>
-        <th> Numero pairing </th>
-        <th> Azioni </th>
-    </tr>
-    </thead>
-    <tbody>
-
-    {% for conn in connections: %}
+    <table width="500px" class="MyTable" align="center">
+        <thead>
         <tr>
-            <td> {{ conn.id }} </td>
-            <td> {{ conn.pairing }} </td>
-            <td>
-                <a class="myButton" title="Accetta" href="http://127.0.0.1:5000/add_plant_from_conn/{{ conn.id }}">
-                    <i class="fas fa-check"></i>
-                </a>
-                <a class="myButton" title="Rifiuta" href="http://127.0.0.1:5000/refuse_plant_from_conn/{{ conn.id }}">
-                    <i class="fas fa-times"></i>
-                </a>
-            </td>
+            <th> ID Vaso </th>
+            <th> Numero pairing </th>
+            <th> Azioni </th>
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+
+        {% for conn in connections: %}
+            <tr>
+                <td> {{ conn.id }} </td>
+                <td> {{ conn.pairing }} </td>
+                <td>
+                    <a class="myButton" title="Accetta" href="http://127.0.0.1:5000/add_plant_from_conn/{{ conn.id }}">
+                        <i class="fas fa-check"></i>
+                    </a>
+                    <a class="myButton" title="Rifiuta" href="http://127.0.0.1:5000/refuse_plant_from_conn/{{ conn.id }}">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <h2 class="mt-3"> Non sono presenti richieste di connessione </h2>
+    {% endif %}
 
 {% endblock %}

@@ -1,7 +1,7 @@
 from math import ceil
 from flask import Blueprint, render_template, request as rcv_req, redirect
 from forms import SettingsForm
-from gio_db import Plant, update_name, url_from_plant
+from gio_db import Plant, update_name, url_from_plant, ConnectionRequest
 import time
 from constant import URL
 import requests as snd_req
@@ -12,6 +12,7 @@ settings_page = Blueprint('settings_page', __name__)
 @settings_page.route('/settings/<string:idv>', methods=['POST', 'GET'])
 def settings(idv):
     plant_s = Plant.query.filter_by(id=idv).first()
+    conn_list = ConnectionRequest.query.all()
     settings_form = SettingsForm()
     URL_RASPBERRY = str(url_from_plant(idv))
     if URL_RASPBERRY == str(-1):
@@ -71,11 +72,11 @@ def settings(idv):
                 snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temp_max', 'serial': idv, 'param': temp_max})
             except:
                 print('impossibile inoltrare la richiesta')
-
-        time.sleep(4)
+        time.sleep(1)
         return redirect(URL + '/settings/' + str(idv))
 
     return render_template('plant_settings.html',
+                           connections=conn_list,
                            plant=plant_s,
                            form=settings_form,
                            title="Settings")

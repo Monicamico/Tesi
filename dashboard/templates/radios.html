@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 {% extends 'layout.html' %}
 
-{% block content %}
-<h2 class="mt-3"> Lista delle radio </h2>
+    {% block content %}
+    {% if radio_list %}
+        <h2 class="mt-3"> Radio registrate </h2>
 
-<table width="500px" class="MyTable" align="center">
-    <thead>
-    <tr>
-        <th> ID Radio </th>
-        <th> Nome </th>
-        <th> Azioni </th>
-    </tr>
-    </thead>
-    <tbody>
+        <table width="500px" class="MyTable" align="center">
+            <thead>
+            <tr>
+                <th> ID Radio </th>
+                <th> Nome </th>
+                <th> Azioni </th>
+            </tr>
+            </thead>
+            <tbody>
 
-    {% for radio in radio_list: %}
-        <tr>
-            <td> {{ radio.id }} </td>
-            <td> {{ radio.name }} </td>
-            <td>
-              <a class="myButton" title="Modifica" href="http://127.0.0.1:5000/radio/{{ radio.id }}"> <i class="fas fa-cog"></i> </a>
-            </td>
-        </tr>
-    {% endfor %}
+        {% for radio in radio_list: %}
+            <tr>
+                <td> {{ radio.id }} </td>
+                <td> {{ radio.name }} </td>
+                <td>
+                  <a class="myButton" title="Modifica" href="http://127.0.0.1:5000/radio_settings/{{ radio.id }}"> <i class="fas fa-cog"></i> </a>
+                </td>
+            </tr>
+        {% endfor %}
+
+    {% else %}
+        <h2 class="mt-3"> Nessuna radio registrata</h2>
+    {% endif %}
 
     {% endblock %}

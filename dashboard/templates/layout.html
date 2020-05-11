@@ -34,12 +34,16 @@
               <i class="fas fa-home"></i> Home</a>
           <a href="http://127.0.0.1:5000/dashboard" class="list-group-item list-group-item-action bg-dark">
               <i class="fas fa-chart-area"></i> Dashboard</a>
-          <a href="http://127.0.0.1:5000/radio" class="list-group-item list-group-item-action bg-dark">
+          <a href="http://127.0.0.1:5000/radios" class="list-group-item list-group-item-action bg-dark">
               <i class="fas fa-rss"></i> Radio</a>
           <a href="http://127.0.0.1:5000/plants" class="list-group-item list-group-item-action bg-dark">
               <i class="fab fa-envira"></i> Piante</a>
           <a href="http://127.0.0.1:5000/connections" class="list-group-item list-group-item-action bg-dark">
-              <i class="fas fa-plus"></i> Nuove piante</a>
+              <i class="fas fa-plus"></i> Nuove piante
+              {% if connections %}
+                <span class="badge badge-primary2 badge-pill2"> {{connections|length}} </span>
+              {% endif %}
+          </a>
           <a href="http://127.0.0.1:5000/map" class="list-group-item list-group-item-action bg-dark">
               <i class="fas fa-map-marked"></i> Mappa</a>
       </div>
