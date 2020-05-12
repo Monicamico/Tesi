@@ -26,14 +26,14 @@
         sys.renderer = Renderer("#viewport")
           for (const node of data.nodes) {
               if (node.type == 'dashboard')
-                  sys.addNode(node.name,{'color':'darkblue','shape': 'dot','label':node.toshow });
+                  sys.addNode(node.name,{'color':'darkblue','shape': 'dot','label':node.toshow, 'l': 'no' });
               else if(node.type == 'radio')
-                sys.addNode(node.name,{'color':'royalblue','shape': 'dot','label':node.toshow });
+                sys.addNode(node.name,{'color':'royalblue','shape': 'dot','label':node.toshow, 'l': 'no'});
               else if (node.type == 'vase'){
                   if (node.color == 'sad')
-                      sys.addNode(node.name,{'color': 'indianred','label':node.toshow});
+                      sys.addNode(node.name,{'color': 'indianred','label':node.toshow, 'link': node.link});
                   else
-                       sys.addNode(node.name,{'color': 'mediumseagreen','label':node.toshow});
+                       sys.addNode(node.name,{'color': 'mediumseagreen','label':node.toshow, 'link': node.link});
               }
           }
           for (const edge of data.edges) {

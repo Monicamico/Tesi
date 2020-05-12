@@ -9,14 +9,19 @@ import requests as snd_req
 settings_page = Blueprint('settings_page', __name__)
 
 
-@settings_page.route('/settings/<string:idv>', methods=['POST', 'GET'])
-def settings(idv):
+@settings_page.route('/settings/<string:idv>/<string:alert>', methods=['POST', 'GET'])
+def settings(idv, alert):
     plant_s = Plant.query.filter_by(id=idv).first()
     conn_list = ConnectionRequest.query.all()
     settings_form = SettingsForm()
     URL_RASPBERRY = str(url_from_plant(idv))
     if URL_RASPBERRY == str(-1):
-        return redirect(URL + '/settings/' + str(idv))
+        return render_template('plant_settings.html',
+                               alert='fail-url',
+                               connections=conn_list,
+                               plant=plant_s,
+                               form=settings_form,
+                               title="Settings")
 
     if settings_form.validate_on_submit():
         name = rcv_req.form['name']
@@ -34,48 +39,70 @@ def settings(idv):
         if light_max != plant_s.light_max:
             try:
                 snd_req.put(URL_RASPBERRY + '/request', json=dict(request='light_max', serial=idv, param=light_max))
+                alert='success'
             except:
+                alert='fail'
                 print('impossibile inoltrare la richiesta')
 
         if light_min != plant_s.light_min:
             try:
+                alert = 'success'
                 snd_req.put(URL_RASPBERRY + '/request', json={'request': 'light_min', 'serial': idv, 'param': light_min})
             except:
+                alert = 'fail'
                 print('impossibile inoltrare la richiesta')
 
         if watering_light != plant_s.watering_light:
             try:
                 snd_req.put(URL_RASPBERRY + '/request', json={'request': 'watering_light', 'serial': idv, 'param': watering_light})
+                alert = 'success'
             except:
+                alert = 'fail'
                 print('impossibile inoltrare la richiesta')
 
         if hum_min != plant_s.humidity_min:
             try:
                 snd_req.put(URL_RASPBERRY + '/request', json={'request': 'hum_min', 'serial': idv, 'param': hum_min})
+                alert = 'success'
             except:
+                alert = 'fail'
                 print('impossibile inoltrare la richiesta')
 
         if hum_max != plant_s.humidity_max:
             try:
                 snd_req.put(URL_RASPBERRY + '/request', json={'request': 'hum_max', 'serial': idv, 'param': hum_max})
+                alert = 'success'
             except:
+                alert = 'fail'
                 print('impossibile inoltrare la richiesta')
 
         if temp_min != plant_s.temperature_min:
             try:
                 snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temp_min', 'serial': idv, 'param': temp_min})
+                alert = 'success'
             except:
+                alert = 'fail'
                 print('impossibile inoltrare la richiesta')
 
         if temp_max != plant_s.temperature_max:
             try:
                 snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temp_max', 'serial': idv, 'param': temp_max})
+                alert = 'success'
             except:
+                alert = 'fail'
                 print('impossibile inoltrare la richiesta')
-        time.sleep(1)
-        return redirect(URL + '/settings/' + str(idv))
+
+        if alert =='success':
+            time.sleep(2)
+        return render_template('plant_settings.html',
+                               alert=alert,
+                               connections=conn_list,
+                               plant=plant_s,
+                               form=settings_form,
+                               title="Settings")
 
     return render_template('plant_settings.html',
+                           alert='vase',
                            connections=conn_list,
                            plant=plant_s,
                            form=settings_form,

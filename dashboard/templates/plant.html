@@ -4,6 +4,23 @@
 
     {% block content %}
 
+    {% if alert == 'success' %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Richiesta operazione avvenuta con successo!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    {% if alert == 'fail' %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          Impossbile inoltrare la richiesta - Operazione faillita
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    {% endif %}
+
     <h1 class="mt-3">
         Stato della pianta {{ plant.name }}: {% if plant.state is sameas True %}
                     Happy
@@ -18,7 +35,7 @@
                 <th>Luce per innaffiare </th>
                 <th>Dimensione contenitore </th>
                 <th>Stato contenitore </th>
-                <th>Azioni </th>
+                <th>Azioni</th>
             </tr>
         </thead>
         <tbody>
@@ -135,8 +152,8 @@
 
 
     <h2>
-        <a class="myButton"href="http://127.0.0.1:5000/plants"> <i class="fas fa-arrow-circle-left"></i> Torna alla lista </a>
-        <a class="myButton" title="Modifica" href="http://127.0.0.1:5000/settings/{{ plant.id }}"> <i class="fas fa-cog"></i> Modifica </a>
+        <a class="myButton"href="http://127.0.0.1:5000/plants/info"> <i class="fas fa-arrow-circle-left"></i> Torna alla lista </a>
+        <a class="myButton" title="Modifica" href="http://127.0.0.1:5000/settings/{{ plant.id }}/vase"> <i class="fas fa-cog"></i> Modifica </a>
     </h2>
 
     {% endblock %}

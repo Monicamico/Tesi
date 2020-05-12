@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, json
 from gio_db import Radio, Plant, db, ConnectionRequest
+from constant import URL
 
 map_page = Blueprint('map_page', __name__)
 
@@ -11,7 +12,7 @@ def dash_page():
     nodes = list()
     edges = list()
 
-    elem = {'name': 'dashboard', 'type': 'dashboard', 'toshow': 'Dip. di Informatica'}
+    elem = {'name': 'dashboard', 'type': 'dashboard', 'toshow': 'Dip. Informatica'}
     nodes.append(elem)
 
     for radio in radio_list:
@@ -22,9 +23,13 @@ def dash_page():
 
     for plant in plants_list:
         if plant.state is False:
-            elem = {'name': plant.id, 'type': 'vase', 'color': 'sad', 'toshow': plant.name}
+            vase_color='sad'
         else:
-            elem = {'name': plant.id, 'type': 'vase', 'color': 'happy', 'toshow': plant.name}
+            vase_color = 'happy'
+
+        elem = {'name': plant.id, 'type': 'vase',
+                'color': vase_color, 'toshow': plant.name,
+                'link': URL + '/plant/' + plant.id + '/info'}
         nodes.append(elem)
         elem = {'src': plant.id, 'dest': plant.radio_id}
         edges.append(elem)

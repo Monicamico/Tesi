@@ -18,12 +18,13 @@ def delete_plant_id():
     return "ok"
 
 
-@plants_page.route('/plants')
-def plants():
+@plants_page.route('/plants/<string:alert>')
+def plants(alert):
     plants_list = Plant.query.all()
     radios_list = Radio.query.all()
     conn_list = ConnectionRequest.query.all()
     return render_template('plants.html',
+                           alert=alert,
                            plants=plants_list,
                            radios=radios_list,
                            connections=conn_list,

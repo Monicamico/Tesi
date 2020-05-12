@@ -54,9 +54,10 @@ def update_radio_name(radio,name):
     if r is not None:
         try:
             r.name = name
+            db.session.commit()
         except:
             pass
-        db.session.commit()
+
 
 
 def add_radio(radio, url_radio):
@@ -141,9 +142,9 @@ def update_name(idv, name):
     if plant is not None:
         try:
             plant.name = name
+            db.session.commit()
         except:
             pass
-        db.session.commit()
 
 
 def update_hum(idv, ping, humidity):

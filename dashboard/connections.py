@@ -36,13 +36,14 @@ def add_plant_from_conn(idv):
     if plant is not None:
         if url != str(-1):
             try:
-                reply = snd_req.put(url + '/request', json={'request': 'joined', 'serial': idv})
-                print(reply)
+                snd_req.put(url + '/request', json={'request': 'joined', 'serial': idv})
                 time.sleep(2)
-                return redirect(URL + '/plants')
+                alert = 'add-success'
+                return conn_page(alert)
             except:
                 print('errore di connessione')
-                return redirect(URL + '/connections')
+                alert = 'add-fail'
+                return conn_page(alert)
 
 
 @connections_page.route("/refuse_plant_from_conn/<string:idv>", methods=['GET'])
@@ -50,17 +51,19 @@ def refuse_plant_from_conn(idv):
     url = str(url_from_conn(idv))
     if url != str(-1):
         try:
-            reply = snd_req.put(url + '/request', json={'request': 'refused', 'serial': idv})
-            print(reply)
+            snd_req.put(url + '/request', json={'request': 'refused', 'serial': idv})
+            alert = 'refuse-success'
             time.sleep(2)
         except:
+            alert = 'refuse-fail'
             print('errore di connessione')
-        return redirect(URL + '/connections')
+        return conn_page(alert)
 
 
-@connections_page.route('/connections')
-def conn_page():
+@connections_page.route('/connections/<string:alert>')
+def conn_page(alert):
     conn_list = ConnectionRequest.query.all()
     return render_template('connections.html',
+                           alert=alert,
                            connections=conn_list,
-                           title="Gio-Vase")
+                           title="Connessioni")
