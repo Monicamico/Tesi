@@ -27,10 +27,9 @@ def radio_settings(idr, alert):
         radio_name = rcv_req.form['radio_name']
 
         if radio_name != radio.name:
-            try:
-                update_radio_name(idr, radio_name)
+            if update_radio_name(idr, radio_name):
                 alert = 'success'
-            except:
+            else:
                 alert = 'fail'
         else:
             alert = 'fail-param'

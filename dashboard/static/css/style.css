@@ -1,0 +1,237 @@
+#verde {
+    =  #A5FFDB
+}
+
+body {
+    margin: 0;
+    font-family: 'Ubuntu', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: rgb(7, 19, 24);
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    background-image: url(stanza.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    background-attachment: scroll;
+}
+
+g, rect {
+    font-weight: normal;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+}
+g>text {
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+}
+
+p >.list-group{
+    display: inline-flex;
+}
+
+.badge-success {
+    color: #53b472;
+    background-color: #53b472;
+}
+
+.badge-danger {
+    color: #cd5c5c;
+    background-color: #cd5c5c;
+}
+
+.badge-info {
+    color: #4169e2;
+    background-color: #4169e2;
+}
+
+.list-group {
+    display: -ms-flexbox;
+    display: inline-flex;
+    -ms-flex-direction: column;
+    flex-direction: inherit;
+    padding-left: 0;
+    margin-bottom: 0;
+    text-align: left;
+}
+
+#sidebar-wrapper .list-group {
+    display: block;
+    width: 15rem;
+}
+
+.fa, .fas, .far, .fal, .fad, .fab {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    margin-right: 5px;
+    padding-left: 5px;
+}
+
+h1{
+    padding-bottom: 5px;
+   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+h2 {
+    padding-bottom: 5px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+
+.list-group-flush .list-group-item {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+    color: #d8f2f5;
+}
+
+.list-group-flush. list-group-item.active{
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+    color: #74a4f1;
+}
+.navbar-light .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar-light .navbar-nav .active>.nav-link,
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .show>.nav-link {
+    color: rgb(240, 255, 255);
+}
+
+.border-right {
+    border-right: 3px solid var(--gray) !important;
+}
+
+.border-bottom {
+    border-bottom: 2px solid var(--gray)!important;
+}
+
+code {
+    font-size: 87.5%;
+    color: rgba(105, 243, 234, 0.69);
+    word-break: break-word;
+}
+
+.myButton,
+input[type="submit"] {
+	background-color: cornflowerblue;
+	border-radius:16px;
+	border:2px groove royalblue;
+	display:inline-block;
+	cursor:pointer;
+	color: #bbe4e6;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:8px 6px;
+	text-decoration:none;
+}
+.myButton:hover,
+input[type="submit"] {
+	background-color: rgba(73, 138, 241, 0.84);
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+
+/*
+ * Stile tabella
+ */
+
+table {
+  opacity: 0.9;
+  min-width: 200px;
+  max-width: 850px;
+  -webkit-text-stroke-width: thin;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+table.myTable {
+    max-height: 50%;
+    margin-top: 10px;
+    border: 5px;
+    font-size: 15px;
+}
+
+table.MyTable th, tr, td {
+    padding: 10px 12px;
+    width: 300px;
+    border: #2a2a2a;
+    text-decoration: none;
+}
+
+table.MyTable th {
+    background: #A5FFDB;
+    color: #05050c;
+}
+
+table.MyTable tr:nth-child(odd){
+  background-color: rgba(208, 240, 243, 0.91);
+}
+
+table.MyTable tr:nth-child(even){
+  background-color: ghostwhite;
+}
+
+table.MyTable a {
+    -webkit-text-stroke-width: initial;
+}
+
+label {
+    margin-bottom: 0px;
+}
+
+body.B2 {
+    align-content: center;
+    text-align: center;
+    background-color: var(--white);
+    background-image: unset;
+}
+
+.bg-dark {
+    background-color: #343a40!important;
+    opacity: 0.98;
+}
+
+.badge-primary2 {
+    color: #393f44;
+    background-color: #abf8de;
+    font-style: inherit;
+    padding-left: 5px;
+    padding: 5px;
+    margin-left: 30px;
+}
+
+.badge-pill2 {
+    border-radius: 8px;
+}
+
+.mt-3, mt-4, .my-3 {
+    margin-top: 1.3rem!important;
+    margin-bottom: 1.5rem;
+}
+
+canvas.linkable{
+   cursor: pointer;
+ }

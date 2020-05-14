@@ -1,9 +1,11 @@
+import sqlite3
 from math import ceil
+
+import sqlalchemy
 from flask import Blueprint, render_template, request as rcv_req, redirect
 from forms import SettingsForm
 from gio_db import Plant, update_name, url_from_plant, ConnectionRequest
 import time
-from constant import URL
 import requests as snd_req
 
 settings_page = Blueprint('settings_page', __name__)
@@ -34,7 +36,20 @@ def settings(idv, alert):
         watering_light = ceil(int(rcv_req.form['watering_light']) / 100 * 255)
 
         if name != plant_s.name:
-            update_name(idv, name)
+            if update_name(idv, name):
+                return render_template('plant_settings.html',
+                                       alert='name-success',
+                                       connections=conn_list,
+                                       plant=plant_s,
+                                       form=settings_form,
+                                       title="Settings")
+            else:
+                return render_template('plant_settings.html',
+                                       alert='name-fail',
+                                       connections=conn_list,
+                                       plant=plant_s,
+                                       form=settings_form,
+                                       title="Settings")
 
         if light_max != plant_s.light_max:
             try:
@@ -42,7 +57,6 @@ def settings(idv, alert):
                 alert='success'
             except:
                 alert='fail'
-                print('impossibile inoltrare la richiesta')
 
         if light_min != plant_s.light_min:
             try:
@@ -50,7 +64,6 @@ def settings(idv, alert):
                 snd_req.put(URL_RASPBERRY + '/request', json={'request': 'light_min', 'serial': idv, 'param': light_min})
             except:
                 alert = 'fail'
-                print('impossibile inoltrare la richiesta')
 
         if watering_light != plant_s.watering_light:
             try:
@@ -58,7 +71,6 @@ def settings(idv, alert):
                 alert = 'success'
             except:
                 alert = 'fail'
-                print('impossibile inoltrare la richiesta')
 
         if hum_min != plant_s.humidity_min:
             try:
@@ -66,7 +78,6 @@ def settings(idv, alert):
                 alert = 'success'
             except:
                 alert = 'fail'
-                print('impossibile inoltrare la richiesta')
 
         if hum_max != plant_s.humidity_max:
             try:
@@ -74,7 +85,6 @@ def settings(idv, alert):
                 alert = 'success'
             except:
                 alert = 'fail'
-                print('impossibile inoltrare la richiesta')
 
         if temp_min != plant_s.temperature_min:
             try:
@@ -82,7 +92,6 @@ def settings(idv, alert):
                 alert = 'success'
             except:
                 alert = 'fail'
-                print('impossibile inoltrare la richiesta')
 
         if temp_max != plant_s.temperature_max:
             try:
@@ -90,19 +99,12 @@ def settings(idv, alert):
                 alert = 'success'
             except:
                 alert = 'fail'
-                print('impossibile inoltrare la richiesta')
 
         if alert =='success':
             time.sleep(2)
-        return render_template('plant_settings.html',
-                               alert=alert,
-                               connections=conn_list,
-                               plant=plant_s,
-                               form=settings_form,
-                               title="Settings")
 
     return render_template('plant_settings.html',
-                           alert='vase',
+                           alert=alert,
                            connections=conn_list,
                            plant=plant_s,
                            form=settings_form,

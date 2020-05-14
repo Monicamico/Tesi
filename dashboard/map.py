@@ -12,7 +12,7 @@ def dash_page():
     nodes = list()
     edges = list()
 
-    elem = {'name': 'dashboard', 'type': 'dashboard', 'toshow': 'Dip. Informatica'}
+    elem = {'name': 'dashboard', 'type': 'dashboard', 'toshow': 'Dipartimento Informatica'}
     nodes.append(elem)
 
     for radio in radio_list:

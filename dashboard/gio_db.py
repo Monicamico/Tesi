@@ -1,5 +1,4 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import PrimaryKeyConstraint
 
 db = SQLAlchemy()
 
@@ -27,10 +26,9 @@ def add_conn_req(idv, pingv, pairingv, urlv):
         if conn is None:
             db.session.add(ConnectionRequest(id=idv, ping=pingv, pairing=pairingv, url=urlv))
             db.session.commit()
-    else:
-        pass
+            return True
+    return False
     # se risulta già tra le piante inserite non faccio nulla dei db
-    # e invio un avviso (la pianta è già stata registrata)
 
 
 def delete_conn_req(idv):
@@ -47,24 +45,42 @@ class Radio(db.Model):
     id = db.Column(db.String(13), primary_key=True, unique=True, nullable=False)
     name = db.Column(db.String(24), unique=True)
     url_radio = db.Column(db.String(), nullable=False)
+    transmit_power = db.Column(db.Integer(), default=7)
 
 
 def update_radio_name(radio,name):
-    r = Radio.query.filter_by(id=radio).first()
-    if r is not None:
-        try:
+    r = Radio.query.filter_by(name=name).first()
+    if r is None:
+        r = Radio.query.filter_by(id=radio).first()
+        if r is not None:
             r.name = name
             db.session.commit()
-        except:
-            pass
+            return True
+    return False
 
+
+def delete_radio(radio):
+    r = Radio.query.filter_by(id=radio).first()
+    if r is not None:
+        db.session.delete(r)
+        db.session.commit()
 
 
 def add_radio(radio, url_radio):
     r = Radio.query.filter_by(id=radio).first()
     if r is None:
-        db.session.add(Radio(id=radio, name=radio, url_radio=url_radio))
+        db.session.add(Radio(id=radio, name=radio,
+                             url_radio=url_radio,
+                             transmit_power=7))
         db.session.commit()
+    else:
+        r_url = Radio.query.filter_by(id=radio, url_radio=url_radio).first()
+        if r_url is None:
+            delete_radio(radio)
+            db.session.add(Radio(id=radio, name=radio,
+                                 url_radio=url_radio,
+                                 transmit_power=7))
+            db.session.commit()
 
 
 def url_from_radio(radio):
@@ -94,11 +110,10 @@ class Plant(db.Model):
     watering_light = db.Column(db.Integer, default=70)
     water_container_state = db.Column(db.Boolean, nullable=False, default=True)
     water_container_size = db.Column(db.Float, nullable=False, default=0.5)
+    transmit_power = db.Column(db.Integer(), default=7)
 
 
-def add_plant(idv, ping, radio, hum_min=300, hum_max=1000, temp_min=15, temp_max=30, li_min=50, li_max=250, wl=70,
-              ws=True,
-              wcs=0.5):
+def add_plant(idv, ping, radio):
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
         if delete_conn_req(idv) is not None:
@@ -109,15 +124,16 @@ def add_plant(idv, ping, radio, hum_min=300, hum_max=1000, temp_min=15, temp_max
                                      name=idv,
                                      ping=ping,
                                      state=True,
-                                     humidity_min=hum_min,
-                                     humidity_max=hum_max,
-                                     temperature_max=temp_max,
-                                     temperature_min=temp_min,
-                                     light_max=li_max,
-                                     light_min=li_min,
-                                     watering_light=wl,
-                                     water_container_size=wcs,
-                                     water_container_state=ws))
+                                     humidity_min=300,
+                                     humidity_max=1000,
+                                     temperature_max=30,
+                                     temperature_min=15,
+                                     light_max=250,
+                                     light_min=50,
+                                     watering_light=70,
+                                     water_container_size=0.5,
+                                     water_container_state=True,
+                                     transmit_power=7))
                 db.session.commit()
 
 
@@ -138,13 +154,14 @@ def delete_plant(idv):
 
 
 def update_name(idv, name):
-    plant = Plant.query.filter_by(id=idv).first()
-    if plant is not None:
-        try:
+    plant = Plant.query.filter_by(name=name).first()
+    if plant is None:
+        plant = Plant.query.filter_by(id=idv).first()
+        if plant is not None:
             plant.name = name
             db.session.commit()
-        except:
-            pass
+            return True
+    return False
 
 
 def update_hum(idv, ping, humidity):

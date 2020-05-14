@@ -21,13 +21,15 @@
         </div>
     {% endif %}
 
-    <h1 class="mt-3">
-        Stato della pianta {{ plant.name }}: {% if plant.state is sameas True %}
-                    Happy
-                {% else %}
-                    Sad
-                {% endif %}
-    </h1>
+    <h2 class="mt-3">
+        Stato della pianta <i>{{ plant.name }}</i>:
+        <br>
+        {% if plant.state is sameas True %}
+            Happy <i class="far fa-smile-beam"></i>
+        {% else %}
+            Sad <i class="far fa-frown"></i>
+        {% endif %}
+    </h2>
 
      <table class="MyTable" align="center">
         <thead>

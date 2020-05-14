@@ -8,4 +8,16 @@ venv
 __pycache__
 
 # Dashboard
-dashboard/static/
+dashboard/static/vendor
+dashboard/static/webfonts
+dashboard/static/css/all*
+dashboard/static/css/brands*
+dashboard/staitc/css/regular*
+dashboard/static/css/solid*
+dashboard/static/css/svg*
+dashboard/static/css/fontawesome*
+dashboard/static/css/regular*
+dashboard/static/css/v4*
+dashboard/static/js/gulpfile.js
+dashboard/static/js/primitives.js
+

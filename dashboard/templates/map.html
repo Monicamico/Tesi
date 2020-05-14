@@ -2,13 +2,22 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h2 class="mt-3"> Mappa radio e vasi</h2>
+<br>
+<p class="mt-3" align="left">
+    <ul class="list-group" width="300">
+    <li class="list-group-item"> <span class="badge badge-pill badge-info"> - </span>  Radio </li>
+    <li class="list-group-item"> <span class="badge badge-pill badge-success"> - </span>  Vaso in buono stato </li>
+    <li class="list-group-item"> <span class="badge badge-pill badge-danger"> - </span>  Vaso in cattivo stato</li>
+    </ul>
+</p>
+<p class="mt-3" align="center">Fai doppio click su un vaso per vederne i dettagli</p>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
 
 <body class="B2">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/arbor.js')}}"></script>
     <script src="{{ url_for('static', filename='js/arbor-tween.js')}}"></script>
@@ -16,11 +25,10 @@
     <script src="{{ url_for('static', filename='js/colors.js')}}"></script>
     <script src="{{ url_for('static', filename='js/primitives.js')}}"></script>
     <script src="{{ url_for('static', filename='js/renderer.js')}}"></script>
-    <canvas id="viewport" width="1100" height="600"></canvas>
-
+    <canvas id="viewport" width="1150" height="800"></canvas>
     {% block javascript %}
     <script>
-        var sys = arbor.ParticleSystem(100,600,0.5,true);
+        var sys = arbor.ParticleSystem(100,600,0.5,false);
         sys.parameters({gravity:true});
         var data = JSON.parse('{{ data|safe }}');
         sys.renderer = Renderer("#viewport")
@@ -41,6 +49,7 @@
           }
 
     </script>
+    <br>
     {% endblock %}
 
 </body>

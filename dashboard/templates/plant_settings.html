@@ -5,14 +5,33 @@
 
     {% block content %}
 
-    {% if alert == 'success' %}
+    {% if alert == 'name-success' %}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Richiesta operazione avvenuta con successo!
+            Nome della pianta cambiato con successo!
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
         </div>
     {% endif %}
+
+    {% if alert == 'name-fail' %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            Impossibile cambiare nome della pianta - duplicato
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+
+    {% if alert == 'success' %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Operazione avvenuta con successo!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+
     {% if alert == 'fail-url' %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
           Indirizzo Radio inesistente - Operazione faillita
@@ -21,6 +40,7 @@
           </button>
         </div>
     {% endif %}
+
     {% if alert == 'fail' %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
           Impossbile inoltrare la richiesta - Operazione faillita
@@ -32,15 +52,19 @@
 
      <h2 class="mt-3"> Impostazioni del vaso {{ plant.name }}:</h2>
 
-     <form action="" method="post" novalidate>
+        <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
 
-          <table class="MyTable" align="center">
+          <table  width="600px" class="MyTable" align="center">
               <tr>
                  <td> <label>{{ form.name.label }}</label> </td>
                  <td>{{ form.name(size=24, value = plant.name)}} </td>
+                  <td> {{ form.submit()}} </td>
                </tr>
           </table>
+
+            <br>
+            <br>
 
          <table width="600px" class="MyTable" align="center">
 
@@ -76,8 +100,6 @@
          <p> {{ form.submit()}} </p>
 
     </form>
-
-    <br>
     <br>
     <br>
     <a class="myButton" href="http://127.0.0.1:5000/plant/{{plant.id}}/info"> <i class="fas fa-arrow-circle-left"></i> Indietro </a>
