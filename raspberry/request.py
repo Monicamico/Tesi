@@ -82,6 +82,16 @@ def request():
             req = str(Operation.SET_TEMPERATURE_MAX.value) + ";" + id_s + ";" + param + DELIMITER
             print('temperature max')
 
+        elif req_type == 'vase_transmit_power':
+            param = str(data['param'])
+            req = str(Operation.VASE_TRANSMIT_POWER.value) + ";" + id_s + ";" + param + DELIMITER
+            print('vase_transmit_power')
+
+        elif req_type == 'radio_transmit_power':
+            param = str(data['param'])
+            req = str(Operation.RADIO_TRANSMIT_POWER.value) + ";" + id_s + ";" + param + DELIMITER
+            print('radio_transmit_power')
+
         request_queue.append(req)
         if req_type == 'joined':
             return redirect(URL_DASHBOARD + '/plants/')
