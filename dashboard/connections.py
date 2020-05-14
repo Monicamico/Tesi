@@ -7,27 +7,6 @@ import time
 connections_page = Blueprint('connections', __name__)
 
 
-@connections_page.route("/radio_conn_request", methods=['POST', 'PUT'])
-def radio_conn_req():
-    data = http_req.json
-    add_radio(data['serial'], data['url'])
-    return 'ok'
-
-
-@connections_page.route("/add_conn_request", methods=['POST', 'PUT'])
-def conn_req():
-    data = http_req.json
-    add_conn_req(data['serial'], data['ping'], data['pairing'], data['url'])
-    return 'ok'
-
-
-@connections_page.route("/delete_conn_request", methods=['POST', 'PUT'])
-def del_conn_req():
-    data = http_req.json
-    delete_conn_req(data['serial'])
-    return "ok"
-
-
 @connections_page.route("/add_plant_from_conn/<string:idv>", methods=['GET'])
 def add_plant_from_conn(idv):
     url = str(url_from_conn(idv))

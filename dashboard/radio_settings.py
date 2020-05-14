@@ -1,8 +1,5 @@
 from flask import Blueprint, render_template, request as rcv_req, redirect
 from forms import SettingsForm
-from constant import URL
-import requests as snd_req
-
 from gio_db import Radio, url_from_radio, update_radio_name, ConnectionRequest
 
 radio_settings_page = Blueprint('radio_settings_page', __name__)

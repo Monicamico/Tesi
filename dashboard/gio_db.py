@@ -59,6 +59,13 @@ def update_radio_name(radio,name):
     return False
 
 
+def update_radio_transmit_power(radio, tr):
+    r = Radio.query.filter_by(id=radio).first()
+    if r is not None:
+        r.transmit_power = tr
+        db.session.commit()
+
+
 def delete_radio(radio):
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
@@ -162,6 +169,13 @@ def update_name(idv, name):
             db.session.commit()
             return True
     return False
+
+
+def update_vase_transmit_power(idv, tr):
+    p = Plant.query.filter_by(id=idv).first()
+    if p is not None:
+        p.transmit_power = tr
+        db.session.commit()
 
 
 def update_hum(idv, ping, humidity):
