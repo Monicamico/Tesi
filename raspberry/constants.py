@@ -4,7 +4,7 @@ URL_DASHBOARD = 'http://127.0.0.1:5000'
 MICROBIT_PORT_MAC = '/dev/cu.usbmodem14102'   # right
 MICROBIT_PORT_MAC2 = '/dev/cu.usbmodem14202'  # left
 DELIMITER = '#'
-PORT = 5001
+PORT = 5040
 
 
 class Operation(Enum):
@@ -33,7 +33,7 @@ class Operation(Enum):
     RADIO_JOIN = 22
     RADIO_TRANSMIT_POWER = 23,
     VASE_TRANSMIT_POWER = 24,
-    VASE_STATE = 25
+    VASE_STATE = 25;
 
 
 class VaseState(Enum):

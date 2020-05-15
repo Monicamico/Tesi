@@ -2,7 +2,7 @@ import threading
 import time
 import serial
 import requests as rq
-from constants import URL_DASHBOARD, PORT, WaterContainerState, VaseState
+from constants import URL_DASHBOARD, WaterContainerState, VaseState, PORT
 from request import request_queue
 from utility import get_ip
 from constants import MICROBIT_PORT_MAC, MICROBIT_PORT_MAC2, Operation, DELIMITER
@@ -30,7 +30,7 @@ except serial.serialutil.SerialException:
 
 
 ip_address = get_ip()
-URL = 'http://' + str(ip_address) + ':' + str(PORT)
+URL = 'http://' + str(ip_address) + ":" + str(PORT)
 print(URL)
 
 
@@ -76,6 +76,7 @@ def reader():
     while True:
         # request from radio
         for request, serial_number, ping, param in read_serial():
+            print("Request or Response from RB:")
 
             if request is not None:
                 request = int(request)
@@ -117,8 +118,14 @@ def reader():
                 else:
                     valid_request = False
 
-            if request == Operation.WATER_CONTAINER_STATE.value or request == Operation.VASE_STATE.value:
-                if valid_request_param and (param == WaterContainerState.Empty or param == WaterContainerState.Full):
+            if request == Operation.WATER_CONTAINER_STATE.value:
+                if valid_request_param and (param == 1 or param == 0):
+                    valid_request = True
+                else:
+                    valid_request = False
+
+            if request == Operation.VASE_STATE.value:
+                if valid_request_param and (param == 0 or 1):
                     valid_request = True
                 else:
                     valid_request = False
@@ -135,8 +142,8 @@ def reader():
 
             if valid_request:
                 if serial_number is not None:
-                    if param:
-                        print(str(request)+" / " + serial_number + ": " + str(param))
+                    if param is not None:
+                        print(str(request)+" / " + serial_number + "/ " + str(param))
                         reply = rq.put(url=URL_DASHBOARD + '/request',
                                        json={'request': request,
                                              'serial': serial_number,

@@ -17,55 +17,55 @@ def request():
 
         if req_type == 'water':
             req = str(Operation.WATER.value) + ";" + id_s + DELIMITER
-            print('water')
+            print('water / '+id_s)
 
         elif req_type == 'humidity':
             req = str(Operation.HUMIDITY.value) + ";" + id_s + DELIMITER
-            print('humidity')
+            print('humidity / ' +id_s)
 
         elif req_type == 'temperature':
             req = str(Operation.TEMPERATURE.value) + ";" + id_s + DELIMITER
-            print('temperature')
+            print('temperature / '+id_s)
 
         elif req_type == 'light':
             req = str(Operation.LIGHT.value) + ";" + id_s + DELIMITER
-            print('light')
+            print('light / '+id_s)
 
         elif req_type == 'joined':
             req = str(Operation.JOINED.value) + ";" + id_s + DELIMITER
-            print('joined')
+            print('joined / '+id_s)
 
         elif req_type == 'refused':
             req = str(Operation.REFUSED.value) + ";" + id_s + DELIMITER
-            print('refused')
+            print('refused / '+id_s)
 
         elif req_type == 'vase_state':
             req = str(Operation.VASE_STATE.value) + ";" + id_s + DELIMITER
-            print('vase state')
+            print('vase state / '+id_s)
 
         elif req_type == 'container_state':
             req = str(Operation.WATER_CONTAINER_STATE.value) + ";" + id_s + DELIMITER
-            print('container state')
+            print('container state / '+id_s)
 
         elif req_type == 'light_max':
             param = str(data['param'])
             req = str(Operation.SET_LIGHT_MAX.value) + ";" + id_s + ";" + param + DELIMITER
-            print('light max')
+            print('light max / '+ id_s)
 
         elif req_type == 'light_min':
             param = str(data['param'])
             req = str(Operation.SET_LIGHT_MIN.value) + ";" + id_s + ";" + param + DELIMITER
-            print('light min')
+            print('light min / '+id_s)
 
         elif req_type == 'watering_light':
             param = str(data['param'])
             req = str(Operation.SET_WATERING_LIGHT.value) + ";" + id_s + ";" + param + DELIMITER
-            print('watering light')
+            print('watering light / '+id_s)
 
         elif req_type == 'hum_min':
             param = str(data['param'])
             req = str(Operation.SET_HUMIDITY_MIN.value) + ";" + id_s + ";" + param + DELIMITER
-            print('humidity min')
+            print('humidity min / '+id_s)
 
         elif req_type == 'hum_max':
             param = str(data['param'])
@@ -75,28 +75,30 @@ def request():
         elif req_type == 'temp_min':
             param = str(data['param'])
             req = str(Operation.SET_TEMPERATURE_MIN.value) + ";" + id_s + ";" + param + DELIMITER
-            print('temperature min')
+            print('temperature min / '+id_s)
 
         elif req_type == 'temp_max':
             param = str(data['param'])
             req = str(Operation.SET_TEMPERATURE_MAX.value) + ";" + id_s + ";" + param + DELIMITER
-            print('temperature max')
+            print('temperature max / '+id_s)
+
+        elif req_type == 'water_container_size':
+            param = str(data['param'])
+            req = str(Operation.SET_WATER_CONTAINER_SIZE.value) + ";" + id_s + ";" + param + DELIMITER
+            print('water_container_size / '+id_s)
 
         elif req_type == 'vase_transmit_power':
             param = str(data['param'])
             req = str(Operation.VASE_TRANSMIT_POWER.value) + ";" + id_s + ";" + param + DELIMITER
-            print('vase_transmit_power')
+            print('vase_transmit_power / '+id_s)
 
         elif req_type == 'radio_transmit_power':
             param = str(data['param'])
             req = str(Operation.RADIO_TRANSMIT_POWER.value) + ";" + id_s + ";" + param + DELIMITER
-            print('radio_transmit_power')
+            print('radio_transmit_power / '+id_s)
 
         request_queue.append(req)
-        if req_type == 'joined':
-            return redirect(URL_DASHBOARD + '/plants/')
-        else:
-            return redirect(URL_DASHBOARD + '/plant/' + data['serial'])
+        return "ok"
 
     except ValueError:
         pass
