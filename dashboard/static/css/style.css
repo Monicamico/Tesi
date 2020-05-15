@@ -126,7 +126,8 @@ img {
 
 code {
     font-size: 87.5%;
-    color: rgba(105, 243, 234, 0.69);
+    color: royalblue;
+    background-color: rgba(208, 240, 243, 0.91);
     word-break: break-word;
 }
 
@@ -168,6 +169,7 @@ table {
 }
 
 table.myTable {
+    opacity: 0.7;
     max-height: 50%;
     margin-top: 10px;
     border: 5px;
@@ -235,3 +237,17 @@ body.B2 {
 canvas.linkable{
    cursor: pointer;
  }
+
+.donutchart {
+    height: 500px;
+    overflow: hidden;
+    display: inline-table;
+}
+
+.ltr {
+    margin-left: 200px;
+    position: relative;
+    width: 796px;
+    height: 500px;
+}
+

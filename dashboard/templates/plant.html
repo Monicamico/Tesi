@@ -6,7 +6,7 @@
 
     {% if alert == 'success' %}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Richiesta operazione avvenuta con successo!
+            La richiesta dell' operazione e' avvenuta con successo.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -22,8 +22,7 @@
     {% endif %}
 
     <h2 class="mt-3">
-        Stato della pianta <i>{{ plant.name }}</i>:
-        <br>
+        Stato della pianta <br> <code>{{ plant.name }}</code> :
         {% if plant.state is sameas True %}
             Happy <i class="far fa-smile-beam"></i>
         {% else %}

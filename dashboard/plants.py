@@ -5,7 +5,7 @@ plants_page = Blueprint('plants_page',__name__)
 
 
 @plants_page.route('/plants/<string:alert>')
-def plants(alert):
+def plants_alert(alert):
     plants_list = Plant.query.all()
     radios_list = Radio.query.all()
     conn_list = ConnectionRequest.query.all()
@@ -15,3 +15,6 @@ def plants(alert):
                            radios=radios_list,
                            connections=conn_list,
                            title='Plants List')
+
+
+

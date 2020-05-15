@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect
 from gio_db import Plant, url_from_plant, ConnectionRequest
 import requests as snd_req
 import time
@@ -12,10 +12,10 @@ def water(idv):
         reply = snd_req.put(str(url_from_plant(idv)) + '/request', json={"request": "water", "serial": idv})
         print(reply)
         alert='success'
-    except snd_req.exceptions.ConnectionError and snd_req.exceptions.MissingSchema:
+    except:
         print('errore di connessione con RaspberryFlask')
         alert = 'fail'
-    return plant(idv=idv, alert=alert)
+    return redirect("/plant/"+idv+"/"+alert)
 
 
 @plant_id_page.route("/humidity/<string:idv>", methods=['GET'])
@@ -25,10 +25,10 @@ def humidity(idv):
         print(reply)
         time.sleep(2)
         alert = 'success'
-    except snd_req.exceptions.ConnectionError and snd_req.exceptions.MissingSchema:
+    except:
         print('errore di connessione con RaspberryFlask')
         alert = 'fail'
-    return plant(idv=idv, alert=alert)
+    return redirect("/plant/"+idv+"/"+alert)
 
 
 @plant_id_page.route("/temperature/<string:idv>", methods=['GET'])
@@ -38,10 +38,10 @@ def temperature(idv):
         print(reply)
         time.sleep(2)
         alert = 'success'
-    except snd_req.exceptions.ConnectionError and snd_req.exceptions.MissingSchema:
+    except:
         print('errore di connessione con RaspberryFlask')
         alert = 'fail'
-    return plant(idv=idv, alert=alert)
+    return redirect("/plant/"+idv+"/"+alert)
 
 
 @plant_id_page.route("/light/<string:idv>", methods=['GET'])
@@ -51,10 +51,10 @@ def light(idv):
         print(reply)
         time.sleep(2)
         alert = 'success'
-    except snd_req.exceptions.ConnectionError and snd_req.exceptions.MissingSchema:
+    except:
         print('errore di connessione con RaspberryFlask')
         alert = 'fail'
-    return plant(idv=idv, alert=alert)
+    return redirect("/plant/"+idv+"/"+alert)
 
 
 @plant_id_page.route("/container_state/<string:idv>", methods=['GET'])
@@ -64,27 +64,27 @@ def container_state(idv):
         print(reply)
         time.sleep(2)
         alert = 'success'
-    except snd_req.exceptions.ConnectionError and snd_req.exceptions.MissingSchema:
+    except:
         alert = 'fail'
         print('errore di connessione con RaspberryFlask')
-    return plant(idv=idv, alert=alert)
+    return redirect("/plant/"+idv+"/"+alert)
 
 
 @plant_id_page.route("/vase_state/<string:idv>", methods=['GET'])
 def vase_state_req(idv):
+    alert = 'success'
     try:
         reply = snd_req.put(str(url_from_plant(idv)) + '/request', json={'request': 'vase_state', 'serial': idv})
         print(reply)
-        alert = 'success'
         time.sleep(2)
-    except snd_req.exceptions.ConnectionError and snd_req.exceptions.MissingSchema:
+    except:
         alert = 'fail'
         print('errore di connessione con RaspberryFlask')
-    return plant(idv=idv, alert=alert)
+    return redirect("/plant/"+idv+"/"+alert)
 
 
 @plant_id_page.route('/plant/<string:idv>/<string:alert>')
-def plant(idv, alert):
+def plant_alert(idv, alert):
     plant_ = Plant.query.filter_by(id=idv).first()
     conn_list = ConnectionRequest.query.all()
     return render_template('plant.html',
@@ -92,3 +92,5 @@ def plant(idv, alert):
                            connections=conn_list,
                            plant=plant_,
                            title="Plant")
+
+

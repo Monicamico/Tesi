@@ -12,7 +12,7 @@
             </button>
         </div>
     {% endif %}
-    {% if alert == 'fail-url' %}
+    {% if alert == 'url-fail' %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
           Indirizzo Radio inesistente - Operazione faillita
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -20,9 +20,9 @@
           </button>
         </div>
     {% endif %}
-    {% if alert == 'fail-param' %}
+    {% if alert == 'param-fail' %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          Nessun parametro cambiato - Operazione faillita
+          Errore nei parametri
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -37,20 +37,38 @@
         </div>
     {% endif %}
 
-     <h2 class="mt-3"> Impostazioni della radio '{{ radio.name }}'</h2>
+    <h2 class="mt-3"> Impostazioni della radio <br> <code>{{ radio.name }}</code> </h2>
 
      <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
 
-          <table class="MyTable" align="center">
+          <table class="MyTable" width="600px" align="center">
               <tr>
                  <td> <label> {{ form.radio_name.label }} </label> </td>
                  <td>{{ form.radio_name(size=24, value = radio.name)}} </td>
+                  <td> {{ form.submit()}} </td>
                </tr>
+
           </table>
 
-         <p> {{ form.submit()}} </p>
+         <table width="600px" class="MyTable"  style="margin-bottom:0px;" align="center">
+             <tr>
+                  <td> <label> {{ form.transmit_power.label }} [1,7] </label> </td>
+                 <td>{{ form.transmit_power(size= 2, value = radio.transmit_power)}} </td>
+              </tr>
+              <tr>
+                  <td> <label> {{ form.sleep_time.label }} </label> </td>
+                 <td>{{ form.sleep_time(size =2,value = radio.sleep_time)}} </td>
+              </tr>
+             <tr>
+            </tr>
+         </table>
 
+          <table width="600px" class="MyTable"  style="margin-top:0px; text-align: center" align="center">
+            <tr>
+                  <td> {{ form.submit()}} </td>
+            </tr>
+          </table>
     </form>
 
     <br>

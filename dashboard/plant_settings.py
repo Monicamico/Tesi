@@ -18,12 +18,7 @@ def settings(idv, alert):
     settings_form = SettingsForm()
     URL_RASPBERRY = str(url_from_plant(idv))
     if URL_RASPBERRY == str(-1):
-        return render_template('plant_settings.html',
-                               alert='fail-url',
-                               connections=conn_list,
-                               plant=plant_s,
-                               form=settings_form,
-                               title="Settings")
+        return redirect("settings/" + idv + "/" + "url-fail")
 
     if settings_form.validate_on_submit():
         name = rcv_req.form['name']
@@ -34,57 +29,65 @@ def settings(idv, alert):
         hum_min = ceil(int(rcv_req.form['hum_min']) / 100 * 1023)
         hum_max = ceil(int(rcv_req.form['hum_max']) / 100 * 1023)
         watering_light = ceil(int(rcv_req.form['watering_light']) / 100 * 255)
+        water_container_size = rcv_req.form['water_container_size']
 
         if name != plant_s.name:
             if update_name(idv, name):
-                return render_template('plant_settings.html',
-                                       alert='name-success',
-                                       connections=conn_list,
-                                       plant=plant_s,
-                                       form=settings_form,
-                                       title="Settings")
+                return redirect("name_success")
             else:
-                return render_template('plant_settings.html',
-                                       alert='name-fail',
-                                       connections=conn_list,
-                                       plant=plant_s,
-                                       form=settings_form,
-                                       title="Settings")
+                return redirect("name_fail")
 
         if light_max != plant_s.light_max:
-            try:
-                snd_req.put(URL_RASPBERRY + '/request', json=dict(request='light_max', serial=idv, param=light_max))
-                alert='success'
-            except:
-                alert='fail'
+            if 0 <= light_max <= 255:
+                try:
+                    snd_req.put(URL_RASPBERRY + '/request', json=dict(request='light_max', serial=idv, param=light_max))
+                    alert = 'success'
+                except:
+                    alert = 'fail'
+            else:
+                alert = 'param-fail'
 
         if light_min != plant_s.light_min:
-            try:
-                alert = 'success'
-                snd_req.put(URL_RASPBERRY + '/request', json={'request': 'light_min', 'serial': idv, 'param': light_min})
-            except:
-                alert = 'fail'
+            if 0 <= light_min <= 255:
+                try:
+                    alert = 'success'
+                    snd_req.put(URL_RASPBERRY + '/request',
+                                json={'request': 'light_min', 'serial': idv, 'param': light_min})
+                except:
+                    alert = 'fail'
+            else:
+                alert = 'param-fail'
 
         if watering_light != plant_s.watering_light:
-            try:
-                snd_req.put(URL_RASPBERRY + '/request', json={'request': 'watering_light', 'serial': idv, 'param': watering_light})
-                alert = 'success'
-            except:
-                alert = 'fail'
+            if 0 <= watering_light <= 255:
+                try:
+                    snd_req.put(URL_RASPBERRY + '/request',
+                                json={'request': 'watering_light', 'serial': idv, 'param': watering_light})
+                    alert = 'success'
+                except:
+                    alert = 'fail'
+            else:
+                alert = 'param-fail'
 
         if hum_min != plant_s.humidity_min:
-            try:
-                snd_req.put(URL_RASPBERRY + '/request', json={'request': 'hum_min', 'serial': idv, 'param': hum_min})
-                alert = 'success'
-            except:
-                alert = 'fail'
+            if 0 <= hum_min <= 1023:
+                try:
+                    snd_req.put(URL_RASPBERRY + '/request', json={'request': 'hum_min', 'serial': idv, 'param': hum_min})
+                    alert = 'success'
+                except:
+                    alert = 'fail'
+            else:
+                alert = 'param-fail'
 
         if hum_max != plant_s.humidity_max:
-            try:
-                snd_req.put(URL_RASPBERRY + '/request', json={'request': 'hum_max', 'serial': idv, 'param': hum_max})
-                alert = 'success'
-            except:
-                alert = 'fail'
+            if 0 <= hum_max <= 1023:
+                try:
+                    snd_req.put(URL_RASPBERRY + '/request', json={'request': 'hum_max', 'serial': idv, 'param': hum_max})
+                    alert = 'success'
+                except:
+                    alert = 'fail'
+            else:
+                alert = 'param-fail'
 
         if temp_min != plant_s.temperature_min:
             try:
@@ -100,12 +103,22 @@ def settings(idv, alert):
             except:
                 alert = 'fail'
 
-        if alert =='success':
-            time.sleep(2)
+        if water_container_size != plant_s.water_container_size:
+            try:
+                snd_req.put(URL_RASPBERRY + '/request', json={'request': 'water_container_size', 'serial': idv, 'param': water_container_size})
+                alert = 'success'
+            except:
+                alert = 'fail'
 
-    return render_template('plant_settings.html',
-                           alert=alert,
-                           connections=conn_list,
-                           plant=plant_s,
-                           form=settings_form,
-                           title="Settings")
+        if alert == 'success':
+            time.sleep(4)
+
+        return redirect(alert)
+
+    else:
+        return render_template('plant_settings.html',
+                               alert=alert,
+                               connections=conn_list,
+                               plant=plant_s,
+                               form=settings_form,
+                               title="Settings")

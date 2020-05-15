@@ -95,16 +95,17 @@
     <h2 class="mt-3"> Dashboard </h2>
     <table class="MyTable" align="center" width="400px">
         <tr>
-           <td> Totale piante: </td>
+           <td><b> Totale piante: </b>  </td>
            <td> {{plants|length}} </td>
         </tr>
         <tr>
-           <td> Totale radio: </td>
+           <td> <b> Totale radio: </b> </td>
            <td> {{radios|length}} </td>
         </tr>
     </table>
-    <div id="barchart_values"  style="height: 400px;"></div>
-    <div id="donutchart" style="height: 500px;"></div>
+
+    <div id="donutchart" style="height: 500px; overflow: hidden;";></div>
+    <div id="barchart_values"  style="display: inline-table;"></div>
   </body>
 
   {% endblock %}

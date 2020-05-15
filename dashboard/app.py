@@ -1,4 +1,5 @@
 from flask import Flask
+
 from constant import DEBUG
 from dashboard import dashboard_page
 from home import homepage
@@ -9,7 +10,8 @@ from radios import radios_page
 from map import map_page
 from radio_settings import radio_settings_page
 from plant_settings import settings_page
-from gio_db import db, add_plant, add_conn_req, add_radio, update_vase_state
+from gio_db import db, add_conn_req, delete_conn_req, delete_plant
+from request import request_page
 
 
 def create_app():
@@ -26,12 +28,14 @@ def create_app():
     app.register_blueprint(radio_settings_page)
     app.register_blueprint(map_page)
     app.register_blueprint(dashboard_page)
+    app.register_blueprint(request_page)
 
     db.init_app(app=app)
     """
         if DEBUG:
         db.drop_all(app=app)
     """
+
     db.create_all(app=app)
 
     return app
@@ -40,7 +44,5 @@ def create_app():
 if __name__ == "__main__":
 
     app = create_app()
-    with app.app_context():
-        add_conn_req(34,424,345,'')
     app.run(port=5000)
 

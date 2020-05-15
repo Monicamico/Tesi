@@ -11,32 +11,31 @@ connections_page = Blueprint('connections', __name__)
 def add_plant_from_conn(idv):
     url = str(url_from_conn(idv))
     print(url)
-    plant = ConnectionRequest.query.filter_by(id=idv).first()
-    if plant is not None:
+    conn = ConnectionRequest.query.filter_by(id=idv).first()
+    alert = 'add-success'
+    if conn is not None:
         if url != str(-1):
             try:
                 snd_req.put(url + '/request', json={'request': 'joined', 'serial': idv})
                 time.sleep(2)
-                alert = 'add-success'
-                return conn_page(alert)
             except:
                 print('errore di connessione')
                 alert = 'add-fail'
-                return conn_page(alert)
+            return redirect("/connections/"+alert)
 
 
 @connections_page.route("/refuse_plant_from_conn/<string:idv>", methods=['GET'])
 def refuse_plant_from_conn(idv):
     url = str(url_from_conn(idv))
     if url != str(-1):
+        alert = 'refuse-success'
         try:
             snd_req.put(url + '/request', json={'request': 'refused', 'serial': idv})
-            alert = 'refuse-success'
             time.sleep(2)
         except:
             alert = 'refuse-fail'
             print('errore di connessione')
-        return conn_page(alert)
+        return redirect("/connections/"+alert)
 
 
 @connections_page.route('/connections/<string:alert>')

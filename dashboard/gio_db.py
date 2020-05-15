@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+import requests as snd_req
 
 db = SQLAlchemy()
 
@@ -27,8 +28,17 @@ def add_conn_req(idv, pingv, pairingv, urlv):
             db.session.add(ConnectionRequest(id=idv, ping=pingv, pairing=pairingv, url=urlv))
             db.session.commit()
             return True
-    return False
-    # se risulta già tra le piante inserite non faccio nulla dei db
+        else:
+            conn.pairing = pairingv
+            conn.ping = pingv
+            conn.url = urlv
+            db.session.commit()
+    else:
+        url = url_from_plant(idv)
+        if url != urlv:
+            snd_req.put(url + '/request', json={'request': 'deleted', 'serial': idv})
+            plant.url_radio = urlv
+        snd_req.put(urlv + '/request', json={'request': 'joined', 'serial': idv})
 
 
 def delete_conn_req(idv):
@@ -46,6 +56,7 @@ class Radio(db.Model):
     name = db.Column(db.String(24), unique=True)
     url_radio = db.Column(db.String(), nullable=False)
     transmit_power = db.Column(db.Integer(), default=7)
+    sleep_time = db.Column(db.Integer(), default=10)
 
 
 def update_radio_name(radio,name):
@@ -64,6 +75,8 @@ def update_radio_transmit_power(radio, tr):
     if r is not None:
         r.transmit_power = tr
         db.session.commit()
+        return True
+    return False
 
 
 def delete_radio(radio):
@@ -78,15 +91,16 @@ def add_radio(radio, url_radio):
     if r is None:
         db.session.add(Radio(id=radio, name=radio,
                              url_radio=url_radio,
-                             transmit_power=7))
+                             transmit_power=7,
+                             sleep_time=10))
         db.session.commit()
     else:
-        r_url = Radio.query.filter_by(id=radio, url_radio=url_radio).first()
-        if r_url is None:
-            delete_radio(radio)
-            db.session.add(Radio(id=radio, name=radio,
-                                 url_radio=url_radio,
-                                 transmit_power=7))
+        radio_with_url = Radio.query.filter_by(id=radio, url_radio=url_radio).first()
+        #the url of the radio is changed
+        if radio_with_url is None:
+            r.url_radio = url_radio
+            r.transmit_power = 7
+            r.sleep_time = 10
             db.session.commit()
 
 

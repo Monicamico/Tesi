@@ -32,9 +32,18 @@
         </div>
     {% endif %}
 
-    {% if alert == 'fail-url' %}
+    {% if alert == 'url-fail' %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
           Indirizzo Radio inesistente - Operazione faillita
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    {% endif %}
+
+    {% if alert == 'param-fail' %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          Controlla che i parametri di Umidita' e Luminosita' siano compresi tra lo 0% e il 100%!
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -50,7 +59,7 @@
         </div>
     {% endif %}
 
-     <h2 class="mt-3"> Impostazioni del vaso {{ plant.name }}:</h2>
+    <h2 class="mt-3"> Impostazioni del vaso <br> <code>{{ plant.name }}</code> </h2>
 
         <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
@@ -66,20 +75,20 @@
             <br>
             <br>
 
-         <table width="600px" class="MyTable" align="center">
+         <table width="600px"  style=" margin-bottom:0px" class="MyTable" align="center">
 
              <tr>
                  <td> <label>{{ form.hum_min.label }}</label> </td>
-                 <td>{{ form.hum_min(size=4, value = plant.humidity_min * 100 // 1023)}} </td>
+                 <td>{{ form.hum_min(size=3, value = (plant.humidity_min * 100 / 1023) |round |int)  }} </td>
                  <td>  <label>{{ form.hum_max.label }}</label> </td>
-                 <td>{{ form.hum_max(size=4, value= plant.humidity_max * 100 // 1023) }}</td>
+                 <td>{{ form.hum_max(size=3, value= (plant.humidity_max * 100 / 1023) |round|int ) }}</td>
              </tr>
 
              <tr>
                  <td>  <label>{{ form.light_min.label }} </label> </td>
-                 <td> {{ form.light_min(size=3, value=plant.light_min * 100 // 255) }} </td>
+                 <td> {{ form.light_min(size=3, value= (plant.light_min * 100 / 255) | round | int)  }} </td>
                  <td> <label>{{ form.light_max.label }}</label> </td>
-                 <td> {{ form.light_max(size=3, value=plant.light_max * 100 // 255) }} </td>
+                 <td> {{ form.light_max(size=3, value= (plant.light_max * 100 / 255)|round|int )  }} </td>
              </tr>
 
               <tr>
@@ -91,13 +100,17 @@
 
              <tr>
                  <td>  <label>{{ form.watering_light.label }} </label> </td>
-                 <td> {{ form.watering_light(size=3, value=plant.watering_light * 100 // 255) }} </td>
+                 <td> {{ form.watering_light(size=3, value= (plant.watering_light * 100 / 255)|round|int )  }} </td>
                  <td> <label>{{ form.water_container_size.label }}</label> </td>
                  <td> {{ form.water_container_size(size=3, value=plant.water_container_size) }} </td>
              </tr>
-
          </table>
-         <p> {{ form.submit()}} </p>
+         <table width="600px" class="MyTable" style=" margin-top: 0px; text-align: center" align="center">
+             <tr>
+                 <td> {{ form.submit()}} </td>
+             </tr>
+         </table>
+
 
     </form>
     <br>

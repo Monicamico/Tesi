@@ -6,7 +6,7 @@ from gio_db import add_radio, add_conn_req, delete_conn_req, \
     update_hum_min, update_hum_max, \
     update_light_min, update_light_max, \
     update_temp_min, update_temp_max, \
-    update_watering_light, update_vase_transmit_power, update_radio_transmit_power
+    update_watering_light, update_vase_transmit_power, update_radio_transmit_power, update_water_container_size
 from constant import Operation
 
 request_page = Blueprint('request_page', __name__)
@@ -16,71 +16,175 @@ request_page = Blueprint('request_page', __name__)
 @request_page.route("/request", methods=['POST', 'PUT'])
 def request():
     data = rcv_req.json
-
-    req = int(data['request'])
-    serial_number = data['serial']
-    ping = data['ping']
-    url = data['url']
-    param = int(data['param'])
+    try:
+        req = int(data['request'])
+        print(req)
+    except:
+        return "500"
 
     if req == Operation.RADIO_JOIN.value:
-        add_radio(serial_number, url)
+        add_radio(data['serial'], data['url'])
 
     elif req == Operation.CONNECTION.value:
-        add_conn_req(serial_number, ping, param, url)
+        ping = data['ping']
+        param = data['param']
+        url = data['url']
+        add_conn_req(data['serial'], ping, param, url)
 
     elif req == Operation.REFUSED.value:
-        delete_conn_req(serial_number)
+        delete_conn_req(data['serial'])
 
     elif req == Operation.JOINED.value:
-        add_plant(serial_number, ping, param)
+        try:
+            ping = data['ping']
+            param = data['param']
+            add_plant(data['serial'], ping, param)
+        except:
+            print("Join: error")
 
     elif req == Operation.DELETED.value:
-        delete_plant(serial_number)
+        delete_plant(data['serial'])
 
     elif req == Operation.HUMIDITY.value:
-        update_hum(serial_number, ping, param)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_hum(serial_number, ping, param)
+        except:
+            print("Humidity: error")
 
     elif req == Operation.LIGHT.value:
-        update_light(serial_number, ping, param)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_light(serial_number, ping, param)
+        except:
+            print("Light: error")
 
     elif req == Operation.TEMPERATURE.value:
-        update_temp(serial_number, ping, param)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_temp(serial_number, ping, param)
+        except:
+            pass
 
     elif req == Operation.PING.value:
-        update_ping(serial_number, ping)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            update_ping(serial_number, ping)
+        except:
+            print()
 
     elif req == Operation.SET_WATERING_LIGHT.value:
-        update_watering_light(serial_number, ping, param)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_watering_light(serial_number, ping, param)
+        except:
+            print()
 
     elif req == Operation.WATER_CONTAINER_STATE.value:
-        update_water_container_state(serial_number, ping, param)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_water_container_state(serial_number, ping, param)
+        except:
+            print()
+
+    elif req == Operation.SET_WATER_CONTAINER_SIZE.value:
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_water_container_size(serial_number, ping, param)
+        except:
+            print()
 
     elif req == Operation.VASE_STATE.value:
-        update_vase_state(serial_number, ping, param)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_vase_state(serial_number, ping, param)
+        except:
+            print()
 
     elif req == Operation.SET_HUMIDITY_MIN.value:
-        update_hum_min(serial_number, ping, param)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_hum_min(serial_number, ping, param)
+        except:
+            print()
 
     elif req == Operation.SET_HUMIDITY_MAX.value:
-        update_hum_max(serial_number, ping, param)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_hum_max(serial_number, ping, param)
+        except:
+            print()
 
     elif req == Operation.SET_LIGHT_MIN.value:
-        update_light_min(serial_number,ping, param)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_light_min(serial_number,ping, param)
+        except:
+            print()
 
     elif req == Operation.SET_LIGHT_MAX.value:
-        update_light_max(serial_number, ping, param)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_light_max(serial_number, ping, param)
+        except:
+            print()
 
     elif req == Operation.SET_TEMPERATURE_MIN.value:
-        update_temp_min(serial_number, ping, param)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_temp_min(serial_number, ping, param)
+        except:
+            print()
 
     elif req == Operation.SET_TEMPERATURE_MAX.value:
-        update_temp_max(serial_number, ping, param)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_temp_max(serial_number, ping, param)
+        except:
+            print()
 
     elif req == Operation.VASE_TRANSMIT_POWER.value:
-        update_vase_transmit_power(serial_number,param)
+        try:
+            serial_number = data['serial']
+            ping = data['ping']
+            param = data['param']
+            update_vase_transmit_power(serial_number,param)
+        except:
+            print()
 
     elif req == Operation.RADIO_TRANSMIT_POWER.value:
-        update_radio_transmit_power(serial_number, param)
+        try:
+            serial_number = data['serial']
+            param = data['param']
+            update_radio_transmit_power(serial_number, param)
+        except:
+            print()
 
     return "200"
