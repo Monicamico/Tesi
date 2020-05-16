@@ -72,9 +72,9 @@ def write_serial(data):
         print(err)
 
 
+# Request or response from RADIO-dashboard
 def reader():
     while True:
-        # request from radio
         for request, serial_number, ping, param in read_serial():
             print("Request or Response from RB:")
 
@@ -132,6 +132,18 @@ def reader():
 
             if request == Operation.VASE_TRANSMIT_POWER.value or request == Operation.RADIO_TRANSMIT_POWER.value:
                 if valid_request_param and (1 <= param <= 7):
+                    valid_request = True
+                else:
+                    valid_request = False
+
+            if request == Operation.SET_RADIO_PAUSE_TIME.value:
+                if valid_request_param and param > 0:
+                    valid_request = True
+                else:
+                    valid_request = False
+
+            if request == Operation.SET_VASE_SEND_TIME.value:
+                if valid_request_param and param > 0:
                     valid_request = True
                 else:
                     valid_request = False

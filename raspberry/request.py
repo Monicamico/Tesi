@@ -5,7 +5,7 @@ request_page = Blueprint('request_page', __name__)
 request_queue = []
 
 
-# Request received from dashboard, it will be added to the request queue
+# Request received from DASHBOARD Server, it will be added to the request queue
 @request_page.route("/request", methods=['POST', 'PUT'])
 def request():
     global req
@@ -96,6 +96,16 @@ def request():
             param = str(data['param'])
             req = str(Operation.RADIO_TRANSMIT_POWER.value) + ";" + id_s + ";" + param + DELIMITER
             print('radio_transmit_power / '+id_s)
+
+        elif req_type == 'send_time':
+            param = str(data['param'])
+            req = str(Operation.SET_VASE_SEND_TIME.value) + ";" + id_s + ";" + param + DELIMITER
+            print('vase send_time / '+id_s)
+
+        elif req_type == 'sleep_time':
+            param = str(data['param'])
+            req = str(Operation.SET_RADIO_PAUSE_TIME.value) + ";" + id_s + ";" + param + DELIMITER
+            print('radio sleep_time / '+id_s)
 
         request_queue.append(req)
         return "ok"
