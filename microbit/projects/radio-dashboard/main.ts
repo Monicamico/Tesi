@@ -181,6 +181,11 @@ radio.onReceivedValue(function (request: string, param: number) {
         
         sendToRB(`${request};${serialNumber};${ping};${param}`) 
         //send the received value to raspberry as a string
+
+    if (requestInt == OPERATION.SET_VASE_SEND_TIME){
+        param = Math.ceil(param / 60000)
+        sendToRB(`${request};${serialNumber};${ping};${param}`) 
+    }
        
     
 })
@@ -223,8 +228,7 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
         else if (request == OPERATION.SET_TEMPERATURE_MIN || request == OPERATION.SET_TEMPERATURE_MAX ||
                  request == OPERATION.SET_LIGHT_MIN || request == OPERATION.SET_LIGHT_MAX ||
                  request == OPERATION.SET_HUMIDITY_MAX || request == OPERATION.SET_HUMIDITY_MIN ||
-                 request == OPERATION.SET_VASE_PAUSE_TIME || request == OPERATION.SET_VASE_SEND_TIME ||
-                 request == OPERATION.SET_WATERING_LIGHT ) {
+                 request == OPERATION.SET_VASE_SEND_TIME ||request == OPERATION.SET_WATERING_LIGHT ) {
                     if (param != -1) 
                         sendToVase(request,serialNumber,param)
         }
@@ -255,14 +259,17 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
         }
     }
 
-    if (request == OPERATION.SET_RADIO_DEADPING_TIME){
-        param = parseInt(r_list[1])
-        setDeadping(param)
-    }
-    
-    else if ( request == OPERATION.SET_RADIO_PAUSE_TIME){            
+    if (request == OPERATION.SET_RADIO_PAUSE_TIME){
         param = parseInt(r_list[1])
         setRadioPauseTime(param)
+        param = Math.ceil(param / 60000)
+        sendToRB(`${OPERATION.SET_RADIO_PAUSE_TIME};${serial_number};0;${param}`)
+    }
+
+    else if (request == OPERATION.RADIO_TRANSMIT_POWER){
+        param = parseInt(r_list[1])
+        setTransmitPower(param)   
+        sendToRB(`${OPERATION.RADIO_TRANSMIT_POWER};${serial_number};0;${param}`)
     }
 
 })

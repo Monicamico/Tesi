@@ -15,8 +15,8 @@ let light_max = 250
 let temperature_measure = 0                       // temperature measure
 let humidity_measure = 0                          // humidity measure
 let light_measure = 0                             // light measure
-let send_time = 1000000                           // time interval in wich the vase sends data  (16 MINUTI)
-let pause_time = 600000                           // 10 MINUTI
+let send_time = 1000000                           // time interval in wich the vase sends data  (16 MINUTI circa)
+let pause_time = send_time/2                       
 let time = 0
 let joined = false
 let radio_serial_number = 0
@@ -40,11 +40,11 @@ amount_water -=  single_water_amount
 // considero un waters() in meno 
 
 DEBUG = true 
-
+/*
 if (DEBUG) {
     pause_time = 100000 
     send_time =  100000 
-} 
+} /*
 
 /*---------------------------------------------- MAIN CODE ------------------------------------------- */
 
@@ -97,6 +97,14 @@ radio.onReceivedBuffer(function () {
     const content_list: string[] = content.split(";")
     let size = content_list.length
 
+    basic.showLeds(`
+        # # # # #
+        # # . # #
+        # . # . #
+        # . . . #
+        # # # # #
+        `)
+
     let request = 0
     let id = 0
     let x = 0
@@ -111,14 +119,6 @@ radio.onReceivedBuffer(function () {
     
     if (id == serial_number || id == -1) {
 
-        basic.showLeds(`
-        # # # # #
-        # # . # #
-        # . # . #
-        # . . . #
-        # # # # #
-        `)
-       
         if (request == OPERATION.JOINED) {
             /**
              * min_signal_strength = -100
@@ -161,9 +161,6 @@ radio.onReceivedBuffer(function () {
             
             else if (request == OPERATION.WATER_CONTAINER_STATE) 
                 sendWaterContainerState()
-
-            else if (request == OPERATION.SET_VASE_PAUSE_TIME && size == 3)
-                setPauseTime(x)
     
             else if (request == OPERATION.SET_VASE_SEND_TIME && size == 3)
                 setSendTime(x)

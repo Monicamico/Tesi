@@ -133,16 +133,20 @@ function drawNumberOfVases(dim_list:number) {
     }
 }
 
-function setDeadping(x: number){
-    deadping = x;
-    return
+function setDeadping(){
+    deadping = pause_time * 2;
 }
 
 function setRadioPauseTime(x:number){
-    pause_time = x;
-    return
+    pause_time = pause_time * 60000;
+    setDeadping()
 }
 
+function setTransmitPower(p: number){
+    if (p > 0 && p < 8){
+        radio.setTransmitPower(p)
+    }     
+}
 /**
  * @summary to send a response to raspberry
  * @param response contains a string that rappresent the response

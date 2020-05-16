@@ -121,15 +121,18 @@ function setWaterContainerSize(l: string) {
  * @param x (number) interval
  */
 function setSendTime(x: number) {
-    send_time = x
+    if (x > 0){
+        send_time = send_time * 60000;
+        setPauseTime()
+        radio.sendValue(OPERATION.SET_VASE_SEND_TIME.toString(), send_time)
+    }
 }
 
 /**
  * @summary set pause time interval 
- * @param x (number) 
  */
-function setPauseTime(x: number) {
-    pause_time = x
+function setPauseTime() {
+    pause_time = send_time / 2
 }
 
 /**
