@@ -19,7 +19,7 @@ def radio_settings(idr, alert):
 
     if settings_form.validate_on_submit():
         radio_name = rcv_req.form['radio_name']
-        transmit_power = int(rcv_req.form['transmit_power'])
+        transmit_power = int(rcv_req.form.get('transmit_power'))
         sleep_time = int(rcv_req.form['sleep_time'])
 
         if radio_name != radio.name:
@@ -42,7 +42,13 @@ def radio_settings(idr, alert):
 
         if sleep_time != radio.sleep_time:
             if sleep_time > 0:
-                alert = 'success'
+                try:
+                    snd_req.put(url_raspberry + '/request', json={'request': 'sleep_time',
+                                                                  'serial': idr,
+                                                                  'param': sleep_time})
+                    alert = 'success'
+                except:
+                    alert = 'fail'
             else:
                 alert = 'param-fail'
 

@@ -36,9 +36,15 @@ def add_conn_req(idv, pingv, pairingv, urlv):
     else:
         url = url_from_plant(idv)
         if url != urlv:
-            snd_req.put(url + '/request', json={'request': 'deleted', 'serial': idv})
-            plant.url_radio = urlv
-        snd_req.put(urlv + '/request', json={'request': 'joined', 'serial': idv})
+            try:
+                snd_req.put(url + '/request', json={'request': 'deleted', 'serial': idv})
+                plant.url_radio = urlv
+            except:
+                print("Invalid URL")
+        try:
+            snd_req.put(urlv + '/request', json={'request': 'joined', 'serial': idv})
+        except:
+            print("Invalid URL")
 
 
 def delete_conn_req(idv):
@@ -67,6 +73,15 @@ def update_radio_name(radio,name):
             r.name = name
             db.session.commit()
             return True
+    return False
+
+
+def update_sleep_time(radio, time):
+    r = Radio.query.filter_by(id=radio).first()
+    if r is not None:
+        r.sleep_time = time
+        db.session.commit()
+        return True
     return False
 
 
@@ -132,6 +147,7 @@ class Plant(db.Model):
     water_container_state = db.Column(db.Boolean, nullable=False, default=True)
     water_container_size = db.Column(db.Float, nullable=False, default=0.5)
     transmit_power = db.Column(db.Integer(), default=7)
+    send_time = db.Column(db.Integer(), default=16)
 
 
 def add_plant(idv, ping, radio):
@@ -154,7 +170,8 @@ def add_plant(idv, ping, radio):
                                      watering_light=70,
                                      water_container_size=0.5,
                                      water_container_state=True,
-                                     transmit_power=7))
+                                     transmit_power=7,
+                                     send_time=30))
                 db.session.commit()
 
 
@@ -189,6 +206,13 @@ def update_vase_transmit_power(idv, tr):
     p = Plant.query.filter_by(id=idv).first()
     if p is not None:
         p.transmit_power = tr
+        db.session.commit()
+
+
+def update_send_time(idv,st):
+    p = Plant.query.filter_by(id=idv).first()
+    if p is not None:
+        p.send_time = st
         db.session.commit()
 
 

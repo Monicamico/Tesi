@@ -6,13 +6,15 @@ from gio_db import add_radio, add_conn_req, delete_conn_req, \
     update_hum_min, update_hum_max, \
     update_light_min, update_light_max, \
     update_temp_min, update_temp_max, \
-    update_watering_light, update_vase_transmit_power, update_radio_transmit_power, update_water_container_size
+    update_watering_light, \
+    update_vase_transmit_power, update_radio_transmit_power, update_water_container_size, \
+    update_send_time, update_sleep_time
 from constant import Operation
 
 request_page = Blueprint('request_page', __name__)
 
 
-# request or response received from raspberry
+# request or response received from raspberry(RADIO)
 @request_page.route("/request", methods=['POST', 'PUT'])
 def request():
     data = rcv_req.json
@@ -184,6 +186,22 @@ def request():
             serial_number = data['serial']
             param = data['param']
             update_radio_transmit_power(serial_number, param)
+        except:
+            print()
+
+    elif req == Operation.SET_VASE_SEND_TIME.value:
+        try:
+            serial_number = data['serial']
+            param = data['param']
+            update_send_time(serial_number, param)
+        except:
+            print()
+
+    elif req == Operation.SET_RADIO_PAUSE_TIME.value:
+        try:
+            serial_number = data['serial']
+            param = data['param']
+            update_sleep_time(serial_number, param)
         except:
             print()
 

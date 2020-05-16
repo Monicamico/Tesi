@@ -42,7 +42,7 @@
      <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
 
-          <table class="MyTable" width="600px" align="center">
+          <table class="MyTable" width="600px" align="center" style="margin-bottom:45px;">
               <tr>
                  <td> <label> {{ form.radio_name.label }} </label> </td>
                  <td>{{ form.radio_name(size=24, value = radio.name)}} </td>
@@ -53,12 +53,55 @@
 
          <table width="600px" class="MyTable"  style="margin-bottom:0px;" align="center">
              <tr>
-                  <td> <label> {{ form.transmit_power.label }} [1,7] </label> </td>
-                 <td>{{ form.transmit_power(size= 2, value = radio.transmit_power)}} </td>
-              </tr>
-              <tr>
+                  <td> <label> {{ form.transmit_power.label }} </label> </td>
+                 <td>
+                     <select name="transmit_power" class="form-control form-control-sm">
+
+                         {% if radio.transmit_power == 1 %}
+                            <option selected>1</option>
+                         {% else %}
+                            <option>1</option>
+                         {% endif %}
+
+                         {% if radio.transmit_power == 2 %}
+                            <option selected>2</option>
+                         {% else %}
+                            <option>2</option>
+                         {% endif %}
+
+                         {% if radio.transmit_power == 3 %}
+                            <option selected>3</option>
+                         {% else %}
+                            <option>3</option>
+                         {% endif %}
+
+                         {% if radio.transmit_power == 4 %}
+                            <option selected>4</option>
+                         {% else %}
+                            <option>4</option>
+                         {% endif %}
+
+                         {% if radio.transmit_power == 5 %}
+                            <option selected>5</option>
+                         {% else %}
+                            <option>5</option>
+                         {% endif %}
+
+                         {% if radio.transmit_power == 6 %}
+                            <option selected>6</option>
+                         {% else %}
+                            <option>6</option>
+                         {% endif %}
+
+                         {% if radio.transmit_power == 7 %}
+                            <option selected>7</option>
+                         {% else %}
+                            <option>7</option>
+                         {% endif %}
+                    </select>
+                 </td>
                   <td> <label> {{ form.sleep_time.label }} </label> </td>
-                 <td>{{ form.sleep_time(size =2,value = radio.sleep_time)}} </td>
+                 <td>{{ form.sleep_time(size =4,value = radio.sleep_time)}} min. </td>
               </tr>
              <tr>
             </tr>

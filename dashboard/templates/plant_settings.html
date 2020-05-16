@@ -79,31 +79,83 @@
 
              <tr>
                  <td> <label>{{ form.hum_min.label }}</label> </td>
-                 <td>{{ form.hum_min(size=3, value = (plant.humidity_min * 100 / 1023) |round |int)  }} </td>
+                 <td>{{ form.hum_min(size=2, value = (plant.humidity_min * 100 / 1023) |round |int)  }} % </td>
                  <td>  <label>{{ form.hum_max.label }}</label> </td>
-                 <td>{{ form.hum_max(size=3, value= (plant.humidity_max * 100 / 1023) |round|int ) }}</td>
+                 <td>{{ form.hum_max(size=2, value= (plant.humidity_max * 100 / 1023) |round|int ) }} %</td>
              </tr>
 
              <tr>
                  <td>  <label>{{ form.light_min.label }} </label> </td>
-                 <td> {{ form.light_min(size=3, value= (plant.light_min * 100 / 255) | round | int)  }} </td>
+                 <td> {{ form.light_min(size=2, value= (plant.light_min * 100 / 255) | round | int)  }} %</td>
                  <td> <label>{{ form.light_max.label }}</label> </td>
-                 <td> {{ form.light_max(size=3, value= (plant.light_max * 100 / 255)|round|int )  }} </td>
+                 <td> {{ form.light_max(size=2, value= (plant.light_max * 100 / 255)|round|int )  }} %</td>
              </tr>
 
               <tr>
                  <td> <label>{{ form.temp_min.label }}</label> </td>
-                 <td> {{ form.temp_min(size=3, value=plant.temperature_min) }} </td>
+                 <td> {{ form.temp_min(size=2, value=plant.temperature_min) }} °C </td>
                  <td> <label>{{ form.temp_max.label }}</label> </td>
-                 <td> {{ form.temp_max(size=3, value=plant.temperature_max) }} </td>
+                 <td> {{ form.temp_max(size=2, value=plant.temperature_max) }} °C </td>
              </tr>
 
              <tr>
                  <td>  <label>{{ form.watering_light.label }} </label> </td>
-                 <td> {{ form.watering_light(size=3, value= (plant.watering_light * 100 / 255)|round|int )  }} </td>
+                 <td> {{ form.watering_light(size=2, value= (plant.watering_light * 100 / 255)|round|int )  }} % </td>
                  <td> <label>{{ form.water_container_size.label }}</label> </td>
-                 <td> {{ form.water_container_size(size=3, value=plant.water_container_size) }} </td>
+                 <td> {{ form.water_container_size(size=2, value=plant.water_container_size) }} litri </td>
              </tr>
+
+             <tr>
+                 <td>  <label>{{ form.transmit_power.label }} </label> </td>
+                 <td>  <select name="transmit_power" class="form-control form-control-sm">
+
+                         {% if plant.transmit_power == 1 %}
+                            <option selected>1</option>
+                         {% else %}
+                            <option>1</option>
+                         {% endif %}
+
+                         {% if plant.transmit_power == 2 %}
+                            <option selected>2</option>
+                         {% else %}
+                            <option>2</option>
+                         {% endif %}
+
+                         {% if plant.transmit_power == 3 %}
+                            <option selected>3</option>
+                         {% else %}
+                            <option>3</option>
+                         {% endif %}
+
+                         {% if plant.transmit_power == 4 %}
+                            <option selected>4</option>
+                         {% else %}
+                            <option>4</option>
+                         {% endif %}
+
+                         {% if plant.transmit_power == 5 %}
+                            <option selected>5</option>
+                         {% else %}
+                            <option>5</option>
+                         {% endif %}
+
+                         {% if plant.transmit_power == 6 %}
+                            <option selected>6</option>
+                         {% else %}
+                            <option>6</option>
+                         {% endif %}
+
+                         {% if plant.transmit_power == 7 %}
+                            <option selected>7</option>
+                         {% else %}
+                            <option>7</option>
+                         {% endif %}
+                    </select>
+                 </td>
+                 <td> <label>{{ form.send_time.label }}</label> </td>
+                 <td> {{ form.send_time(size=2, value=plant.send_time) }} min.</td>
+             </tr>
+
          </table>
          <table width="600px" class="MyTable" style=" margin-top: 0px; text-align: center" align="center">
              <tr>
