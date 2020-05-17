@@ -110,50 +110,111 @@
                  <td>  <select name="transmit_power" class="form-control form-control-sm">
 
                          {% if plant.transmit_power == 1 %}
-                            <option selected>1</option>
+                            <option value="1" selected>1</option>
                          {% else %}
-                            <option>1</option>
+                            <option value="1">1</option>
                          {% endif %}
 
                          {% if plant.transmit_power == 2 %}
-                            <option selected>2</option>
+                            <option value="2" selected>2</option>
                          {% else %}
-                            <option>2</option>
+                            <option value="2">2</option>
                          {% endif %}
 
                          {% if plant.transmit_power == 3 %}
-                            <option selected>3</option>
+                            <option value="3" selected>3</option>
                          {% else %}
-                            <option>3</option>
+                            <option value="3">3</option>
                          {% endif %}
 
                          {% if plant.transmit_power == 4 %}
-                            <option selected>4</option>
+                            <option value="4" selected>4</option>
                          {% else %}
-                            <option>4</option>
+                            <option value="4">4</option>
                          {% endif %}
 
                          {% if plant.transmit_power == 5 %}
-                            <option selected>5</option>
+                            <option value="5" selected>5</option>
                          {% else %}
-                            <option>5</option>
+                            <option value="5">5</option>
                          {% endif %}
 
                          {% if plant.transmit_power == 6 %}
-                            <option selected>6</option>
+                            <option value="6" selected>6</option>
                          {% else %}
-                            <option>6</option>
+                            <option value="6" >6</option>
                          {% endif %}
 
                          {% if plant.transmit_power == 7 %}
-                            <option selected>7</option>
+                            <option value="7" selected>7</option>
                          {% else %}
-                            <option>7</option>
+                            <option value="7">7</option>
                          {% endif %}
                     </select>
                  </td>
                  <td> <label>{{ form.send_time.label }}</label> </td>
-                 <td> {{ form.send_time(size=2, value=plant.send_time) }} min.</td>
+                 <td> <select name="send_time" class="form-control form-control-sm">
+                        {% if plant.send_time == 5 %}
+                            <option value="5" selected>5 min.</option>
+                         {% else %}
+                            <option value="5">5 min.</option>
+                         {% endif %}
+
+                         {% if plant.send_time == 10 %}
+                            <option value="10" selected>10 min.</option>
+                         {% else %}
+                            <option value="10">10 min.</option>
+                         {% endif %}
+
+                         {% if plant.send_time == 15 %}
+                            <option value="15" selected>15 min.</option>
+                         {% else %}
+                            <option value="15">15 min.</option>
+                         {% endif %}
+
+                         {% if plant.send_time == 20 %}
+                            <option value="20" selected>20 min.</option>
+                         {% else %}
+                            <option value="20">20 min.</option>
+                         {% endif %}
+
+                        {% if plant.send_time == 25 %}
+                            <option value="25" selected>25 min.</option>
+                        {% else %}
+                            <option value="25">25 min.</option>
+                        {% endif %}
+
+                        {% if plant.send_time == 30 %}
+                            <option value="30" selected>30 min.</option>
+                        {% else %}
+                            <option value="30">30 min.</option>
+                        {% endif %}
+
+                        {% if plant.send_time == 35 %}
+                            <option value="35" selected>35 min.</option>
+                        {% else %}
+                            <option value="35">35 min.</option>
+                        {% endif %}
+
+                        {% if plant.send_time == 40 %}
+                            <option value="40" selected>40 min.</option>
+                        {% else %}
+                            <option value="40">40 min.</option>
+                        {% endif %}
+
+                        {% if plant.send_time == 50 %}
+                            <option value="50" selected>50 min.</option>
+                        {% else %}
+                            <option value="50">50 min.</option>
+                        {% endif %}
+
+                        {% if plant.send_time == 60 %}
+                            <option value="60" selected>1 h.</option>
+                        {% else %}
+                            <option value="60">1 h.</option>
+                        {% endif %}
+                     </select>
+                 </td>
              </tr>
 
          </table>

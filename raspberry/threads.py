@@ -26,7 +26,7 @@ except serial.serialutil.SerialException:
         print('Dummy byte received: ' + str(dummy))
     except serial.serialutil.SerialException:
         print("\nNo such file or directory: " + MICROBIT_PORT_MAC2)
-        #exit(1)
+        exit(1)
 
 
 ip_address = get_ip()
@@ -88,12 +88,12 @@ def reader():
                 continue
 
             if param is not None:
-                param = int(param)
                 valid_request_param = True
             else:
                 valid_request_param = False
 
             if request == Operation.SET_TEMPERATURE_MAX.value or request == Operation.SET_TEMPERATURE_MIN.value or request == Operation.TEMPERATURE.value:
+                param = int(param)
                 if valid_request_param and param >= 0:
                     valid_request = True
                 else:
@@ -101,48 +101,63 @@ def reader():
 
             if request == Operation.SET_HUMIDITY_MIN.value or request == Operation.SET_HUMIDITY_MAX.value or request == Operation.HUMIDITY:
                 if valid_request_param and 0 <= param <= 1023:
+                    param = int(param)
                     valid_request = True
                 else:
                     valid_request = False
 
             if request == Operation.SET_LIGHT_MIN.value or request == Operation.SET_LIGHT_MAX.value \
                     or request == Operation.SET_WATERING_LIGHT.value or request == Operation.LIGHT:
+                param = int(param)
                 if valid_request_param and 0 <= param <= 255:
                     valid_request = True
                 else:
                     valid_request = False
 
             if request == Operation.SET_WATER_CONTAINER_SIZE.value:
+                param = float(param)
                 if valid_request_param and param > 0:
                     valid_request = True
                 else:
                     valid_request = False
 
             if request == Operation.WATER_CONTAINER_STATE.value:
+                param = int(param)
                 if valid_request_param and (param == 1 or param == 0):
                     valid_request = True
                 else:
                     valid_request = False
 
             if request == Operation.VASE_STATE.value:
+                param = int(param)
                 if valid_request_param and (param == 0 or 1):
                     valid_request = True
                 else:
                     valid_request = False
 
-            if request == Operation.VASE_TRANSMIT_POWER.value or request == Operation.RADIO_TRANSMIT_POWER.value:
-                if valid_request_param and (1 <= param <= 7):
+            if request == Operation.VASE_TRANSMIT_POWER.value:
+                param = int(param)
+                if valid_request_param:
+                    valid_request = True
+                else:
+                    valid_request = False
+
+            if request == Operation.RADIO_TRANSMIT_POWER.value:
+                param = int(param)
+                if valid_request_param:
                     valid_request = True
                 else:
                     valid_request = False
 
             if request == Operation.SET_RADIO_PAUSE_TIME.value:
-                if valid_request_param and param > 0:
+                param = int(param)
+                if valid_request_param and param > 0.0:
                     valid_request = True
                 else:
                     valid_request = False
 
             if request == Operation.SET_VASE_SEND_TIME.value:
+                param = int(param)
                 if valid_request_param and param > 0:
                     valid_request = True
                 else:
@@ -151,6 +166,12 @@ def reader():
             if request == Operation.RADIO_JOIN.value:
                 to_send = str(Operation.RADIO_JOIN.value) + DELIMITER
                 request_queue.append(to_send)
+
+            if request == Operation.DELETED.value:
+                valid_request = True
+
+            if request == Operation.REFUSED.value:
+                valid_request = True
 
             if valid_request:
                 if serial_number is not None:
@@ -183,4 +204,5 @@ def writer():
         while len(request_queue) != 0 and w != 5:
             st = request_queue.pop()
             write_serial(st)
+            print("Thread Writer, Scritto su radio: "+st)
             w = w + 1

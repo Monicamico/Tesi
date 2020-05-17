@@ -49,4 +49,4 @@ let single_water_amount = 0.02
  * the value ranges from -128 to -42 
  * (-128 means a weak signal and -42 means a strong one.) 
  */
-let min_signal_strenght = -100
+let min_signal_strenght = -120

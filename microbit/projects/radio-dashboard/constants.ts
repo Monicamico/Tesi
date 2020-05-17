@@ -9,8 +9,8 @@
 let DEBUG = true
 
 enum OPERATION {
-    JOINED = 0, //j
-    REFUSED = 1, //r
+    JOINED = 0, 
+    REFUSED = 1,
     PING = 2,
     HUMIDITY = 3,
     TEMPERATURE = 4,

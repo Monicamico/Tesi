@@ -39,6 +39,7 @@ basic.forever(function () {
     }
        
     else {
+        
         current_time = input.runningTime()
         for (const vase of vase_list){
             if ((current_time - vase.getPing()) > deadping){
@@ -168,7 +169,6 @@ radio.onReceivedValue(function (request: string, param: number) {
         requestInt == OPERATION.LIGHT ||
         requestInt == OPERATION.TEMPERATURE ||
         requestInt == OPERATION.HUMIDITY)
-
         sendToRB(`${request};${serialNumber};${ping};${param}`) 
 
     if (requestInt == OPERATION.VASE_STATE ||
@@ -177,17 +177,12 @@ radio.onReceivedValue(function (request: string, param: number) {
         requestInt == OPERATION.SET_HUMIDITY_MIN ||
         requestInt == OPERATION.SET_HUMIDITY_MAX ||
         requestInt == OPERATION.SET_TEMPERATURE_MIN ||
-        requestInt == OPERATION.SET_TEMPERATURE_MAX)
-        
-        sendToRB(`${request};${serialNumber};${ping};${param}`) 
-        //send the received value to raspberry as a string
-
-    if (requestInt == OPERATION.SET_VASE_SEND_TIME){
-        param = Math.ceil(param / 60000)
-        sendToRB(`${request};${serialNumber};${ping};${param}`) 
-    }
-       
-    
+        requestInt == OPERATION.SET_TEMPERATURE_MAX ||
+        requestInt == OPERATION.SET_VASE_SEND_TIME ||
+        requestInt == OPERATION.VASE_TRANSMIT_POWER ) {
+            sendToRB(`${request};${serialNumber};${ping};${param}`) 
+            //send the received value to raspberry as a string
+        }
 })
 
 /*-------------------------------------- FROM RASPBERRY -------------------------------------------*/
@@ -195,12 +190,12 @@ radio.onReceivedValue(function (request: string, param: number) {
 /* REQUEST received from RASPBERRY */
 
 serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
-    
+
     let received = serial.readUntil(serial.delimiters(Delimiters.Hash))
     let r_list= received.split(";") 
     let size = r_list.length
     let request = parseInt(r_list[0])
-
+   
     if (size == 0)
         return
     if (size == 1){
@@ -212,9 +207,21 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
     let serialNumber = parseInt(r_list[1]) 
     let param = -1;
 
-    if (size == 3)
+    if (size == 3) {
         param = parseInt(r_list[2])
+    }
 
+    if (request == OPERATION.SET_RADIO_PAUSE_TIME) {
+        setRadioPauseTime(param)
+        sendToRB(`${OPERATION.SET_RADIO_PAUSE_TIME};${serial_number};0;${param}`)
+        return
+
+    } else if (request == OPERATION.RADIO_TRANSMIT_POWER) {
+        setTransmitPower(param)   
+        sendToRB(`${OPERATION.RADIO_TRANSMIT_POWER};${serial_number};0;${param}`)
+        return
+    }
+    
     let vase_exist = getVase(serialNumber, vase_list)
 
     if (vase_exist) {
@@ -228,7 +235,8 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
         else if (request == OPERATION.SET_TEMPERATURE_MIN || request == OPERATION.SET_TEMPERATURE_MAX ||
                  request == OPERATION.SET_LIGHT_MIN || request == OPERATION.SET_LIGHT_MAX ||
                  request == OPERATION.SET_HUMIDITY_MAX || request == OPERATION.SET_HUMIDITY_MIN ||
-                 request == OPERATION.SET_VASE_SEND_TIME ||request == OPERATION.SET_WATERING_LIGHT ) {
+                 request == OPERATION.SET_VASE_SEND_TIME ||request == OPERATION.SET_WATERING_LIGHT ||
+                 request == OPERATION.VASE_TRANSMIT_POWER ) {
                     if (param != -1) 
                         sendToVase(request,serialNumber,param)
         }
@@ -237,7 +245,6 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
             param = parseFloat(r_list[2])
             sendToVase(request,serialNumber,param)
         }
-        return
     
     } else {
 
@@ -257,19 +264,6 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
             }
             return
         }
-    }
-
-    if (request == OPERATION.SET_RADIO_PAUSE_TIME){
-        param = parseInt(r_list[1])
-        setRadioPauseTime(param)
-        param = Math.ceil(param / 60000)
-        sendToRB(`${OPERATION.SET_RADIO_PAUSE_TIME};${serial_number};0;${param}`)
-    }
-
-    else if (request == OPERATION.RADIO_TRANSMIT_POWER){
-        param = parseInt(r_list[1])
-        setTransmitPower(param)   
-        sendToRB(`${OPERATION.RADIO_TRANSMIT_POWER};${serial_number};0;${param}`)
     }
 
 })

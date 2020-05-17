@@ -116,15 +116,23 @@ function setWaterContainerSize(l: string) {
     
 }
 
+function setTransmitPower(x: number) {
+    radio.setTransmitPower(x)
+    radio.sendValue(OPERATION.VASE_TRANSMIT_POWER.toString(),x)
+}
+
+
 /**
  * @summary set time interval in wich the vase sends data to the radio-dashboard
  * @param x (number) interval
  */
 function setSendTime(x: number) {
     if (x > 0){
-        send_time = send_time * 60000;
+        basic.showNumber(x)
+        send_time = x * 60* 1000
+        basic.showNumber(send_time)
         setPauseTime()
-        radio.sendValue(OPERATION.SET_VASE_SEND_TIME.toString(), send_time)
+        radio.sendValue(OPERATION.SET_VASE_SEND_TIME.toString(), x)
     }
 }
 

@@ -170,8 +170,8 @@ def add_plant(idv, ping, radio):
                                      watering_light=70,
                                      water_container_size=0.5,
                                      water_container_state=True,
-                                     transmit_power=7,
-                                     send_time=30))
+                                     transmit_power=5,
+                                     send_time=15))
                 db.session.commit()
 
 

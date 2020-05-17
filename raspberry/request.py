@@ -90,12 +90,12 @@ def request():
         elif req_type == 'vase_transmit_power':
             param = str(data['param'])
             req = str(Operation.VASE_TRANSMIT_POWER.value) + ";" + id_s + ";" + param + DELIMITER
-            print('vase_transmit_power / '+id_s)
+            print('vase_transmit_power / '+ id_s + " / " + param)
 
         elif req_type == 'radio_transmit_power':
             param = str(data['param'])
             req = str(Operation.RADIO_TRANSMIT_POWER.value) + ";" + id_s + ";" + param + DELIMITER
-            print('radio_transmit_power / '+id_s)
+            print('radio_transmit_power / '+id_s + " / " + param)
 
         elif req_type == 'send_time':
             param = str(data['param'])

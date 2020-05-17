@@ -112,7 +112,6 @@ def create_app():
 if __name__ == "__main__":
     app = create_app()
     with app.app_context():
-        add_conn_req(30, 11, 345, 'urlradio1')
-        add_plant(30, 1, 1)
+        delete_conn_req(20)
     app.run(port=5000)
 

@@ -15,8 +15,8 @@ let light_max = 250
 let temperature_measure = 0                       // temperature measure
 let humidity_measure = 0                          // humidity measure
 let light_measure = 0                             // light measure
-let send_time = 1000000                           // time interval in wich the vase sends data  (16 MINUTI circa)
-let pause_time = send_time/2                       
+let send_time = 900000                            // time interval in wich the vase sends data  (16 MINUTI circa)
+let pause_time = send_time / 2                       
 let time = 0
 let joined = false
 let radio_serial_number = 0
@@ -71,7 +71,7 @@ basic.forever(function () {
     }
     basic.clearScreen()
 
-    if (time == send_time) {
+    if (time >= send_time) {
         if (joined){
             basic.showString(">")
             sendHumidity()
@@ -103,7 +103,7 @@ radio.onReceivedBuffer(function () {
         # . # . #
         # . . . #
         # # # # #
-        `)
+    `)
 
     let request = 0
     let id = 0
@@ -164,6 +164,9 @@ radio.onReceivedBuffer(function () {
     
             else if (request == OPERATION.SET_VASE_SEND_TIME && size == 3)
                 setSendTime(x)
+
+            else if (request == OPERATION.VASE_TRANSMIT_POWER && size == 3)
+                setTransmitPower(x)
             
             else if (request == OPERATION.SET_HUMIDITY_MIN && size == 3)
                 setHumMin(x)

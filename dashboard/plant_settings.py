@@ -31,7 +31,7 @@ def settings(idv, alert):
         watering_light = ceil(int(rcv_req.form['watering_light']) / 100 * 255)
         water_container_size = rcv_req.form['water_container_size']
         transmit_power = int(rcv_req.form.get('transmit_power'))
-        send_time = int(rcv_req.form['send_time'])
+        send_time = int(rcv_req.form.get('send_time'))
         alert = 'success'
 
         if name != plant_s.name:
@@ -101,7 +101,7 @@ def settings(idv, alert):
             except:
                 alert = 'fail'
 
-        if water_container_size != plant_s.water_container_size and alert == 'success':
+        if float(water_container_size) != float(plant_s.water_container_size) and alert == 'success':
             try:
                 snd_req.put(URL_RASPBERRY + '/request', json={'request': 'water_container_size', 'serial': idv, 'param': water_container_size})
                 alert = 'success'
@@ -119,16 +119,17 @@ def settings(idv, alert):
             else:
                 alert = 'param-fail'
 
-        if transmit_power != plant_s.transmit_power and alert == 'success':
-            try:
-                snd_req.put(URL_RASPBERRY + '/request',
-                            json={'request': 'vase_transmit_power', 'serial': idv, 'param': transmit_power})
-                alert = 'success'
-            except:
-                alert = 'fail'
+        if int(transmit_power) != int(plant_s.transmit_power):
+            if alert == 'success':
+                try:
+                    snd_req.put(URL_RASPBERRY + '/request',
+                                json={'request': 'vase_transmit_power', 'serial': idv, 'param': transmit_power})
+                    alert = 'success'
+                except:
+                    alert = 'fail'
 
         if alert == 'success':
-            time.sleep(4)
+            time.sleep(5)
 
         return redirect(alert)
 
