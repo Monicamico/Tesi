@@ -10,7 +10,7 @@ let dim_vase_list: number = 0;           // size of vase_list
 let pause_time = 200000                  //
 let not_registered_pause_time = 8000
 let current_time;
-let deadping = 3600000;                  // (1 h)
+let deadping = 60               
 let registered = false
 
 /*------------------------------------ INITIAL CODE -------------------------------------*/
@@ -25,10 +25,6 @@ dim_vase_list = vase_list.length
 DEBUG = true
 
 
-if (DEBUG) {
-    deadping = 300000
-}
-
 /*------------------------------------------ MAIN CODE ------------------------------------------- */
 
 basic.forever(function () {
@@ -40,9 +36,9 @@ basic.forever(function () {
        
     else {
         
-        current_time = input.runningTime()
+        current_time = Math.ceil((input.runningTime())/60000)
         for (const vase of vase_list){
-            if ((current_time - vase.getPing()) > deadping){
+            if ((current_time - vase.ping) > deadping){
                 if (vase.dying)  {
                     dim_vase_list = deleteVase(vase.serial_number, vase_list)
                     if (dim_vase_list!= undefined){
@@ -102,12 +98,12 @@ radio.onReceivedNumber(function (received: number) {
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
 
     if (received == OPERATION.PING) {
-        let ping = input.runningTime();
+        let ping = Math.ceil(input.runningTime()/60000);
         let vase = getVase(serialNumber, vase_list)
         if (vase) {
             vase.dying = false
             vase.ping = ping
-            sendToRB(`${OPERATION.PING};${serialNumber};${ping};0`)
+            sendToRB(`${OPERATION.PING};${serialNumber};${ping};${ping}`)
         }
     }
 })
@@ -125,7 +121,7 @@ radio.onReceivedNumber(function (received: number) {
 radio.onReceivedValue(function (request: string, param: number) {
 
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
-    let ping = input.runningTime()
+    let ping = Math.ceil(input.runningTime()/60000);
     const requestInt = parseInt(request)
     const vase = getVase(serialNumber, vase_list)
 
@@ -137,13 +133,12 @@ radio.onReceivedValue(function (request: string, param: number) {
             sendToVase(OPERATION.JOINED,serialNumber) 
             return
         }
-        if (containRequest(serialNumber, conn_request)) return
-
-        let ping_req = input.runningTime();
-        conn_request.push(new Request(serialNumber, ping_req, param))
+        if (containRequest(serialNumber, conn_request)) 
+            return
+        conn_request.push(new Request(serialNumber, ping, param))
         //send connection request to raspberry
-        sendToRB(`${OPERATION.CONNECTION};${serialNumber};${ping_req};${param}`) 
-
+        sendToRB(`${OPERATION.CONNECTION};${serialNumber};${ping};${param}`) 
+        return
 
     } else if (requestInt == OPERATION.JOINED) {
 
