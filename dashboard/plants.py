@@ -14,6 +14,7 @@ def plants_alert(alert):
                            plants=plants_list,
                            radios=radios_list,
                            connections=conn_list,
+                           searchBar = 'si',
                            title='Plants List')
 
 

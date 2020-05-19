@@ -264,3 +264,23 @@ canvas.linkable{
     color: black;
 }
 
+
+.list-group-flush .list-group-item {
+    border-right: 0;
+    border-radius: 0;
+    color: #f1f1f1;
+}
+
+
+.list-group-item.active {
+    z-index: 2;
+    font-size: 17px;
+    font-weight: bolder;
+    color: darkturquoise;
+    border-color: #32373a;
+}
+
+#sidebar-wrapper .list-group .list-group-item-action:hover {
+    width: 15rem;
+    color: #a4f7db;
+}

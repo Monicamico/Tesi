@@ -36,9 +36,9 @@ def settings(idv, alert):
 
         if name != plant_s.name:
             if update_name(idv, name):
-                return redirect("name_success")
+                return redirect('name-success')
             else:
-                return redirect("name_fail")
+                return redirect("name-fail")
 
         if light_max != plant_s.light_max:
             if 0 <= light_max <= 255 and alert == 'success':
@@ -70,7 +70,7 @@ def settings(idv, alert):
                 alert = 'param-fail'
 
         if hum_min != plant_s.humidity_min:
-            if 0 <= hum_min <= 1023  and alert == 'success':
+            if 0 <= hum_min <= 1023 and alert == 'success':
                 try:
                     snd_req.put(URL_RASPBERRY + '/request', json={'request': 'hum_min', 'serial': idv, 'param': hum_min})
                 except:

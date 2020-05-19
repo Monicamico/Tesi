@@ -99,15 +99,15 @@
            </td>
 
            <td>
-               <a class="myButton" href="http://127.0.0.1:5000/humidity/{{plant.id}}"
+               <a class="myButton" href="/humidity/{{plant.id}}"
                   title="Richiedi umidita">
                    <i class="fas fa-tint"></i>
                </a>
-               <a class="myButton" href="http://127.0.0.1:5000/temperature/{{plant.id}}"
+               <a class="myButton" href="/temperature/{{plant.id}}"
                   title="Richiedi temperatura">
                    <i class="fas fa-temperature-high"></i>
                </a>
-               <a class="myButton" href="http://127.0.0.1:5000/light/{{plant.id}}" title="Richiedi luce">
+               <a class="myButton" href="/light/{{plant.id}}" title="Richiedi luce">
                    <i class="fas fa-sun"></i>
                </a>
 
@@ -153,8 +153,8 @@
 
 
     <h2>
-        <a class="myButton"href="http://127.0.0.1:5000/plants/info"> <i class="fas fa-arrow-circle-left"></i> Torna alla lista </a>
-        <a class="myButton" title="Modifica" href="http://127.0.0.1:5000/settings/{{ plant.id }}/vase"> <i class="fas fa-cog"></i> Modifica </a>
+        <a class="myButton"href="/plants/info"> <i class="fas fa-arrow-circle-left"></i> Torna alla lista </a>
+        <a class="myButton" title="Modifica" href="/settings/{{ plant.id }}/vase"> <i class="fas fa-cog"></i> Modifica </a>
     </h2>
 
     {% endblock %}

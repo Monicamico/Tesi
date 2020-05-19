@@ -14,7 +14,7 @@ from constant import Operation
 request_page = Blueprint('request_page', __name__)
 
 
-# request or response received from raspberry(RADIO)
+# Request or response received from raspberry(RADIO)
 @request_page.route("/request", methods=['POST', 'PUT'])
 def request():
     data = rcv_req.json

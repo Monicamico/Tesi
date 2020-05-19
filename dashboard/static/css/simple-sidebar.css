@@ -29,13 +29,14 @@ body {
   width: 15rem;
 }
 
-#sidebar-wrapper .list-group .list-group-item-action:hover{
+#sidebar-wrapper .list-group .list-group-item-action:hover {
     width: 15rem;
-    color: #498af1;
+    color: #a4f7db;
+    padding-left: 25px;
 }
 
 .list-group-flush .list-group-item:hover{
-    color: #498af1;
+    color: #a4f7db;
 }
 
 
