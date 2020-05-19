@@ -1,4 +1,5 @@
 import socket
+import threading
 
 
 def get_ip():
@@ -7,3 +8,6 @@ def get_ip():
     return ip
 
 
+# lock for serial queue
+lock_queue = threading.Lock()
+condition_variable = threading.Condition(lock_queue)

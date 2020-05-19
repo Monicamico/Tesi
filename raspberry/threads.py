@@ -2,9 +2,9 @@ import threading
 import time
 import serial
 import requests as rq
-from constants import URL_DASHBOARD, WaterContainerState, VaseState, PORT
+from constants import URL_DASHBOARD, PORT
 from request import request_queue
-from utility import get_ip
+from utility import get_ip, lock_queue, condition_variable
 from constants import MICROBIT_PORT_MAC, MICROBIT_PORT_MAC2, Operation, DELIMITER
 
 
@@ -76,7 +76,7 @@ def write_serial(data):
 def reader():
     while True:
         for request, serial_number, ping, param in read_serial():
-            print("Request or Response from RB:")
+            print("Request or Response from Radio-Dashboard:")
 
             if request is not None:
                 request = int(request)
@@ -100,7 +100,7 @@ def reader():
                     valid_request = False
 
             if request == Operation.SET_HUMIDITY_MIN.value or request == Operation.SET_HUMIDITY_MAX.value or request == Operation.HUMIDITY:
-                if valid_request_param and 0 <= param <= 1023:
+                if valid_request_param and 0 <= int(param) <= 1023:
                     param = int(param)
                     valid_request = True
                 else:
@@ -164,8 +164,11 @@ def reader():
                     valid_request = False
 
             if request == Operation.RADIO_JOIN.value:
+                lock_queue.acquire()
                 to_send = str(Operation.RADIO_JOIN.value) + DELIMITER
                 request_queue.append(to_send)
+                condition_variable.notify_all()
+                lock_queue.release()
 
             if request == Operation.DELETED.value:
                 valid_request = True
@@ -200,9 +203,11 @@ def reader():
 
 def writer():
     while True:
-        w = 0
-        while len(request_queue) != 0 and w != 5:
-            st = request_queue.pop()
-            write_serial(st)
-            print("Thread Writer, Scritto su radio: "+st)
-            w = w + 1
+        lock_queue.acquire()
+        while len(request_queue) == 0:
+            condition_variable.wait()
+        st = request_queue.pop()
+        write_serial(st)
+        lock_queue.release()
+        print("Thread Writer, Scritto su radio: "+st)
+

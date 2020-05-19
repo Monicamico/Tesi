@@ -1,5 +1,6 @@
 from flask import Blueprint, request as http_req, redirect
 from constants import URL_DASHBOARD, Operation, DELIMITER
+from utility import lock_queue, condition_variable
 
 request_page = Blueprint('request_page', __name__)
 request_queue = []
@@ -8,6 +9,7 @@ request_queue = []
 # Request received from DASHBOARD Server, it will be added to the request queue
 @request_page.route("/request", methods=['POST', 'PUT'])
 def request():
+
     global req
     print("Request from dashboard:")
     try:
@@ -107,7 +109,10 @@ def request():
             req = str(Operation.SET_RADIO_PAUSE_TIME.value) + ";" + id_s + ";" + param + DELIMITER
             print('radio sleep_time / '+id_s)
 
+        lock_queue.acquire()
         request_queue.append(req)
+        condition_variable.notify_all()
+        lock_queue.release()
         return "ok"
 
     except ValueError:
