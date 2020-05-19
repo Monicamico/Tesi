@@ -10,7 +10,7 @@ let dim_vase_list: number = 0;           // size of vase_list
 let pause_time = 200000                  //
 let not_registered_pause_time = 8000
 let current_time;
-let deadping = 1200000;                  // (20 min)
+let deadping = 3600000;                  // (1 h)
 let registered = false
 
 /*------------------------------------ INITIAL CODE -------------------------------------*/
@@ -55,6 +55,7 @@ basic.forever(function () {
                 } else {
                     vase.dying = true;
                     sendToVase(OPERATION.PING,vase.serial_number)
+                    basic.pause(8000)
                 }
             }
         }
@@ -104,7 +105,8 @@ radio.onReceivedNumber(function (received: number) {
         let ping = input.runningTime();
         let vase = getVase(serialNumber, vase_list)
         if (vase) {
-            vase.setPing(ping)
+            vase.dying = false
+            vase.ping = ping
             sendToRB(`${OPERATION.PING};${serialNumber};${ping};0`)
         }
     }
@@ -161,7 +163,8 @@ radio.onReceivedValue(function (request: string, param: number) {
     
     if (!vase)
         return
-    vase.setPing(ping) //update ping value of the vase
+    vase.ping = ping //update ping value of the vase
+    vase.dying = false
 
     if (requestInt == OPERATION.WATER_CONTAINER_STATE ||
         requestInt == OPERATION.SET_WATER_CONTAINER_SIZE ||

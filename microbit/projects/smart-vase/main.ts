@@ -72,7 +72,7 @@ basic.forever(function () {
     basic.clearScreen()
 
     if (time >= send_time) {
-        if (joined){
+        if (joined){P
             basic.showString(">")
             sendHumidity()
             sendTemperature()

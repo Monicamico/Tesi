@@ -128,9 +128,7 @@ function setTransmitPower(x: number) {
  */
 function setSendTime(x: number) {
     if (x > 0){
-        basic.showNumber(x)
         send_time = x * 60* 1000
-        basic.showNumber(send_time)
         setPauseTime()
         radio.sendValue(OPERATION.SET_VASE_SEND_TIME.toString(), x)
     }
