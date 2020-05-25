@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+
+      <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+
+      <title>Gio Vase | Login</title>
+
+  <!-- Bootstrap core CSS -->
+      <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+
+  <!-- Custom styles for this template -->
+      <link href="{{ url_for('static', filename='css/all.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='css/simple-sidebar.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='css/solid.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='css/fontawesome.css') }}" rel="stylesheet">
+  </head>
+
+ <body style="background: #333a40" align="center">
+     <IMG src="{{ url_for('static', filename='logoVerde.png') }}">
+     <br>
+     <br>
+     <br>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        {{ form.username(size=24, placeholder = "Username" )}}
+        <br>
+        {{ form.password(size=24, placeholder = "Password" )}}
+        <br>
+        <br>
+        <input class="btn btn-outline-primary my-lg-1" style="width: 130px" id="submit" name="submit" type="submit" value="Login">
+    </form>
+
+ </body>

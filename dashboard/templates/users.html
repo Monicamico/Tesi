@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+{% extends 'layout.html' %}
+
+ {% block content %}
+
+    <h2 class="mt-3"> Utenti registrati </h2>
+
+        <table class="MyTable" align="center" style="text-align: center;" width="850px">
+            {% for user in users | sort(attribute='role')%}
+            <tr style="background-color:unset">
+                <td>
+                     {% if loop.changed(user.role) %}
+                        <h4 class="mt-0">Utenti con ruolo
+                            <code style="font-size: 23px">
+                            {% if user.role == 0 %} Admin:
+                            {% elif user.role == 1 %} Utente:
+                            {% endif %}</code> </h4>
+                        <br>
+                       {% for user_i in users if user_i.role == user.role %}
+                            <a class="myButton" style="font-size: 18px; margin-left: 4px" title="Modifica" href="/user_settings/{{ user.username }}">
+                                 <i class="fas fa-user-edit"></i>
+                                {{ user_i.username }}
+                            </a>
+                        {% endfor %}
+
+                    {% endif %}
+                </td>
+            </tr>
+
+        {% endfor %}
+        </table>
+    {% endblock %}
+
+</html>

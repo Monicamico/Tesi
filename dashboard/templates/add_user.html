@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+{% extends 'layout.html' %}
+{% block content %}
+
+    {% if current_user.is_authenticated %}
+        <h2 class="mt-3">Registra un nuovo utente </h2>
+        <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+          <table  style="margin-bottom: 0px" width="450px" class="MyTable" align="center">
+              <tr>
+                 <td> <label>{{ form.username.label }}</label> </td>
+                 <td>{{ form.username(size=15)}} </td>
+               </tr>
+              <tr>
+                 <td> <label>{{ form.password.label }}</label> </td>
+                 <td>{{ form.password(size=15)}} </td>
+              </tr>
+              <tr>
+                 <td> <label>{{ form.password_repeat.label }}</label> </td>
+                 <td>{{ form.password_repeat(size=15)}} </td>
+              </tr>
+              <tr>
+                    <td> <label>{{ form.ruolo_utente.label }} </label> </td>
+                    <td> <select name="ruolo_utente" class="form-control form-control-sm">
+                         <option disabled selected> -- Scegli ruolo </option>
+                         <option value="0"> Admin </option>
+                         <option value="1"> Utente </option>
+                         </select>
+                    </td>
+              </tr>
+          </table>
+          <table  style="text-align: center; margin-top: 0px" width="450px" class="MyTable" align="center">
+              <tr> <td>
+                <button type="submit" id="submit" class="btn btn-secondary my-2 my-sm-0"> Registra </button>
+              </td></tr>
+          </table>
+        </form>
+    {% endif %}
+
+{% endblock %}
+
+</html>
