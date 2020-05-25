@@ -18,3 +18,22 @@ class SettingsForm(FlaskForm):
     sleep_time = IntegerField('Sleep time: ')
     send_time = IntegerField('Send time: ')
     submit = SubmitField('Imposta')
+
+
+class LoginForm(FlaskForm):
+    username = StringField('Username')
+    password = PasswordField('Password')
+    submit = SubmitField('Login')
+
+
+class PlantForm(FlaskForm):
+    name = StringField('Nome pianta')
+    submit = SubmitField('Conferma')
+
+
+class UserForm(FlaskForm):
+    username = StringField('Username')
+    password = PasswordField('Password')
+    password_repeat = PasswordField('Ripeti password')
+    ruolo_utente = StringField('Ruolo')
+    submit = SubmitField('Registra')

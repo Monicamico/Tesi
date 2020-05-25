@@ -1,14 +1,14 @@
-from flask import Blueprint, request as rcv_req
+from flask import Blueprint, request as rcv_req, redirect, flash
 from gio_db import add_radio, add_conn_req, delete_conn_req, \
     add_plant, delete_plant, \
     update_hum, update_light, update_temp, \
-    update_ping, update_water_container_state, update_vase_state, \
+    update_ping, update_water_container_state, \
     update_hum_min, update_hum_max, \
     update_light_min, update_light_max, \
     update_temp_min, update_temp_max, \
     update_watering_light, \
     update_vase_transmit_power, update_radio_transmit_power, update_water_container_size, \
-    update_send_time, update_sleep_time
+    update_send_time, update_sleep_time, update_plant_state_fitness
 from constant import Operation
 
 request_page = Blueprint('request_page', __name__)
@@ -26,12 +26,14 @@ def request():
 
     if req == Operation.RADIO_JOIN.value:
         add_radio(data['serial'], data['url'])
+        return redirect("/home")
 
     elif req == Operation.CONNECTION.value:
         ping = data['ping']
         param = data['param']
         url = data['url']
         add_conn_req(data['serial'], ping, param, url)
+        return redirect("/home")
 
     elif req == Operation.REFUSED.value:
         delete_conn_req(data['serial'])
@@ -55,6 +57,10 @@ def request():
             update_hum(serial_number, ping, param)
         except:
             print("Humidity: error")
+        try:
+            update_plant_state_fitness(serial_number)
+        except:
+            print("Humidity, state update: error")
 
     elif req == Operation.LIGHT.value:
         try:
@@ -64,6 +70,10 @@ def request():
             update_light(serial_number, ping, param)
         except:
             print("Light: error")
+        try:
+            update_plant_state_fitness(serial_number)
+        except:
+            print("Light, state update: error")
 
     elif req == Operation.TEMPERATURE.value:
         try:
@@ -73,6 +83,10 @@ def request():
             update_temp(serial_number, ping, param)
         except:
             pass
+        try:
+            update_plant_state_fitness(serial_number)
+        except:
+            print("Temperature, state update: error")
 
     elif req == Operation.PING.value:
         try:
@@ -109,15 +123,6 @@ def request():
         except:
             print()
 
-    elif req == Operation.VASE_STATE.value:
-        try:
-            serial_number = data['serial']
-            ping = data['ping']
-            param = data['param']
-            update_vase_state(serial_number, ping, param)
-        except:
-            print()
-
     elif req == Operation.SET_HUMIDITY_MIN.value:
         try:
             serial_number = data['serial']
@@ -126,6 +131,10 @@ def request():
             update_hum_min(serial_number, ping, param)
         except:
             print()
+        try:
+            update_plant_state_fitness(serial_number)
+        except:
+            print("Update-state_fitness: error")
 
     elif req == Operation.SET_HUMIDITY_MAX.value:
         try:
@@ -135,6 +144,10 @@ def request():
             update_hum_max(serial_number, ping, param)
         except:
             print()
+        try:
+            update_plant_state_fitness(serial_number)
+        except:
+            print("Update-state_fitness: error")
 
     elif req == Operation.SET_LIGHT_MIN.value:
         try:
@@ -144,6 +157,10 @@ def request():
             update_light_min(serial_number,ping, param)
         except:
             print()
+        try:
+            update_plant_state_fitness(serial_number)
+        except:
+            print("Update-state_fitness: error")
 
     elif req == Operation.SET_LIGHT_MAX.value:
         try:
@@ -153,6 +170,10 @@ def request():
             update_light_max(serial_number, ping, param)
         except:
             print()
+        try:
+            update_plant_state_fitness(serial_number)
+        except:
+            print("Update-state_fitness: error")
 
     elif req == Operation.SET_TEMPERATURE_MIN.value:
         try:
@@ -162,6 +183,10 @@ def request():
             update_temp_min(serial_number, ping, param)
         except:
             print()
+        try:
+            update_plant_state_fitness(serial_number)
+        except:
+            print("Update-state_fitness: error")
 
     elif req == Operation.SET_TEMPERATURE_MAX.value:
         try:
@@ -171,6 +196,10 @@ def request():
             update_temp_max(serial_number, ping, param)
         except:
             print()
+        try:
+            update_plant_state_fitness(serial_number)
+        except:
+            print("Update-state_fitness: error")
 
     elif req == Operation.VASE_TRANSMIT_POWER.value:
         try:

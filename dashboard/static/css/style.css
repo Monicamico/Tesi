@@ -5,7 +5,7 @@
 body {
     margin: 0;
     font-family: 'Ubuntu', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
-    font-size: 1rem;
+    font-size: 17px;
     font-weight: 400;
     line-height: 1.5;
     color: rgb(7, 19, 24);
@@ -131,8 +131,7 @@ code {
     word-break: break-word;
 }
 
-.myButton,
-input[type="submit"] {
+.myButton, input[type="submit"] {
 	background-color: cornflowerblue;
 	border-radius:16px;
 	border:2px groove royalblue;
@@ -140,14 +139,20 @@ input[type="submit"] {
 	cursor:pointer;
 	color: #bbe4e6;
 	font-family:Arial;
-	font-size:15px;
+	font-size:17px;
 	font-weight:bold;
 	padding:8px 6px;
 	text-decoration:none;
 }
-.myButton:hover,
-input[type="submit"] {
+
+input[type="password"] {
+    margin-top: 10px;
+}
+
+
+.myButton:hover, input[type="submit"],.a {
 	background-color: rgba(73, 138, 241, 0.84);
+    color: white;
 }
 .myButton:active {
 	position:relative;
@@ -184,7 +189,7 @@ table.MyTable th, tr, td {
 }
 
 table.MyTable th {
-    background: #A5FFDB;
+    background: #a8ffe0;
     color: #05050c;
 }
 
@@ -214,6 +219,8 @@ body.B2 {
 .bg-dark {
     background-color: #343a40!important;
     opacity: 0.98;
+    color: aliceblue;
+    font-size: 17px;
 }
 
 .badge-primary2 {
@@ -282,5 +289,27 @@ canvas.linkable{
 
 #sidebar-wrapper .list-group .list-group-item-action:hover {
     width: 15rem;
-    color: #a4f7db;
+    color: #c6f7eb;
+}
+
+.mb-sm-0, .my-sm-0 {
+    margin-bottom: 0!important;
+    margin-right: 10px;
+    color: white;
+}
+
+.mb-sm-1, .my-sm-1 {
+    margin-bottom: 40px!important;
+    margin-top: 40px!important;
+    color: white;
+}
+
+.my-sm-2 {
+    margin-bottom: 30px!important;
+    margin-top: 350px!important;
+    color: white;
+}
+
+.list-group-flush .list-group-item:hover {
+    color: #f1f1f1;
 }

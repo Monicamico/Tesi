@@ -5,60 +5,6 @@
 
     {% block content %}
 
-    {% if alert == 'name-success' %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Nome della pianta cambiato con successo!
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    {% endif %}
-
-    {% if alert == 'name-fail' %}
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            Impossibile cambiare nome della pianta - duplicato
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    {% endif %}
-
-    {% if alert == 'success' %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Operazione effettuata con successo!
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    {% endif %}
-
-    {% if alert == 'url-fail' %}
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          Indirizzo Radio inesistente - Operazione faillita
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-    {% endif %}
-
-    {% if alert == 'param-fail' %}
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          Controlla che i parametri di Umidita' e Luminosita' siano compresi tra lo 0% e il 100%!
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-    {% endif %}
-
-    {% if alert == 'fail' %}
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          Impossbile inoltrare la richiesta - Operazione faillita
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-    {% endif %}
-
     <h2 class="mt-3"> Impostazioni del vaso <br> <code>{{ plant.name }}</code> </h2>
 
         <form action="" method="post" novalidate>
@@ -228,6 +174,6 @@
     </form>
     <br>
     <br>
-    <a class="myButton" href="http://127.0.0.1:5000/plant/{{plant.id}}/info"> <i class="fas fa-arrow-circle-left"></i> Indietro </a>
+    <a class="myButton" href="http://127.0.0.1:5000/plant/{{plant.id}}"> <i class="fas fa-arrow-circle-left"></i> Indietro </a>
 
     {% endblock %}

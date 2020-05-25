@@ -29,24 +29,78 @@
     <!-- Sidebar -->
     <div class="bg-dark border-right" id="sidebar-wrapper">
         <IMG src="{{ url_for('static', filename='logoVerdepiccolo.png') }}">
-      <div class="list-group list-group-flush" id="list-group">
-          <a href="/home" class="list-group-item list-group-item-action bg-dark">
-              <i class="fas fa-home"></i> Home</a>
-          <a href="/dashboard" class="list-group-item list-group-item-action bg-dark">
-              <i class="fas fa-chart-area"></i> Dashboard</a>
-          <a href="/radios" class="list-group-item list-group-item-action bg-dark">
-              <i class="fas fa-rss"></i> Radio</a>
-          <a href="/plants/info" class="list-group-item list-group-item-action bg-dark">
-              <i class="fab fa-envira"></i> Piante</a>
-          <a href="/connections/info" class="list-group-item list-group-item-action bg-dark">
-              <i class="fas fa-plus"></i> Nuove piante
-              {% if connections %}
-                <span class="badge badge-primary2 badge-pill2"> {{connections|length}} </span>
-              {% endif %}
-          </a>
-          <a href="/map" class="list-group-item list-group-item-action bg-dark">
-              <i class="fas fa-project-diagram"></i> Mappa</a>
-      </div>
+
+        <div class="list-group list-group-flush" id="list-group">
+
+            {% if current_user.is_authenticated %}
+                <p style="margin-top: 0px; margin-left: 3rem;
+                        margin-bottom: 2rem; margin-right: 3rem;
+                        padding-top: 20px; padding-bottom: 20px;
+                        text-align: center; background-color: #4c565d;
+                        border-radius: 150px">
+                  {% if current_user.role == 0 %}
+                  <i style="color: #a5b1bc; font-size: 40px; margin-bottom: 10px; margin-right: 0px" class="fas fa-user-tie"></i>
+                  <br>
+                  <label style="margin-bottom: 0px; font-variant: all-petite-caps; font-size: larger;">
+                      Admin
+                  </label>
+                  {% elif current_user.role == 1 %}
+                  <i style="color: #a5b1bc; font-size: 40px; margin-bottom: 10px; margin-right: 0px" class="fas fa-user"></i>
+                  <br>
+                  <label style="margin-bottom: 0px; font-variant: all-petite-caps; font-size: larger;">
+                      utente
+                  </label>
+                  {% endif %}
+                  <br>
+                   <label>{{ current_user.username }}</label>
+                </p>
+
+                <p style="margin-bottom: 10px; border-bottom: unset" class="m-3">
+                    <label style="margin-bottom: 0px; font-variant: all-petite-caps; font-size: larger;">
+                        Generale </label>
+                </p>
+                <a href="/home" class="list-group-item list-group-item-action bg-dark">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="/dashboard" class="list-group-item list-group-item-action bg-dark">
+                    <i class="fas fa-chart-area"></i> Dashboard
+                </a>
+                <a href="/map" class="list-group-item list-group-item-action bg-dark">
+                    <i class="fas fa-project-diagram"></i> Mappa
+                </a>
+
+                <p style="margin-bottom: 10px; border-bottom: unset" class="m-3">
+                    <label style="margin-bottom: 0px; font-variant: all-petite-caps; font-size: larger;">
+                    utility </label>
+                </p>
+                <a href="/plants" class="list-group-item list-group-item-action bg-dark">
+                    <i class="fab fa-envira"></i> Piante</a>
+
+                {% if current_user.is_admin %}
+                      <a href="/radios" class="list-group-item list-group-item-action bg-dark">
+                          <i class="fas fa-rss"></i> Radio</a>
+                      <a href="/connections" class="list-group-item list-group-item-action bg-dark">
+                          <i class="fas fa-plus"></i> Nuove piante
+                          {% if connections %}
+                            <span class="badge badge-primary2 badge-pill2"> {{connections|length}} </span>
+                          {% endif %}
+                      </a>
+                      <p style="margin-bottom: 10px; border: unset" class="m-3">
+                          <label style="margin-bottom: 0px; font-variant: all-petite-caps; font-size: larger;">
+                            utenti </label>
+                      </p>
+
+                      <a href="/users" class="list-group-item list-group-item-action bg-dark">
+                            <i class="fas fa-users"></i> Lista
+                      </a>
+                      <a href="/add_user" class="list-group-item list-group-item-action bg-dark">
+                          <i class="fas fa-user-plus"></i> Registra
+                      </a>
+                {% endif %}
+
+            {% endif %}
+        </div>
+
     </div>
     <!-- /#sidebar-wrapper -->
 
@@ -60,7 +114,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-               {% if searchBar == 'si' %}
+              {% if searchBar == 'si' %}
               <li>
                   <form  class="form-inline my-2 my-lg-0">
                   <input class="form-control mr-sm-2" type="search" placeholder="Cerca" aria-label="Cerca">
@@ -69,6 +123,13 @@
               </li>
               {% endif %}
 
+               {% if current_user.is_authenticated %}
+                  <a  style="margin-right: 5px" href="/logout" class="btn btn-outline-secondary my-2 my-sm-0"> <i class="fas fa-sign-out-alt"></i> Logout </a>
+               {% else %}
+                  <a style="margin-right: 5px" href="/login" class="btn btn-outline-secondary my-2 my-sm-0"> <i class="fas fa-sign-in-alt"></i> Login </a>
+               {% endif %}
+
+
           </ul>
         </div>
 
@@ -76,7 +137,24 @@
 
 
       <div class="container-fluid">
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                             {{ message }}
+                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                             </button>
+                            </div>
+                        {% endfor %}
+                     {% endfor %}
+                 {% endif %}
+          {% endwith %}
+
           {% block content %}
+
           {% endblock %}
       </div>
 
@@ -97,18 +175,6 @@
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
-  </script>
-
-   <script>
-      $(window).load(function(){
-       var checkvalue= window.location.pathname;
-       //alert(checkvalue);
-       $("a").each(function(){
-                            if($(this).attr('href')== checkvalue)
-                             { $(this).addClass("active");}
-                             });
-
-                        });
   </script>
 
   </body>

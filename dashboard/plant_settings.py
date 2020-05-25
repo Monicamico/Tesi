@@ -1,8 +1,7 @@
-import sqlite3
 from math import ceil
-
-import sqlalchemy
-from flask import Blueprint, render_template, request as rcv_req, redirect
+from flask_login import login_required
+from flask import Blueprint, render_template, flash, request as rcv_req, redirect
+from auth import is_admin, current_user
 from forms import SettingsForm
 from gio_db import Plant, update_name, url_from_plant, ConnectionRequest
 import time
@@ -11,132 +10,139 @@ import requests as snd_req
 settings_page = Blueprint('settings_page', __name__)
 
 
-@settings_page.route('/settings/<string:idv>/<string:alert>', methods=['POST', 'GET'])
-def settings(idv, alert):
-    plant_s = Plant.query.filter_by(id=idv).first()
-    conn_list = ConnectionRequest.query.all()
-    settings_form = SettingsForm()
-    URL_RASPBERRY = str(url_from_plant(idv))
-    if URL_RASPBERRY == str(-1):
-        return redirect("settings/" + idv + "/" + "url-fail")
+@settings_page.route('/settings/<string:idv>', methods=['POST', 'GET'])
+@login_required
+def settings(idv):
+    if is_admin():
+        plant_s = Plant.query.filter_by(id=idv).first()
+        conn_list = ConnectionRequest.query.all()
+        settings_form = SettingsForm()
+        URL_RASPBERRY = str(url_from_plant(idv))
+        if URL_RASPBERRY == str(-1):
+            flash('Errore sull indirizzo della radio ', 'danger')
+            return redirect("settings/" + idv)
 
-    if settings_form.validate_on_submit():
-        name = rcv_req.form['name']
-        light_max = ceil(int(rcv_req.form['light_max']) / 100 * 255)
-        light_min = ceil(int(rcv_req.form['light_min']) / 100 * 255)
-        temp_max = int(rcv_req.form['temp_max'])
-        temp_min = int(rcv_req.form['temp_min'])
-        hum_min = ceil(int(rcv_req.form['hum_min']) / 100 * 1023)
-        hum_max = ceil(int(rcv_req.form['hum_max']) / 100 * 1023)
-        watering_light = ceil(int(rcv_req.form['watering_light']) / 100 * 255)
-        water_container_size = rcv_req.form['water_container_size']
-        transmit_power = int(rcv_req.form.get('transmit_power'))
-        send_time = int(rcv_req.form.get('send_time'))
-        alert = 'success'
+        if settings_form.validate_on_submit():
+            name = rcv_req.form['name']
+            light_max = ceil(int(rcv_req.form['light_max']) / 100 * 255)
+            light_min = ceil(int(rcv_req.form['light_min']) / 100 * 255)
+            temp_max = int(rcv_req.form['temp_max'])
+            temp_min = int(rcv_req.form['temp_min'])
+            hum_min = ceil(int(rcv_req.form['hum_min']) / 100 * 1023)
+            hum_max = ceil(int(rcv_req.form['hum_max']) / 100 * 1023)
+            watering_light = ceil(int(rcv_req.form['watering_light']) / 100 * 255)
+            water_container_size = rcv_req.form['water_container_size']
+            transmit_power = int(rcv_req.form.get('transmit_power'))
+            send_time = int(rcv_req.form.get('send_time'))
 
-        if name != plant_s.name:
-            if update_name(idv, name):
-                return redirect('name-success')
-            else:
-                return redirect("name-fail")
+            if name != plant_s.name:
+                if update_name(idv, name):
+                    flash('Nome della pianta cambiato con successo', 'success')
+                else:
+                    flash('Impossibile cambiare nome il della pianta - possibile duplicato', 'error')
+                return redirect('/settings/'+ idv)
 
-        if light_max != plant_s.light_max:
-            if 0 <= light_max <= 255 and alert == 'success':
-                try:
-                    snd_req.put(URL_RASPBERRY + '/request', json=dict(request='light_max', serial=idv, param=light_max))
-                except:
-                    alert = 'fail'
-            else:
-                alert = 'param-fail'
+            if light_max != plant_s.light_max:
+                if 0 <= light_max <= 255:
+                    try:
+                        snd_req.put(URL_RASPBERRY + '/request', json=dict(request='light_max', serial=idv, param=light_max))
+                        flash('Richiesta inoltrata alla radio (Luce massima)', 'success')
+                    except:
+                        flash('Impossible inoltrare la richiesta', 'danger')
+                        return redirect('/settings/' + idv)
+                else:
+                    flash('Controlla che il valore sia tra lo 0% e il 100% - (Luce massima)', 'warning')
 
-        if light_min != plant_s.light_min:
-            if 0 <= light_min <= 255 and alert == 'success':
-                try:
-                    snd_req.put(URL_RASPBERRY + '/request',
-                                json={'request': 'light_min', 'serial': idv, 'param': light_min})
-                except:
-                    alert = 'fail'
-            else:
-                alert = 'param-fail'
+            if light_min != plant_s.light_min:
+                if 0 <= light_min <= 255:
+                    try:
+                        snd_req.put(URL_RASPBERRY + '/request',
+                                    json={'request': 'light_min', 'serial': idv, 'param': light_min})
+                    except:
+                        flash('Impossible inoltrare la richiesta', 'danger')
+                        return redirect('/settings/' + idv)
+                else:
+                    flash('Controlla che il valore sia tra lo 0% e il 100% - (Luce massima)', 'warning')
+                    return redirect('/settings/' + idv)
 
-        if watering_light != plant_s.watering_light:
-            if 0 <= watering_light <= 255 and alert == 'success':
-                try:
-                    snd_req.put(URL_RASPBERRY + '/request',
-                                json={'request': 'watering_light', 'serial': idv, 'param': watering_light})
-                except:
-                    alert = 'fail'
-            else:
-                alert = 'param-fail'
+            if watering_light != plant_s.watering_light:
+                if 0 <= watering_light <= 255:
+                    try:
+                        snd_req.put(URL_RASPBERRY + '/request',
+                                    json={'request': 'watering_light', 'serial': idv, 'param': watering_light})
+                    except:
+                        flash('Impossible inoltrare la richiesta', 'danger')
+                        return redirect('/settings/' + idv)
+                else:
+                    flash('Controlla che il valore sia tra lo 0% e il 100% - (Luce per innaffiare)', 'warning')
 
-        if hum_min != plant_s.humidity_min:
-            if 0 <= hum_min <= 1023 and alert == 'success':
-                try:
-                    snd_req.put(URL_RASPBERRY + '/request', json={'request': 'hum_min', 'serial': idv, 'param': hum_min})
-                except:
-                    alert = 'fail'
-            else:
-                alert = 'param-fail'
+            if hum_min != plant_s.humidity_min:
+                if 0 <= hum_min <= 1023:
+                    try:
+                        snd_req.put(URL_RASPBERRY + '/request', json={'request': 'hum_min', 'serial': idv, 'param': hum_min})
+                    except:
+                        flash('Impossible inoltrare la richiesta', 'danger')
+                        return redirect('/settings/' + idv)
+                else:
+                    flash('Controlla che il valore sia tra lo 0% e il 100% - (Umidita minima)', 'warning')
 
-        if hum_max != plant_s.humidity_max:
-            if 0 <= hum_max <= 1023 and alert == 'success':
-                try:
-                    snd_req.put(URL_RASPBERRY + '/request', json={'request': 'hum_max', 'serial': idv, 'param': hum_max})
-                except:
-                    alert = 'fail'
-            else:
-                alert = 'param-fail'
+            if hum_max != plant_s.humidity_max:
+                if 0 <= hum_max <= 1023:
+                    try:
+                        snd_req.put(URL_RASPBERRY + '/request', json={'request': 'hum_max', 'serial': idv, 'param': hum_max})
+                    except:
+                        flash('Impossible inoltrare la richiesta', 'danger')
+                        return redirect('/settings/' + idv)
+                else:
+                    flash('Controlla che il valore sia tra lo 0% e il 100% - (Umidita massima)', 'warning')
 
-        if temp_min != plant_s.temperature_min:
-            if alert == 'success':
+            if temp_min != plant_s.temperature_min:
                 try:
                     snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temp_min', 'serial': idv, 'param': temp_min})
                 except:
-                    alert = 'fail'
+                    flash('Impossible inoltrare la richiesta', 'danger')
+                    return redirect('/settings/' + idv)
 
-        if temp_max != plant_s.temperature_max and alert == 'success':
-            try:
-                snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temp_max', 'serial': idv, 'param': temp_max})
-                alert = 'success'
-            except:
-                alert = 'fail'
-
-        if float(water_container_size) != float(plant_s.water_container_size) and alert == 'success':
-            try:
-                snd_req.put(URL_RASPBERRY + '/request', json={'request': 'water_container_size', 'serial': idv, 'param': water_container_size})
-                alert = 'success'
-            except:
-                alert = 'fail'
-
-        if send_time != plant_s.send_time:
-            if send_time > 1 and alert == 'success':
+            if temp_max != plant_s.temperature_max:
                 try:
-                    snd_req.put(URL_RASPBERRY + '/request',
-                                json={'request': 'send_time', 'serial': idv, 'param': send_time})
-                    alert = 'success'
+                    snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temp_max', 'serial': idv, 'param': temp_max})
                 except:
-                    alert = 'fail'
-            else:
-                alert = 'param-fail'
+                    flash('Impossible inoltrare la richiesta', 'danger')
+                    return redirect('/settings/' + idv)
 
-        if int(transmit_power) != int(plant_s.transmit_power):
-            if alert == 'success':
+            if float(water_container_size) != float(plant_s.water_container_size):
+                try:
+                    snd_req.put(URL_RASPBERRY + '/request', json={'request': 'water_container_size', 'serial': idv, 'param': water_container_size})
+                except:
+                    flash('Impossible inoltrare la richiesta', 'danger')
+                    return redirect('/settings/' + idv)
+
+            if send_time != plant_s.send_time:
+                if send_time > 1:
+                    try:
+                        snd_req.put(URL_RASPBERRY + '/request',
+                                    json={'request': 'send_time', 'serial': idv, 'param': send_time})
+                    except:
+                        flash('Impossible inoltrare la richiesta - (Tempo invio dati)', 'error')
+                        return redirect('/settings/' + idv)
+                else:
+                    flash('Il tempo trascorso deve essere almeno di un minuto! - (Tempo invio dati)', 'danger')
+
+            if int(transmit_power) != int(plant_s.transmit_power):
                 try:
                     snd_req.put(URL_RASPBERRY + '/request',
                                 json={'request': 'vase_transmit_power', 'serial': idv, 'param': transmit_power})
-                    alert = 'success'
+                    flash('Richiesta inoltrata alla radio (Potenza trasmissione dati)', 'success')
                 except:
-                    alert = 'fail'
+                    flash('Impossible inoltrare la richiesta - (Potenza trasmissione dati)', 'danger')
 
-        if alert == 'success':
-            time.sleep(5)
+            flash(u'Richiesta inoltrata alla radio','success')
+            time.sleep(4)
+            return redirect('/settings/' + idv)
 
-        return redirect(alert)
-
-    else:
-        return render_template('plant_settings.html',
-                               alert=alert,
-                               connections=conn_list,
-                               plant=plant_s,
-                               form=settings_form,
-                               title="Settings")
+        else:
+            return render_template('plant_settings.html',
+                                   connections=conn_list,
+                                   plant=plant_s,
+                                   form=settings_form,
+                                   title="Settings")

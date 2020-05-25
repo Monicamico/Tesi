@@ -4,39 +4,6 @@
 
     {% block content %}
 
-    {% if alert == 'success' %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Operazione avvenuta con successo!
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    {% endif %}
-    {% if alert == 'url-fail' %}
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          Indirizzo Radio inesistente - Operazione faillita
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-    {% endif %}
-    {% if alert == 'param-fail' %}
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          Errore nei parametri
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-    {% endif %}
-    {% if alert == 'fail' %}
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          Impossbile inoltrare la richiesta - Operazione faillita
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-    {% endif %}
-
     <h2 class="mt-3"> Impostazioni della radio <br> <code>{{ radio.name }}</code> </h2>
 
      <form action="" method="post" novalidate>

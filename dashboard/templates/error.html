@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+
+      <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+
+      {% if error == '404' %}
+        <title>Gio Vase | 404</title>
+      {% elif error == '401' %}
+        <title>Gio Vase | 401</title>
+      {% else %}
+        <title>Gio Vase</title>
+      {% endif %}
+
+  <!-- Bootstrap core CSS -->
+      <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+
+  <!-- Custom styles for this template -->
+      <link href="{{ url_for('static', filename='css/all.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='css/simple-sidebar.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='css/solid.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename='css/fontawesome.css') }}" rel="stylesheet">
+  </head>
+
+ <body style="background: #333a40" align="center">
+     <IMG src="{{ url_for('static', filename='logoVerde.png') }}">
+     <br>
+     <br>
+        {% if error == '404' %}
+        <h3 class="mt-3" style="color: lightcyan"> PAGE NOT FOUND</h3>
+        {% elif error == '401' %}
+         <h3 class="mt-3" style="color: lightcyan"> Sembra che tu non possieda i diritti necessari per visualzzare la pagina...</h3>
+        {% endif %}
+ </body>

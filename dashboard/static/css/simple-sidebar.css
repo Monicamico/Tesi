@@ -29,16 +29,15 @@ body {
   width: 15rem;
 }
 
+#sidebar-wrapper .list-group .list-group-item-action {
+    text-align: left;
+}
+
 #sidebar-wrapper .list-group .list-group-item-action:hover {
     width: 15rem;
     color: #a4f7db;
     padding-left: 25px;
 }
-
-.list-group-flush .list-group-item:hover{
-    color: #a4f7db;
-}
-
 
 #page-content-wrapper {
   min-width: 100vw;
@@ -61,4 +60,16 @@ body {
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -15rem;
   }
+}
+
+.p .list-group-flush .list-group-item:hover {
+    color: #f1f1f1;
+    text-align: center;
+}
+
+.list-group-flush .list-group-item {
+    text-align: -webkit-center;
+    border-right: 0;
+    border-radius: 0;
+    color: #f1f1f1;
 }

@@ -19,18 +19,22 @@
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
           ['Status', 'Numero di vasi'],
-          ['Happy', data_n[0].happy],
-          ['Sad', data_n[0].sad]
+          ['(0 - 19)%', data_n[0].n_2],
+          ['(20 - 39)%', data_n[0].n_4],
+          ['(40 - 59)%', data_n[0].n_6],
+          ['(60 - 79)%', data_n[0].n_8],
+          ['(80 - 100)%', data_n[0].n_10],
+          ['Non rilevato', data_n[0].n_None]
         ]);
 
         var options = {
-          title: 'Status Vasi',
+          title: 'Stato delle piante',
           pieHole: 0.5 ,
           pieStartAngle: 100,
           pieSliceTextStyle: {
             color: 'black',
           },
-          colors: ['#6495ed', '#66cdaa']
+          colors: ['indianred','orange','gold','greenyellow','mediumseagreen','#b8e1fa']
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
@@ -104,8 +108,12 @@
         </tr>
     </table>
 
-    <div id="donutchart" style="height: 500px; overflow: hidden;";></div>
+    {% if plants %}
+        <div id="donutchart" style="height: 500px; overflow: hidden;";></div>
+    {% endif %}
+    {% if radios %}
     <div id="barchart_values"  style="display: inline-table;"></div>
+    {% endif %}
   </body>
 
   {% endblock %}

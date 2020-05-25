@@ -4,8 +4,15 @@
 
     {% block content %}
 
-    <h1 class="mt-4"> Benvenuto su GioVase!  </h1>
+    {% if current_user.is_authenticated %}
+    <h1 class="mt-3"> Ciao <code style="font-size: 35px">{{current_user.username}}!</code>
+        <br>    Bentornato su GioVase </h1>
+    {% else %}
+        <h1 class="mt-3"> Bentornato su GioVase </h1>
 
+        <br>
+        <h3 class="mt-0"> Effettua il Login per vedere lo stato delle tue piante </h3>
+    {% endif %}
     {% endblock %}
 
 </html>

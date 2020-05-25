@@ -29,7 +29,17 @@
           // determine the box size and round off the coords if we'll be
           // drawing a text label (awful alignment jitter otherwise...)
           var label = node.data.label||""
-          var w = ctx.measureText(""+label).width + 10
+
+          if (node.data.label == "Gio-Vase")
+              var w = ctx.measureText(""+label).width + 90
+          else {
+            if (node.data.shape=='dot') {
+              var w = ctx.measureText("" + label).width + 20
+            } else {
+               var w = ctx.measureText("" + label).width + 20
+            }
+          }
+
           if (!(""+label).match(/^[ \t]*$/)){
             pt.x = Math.floor(pt.x)
             pt.y = Math.floor(pt.y)
@@ -52,15 +62,18 @@
 
           // draw the text
           if (label){
-            ctx.font = "14px Helvetica"
+
             ctx.textAlign = "center"
-            ctx.fillStyle = "white"
+            ctx.fillStyle = "black"
+            ctx.font = "18px Helvetica"
             if (node.data.color=='none') ctx.fillStyle = '#333333'
             if (node.data.shape=='dot'){
-               ctx.font = "14px Helvetica"
-               ctx.fillText(label||"", pt.x, pt.y+4)
+                ctx.fillStyle = "white"
+                if (node.data.label == "Gio-Vase"){
+                  ctx.font = "19px Helvetica bold"
+                }
+                ctx.fillText(label||"", pt.x, pt.y+4)
             } else {
-              ctx.font = "15px Helvetica"
               ctx.fillText(label||"", pt.x, pt.y+10)
             }
           }

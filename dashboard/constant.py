@@ -4,6 +4,11 @@ URL = 'http://127.0.0.1:5000'
 DEBUG = True
 
 
+class Role(Enum):
+    ADMIN = 0
+    USER = 1
+
+
 class Operation(Enum):
     JOINED = 0
     REFUSED = 1
@@ -30,7 +35,6 @@ class Operation(Enum):
     RADIO_JOIN = 22
     RADIO_TRANSMIT_POWER = 23
     VASE_TRANSMIT_POWER = 24
-    VASE_STATE = 25
 
 
 class VaseState(Enum):

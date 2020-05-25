@@ -6,47 +6,33 @@
 
  {% block content %}
  {% if plants %}
-    {% if alert == 'add-success' %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Pianta aggiunta con successo!
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    {% endif %}
 
     <h2 class="mt-3"> Piante registrate </h2>
+        <table class="MyTable" align="center" style="text-align: center;" width="850px">
+            {% for radio in radios: %}
 
-    <table width="500px" class="MyTable" align="center">
-
-        <thead>
-        <tr>
-            <th> Nome Vaso </th>
-            <th> Nome Radio </th>
-            <th> Dettagli </th>
-        </tr>
-        </thead>
-
-        <tbody>
-         {% for plant in plants|sort(attribute="radio_id") %}
-           <tr>
-               <td> {{ plant.name }} </td>
-               <td>  {% for radio in radios: %}
-                        {% if radio.id == plant.radio_id %}
-                            {{radio.name}}
-                        {% endif %}
-                     {% endfor %}
-               </td>
-               <td>
-                    <a class="myButton" title="Info" href="/plant/{{ plant.id }}/info">
-                        <i class="fas fa-ellipsis-h"></i>
+            <tr style="background-color:unset">
+                <td>
+                    <h4 class="mt-0"> Piante della radio <code style="font-size: 23px">{{radio.name}}:</code> </h4>
+                </td>
+            </tr>
+            <tr style="background-color:unset">
+                <td>
+                {% for plant in plants %}
+                    {% if radio.id == plant.radio_id %}
+                    <a class="myButton" style="font-size: 18px; margin: 3px" title="Info" href="/plant/{{ plant.id }}">
+                        <i class="fas fa-heartbeat"></i> {{ plant.name }}
                     </a>
-               </td>
-           </tr>
-        {% endfor %}
-        </tbody>
+                 {% endif %}
+                {% endfor %}
+                <br>
+                </td>
+            </tr>
 
-    </table>
+        {% endfor %}
+        </table>
+
+
     {% else %}
         <h2 class="mt-3"> Nessuna pianta registrata</h2>
     {% endif %}
