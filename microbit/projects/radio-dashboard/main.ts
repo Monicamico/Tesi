@@ -161,6 +161,14 @@ radio.onReceivedValue(function (request: string, param: number) {
     vase.ping = ping //update ping value of the vase
     vase.dying = false
 
+    if (requestInt == OPERATION.DELETED) {
+        dim_vase_list = deleteVase(vase.serial_number, vase_list)
+        if (dim_vase_list != undefined) {
+            basic.showString("del")
+            sendToRB(`${OPERATION.DELETED};${vase.serial_number};0;0`)
+            drawNumberOfVases(dim_vase_list)
+        }     
+    }
     if (requestInt == OPERATION.WATER_CONTAINER_STATE ||
         requestInt == OPERATION.SET_WATER_CONTAINER_SIZE ||
         requestInt == OPERATION.SET_WATERING_LIGHT ||
@@ -225,7 +233,8 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
 
         if (request == OPERATION.PING || request == OPERATION.HUMIDITY ||
             request == OPERATION.TEMPERATURE || request == OPERATION.LIGHT ||
-            request == OPERATION.WATER || request == OPERATION.WATER_CONTAINER_STATE) 
+            request == OPERATION.WATER || request == OPERATION.WATER_CONTAINER_STATE ||
+            request == OPERATION.DELETED) 
             sendToVase(request, serialNumber)
             
         else if (request == OPERATION.SET_TEMPERATURE_MIN || request == OPERATION.SET_TEMPERATURE_MAX ||

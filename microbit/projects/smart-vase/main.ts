@@ -136,11 +136,17 @@ radio.onReceivedBuffer(function () {
         if (serial_packet == radio_serial_number) {
 
             //Join operation failed or the vase has been deleted from the list
-            if (request == OPERATION.REFUSED || request == OPERATION.DELETED){
+            if (request == OPERATION.REFUSED){
                 joined = false
                 pairing_number = getRandomIntInclusive()
             } 
 
+            else if (request == OPERATION.DELETED){
+                joined = false
+                pairing_number = getRandomIntInclusive()
+                radio.sendValue(OPERATION.DELETED.toString(),radio_serial_number) 
+            }
+            
             else if (request == OPERATION.WATER) {
                 if ( amount_water >= single_water_amount )
                     waters()
