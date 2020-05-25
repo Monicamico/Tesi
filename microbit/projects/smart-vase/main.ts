@@ -72,12 +72,11 @@ basic.forever(function () {
     basic.clearScreen()
 
     if (time >= send_time) {
-        if (joined){P
+        if (joined){
             basic.showString(">")
             sendHumidity()
             sendTemperature()
             sendLight()
-            sendCurrentState()
             basic.clearScreen()
         }
         time = 0
@@ -155,9 +154,6 @@ radio.onReceivedBuffer(function () {
 
             else if (request == OPERATION.LIGHT)
                 sendLight()
-
-            else if (request == OPERATION.VASE_STATE)
-                sendCurrentState()
             
             else if (request == OPERATION.WATER_CONTAINER_STATE) 
                 sendWaterContainerState()
@@ -203,7 +199,6 @@ input.onButtonPressed(Button.A, function(){
         sendHumidity()
         sendLight()
         sendTemperature()
-        sendCurrentState()
     } else
         basic.showNumber(pairing_number)
 })

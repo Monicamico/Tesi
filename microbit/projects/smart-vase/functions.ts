@@ -201,11 +201,6 @@ function sendLight() {
     basic.pause(2000)
 }
 
-function sendCurrentState() {
-    radio.sendValue(OPERATION.VASE_STATE.toString(), currentState)
-    basic.pause(2000)
-}
-
 function sendWaterContainerState() {
     if (water_container_full)
         radio.sendValue(OPERATION.WATER_CONTAINER_STATE.toString(),WaterContainerState.Full)
