@@ -201,6 +201,7 @@ def writer():
             condition_variable.wait()
         st = request_queue.pop()
         write_serial(st)
+        condition_variable.notify_all()
         lock_queue.release()
         print("Thread Writer, Scritto su radio: "+st)
 

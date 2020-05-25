@@ -66,10 +66,10 @@ def request():
         try:
             serial_number = data['serial']
             ping = data['ping']
-            param = data['param']
+            param = int(data['param'])
             update_light(serial_number, ping, param)
         except:
-            print("Light: error")
+            print('Eccezione Light')
         try:
             update_plant_state_fitness(serial_number)
         except:

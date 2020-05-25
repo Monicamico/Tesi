@@ -46,12 +46,11 @@ def settings(idv):
                 if 0 <= light_max <= 255:
                     try:
                         snd_req.put(URL_RASPBERRY + '/request', json=dict(request='light_max', serial=idv, param=light_max))
-                        flash('Richiesta inoltrata alla radio (Luce massima)', 'success')
                     except:
                         flash('Impossible inoltrare la richiesta', 'danger')
                         return redirect('/settings/' + idv)
                 else:
-                    flash('Controlla che il valore sia tra lo 0% e il 100% - (Luce massima)', 'warning')
+                    flash('Controlla che il valore sia tra lo 0% e il 100%', 'warning')
 
             if light_min != plant_s.light_min:
                 if 0 <= light_min <= 255:

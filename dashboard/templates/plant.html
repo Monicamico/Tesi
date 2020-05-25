@@ -3,6 +3,7 @@
 {% extends 'layout.html' %}
 
     {% block content %}
+    {% if plant %}
     <h2 class="mt-3">
         Stato della pianta <br> <code>{{ plant.name }}</code> :
         {% if plant.state_fitness is sameas None %}
@@ -16,7 +17,7 @@
         <thead>
             <tr>
                 <th>Luce per innaffiare </th>
-                <th>Dimensione contenitore </th>
+                <th>Capienza contenitore </th>
                 <th>Stato contenitore </th>
                 <th>Azioni</th>
             </tr>
@@ -169,7 +170,7 @@
         </div>
       </div>
     </div>
-
+    {% endif %}
     {% endblock %}
 
 </html>

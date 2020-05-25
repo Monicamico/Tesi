@@ -8,32 +8,48 @@
         <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
 
-          <table  style="margin-bottom: 0px" width="450px" class="MyTable" align="center">
-              <tr>
-                 <td> <label>{{ form.username.label }}</label> </td>
-                 <td>{{ form.username(size=15)}} </td>
-               </tr>
-              <tr>
-                 <td> <label>{{ form.password.label }}</label> </td>
-                 <td>{{ form.password(size=15)}} </td>
-              </tr>
-              <tr>
-                 <td> <label>{{ form.password_repeat.label }}</label> </td>
-                 <td>{{ form.password_repeat(size=15)}} </td>
-              </tr>
-              <tr>
-                    <td> <label>{{ form.ruolo_utente.label }} </label> </td>
-                    <td> <select name="ruolo_utente" class="form-control form-control-sm">
-                         <option disabled selected> -- Scegli ruolo </option>
+          <table  style="text-align: center; margin-bottom: 0px" width="350px" class="MyTable" align="center">
+              <tr><td>
+                  <div style="text-align: center; width: 300px" class="input-group m-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"> <i class="fas fa-user"></i>
+                        </span>
+                     </div>
+                    <input id="username" aria-describedby="basic-addon1" type="text" class="form-control" name="username" placeholder="Username">
+                </div>
+              </td></tr>
+              <tr><td>
+                <div style="text-align: center; width: 300px" class="input-group m-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon2"> <i class="fas fa-lock"></i>
+                        </span>
+                     </div>
+                    <input id="password" aria-labelledby="basic-addon2" type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+              </td></tr>
+
+              <tr><td>
+                <div style="text-align: center; width: 300px" class="input-group m-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3"> <i class="fas fa-lock"></i>
+                        </span>
+                     </div>
+                    <input id="password_repeat" aria-labelledby="basic-addon3" type="password" class="form-control" name="password_repeat" placeholder="Ripeti password">
+                </div>
+              </td></tr>
+              <tr><td>
+                  <div style="text-align: center; width: 300px" class="input-group m-3">
+                        <select name="ruolo_utente" class="form-control">
+                         <option disabled selected> -- Ruolo -- </option>
                          <option value="0"> Admin </option>
                          <option value="1"> Utente </option>
                          </select>
-                    </td>
-              </tr>
+                    </div>
+              </td></tr>
           </table>
-          <table  style="text-align: center; margin-top: 0px" width="450px" class="MyTable" align="center">
+          <table  style="text-align: center; margin-top: 0px" width="350px" class="MyTable" align="center">
               <tr> <td>
-                <button type="submit" id="submit" class="btn btn-secondary my-2 my-sm-0"> Registra </button>
+                  <button class="myButton" id="submit" name="submit" type="submit"> Registra </button>
               </td></tr>
           </table>
         </form>

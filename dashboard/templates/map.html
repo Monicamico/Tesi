@@ -2,70 +2,71 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<br>
-<p class="mt-3" align="left">
-    <ul class="list-group" width="300">
-        <li class="list-group-item"> <span class="badge badge-pill badge-danger"> - </span> (0-19)% </li>
-        <li class="list-group-item"> <span class="badge badge-pill badge-danger" style="background-color:orange; color: orange"> - </span> (20-39)% </li>
-        <li class="list-group-item"> <span class="badge badge-pill badge-danger" style="background-color: gold; color: gold"> - </span> (40-59)% </li>
-        <li class="list-group-item"> <span class="badge badge-pill badge-danger" style="background-color: greenyellow; color: greenyellow"> - </span> (60-79)% </li>
-        <li class="list-group-item"> <span class="badge badge-pill badge-success"> - </span> (80-100)% </li>
-        <li class="list-group-item"> <span class="badge badge-pill badge-danger" style="background-color: lightblue; color: lightblue ;"> - </span> Non rilevato </li>
-        <li class="list-group-item"> <span class="badge badge-pill badge-info" style="background-color:#738089; color: #738089"> - </span>  Radio </li>
-    </ul>
-
-</p>
-<p class="mt-3" align="center">Fai doppio click su un vaso per vederne i dettagli</p>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head>
-
-
-<body class="B2">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='js/arbor.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/arbor-tween.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/graphics.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/colors.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/primitives.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/renderer.js')}}"></script>
-    <canvas id="viewport" width="1200" height="900"></canvas>
-    {% block javascript %}
-    <script>
-        var sys = arbor.ParticleSystem(50,600,0.5,true);
-        var data = JSON.parse('{{ data|safe }}');
-        sys.renderer = Renderer("#viewport")
-          for (const node of data.nodes) {
-              if (node.type == 'dashboard')
-                  sys.addNode(node.name,{'color':'#383e44','shape': 'dot','label':node.toshow, 'l': 'no' });
-              else if(node.type == 'radio')
-                sys.addNode(node.name,{'color':'#738089','shape': 'dot','label':node.toshow, 'l': 'no'});
-
-              else if (node.type == 'vase'){
-                  let color = '#b8e1fa'
-                  if (node.color == '0-20')
-                      color = 'indianred';
-                  else if (node.color == '20-40')
-                      color = 'orange'
-                  else if (node.color == '40-60')
-                      color = 'gold'
-                  else if (node.color == '60-80')
-                      color = 'greenyellow'
-                  else if (node.color == '80-100')
-                      color = 'mediumseagreen'
-                  sys.addNode(node.name,{'color':color,'label':node.toshow, 'link': node.link});
-              }
-          }
-          for (const edge of data.edges) {
-              sys.addEdge(sys.getNode(edge.src),sys.getNode(edge.dest));
-          }
-
-    </script>
     <br>
-    {% endblock %}
+    <p class="mt-3" align="left">
+        <ul class="list-group" width="300">
+            <li class="list-group-item"> <span class="badge badge-pill badge-danger"> - </span> (0-19)% </li>
+            <li class="list-group-item"> <span class="badge badge-pill badge-danger" style="background-color:orange; color: orange"> - </span> (20-39)% </li>
+            <li class="list-group-item"> <span class="badge badge-pill badge-danger" style="background-color: gold; color: gold"> - </span> (40-59)% </li>
+            <li class="list-group-item"> <span class="badge badge-pill badge-danger" style="background-color: greenyellow; color: greenyellow"> - </span> (60-79)% </li>
+            <li class="list-group-item"> <span class="badge badge-pill badge-success"> - </span> (80-100)% </li>
+            <li class="list-group-item"> <span class="badge badge-pill badge-danger" style="background-color: lightblue; color: lightblue ;"> - </span> Non rilevato </li>
+            <li class="list-group-item"> <span class="badge badge-pill badge-info" style="background-color: darkgray; color: darkgray"> - </span>  Radio </li>
+        </ul>
 
-</body>
+    </p>
+    <p class="mt-3" align="center">Fai doppio click su un vaso per vederne i dettagli</p>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+
+
+    <body class="B2">
+    {% if radios %}
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <script src="{{ url_for('static', filename='js/arbor.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/arbor-tween.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/graphics.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/colors.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/primitives.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/renderer.js')}}"></script>
+        <canvas id="viewport" width="1200" height="900"></canvas>
+        {% block javascript %}
+        <script>
+            var sys = arbor.ParticleSystem(50,600,0.5,true);
+            var data = JSON.parse('{{ data|safe }}');
+            sys.renderer = Renderer("#viewport")
+              for (const node of data.nodes) {
+                  if (node.type == 'dashboard')
+                      sys.addNode(node.name,{'color':'royalblue','shape': 'dot','label':node.toshow, 'l': 'no' });
+                  else if(node.type == 'radio')
+                    sys.addNode(node.name,{'color':'darkgrey','shape': 'dot','label':node.toshow, 'l': 'no'});
+
+                  else if (node.type == 'vase'){
+                      let color = '#b8e1fa'
+                      if (node.color == '0-20')
+                          color = 'indianred';
+                      else if (node.color == '20-40')
+                          color = 'orange'
+                      else if (node.color == '40-60')
+                          color = 'gold'
+                      else if (node.color == '60-80')
+                          color = 'greenyellow'
+                      else if (node.color == '80-100')
+                          color = 'mediumseagreen'
+                      sys.addNode(node.name,{'color':color,'label':node.toshow, 'link': node.link});
+                  }
+              }
+              for (const edge of data.edges) {
+                  sys.addEdge(sys.getNode(edge.src),sys.getNode(edge.dest));
+              }
+
+        </script>
+        <br>
+        {% endblock %}
+    {% endif %}
+    </body>
 
 {% endblock %}
 

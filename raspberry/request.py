@@ -37,6 +37,10 @@ def request():
             req = str(Operation.JOINED.value) + ";" + id_s + DELIMITER
             print('joined / '+id_s)
 
+        elif req_type == 'deleted':
+            req = str(Operation.DELETED.value) + ";" + id_s + DELIMITER
+            print('deleted / '+id_s)
+
         elif req_type == 'refused':
             req = str(Operation.REFUSED.value) + ";" + id_s + DELIMITER
             print('refused / '+id_s)

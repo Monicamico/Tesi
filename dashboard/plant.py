@@ -107,15 +107,14 @@ def plant_alert(idv):
         name = rcv_req.form['name']
         if name == plant_.name:
             try:
-                reply = snd_req.put(str(url_from_plant(idv)) + '/request', json={'request': 'delete', 'serial': idv})
+                reply = snd_req.put(str(url_from_plant(idv)) + '/request', json={'request': 'deleted', 'serial': idv})
                 print(reply)
-                time.sleep(2)
+                time.sleep(3)
                 flash('Operazione inoltrata alla radio', 'success')
             except:
                 flash("Impossibile eliminare la pianta", 'danger')
                 return redirect("/plant/" + idv)
-            delete_plant(idv)
-            return redirect("/plants/")
+            return redirect("/plants")
         else:
             flash('Il nome della pianta non corrisponde - Pianta non eliminata', 'warning')
             return redirect("/plant/" + idv)

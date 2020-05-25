@@ -50,12 +50,12 @@ def refuse_plant_from_conn(idv):
 @login_required
 def conn_page():
     conn_list = ConnectionRequest.query.all()
-    if not is_admin():
+    if is_admin():
         return render_template('connections.html',
                                connections=conn_list,
                                title="Connessioni")
     else:
-        flash('Non possiedi i diritti necessari','error')
+        flash('Non possiedi i diritti necessari','danger')
         return render_template('connections.html',
                                connections=None,
                                title="Connessioni")

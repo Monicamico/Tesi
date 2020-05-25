@@ -26,10 +26,26 @@ def add_user_page():
         form = UserForm()
         conn_list = ConnectionRequest.query.all()
         if form.validate_on_submit():
-            username = rcv_req.form['username']
-            password = rcv_req.form['password']
-            password_repeat = rcv_req.form['password_repeat']
-            ruolo_utente = int(rcv_req.form.get('ruolo_utente'))
+            try:
+                username = rcv_req.form['username']
+                if username == '':
+                    raise ValueError
+            except:
+                flash('Inserisci un username', 'warning')
+                return redirect('#')
+            try:
+                password = rcv_req.form['password']
+                password_repeat = rcv_req.form['password_repeat']
+                if password == '' or password_repeat == '':
+                    raise ValueError
+            except:
+                flash('Inserisci password', 'warning')
+                return redirect('#')
+            try:
+                ruolo_utente = int(rcv_req.form.get('ruolo_utente'))
+            except:
+                flash('Inserisci un ruolo','warning')
+                return redirect('#')
 
             if password == password_repeat:
                 if add_user(username=username, password=password_repeat,role=ruolo_utente):

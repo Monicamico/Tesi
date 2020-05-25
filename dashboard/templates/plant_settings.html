@@ -10,50 +10,186 @@
         <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
 
-          <table  width="600px" class="MyTable" align="center">
-              <tr>
-                 <td> <label>{{ form.name.label }}</label> </td>
-                 <td>{{ form.name(size=24, value = plant.name)}} </td>
-                  <td> {{ form.submit()}} </td>
+          <table  width="500px" style="margin-bottom: 30px" class="MyTable" align="center">
+            <tr class="m-3">
+              <td>
+                <div style="text-align: center; width: 300px" class="input-group m-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"> Nome Pianta
+                        </span>
+                    </div>
+                    <input id="name" aria-describedby="basic-addon1" type="text" class="form-control" name="name" value={{plant.name}}>
+                </div>
+              <td>  <button class="myButton" id="submit" name="submit" type="submit"> Imposta </button>  </td>
                </tr>
           </table>
 
-            <br>
-            <br>
-
-         <table width="600px"  style=" margin-bottom:0px" class="MyTable" align="center">
+         <table width="750px"  style=" margin-bottom:0px" class="MyTable" align="center">
 
              <tr>
-                 <td> <label>{{ form.hum_min.label }}</label> </td>
-                 <td>{{ form.hum_min(size=2, value = (plant.humidity_min * 100 / 1023) |round |int)  }} % </td>
-                 <td>  <label>{{ form.hum_max.label }}</label> </td>
-                 <td>{{ form.hum_max(size=2, value= (plant.humidity_max * 100 / 1023) |round|int ) }} %</td>
+                 <td>
+                     <div style="text-align: center; width: 300px" class="input-group m-3">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="huminAddon"> Umidita' Minima
+                            </span>
+                        </div>
+
+                        <input id="hum_min" aria-labelledby="huminAddon"
+                               type="text" class="form-control"
+                               name="hum_min" value= "{{ (plant.humidity_min * 100 / 1023) |round |int }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="percentuale"> % </span>
+                        </div>
+
+                    </div>
+                 </td>
+
+                 <td>
+                    <div style="text-align: center; width: 300px" class="input-group m-3">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="hummaxAddon"> Umidita' Massima
+                            </span>
+                        </div>
+
+                        <input id="hum_max" aria-labelledby="hummaxAddon"
+                               type="text" class="form-control"
+                               name="hum_max" value= "{{ (plant.humidity_max * 100 / 1023) |round|int  }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"> % </span>
+                        </div>
+
+                    </div>
+                 </td>
              </tr>
 
              <tr>
-                 <td>  <label>{{ form.light_min.label }} </label> </td>
-                 <td> {{ form.light_min(size=2, value= (plant.light_min * 100 / 255) | round | int)  }} %</td>
-                 <td> <label>{{ form.light_max.label }}</label> </td>
-                 <td> {{ form.light_max(size=2, value= (plant.light_max * 100 / 255)|round|int )  }} %</td>
+                 <td>
+                     <div style="text-align: center; width: 300px" class="input-group m-3">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="lightMinAddon"> Luce Minima
+                            </span>
+                        </div>
+
+                        <input id="light_min" aria-labelledby="lightMinAddon"
+                               type="text" class="form-control"
+                               name="light_min" value= "{{ (plant.light_min * 100 / 255) | round | int  }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"> % </span>
+                        </div>
+
+                     </div>
+                 </td>
+                 <td>
+                    <div style="text-align: center; width: 300px" class="input-group m-3">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="lightMaxAddon"> Luce Massima
+                            </span>
+                        </div>
+
+                        <input id="light_max" aria-labelledby="lightMaxAddon"
+                               type="text" class="form-control"
+                               name="light_max" value= "{{ (plant.light_max * 100 / 255)|round|int }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"> % </span>
+                        </div>
+
+                    </div>
+                 </td>
              </tr>
 
               <tr>
-                 <td> <label>{{ form.temp_min.label }}</label> </td>
-                 <td> {{ form.temp_min(size=2, value=plant.temperature_min) }} °C </td>
-                 <td> <label>{{ form.temp_max.label }}</label> </td>
-                 <td> {{ form.temp_max(size=2, value=plant.temperature_max) }} °C </td>
+                 <td>
+                    <div style="text-align: center; width: 300px" class="input-group m-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="tempMinAddon"> Temperatura Minima
+                            </span>
+                        </div>
+
+                        <input id="temp_min" aria-labelledby="tempMinAddon"
+                               type="text" class="form-control"
+                               name="temp_min" value= "{{ plant.temperature_min }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"> °C </span>
+                        </div>
+
+                    </div>
+                 </td>
+
+                 <td>
+                    <div style="text-align: center; width: 300px" class="input-group m-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="tempMaxAddon"> Temperatura Massima
+                            </span>
+                        </div>
+
+                        <input id="temp_max" aria-labelledby="tempMaxAddon"
+                               type="text" class="form-control"
+                               name="temp_max" value= "{{ plant.temperature_max }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"> °C </span>
+                        </div>
+
+                    </div>
+                 </td>
              </tr>
 
              <tr>
-                 <td>  <label>{{ form.watering_light.label }} </label> </td>
-                 <td> {{ form.watering_light(size=2, value= (plant.watering_light * 100 / 255)|round|int )  }} % </td>
-                 <td> <label>{{ form.water_container_size.label }}</label> </td>
-                 <td> {{ form.water_container_size(size=2, value=plant.water_container_size) }} litri </td>
+                 <td>
+                    <div style="text-align: center; width: 300px" class="input-group m-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="LuceInnaff"> Luce per Innaffiare
+                            </span>
+                        </div>
+
+                        <input id="watering_light" aria-labelledby="LuceInnaff"
+                               type="text" class="form-control"
+                               name="watering_light" value= "{{ (plant.watering_light * 100 / 255)|round|int }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"> % </span>
+                        </div>
+
+                    </div>
+                 </td>
+
+                 <td>
+                     <div style="text-align: center; width: 300px" class="input-group m-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="ContainerSize"> Capienza Container
+                            </span>
+                        </div>
+
+                        <input id="water_container_size" aria-labelledby="ContainerSize"
+                               type="text" class="form-control"
+                               name="water_container_size" value= "{{ plant.water_container_size }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"> litri </span>
+                        </div>
+
+                    </div>
+                 </td>
              </tr>
 
              <tr>
-                 <td>  <label>{{ form.transmit_power.label }} </label> </td>
-                 <td>  <select name="transmit_power" class="form-control form-control-sm">
+                 <td>
+                      <div style="text-align: center; width: 300px" class="input-group m-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="transmitPoweradd"> Transmit-Power
+                            </span>
+                        </div>
+
+                        <select aria-labelledby="transmitPoweradd" name="transmit_power" class="form-control">
 
                          {% if plant.transmit_power == 1 %}
                             <option value="1" selected>1</option>
@@ -97,9 +233,16 @@
                             <option value="7">7</option>
                          {% endif %}
                     </select>
+                    </div>
                  </td>
-                 <td> <label>{{ form.send_time.label }}</label> </td>
-                 <td> <select name="send_time" class="form-control form-control-sm">
+
+                 <td>
+                     <div style="text-align: center; width: 300px" class="input-group m-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="sendAdd"> Send-Time
+                            </span>
+                        </div>
+                     <select aria-labelledby="sendAdd" name="send_time" class="form-control">
                         {% if plant.send_time == 5 %}
                             <option value="5" selected>5 min.</option>
                          {% else %}
@@ -160,13 +303,15 @@
                             <option value="60">1 h.</option>
                         {% endif %}
                      </select>
+                     </div>
                  </td>
+
              </tr>
 
          </table>
-         <table width="600px" class="MyTable" style=" margin-top: 0px; text-align: center" align="center">
+         <table width="750px" class="MyTable" style=" margin-top: 0px; text-align: center" align="center">
              <tr>
-                 <td> {{ form.submit()}} </td>
+                 <td> <button class="myButton" name="submit" type="submit"> Imposta</button> </td>
              </tr>
          </table>
 

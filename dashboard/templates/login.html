@@ -23,18 +23,32 @@
   </head>
 
  <body style="background: #333a40" align="center">
-     <IMG src="{{ url_for('static', filename='logoVerde.png') }}">
-     <br>
-     <br>
-     <br>
-    <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        {{ form.username(size=24, placeholder = "Username" )}}
-        <br>
-        {{ form.password(size=24, placeholder = "Password" )}}
-        <br>
-        <br>
-        <input class="btn btn-outline-primary my-lg-1" style="width: 130px" id="submit" name="submit" type="submit" value="Login">
-    </form>
+    <div class="container-fluid">
+        <IMG src="{{ url_for('static', filename='logoVerde.png') }}">
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto">
+            <form action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
 
+                <div style="width: 300px" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"> <i class="fas fa-user"></i>
+                        </span>
+                     </div>
+                    <input id="username" aria-describedby="basic-addon1" type="text" class="form-control" name="username" placeholder="Username">
+                </div>
+
+                <div style="width: 300px" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon2"> <i class="fas fa-lock"></i>
+                        </span>
+                     </div>
+                    <input id="password" aria-labelledby="basic-addon2" type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+
+                <input class="btn btn-outline-primary my-lg-1" style="width: 130px" id="submit" name="submit" type="submit" value="Login">
+            </form>
+            </div>
+        </div>
+    </div>
  </body>

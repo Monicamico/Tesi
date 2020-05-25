@@ -224,26 +224,26 @@ class Plant(db.Model):
 def add_plant(idv, ping, radio):
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
-        #if delete_conn_req(idv) is not None:
-        plant = Plant.query.filter_by(id=idv).first()
-        if plant is None:
-            db.session.add(Plant(id=idv,
-                                 radio_id=radio,
-                                 name=idv,
-                                 ping=ping,
-                                 state_fitness=None,
-                                 humidity_min=300,
-                                 humidity_max=1000,
-                                 temperature_max=30,
-                                 temperature_min=15,
-                                 light_max=250,
-                                 light_min=50,
-                                 watering_light=70,
-                                 water_container_size=0.5,
-                                 water_container_state=True,
-                                 transmit_power=5,
-                                 send_time=15))
-            db.session.commit()
+        if delete_conn_req(idv) is not None:
+            plant = Plant.query.filter_by(id=idv).first()
+            if plant is None:
+                db.session.add(Plant(id=idv,
+                                     radio_id=radio,
+                                     name=idv,
+                                     ping=ping,
+                                     state_fitness=None,
+                                     humidity_min=300,
+                                     humidity_max=1000,
+                                     temperature_max=30,
+                                     temperature_min=15,
+                                     light_max=250,
+                                     light_min=50,
+                                     watering_light=70,
+                                     water_container_size=0.5,
+                                     water_container_state=True,
+                                     transmit_power=5,
+                                     send_time=15))
+                db.session.commit()
 
 
 def url_from_plant(idv):
@@ -323,7 +323,7 @@ def update_plant_state_fitness(idv):
             ideal_temperature: int = ceil((plant.temperature_max + plant.temperature_min) / 2)
             temp = abs(plant.temperature - ideal_temperature) / ideal_temperature
             ideal_light: int = ceil((plant.light_max + plant.light_min) / 2)
-            lig = abs(plant.light - ideal_light) / ideal_light
+            lig = abs(int(plant.light) - ideal_light) / ideal_light
             state_fitness = (hum + temp + lig) * 0.33
             state_fitness = round(state_fitness, 2)
             plant.state_fitness = 1 - state_fitness

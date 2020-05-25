@@ -55,4 +55,4 @@ def mappa_page():
 
     datajson = json.dumps(data)
     conn_list = ConnectionRequest.query.all()
-    return render_template('map.html', form=form, connections=conn_list, data=datajson)
+    return render_template('map.html', radios= radio_list,form=form, connections=conn_list, data=datajson)

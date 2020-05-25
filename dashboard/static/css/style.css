@@ -32,20 +32,6 @@ p >.list-group{
     display: inline-flex;
 }
 
-.badge-success {
-    color: #53b472;
-    background-color: #53b472;
-}
-
-.badge-danger {
-    color: #cd5c5c;
-    background-color: #cd5c5c;
-}
-
-.badge-info {
-    color: #4169e2;
-    background-color: #4169e2;
-}
 
 .list-group {
     display: -ms-flexbox;
@@ -116,6 +102,18 @@ img {
     color: rgb(240, 255, 255);
 }
 
+.btn-info {
+    color: #ffffff;
+    background-color: #67bec5;
+    border-color: #94e0ec;
+}
+
+.btn-secondary {
+    color: #151617;
+    background-color: #a7b3bd;
+    border-color: #869c9e;
+}
+
 .border-right {
     border-right: 3px solid var(--gray) !important;
 }
@@ -144,11 +142,6 @@ code {
 	padding:8px 6px;
 	text-decoration:none;
 }
-
-input[type="password"] {
-    margin-top: 10px;
-}
-
 
 .myButton:hover, input[type="submit"],.a {
 	background-color: rgba(73, 138, 241, 0.84);
@@ -189,7 +182,7 @@ table.MyTable th, tr, td {
 }
 
 table.MyTable th {
-    background: #a8ffe0;
+    background: rgb(183, 255, 231);
     color: #05050c;
 }
 
@@ -312,4 +305,11 @@ canvas.linkable{
 
 .list-group-flush .list-group-item:hover {
     color: #f1f1f1;
+}
+
+.input-group>.input-group-prepend>.input-group-text {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    color: #1f2225;
+    font-weight: bold;
 }
