@@ -169,8 +169,7 @@ radio.onReceivedValue(function (request: string, param: number) {
         requestInt == OPERATION.HUMIDITY)
         sendToRB(`${request};${serialNumber};${ping};${param}`) 
 
-    if (requestInt == OPERATION.VASE_STATE ||
-        requestInt == OPERATION.SET_LIGHT_MIN ||
+    if (requestInt == OPERATION.SET_LIGHT_MIN ||
         requestInt == OPERATION.SET_LIGHT_MAX ||
         requestInt == OPERATION.SET_HUMIDITY_MIN ||
         requestInt == OPERATION.SET_HUMIDITY_MAX ||
@@ -226,8 +225,7 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
 
         if (request == OPERATION.PING || request == OPERATION.HUMIDITY ||
             request == OPERATION.TEMPERATURE || request == OPERATION.LIGHT ||
-            request == OPERATION.WATER || request == OPERATION.WATER_CONTAINER_STATE ||
-            request == OPERATION.VASE_STATE) 
+            request == OPERATION.WATER || request == OPERATION.WATER_CONTAINER_STATE) 
             sendToVase(request, serialNumber)
             
         else if (request == OPERATION.SET_TEMPERATURE_MIN || request == OPERATION.SET_TEMPERATURE_MAX ||
