@@ -128,13 +128,6 @@ def reader():
                 else:
                     valid_request = False
 
-            if request == Operation.VASE_STATE.value:
-                param = int(param)
-                if valid_request_param and (param == 0 or 1):
-                    valid_request = True
-                else:
-                    valid_request = False
-
             if request == Operation.VASE_TRANSMIT_POWER.value:
                 param = int(param)
                 if valid_request_param:

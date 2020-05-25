@@ -33,12 +33,6 @@ class Operation(Enum):
     RADIO_JOIN = 22
     RADIO_TRANSMIT_POWER = 23
     VASE_TRANSMIT_POWER = 24
-    VASE_STATE = 25
-
-
-class VaseState(Enum):
-    Sad = 0
-    Happy = 1
 
 
 class WaterContainerState(Enum):

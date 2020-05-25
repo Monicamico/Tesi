@@ -41,10 +41,6 @@ def request():
             req = str(Operation.REFUSED.value) + ";" + id_s + DELIMITER
             print('refused / '+id_s)
 
-        elif req_type == 'vase_state':
-            req = str(Operation.VASE_STATE.value) + ";" + id_s + DELIMITER
-            print('vase state / '+id_s)
-
         elif req_type == 'container_state':
             req = str(Operation.WATER_CONTAINER_STATE.value) + ";" + id_s + DELIMITER
             print('container state / '+id_s)
