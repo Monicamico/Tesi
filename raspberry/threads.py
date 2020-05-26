@@ -5,27 +5,27 @@ import requests as rq
 from constants import URL_DASHBOARD, PORT
 from request import request_queue
 from utility import get_ip, lock_queue, condition_variable
-from constants import MICROBIT_PORT_MAC, MICROBIT_PORT_MAC2, Operation, DELIMITER
+from constants import MICROBIT_PORT_LINUX2, MICROBIT_PORT_LINUX, Operation, DELIMITER
 
 
 try:
-    s = serial.Serial(MICROBIT_PORT_MAC, 115200)
-    print(MICROBIT_PORT_MAC + ' opened...')
+    s = serial.Serial(MICROBIT_PORT_LINUX, 115200)
+    print(MICROBIT_PORT_LINUX + ' opened...')
     s.timeout = 1
     dummy = s.readline()
     s.timeout = None
     print('Dummy byte received: ' + str(dummy))
 except serial.serialutil.SerialException:
-    print("\nNo such file or directory: " + MICROBIT_PORT_MAC)
+    print("\nNo such file or directory: " + MICROBIT_PORT_LINUX)
     try:
-        s = serial.Serial(MICROBIT_PORT_MAC2, 115200)
-        print(MICROBIT_PORT_MAC2 + ' opened...')
+        s = serial.Serial(MICROBIT_PORT_LINUX2, 115200)
+        print(MICROBIT_PORT_LINUX2 + ' opened...')
         s.timeout = 1
         dummy = s.readline()
         s.timeout = None
         print('Dummy byte received: ' + str(dummy))
     except serial.serialutil.SerialException:
-        print("\nNo such file or directory: " + MICROBIT_PORT_MAC2)
+        print("\nNo such file or directory: " + MICROBIT_PORT_LINUX2)
         exit(1)
 
 
@@ -67,7 +67,7 @@ def read_serial():
 def write_serial(data):
     content = bytes(data, 'utf-8')
     try:
-        s.write(content)
+        return s.write(content)
     except ValueError as err:
         print(err)
 
@@ -200,8 +200,9 @@ def writer():
         while len(request_queue) == 0:
             condition_variable.wait()
         st = request_queue.pop()
-        write_serial(st)
-        condition_variable.notify_all()
+        if write_serial(st) <= 0:
+            raise Exception
         lock_queue.release()
+        time.sleep(2)
         print("Thread Writer, Scritto su radio: "+st)
 

@@ -23,15 +23,15 @@ def request():
 
         elif req_type == 'humidity':
             req = str(Operation.HUMIDITY.value) + ";" + id_s + DELIMITER
-            print('humidity / ' +id_s)
+            print('humidity / ' + id_s)
 
         elif req_type == 'temperature':
             req = str(Operation.TEMPERATURE.value) + ";" + id_s + DELIMITER
-            print('temperature / '+id_s)
+            print('temperature / ' + id_s)
 
         elif req_type == 'light':
             req = str(Operation.LIGHT.value) + ";" + id_s + DELIMITER
-            print('light / '+id_s)
+            print('light / ' + id_s)
 
         elif req_type == 'joined':
             req = str(Operation.JOINED.value) + ";" + id_s + DELIMITER
