@@ -8,7 +8,7 @@ from gio_db import add_radio, add_conn_req, delete_conn_req, \
     update_temp_min, update_temp_max, \
     update_watering_light, \
     update_vase_transmit_power, update_radio_transmit_power, update_water_container_size, \
-    update_send_time, update_sleep_time, update_plant_state_fitness
+    update_send_time, update_sleep_time, update_plant_state_fitness, radio_from_url
 from constant import Operation
 
 request_page = Blueprint('request_page', __name__)
@@ -26,63 +26,50 @@ def request():
 
     if req == Operation.RADIO_JOIN.value:
         add_radio(data['serial'], data['url'])
-        return redirect("/home")
 
     elif req == Operation.CONNECTION.value:
         ping = data['ping']
         param = data['param']
         url = data['url']
-        add_conn_req(data['serial'], ping, param, url)
-        return redirect("/home")
+        r = radio_from_url(url)
+        add_conn_req(data['serial'], ping, param, r.id)
 
     elif req == Operation.REFUSED.value:
         delete_conn_req(data['serial'])
 
     elif req == Operation.JOINED.value:
-        try:
-            ping = data['ping']
-            param = data['param']
-            add_plant(data['serial'], ping, param)
-        except:
-            print("Join: error")
+        ping = data['ping']
+        param = data['param']
+        add_plant(data['serial'], ping, param)
 
     elif req == Operation.DELETED.value:
         delete_plant(data['serial'])
 
     elif req == Operation.HUMIDITY.value:
-        try:
-            serial_number = data['serial']
-            ping = data['ping']
-            param = data['param']
-            update_hum(serial_number, ping, param)
-        except:
-            print("Humidity: error")
+        serial_number = data['serial']
+        ping = data['ping']
+        param = data['param']
+        update_hum(serial_number, ping, param)
         try:
             update_plant_state_fitness(serial_number)
         except:
             print("Humidity, state update: error")
 
     elif req == Operation.LIGHT.value:
-        try:
-            serial_number = data['serial']
-            ping = data['ping']
-            param = int(data['param'])
-            update_light(serial_number, ping, param)
-        except:
-            print('Eccezione Light')
+        serial_number = data['serial']
+        ping = data['ping']
+        param = int(data['param'])
+        update_light(serial_number, ping, param)
         try:
             update_plant_state_fitness(serial_number)
         except:
             print("Light, state update: error")
 
     elif req == Operation.TEMPERATURE.value:
-        try:
-            serial_number = data['serial']
-            ping = data['ping']
-            param = data['param']
-            update_temp(serial_number, ping, param)
-        except:
-            pass
+        serial_number = data['serial']
+        ping = data['ping']
+        param = data['param']
+        update_temp(serial_number, ping, param)
         try:
             update_plant_state_fitness(serial_number)
         except:
@@ -97,79 +84,58 @@ def request():
             print()
 
     elif req == Operation.SET_WATERING_LIGHT.value:
-        try:
-            serial_number = data['serial']
-            ping = data['ping']
-            param = data['param']
-            update_watering_light(serial_number, ping, param)
-        except:
-            print()
+        serial_number = data['serial']
+        ping = data['ping']
+        param = data['param']
+        update_watering_light(serial_number, ping, param)
 
     elif req == Operation.WATER_CONTAINER_STATE.value:
-        try:
-            serial_number = data['serial']
-            ping = data['ping']
-            param = data['param']
-            update_water_container_state(serial_number, ping, param)
-        except:
-            print()
+        serial_number = data['serial']
+        ping = data['ping']
+        param = data['param']
+        update_water_container_state(serial_number, ping, param)
 
     elif req == Operation.SET_WATER_CONTAINER_SIZE.value:
-        try:
-            serial_number = data['serial']
-            ping = data['ping']
-            param = data['param']
-            update_water_container_size(serial_number, ping, param)
-        except:
-            print()
+        serial_number = data['serial']
+        ping = data['ping']
+        param = data['param']
+        update_water_container_size(serial_number, ping, param)
 
     elif req == Operation.SET_HUMIDITY_MIN.value:
-        try:
-            serial_number = data['serial']
-            ping = data['ping']
-            param = data['param']
-            update_hum_min(serial_number, ping, param)
-        except:
-            print()
+        serial_number = data['serial']
+        ping = data['ping']
+        param = data['param']
+        update_hum_min(serial_number, ping, param)
         try:
             update_plant_state_fitness(serial_number)
         except:
             print("Update-state_fitness: error")
 
     elif req == Operation.SET_HUMIDITY_MAX.value:
-        try:
-            serial_number = data['serial']
-            ping = data['ping']
-            param = data['param']
-            update_hum_max(serial_number, ping, param)
-        except:
-            print()
+        serial_number = data['serial']
+        ping = data['ping']
+        param = data['param']
+        update_hum_max(serial_number, ping, param)
         try:
             update_plant_state_fitness(serial_number)
         except:
             print("Update-state_fitness: error")
 
     elif req == Operation.SET_LIGHT_MIN.value:
-        try:
-            serial_number = data['serial']
-            ping = data['ping']
-            param = data['param']
-            update_light_min(serial_number,ping, param)
-        except:
-            print()
+        serial_number = data['serial']
+        ping = data['ping']
+        param = data['param']
+        update_light_min(serial_number,ping, param)
         try:
             update_plant_state_fitness(serial_number)
         except:
             print("Update-state_fitness: error")
 
     elif req == Operation.SET_LIGHT_MAX.value:
-        try:
-            serial_number = data['serial']
-            ping = data['ping']
-            param = data['param']
-            update_light_max(serial_number, ping, param)
-        except:
-            print()
+        serial_number = data['serial']
+        ping = data['ping']
+        param = data['param']
+        update_light_max(serial_number, ping, param)
         try:
             update_plant_state_fitness(serial_number)
         except:

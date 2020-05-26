@@ -24,23 +24,27 @@
 
  <body style="background: #333a40" align="center">
     <div class="container-fluid">
-        <IMG src="{{ url_for('static', filename='logoVerde.png') }}">
         <div class="row justify-content-md-center">
-            <div class="col-md-auto">
+            <div align="center" class="col-md-auto">
+            <IMG src="{{ url_for('static', filename='logoVerde.png') }}">
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div align="center" class="col-md-auto">
             <form action="" method="post" novalidate>
                 {{ form.hidden_tag() }}
 
-                <div style="width: 300px" class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1"> <i class="fas fa-user"></i>
+                <div  style="width: 300px" class="input-group mb-3">
+                    <div style="color: grey" class="input-group-prepend">
+                        <span style="color: grey" class="input-group-text" id="basic-addon1"> <i class="fas fa-user"></i>
                         </span>
                      </div>
                     <input id="username" aria-describedby="basic-addon1" type="text" class="form-control" name="username" placeholder="Username">
                 </div>
 
                 <div style="width: 300px" class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon2"> <i class="fas fa-lock"></i>
+                    <div style="color: grey" class="input-group-prepend">
+                        <span style="color: grey" class="input-group-text" id="basic-addon2"> <i class="fas fa-lock"></i>
                         </span>
                      </div>
                     <input id="password" aria-labelledby="basic-addon2" type="password" class="form-control" name="password" placeholder="Password">

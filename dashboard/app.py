@@ -1,4 +1,5 @@
 from flask import Flask
+from add_user import adduser_page
 from auth import login_manager
 from auth import auth
 from constant import Role, DEBUG
@@ -13,6 +14,7 @@ from radio_settings import radio_settings_page
 from plant_settings import settings_page
 from gio_db import db, add_user, User, add_plant, add_radio, update_light, update_hum, update_temp
 from request import request_page
+from user_settings import user_settings_page
 from users import users_page
 
 
@@ -33,11 +35,14 @@ def create_app():
     app.register_blueprint(dashboard_page)
     app.register_blueprint(request_page)
     app.register_blueprint(users_page)
+    app.register_blueprint(adduser_page)
+    app.register_blueprint(user_settings_page)
     app.register_blueprint(auth)
 
     login_manager.init_app(app)
 
     db.init_app(app=app)
+    db.drop_all(app=app)
     db.create_all(app=app)
     with app.app_context():
         if User.query.filter_by(username="admin").first() is None:
@@ -58,5 +63,5 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(port=5000)
+    app.run(host='192.168.1.18',port=5000)
 

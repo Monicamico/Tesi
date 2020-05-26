@@ -13,7 +13,7 @@
         {% endif %}
     </h2>
 
-     <table class="MyTable" align="center">
+     <table class="MyTable">
         <thead>
             <tr>
                 <th>Luce per innaffiare </th>
@@ -34,14 +34,14 @@
                 </td>
                 <td>
 
-                     <a class="myButton" href="http://127.0.0.1:5000/vase_state/{{plant.id}}" title="Richiedi stato">
+                     <a class="myButton" href="/vase_state/{{plant.id}}" title="Richiedi stato">
                         <i class="fas fa-smile-beam"></i>
                      </a>
 
-                    <a class="myButton" href="http://127.0.0.1:5000/water/{{plant.id}}" title="Innaffia">
+                    <a class="myButton" href="/water/{{plant.id}}" title="Innaffia">
                        <i class="fas fa-shower"></i>
                     </a>
-                    <a class="myButton" href="http://127.0.0.1:5000/container_state/{{plant.id}}" title="Stato contenitore">
+                    <a class="myButton" href="/container_state/{{plant.id}}" title="Stato contenitore">
                         <i class="fas fa-flask"></i>
                     </a>
 
@@ -51,7 +51,7 @@
         </tbody>
     </table>
 
-   <table class="MyTable" align="center">
+   <table class="MyTable">
     <thead>
     <tr>
         <th> Umidita' </th>
@@ -103,7 +103,7 @@
 
     </p>
 
-    <table class="MyTable" align="center">
+    <table class="MyTable">
     <thead>
         <tr>
             <th> Umidita' minima </th>

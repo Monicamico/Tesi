@@ -80,51 +80,49 @@ class ConnectionRequest(db.Model):
     id = db.Column(db.String, primary_key=True, nullable=False)
     ping = db.Column(db.Integer)
     pairing = db.Column(db.Integer)
-    url = db.Column(db.String, primary_key=True)
+    radio_id = db.Column(db.String, primary_key=True)
 
 
-def url_from_conn(idv):
-    c = ConnectionRequest.query.filter_by(id=idv).first()
-    if c is not None:
-        return c.url
-    else:
-        return -1
-
-
-def add_conn_req(idv, pingv, pairingv, urlv):
+def add_conn_req(idv, pingv, pairingv, radio):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is None:
-        conn = ConnectionRequest.query.filter_by(id=idv).first()
+        conn = ConnectionRequest.query.filter_by(radio_id=radio, id=idv).first()
         if conn is None:
-            db.session.add(ConnectionRequest(id=idv, ping=pingv, pairing=pairingv, url=urlv))
+            db.session.add(ConnectionRequest(id=idv, ping=pingv, pairing=pairingv,radio_id=radio))
             db.session.commit()
             return True
-        else:
-            conn.pairing = pairingv
-            conn.ping = pingv
-            conn.url = urlv
-            db.session.commit()
     else:
-        url = url_from_plant(idv)
-        if url != urlv:
+        url = 'http://' + url_from_plant(idv)
+        if url != url_from_radio(radio):
             try:
                 snd_req.put(url + '/request', json={'request': 'deleted', 'serial': idv})
-                plant.url_radio = urlv
+                plant.url_radio = url_from_radio(radio)
             except:
                 print("add conn req: Invalid URL")
         try:
-            snd_req.put(urlv + '/request', json={'request': 'joined', 'serial': idv})
+            url = 'http://' + url_from_radio(radio)
+            snd_req.put(url + '/request', json={'request': 'joined', 'serial': idv})
         except:
             print("add conn req: Invalid URL")
 
 
-def delete_conn_req(idv):
-    req = ConnectionRequest.query.filter_by(id=idv).first()
+def delete_conn_req(idv, radio):
+    req = ConnectionRequest.query.filter_by(id=idv, radio_id=radio).first()
     if req is None:
         return None
     db.session.delete(req)
     db.session.commit()
     return req
+
+
+def delete_conn_idv(idv):
+    requests = ConnectionRequest.query.filter_by(id=idv)
+    if requests is not None:
+        for req in requests:
+            db.session.delete(req)
+            db.session.commit()
+        return True
+    return None
 
 
 class Radio(db.Model):
@@ -198,6 +196,11 @@ def url_from_radio(radio):
         return None
 
 
+def radio_from_url(url):
+    r = Radio.query.filter_by(url_radio=url).first()
+    return r
+
+
 class Plant(db.Model):
     __tablename__ = 'plant'
     id = db.Column(db.String(13), primary_key=True, unique=True, nullable=False)
@@ -222,9 +225,10 @@ class Plant(db.Model):
 
 
 def add_plant(idv, ping, radio):
+    print('add_plant')
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
-        if delete_conn_req(idv) is not None:
+        if delete_conn_req(idv,radio) is not None:
             plant = Plant.query.filter_by(id=idv).first()
             if plant is None:
                 db.session.add(Plant(id=idv,
@@ -244,6 +248,7 @@ def add_plant(idv, ping, radio):
                                      transmit_power=5,
                                      send_time=15))
                 db.session.commit()
+                delete_conn_idv(idv)
 
 
 def url_from_plant(idv):
@@ -251,7 +256,7 @@ def url_from_plant(idv):
     if plant is not None:
         radio = Radio.query.filter_by(id=plant.radio_id).first()
         if radio is not None:
-            return radio.url_radio
+            return 'http://'+radio.url_radio
     return -1
 
 

@@ -43,7 +43,7 @@ def mappa_page():
 
         elem = {'name': plant.id, 'type': 'vase',
                 'color': vase_color, 'toshow': plant.name,
-                'link': URL + '/plant/' + plant.id}
+                'link': '/plant/' + plant.id}
         nodes.append(elem)
         elem = {'src': plant.id, 'dest': plant.radio_id}
         edges.append(elem)

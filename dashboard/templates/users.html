@@ -19,7 +19,7 @@
                             {% endif %}</code> </h4>
                         <br>
                        {% for user_i in users if user_i.role == user.role %}
-                            <a class="myButton" style="font-size: 18px; margin-left: 4px" title="Modifica" href="/user_settings/{{ user.username }}">
+                            <a class="myButton" style="font-size: 18px; margin-left: 4px" title="Modifica" href="/user_settings/{{ user_i.username }}">
                                  <i class="fas fa-user-edit"></i>
                                 {{ user_i.username }}
                             </a>

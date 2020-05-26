@@ -11,6 +11,7 @@
         <tr>
             <th> ID Vaso </th>
             <th> Numero pairing </th>
+            <th> Radio </th>
             <th> Azioni </th>
         </tr>
         </thead>
@@ -21,10 +22,18 @@
                 <td> {{ conn.id }} </td>
                 <td> {{ conn.pairing }} </td>
                 <td>
-                    <a class="myButton" title="Accetta" href="http://127.0.0.1:5000/add_plant_from_conn/{{ conn.id }}">
+                    {% for radio in radios: %}
+                    {% if conn.radio_id == radio.id %}
+                        {{ radio.name }}
+                    {% endif %}
+                    {% endfor %}
+
+                 </td>
+                <td>
+                    <a class="myButton" title="Accetta" href="/add_plant_from_conn/{{ conn.id }}/{{conn.radio_id}}">
                         <i class="fas fa-check"></i>
                     </a>
-                    <a class="myButton" title="Rifiuta" href="http://127.0.0.1:5000/refuse_plant_from_conn/{{ conn.id }}">
+                    <a class="myButton" title="Rifiuta" href="/refuse_plant_from_conn/{{ conn.id }}/{{conn.radio_id}}">
                         <i class="fas fa-times"></i>
                     </a>
                 </td>

@@ -153,7 +153,7 @@
 
                         <input id="watering_light" aria-labelledby="LuceInnaff"
                                type="text" class="form-control"
-                               name="watering_light" value= "{{ (plant.watering_light * 100 / 255)|round|int }}">
+                               name="watering_light" value= "{{ (plant.watering_light * 100 / 255) | round |int }}">
 
                         <div class="input-group-append">
                             <span class="input-group-text"> % </span>
@@ -319,6 +319,9 @@
     </form>
     <br>
     <br>
-    <a class="myButton" href="http://127.0.0.1:5000/plant/{{plant.id}}"> <i class="fas fa-arrow-circle-left"></i> Indietro </a>
+    <a class="myButton" href="/plant/{{plant.id}}"> <i class="fas fa-arrow-circle-left"></i> Indietro </a>
 
-    {% endblock %}
+
+  {% endblock %}
+
+</html>

@@ -24,13 +24,13 @@ def settings(idv):
 
         if settings_form.validate_on_submit():
             name = rcv_req.form['name']
-            light_max = ceil(int(rcv_req.form['light_max']) / 100 * 255)
-            light_min = ceil(int(rcv_req.form['light_min']) / 100 * 255)
+            light_max = round(int(rcv_req.form['light_max']) / 100 * 255)
+            light_min = round(int(rcv_req.form['light_min']) / 100 * 255)
             temp_max = int(rcv_req.form['temp_max'])
             temp_min = int(rcv_req.form['temp_min'])
-            hum_min = ceil(int(rcv_req.form['hum_min']) / 100 * 1023)
-            hum_max = ceil(int(rcv_req.form['hum_max']) / 100 * 1023)
-            watering_light = ceil(int(rcv_req.form['watering_light']) / 100 * 255)
+            hum_min = round(int(rcv_req.form['hum_min']) / 100 * 1023)
+            hum_max = round(int(rcv_req.form['hum_max']) / 100 * 1023)
+            watering_light = round(int(rcv_req.form['watering_light']) / 100 * 255)
             water_container_size = rcv_req.form['water_container_size']
             transmit_power = int(rcv_req.form.get('transmit_power'))
             send_time = int(rcv_req.form.get('send_time'))

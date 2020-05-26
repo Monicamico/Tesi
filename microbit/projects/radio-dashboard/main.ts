@@ -141,17 +141,18 @@ radio.onReceivedValue(function (request: string, param: number) {
         return
 
     } else if (requestInt == OPERATION.JOINED) {
-
         if (vase) 
             return
-        let n = dim_vase_list
-        dim_vase_list = insertVase(serialNumber,ping,vase_list)
-        if (n == dim_vase_list - 1) {
-            //send joined notification to raspberry
-            sendToRB(`${OPERATION.JOINED};${serialNumber};${ping};${serial_number}`) 
-        } else {
-            sendToRB(`${OPERATION.REFUSED};${serialNumber};0;0`) 
-            sendToVase(OPERATION.REFUSED,serialNumber)
+        if (param == serial_number){
+            let n = dim_vase_list
+            dim_vase_list = insertVase(serialNumber,ping,vase_list)
+            if (n == dim_vase_list - 1) {
+                //send joined notification to raspberry
+                sendToRB(`${OPERATION.JOINED};${serialNumber};${ping};${serial_number}`) 
+            } else {
+                sendToRB(`${OPERATION.REFUSED};${serialNumber};0;0`) 
+                sendToVase(OPERATION.REFUSED,serialNumber)
+            }
         }
         return
     }
@@ -200,7 +201,7 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
     let r_list= received.split(";") 
     let size = r_list.length
     let request = parseInt(r_list[0])
-   
+
     if (size == 0)
         return
     if (size == 1){
@@ -270,5 +271,4 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
             return
         }
     }
-
 })
