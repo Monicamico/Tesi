@@ -6,7 +6,7 @@ MICROBIT_PORT_MAC2 = '/dev/cu.usbmodem14202'  # left
 MICROBIT_PORT_LINUX = '/dev/ttyACM0'
 MICROBIT_PORT_LINUX2 = '/dev/ttyAMA0'
 DELIMITER = '#'
-PORT = 5040
+PORT = 5000
 
 
 class Operation(Enum):

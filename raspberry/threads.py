@@ -26,7 +26,7 @@ except serial.serialutil.SerialException:
         print('Dummy byte received: ' + str(dummy))
     except serial.serialutil.SerialException:
         print("\nNo such file or directory: " + MICROBIT_PORT_LINUX2)
-        exit(1)
+        #exit(1)
 
 
 ip_address = get_ip()
