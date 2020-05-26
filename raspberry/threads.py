@@ -2,7 +2,7 @@ import threading
 import time
 import serial
 import requests as rq
-from constants import URL_DASHBOARD, PORT
+from constants import URL_DASHBOARD, PORT, MICROBIT_PORT_MAC
 from request import request_queue
 from utility import get_ip, lock_queue, condition_variable
 from constants import MICROBIT_PORT_LINUX2, MICROBIT_PORT_LINUX, Operation, DELIMITER
@@ -30,7 +30,7 @@ except serial.serialutil.SerialException:
 
 
 ip_address = get_ip()
-URL = 'http://' + str(ip_address) + ":" + str(PORT)
+URL = str(ip_address) + ":" + str(PORT)
 print(URL)
 
 
