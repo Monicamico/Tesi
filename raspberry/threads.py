@@ -2,32 +2,40 @@ import threading
 import time
 import serial
 import requests as rq
-from constants import URL_DASHBOARD, PORT, MICROBIT_PORT_MAC
+from constants import URL_DASHBOARD, PORT, MICROBIT_PORT_MAC, MICROBIT_PORT_MAC2
 from request import request_queue
 from utility import get_ip, lock_queue, condition_variable
 from constants import MICROBIT_PORT_LINUX2, MICROBIT_PORT_LINUX, Operation, DELIMITER
 
 
 try:
-    s = serial.Serial(MICROBIT_PORT_LINUX, 115200)
-    print(MICROBIT_PORT_LINUX + ' opened...')
-    s.timeout = 1
-    dummy = s.readline()
-    s.timeout = None
-    print('Dummy byte received: ' + str(dummy))
+    s = serial.Serial(MICROBIT_PORT_MAC, 115200)
+    print(MICROBIT_PORT_MAC + ' opened...')
 except serial.serialutil.SerialException:
     print("\nNo such file or directory: " + MICROBIT_PORT_LINUX)
-    try:
-        s = serial.Serial(MICROBIT_PORT_LINUX2, 115200)
-        print(MICROBIT_PORT_LINUX2 + ' opened...')
-        s.timeout = 1
-        dummy = s.readline()
-        s.timeout = None
-        print('Dummy byte received: ' + str(dummy))
-    except serial.serialutil.SerialException:
-        print("\nNo such file or directory: " + MICROBIT_PORT_LINUX2)
-        #exit(1)
 
+    try:
+        s = serial.Serial(MICROBIT_PORT_MAC2, 115200)
+        print(MICROBIT_PORT_MAC2 + ' opened...')
+    except serial.serialutil.SerialException:
+        print("\nNo such file or directory: " + MICROBIT_PORT_MAC2)
+
+        try:
+            s = serial.Serial(MICROBIT_PORT_LINUX, 115200)
+            print(MICROBIT_PORT_LINUX + ' opened...')
+        except serial.serialutil.SerialException:
+            print("\nNo such file or directory: " + MICROBIT_PORT_LINUX)
+
+            try:
+                s = serial.Serial(MICROBIT_PORT_LINUX2, 115200)
+                print(MICROBIT_PORT_LINUX2 + ' opened...')
+            except:
+                exit(1)
+
+s.timeout = 1
+dummy = s.readline()
+s.timeout = None
+print('Dummy byte received: ' + str(dummy))
 
 ip_address = get_ip()
 URL = str(ip_address) + ":" + str(PORT)
