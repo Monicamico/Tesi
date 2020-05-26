@@ -203,6 +203,7 @@ def writer():
         if write_serial(st) <= 0:
             raise Exception
         lock_queue.release()
-        time.sleep(2)
-        print("Thread Writer, Scritto su radio: "+st)
+        print("Thread Writer, Scritto su radio: " + st)
+        time.sleep(3)
+
 
