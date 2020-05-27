@@ -91,7 +91,7 @@ basic.forever(function () {
 radio.onReceivedBuffer(function () {
 
     const serial_packet = radio.receivedPacket(RadioPacketProperty.SerialNumber)
-    const segnal_strenght = radio.receivedPacket(RadioPacketProperty.SignalStrength)
+    const signal_strenght = radio.receivedPacket(RadioPacketProperty.SignalStrength)
     const content = radio.lastPacket.bufferPayload.toString()
     const content_list: string[] = content.split(";")
     let size = content_list.length
@@ -124,7 +124,7 @@ radio.onReceivedBuffer(function () {
              * the signal stranght value ranges from -128 to -42 
              * (-128 means a weak signal and -42 means a strong one.) 
              */
-            if(!joined && segnal_strenght > min_signal_strenght) {
+            if(!joined && signal_strenght > min_signal_strenght) {
                 joined=true
                 radio_serial_number = serial_packet
                 radio.sendValue(OPERATION.JOINED.toString(),radio_serial_number) 
@@ -136,16 +136,10 @@ radio.onReceivedBuffer(function () {
         if (serial_packet == radio_serial_number) {
 
             //Join operation failed or the vase has been deleted from the list
-            if (request == OPERATION.REFUSED){
+            if (request == OPERATION.DELETED){
                 joined = false
                 pairing_number = getRandomIntInclusive()
             } 
-
-            else if (request == OPERATION.DELETED){
-                joined = false
-                pairing_number = getRandomIntInclusive()
-                radio.sendValue(OPERATION.DELETED.toString(),radio_serial_number) 
-            }
             
             else if (request == OPERATION.WATER) {
                 if ( amount_water >= single_water_amount )

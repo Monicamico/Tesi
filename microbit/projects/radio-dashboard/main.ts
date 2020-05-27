@@ -125,7 +125,6 @@ radio.onReceivedValue(function (request: string, param: number) {
     const requestInt = parseInt(request)
     const vase = getVase(serialNumber, vase_list)
 
-    
     if (requestInt == OPERATION.CONNECTION) {
          // if the vase has already been joined to the vase list
         // the radio will send to vase a 'joined' notification
@@ -133,11 +132,13 @@ radio.onReceivedValue(function (request: string, param: number) {
             sendToVase(OPERATION.JOINED,serialNumber) 
             return
         }
-        if (containRequest(serialNumber, conn_request)) 
-            return
+        if (containRequest(serialNumber, conn_request)){
+            deleteRequest(serialNumber,conn_request)
+        } 
         conn_request.push(new Request(serialNumber, ping, param))
         //send connection request to raspberry
-        sendToRB(`${OPERATION.CONNECTION};${serialNumber};${ping};${param}`) 
+        const signal_strenght = radio.receivedPacket(RadioPacketProperty.SignalStrength)
+        sendToRB(`${OPERATION.CONNECTION};${serialNumber};${signal_strenght};${param}`) 
         return
 
     } else if (requestInt == OPERATION.JOINED) {
@@ -162,14 +163,6 @@ radio.onReceivedValue(function (request: string, param: number) {
     vase.ping = ping //update ping value of the vase
     vase.dying = false
 
-    if (requestInt == OPERATION.DELETED) {
-        dim_vase_list = deleteVase(vase.serial_number, vase_list)
-        if (dim_vase_list != undefined) {
-            basic.showString("del")
-            sendToRB(`${OPERATION.DELETED};${vase.serial_number};0;0`)
-            drawNumberOfVases(dim_vase_list)
-        }     
-    }
     if (requestInt == OPERATION.WATER_CONTAINER_STATE ||
         requestInt == OPERATION.SET_WATER_CONTAINER_SIZE ||
         requestInt == OPERATION.SET_WATERING_LIGHT ||
@@ -232,10 +225,20 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
 
     if (vase_exist) {
 
+        if (request == OPERATION.DELETED) {
+            dim_vase_list = deleteVase(vase_exist.serial_number, vase_list)
+            if (dim_vase_list != undefined) {
+                basic.showString("del")
+                sendToVase(request, serialNumber)
+                sendToRB(`${OPERATION.DELETED};${vase_exist.serial_number};0;0`)
+                drawNumberOfVases(dim_vase_list)
+            }    
+            return 
+        }
+
         if (request == OPERATION.PING || request == OPERATION.HUMIDITY ||
             request == OPERATION.TEMPERATURE || request == OPERATION.LIGHT ||
-            request == OPERATION.WATER || request == OPERATION.WATER_CONTAINER_STATE ||
-            request == OPERATION.DELETED) 
+            request == OPERATION.WATER || request == OPERATION.WATER_CONTAINER_STATE) 
             sendToVase(request, serialNumber)
             
         else if (request == OPERATION.SET_TEMPERATURE_MIN || request == OPERATION.SET_TEMPERATURE_MAX ||
@@ -251,6 +254,8 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
             param = parseFloat(r_list[2])
             sendToVase(request,serialNumber,param)
         }
+
+        return
     
     } else {
 
@@ -265,7 +270,6 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
         else if (request == OPERATION.REFUSED) {
             let ping = deleteRequest(serialNumber,conn_request)
             if (ping!= -1){
-                sendToVase(OPERATION.REFUSED,serialNumber)
                 sendToRB(`${OPERATION.REFUSED};${serialNumber};0;0`)
             }
             return

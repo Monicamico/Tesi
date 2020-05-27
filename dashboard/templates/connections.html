@@ -11,6 +11,7 @@
         <tr>
             <th> ID Vaso </th>
             <th> Numero pairing </th>
+            <th> Signal </th>
             <th> Radio </th>
             <th> Azioni </th>
         </tr>
@@ -21,6 +22,7 @@
             <tr>
                 <td> {{ conn.id }} </td>
                 <td> {{ conn.pairing }} </td>
+                <td> {{ conn.signal }} </td>
                 <td>
                     {% for radio in radios: %}
                     {% if conn.radio_id == radio.id %}

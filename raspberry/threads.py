@@ -181,12 +181,20 @@ def reader():
                 if serial_number is not None:
                     if param is not None:
                         print(str(request)+" / " + serial_number + "/ " + str(param))
-                        reply = rq.put(url=URL_DASHBOARD + '/request',
-                                       json={'request': request,
-                                             'serial': serial_number,
-                                             'url': URL,
-                                             'ping': ping,
-                                             'param': param})
+                        if request == Operation.CONNECTION.value:
+                            reply = rq.put(url=URL_DASHBOARD + '/request',
+                                           json={'request': request,
+                                                 'serial': serial_number,
+                                                 'url': URL,
+                                                 'signal': ping,
+                                                 'param': param})
+                        else:
+                            reply = rq.put(url=URL_DASHBOARD + '/request',
+                                           json={'request': request,
+                                                 'serial': serial_number,
+                                                 'url': URL,
+                                                 'ping': ping,
+                                                 'param': param})
                     else:
                         print(str(request) + " / " + serial_number)
                         reply = rq.put(url=URL_DASHBOARD + '/request',

@@ -28,11 +28,11 @@ def request():
         add_radio(data['serial'], data['url'])
 
     elif req == Operation.CONNECTION.value:
-        ping = data['ping']
+        signal = data['signal']
         param = data['param']
         url = data['url']
         r = radio_from_url(url)
-        add_conn_req(data['serial'], ping, param, r.id)
+        add_conn_req(data['serial'], signal, param, r.id)
 
     elif req == Operation.REFUSED.value:
         delete_conn_req(data['serial'])

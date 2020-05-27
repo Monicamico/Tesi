@@ -78,32 +78,42 @@ def delete_user(username, password):
 class ConnectionRequest(db.Model):
     __tablename__ = 'connectionRequest'
     id = db.Column(db.String, primary_key=True, nullable=False)
-    ping = db.Column(db.Integer)
+    signal = db.Column(db.Integer) #the value ranges from -128 to -42 (-128 means a weak signal and -42 means a strong one.)
     pairing = db.Column(db.Integer)
     radio_id = db.Column(db.String, primary_key=True)
 
 
-def add_conn_req(idv, pingv, pairingv, radio):
+def add_conn_req(idv, signalv, pairingv, radio):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is None:
         conn = ConnectionRequest.query.filter_by(radio_id=radio, id=idv).first()
         if conn is None:
-            db.session.add(ConnectionRequest(id=idv, ping=pingv, pairing=pairingv,radio_id=radio))
+            db.session.add(ConnectionRequest(id=idv, signal=signalv, pairing=pairingv,radio_id=radio))
             db.session.commit()
             return True
+        else:
+            if signalv > conn.signal:
+                conn.signal = signalv
+                url = 'http://' + url_from_radio(conn.radio_id)
+                snd_req.put(url + '/request', json={'request': 'refused', 'serial': idv})
+                conn.radio_id = radio
+            conn.pairing = pairingv
+            db.session.commit()
     else:
         url = 'http://' + url_from_plant(idv)
-        if url != url_from_radio(radio):
+        url_radio = url_from_radio(radio)
+        if url != url_radio:
             try:
                 snd_req.put(url + '/request', json={'request': 'deleted', 'serial': idv})
                 plant.url_radio = url_from_radio(radio)
+                db.session.commit()
             except:
-                print("add conn req: Invalid URL")
+                print("Try to delete the vase from the old radio: Invalid URL")
         try:
-            url = 'http://' + url_from_radio(radio)
+            url = 'http://' + url_radio
             snd_req.put(url + '/request', json={'request': 'joined', 'serial': idv})
         except:
-            print("add conn req: Invalid URL")
+            print("Try to add the vase to the new radio: Invalid URL")
 
 
 def delete_conn_req(idv, radio):
@@ -115,6 +125,7 @@ def delete_conn_req(idv, radio):
     return req
 
 
+"""
 def delete_conn_idv(idv):
     requests = ConnectionRequest.query.filter_by(id=idv)
     if requests is not None:
@@ -123,6 +134,7 @@ def delete_conn_idv(idv):
             db.session.commit()
         return True
     return None
+"""
 
 
 class Radio(db.Model):
@@ -248,7 +260,6 @@ def add_plant(idv, ping, radio):
                                      transmit_power=5,
                                      send_time=15))
                 db.session.commit()
-                delete_conn_idv(idv)
 
 
 def url_from_plant(idv):
