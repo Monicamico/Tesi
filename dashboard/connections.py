@@ -26,7 +26,7 @@ def add_plant_from_conn(idv, radio_id):
 @connections_page.route("/refuse_plant_from_conn/<string:idv>/<string:radio_id>", methods=['GET'])
 def refuse_plant_from_conn(idv,radio_id):
     conn = ConnectionRequest.query.filter_by(id=idv,radio_id=radio_id).first()
-    radio = Radio.query.filter_by(id=radio_id)
+    radio = Radio.query.filter_by(id=radio_id).first()
     if conn is not None:
         url = radio.url_radio
         if url != str(-1):

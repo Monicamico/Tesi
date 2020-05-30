@@ -23,8 +23,7 @@ function setHumMax(max: number) {
     if (max >= 0 && max <= 1023){
         hum_max = max
         radio.sendValue(OPERATION.SET_HUMIDITY_MAX.toString(),max)
-    }
-        
+    } 
 }
 
 /**

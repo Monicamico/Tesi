@@ -35,5 +35,6 @@ class UserForm(FlaskForm):
     username = StringField('Username')
     password = PasswordField('Password')
     password_repeat = PasswordField('Ripeti password')
+    new_password = PasswordField('Nuova password')
     ruolo_utente = StringField('Ruolo')
     submit = SubmitField('Registra')

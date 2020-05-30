@@ -16,6 +16,12 @@ body {
   transition: margin .25s ease-out;
 }
 
+#page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+    max-width: 300%;
+}
+
 #sidebar-wrapper .sidebar-heading {
     padding: 0.875rem 1.25rem;
     font-size: 25px;

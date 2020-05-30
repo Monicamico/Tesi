@@ -45,19 +45,12 @@ def create_app():
     db.drop_all(app=app)
     db.create_all(app=app)
     with app.app_context():
-        if User.query.filter_by(username="admin").first() is None:
+        if User.query.filter_by(username="Chiara").first() is None:
             add_user("admin", "admin", Role.ADMIN.value)
         if User.query.filter_by(username="Monica").first() is None:
             add_user("Monica", "utente23", Role.ADMIN.value)
         if User.query.filter_by(username="Utente").first() is None:
             add_user("Utente", "utente", Role.USER.value)
-        """
-        add_radio(-417538279765,"urlradio1")
-        add_plant("Kalanchoe",850823,-417538279765)
-        update_light("Orchidee",4322,30)
-        update_hum("Orchidee",4322,267)
-        update_temp("Orchidee",4332,8)
-        """
     return app
 
 

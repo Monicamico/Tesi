@@ -127,8 +127,10 @@ radio.onReceivedBuffer(function () {
             if(!joined && signal_strenght > min_signal_strenght) {
                 joined=true
                 radio_serial_number = serial_packet
+                setPauseTime()
                 radio.sendValue(OPERATION.JOINED.toString(),radio_serial_number) 
-            }   
+            } 
+            
         } else if (request == OPERATION.PING) 
             radio.sendNumber(OPERATION.PING)
 
@@ -137,13 +139,20 @@ radio.onReceivedBuffer(function () {
 
             //Join operation failed or the vase has been deleted from the list
             if (request == OPERATION.DELETED){
-                joined = false
-                pairing_number = getRandomIntInclusive()
+                if (joined){
+                    joined = false
+                    pairing_number = getRandomIntInclusive()
+                    pause_time = 8000
+                }     
             } 
             
             else if (request == OPERATION.WATER) {
                 if ( amount_water >= single_water_amount )
                     waters()
+                else if (amount_water < single_water_amount){
+                    setWaterContainerFull(false)
+                    basic.showString('!')
+                }     
             }
             
             else if (request == OPERATION.HUMIDITY)

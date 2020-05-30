@@ -4,24 +4,15 @@
     {% block content %}
     {% if radio_list %}
         <h2 class="mt-3"> Radio registrate </h2>
-         {% if current_user.is_admin %}
-        {% endif %}
-
-        <table class="MyTable" align="center" style="text-align: center;" width="850px">
-             <tr style="background-color:unset">
-                <td>
-                {% for radio in radio_list: %}
-                    {% if current_user.is_admin %}
-                    <a class="myButton" style="font-size: 18px; margin-left: 5px" title="Modifica" href="/radio_settings/{{ radio.id }}">
-                    <i class="fas fa-wrench"></i> {{radio.name}}
-                    </a>
-                    {% else %}
-                    <code style="font-size: 21px"> {{radio.name}} </code>
-                    {% endif %}
-                {% endfor %}
-               </td>
-            </tr>
-        </table>
+        {% for radio in radio_list: %}
+            {% if current_user.is_admin %}
+            <a class="myButton" style="font-size: 18px; margin-left: 5px" title="Modifica" href="/radio_settings/{{ radio.id }}">
+            <i class="fas fa-wrench"></i> {{radio.name}}
+            </a>
+            {% else %}
+            <code style="font-size: 21px"> {{radio.name}} </code>
+            {% endif %}
+        {% endfor %}
 
     {% else %}
         <h2 class="mt-3"> Nessuna radio registrata</h2>

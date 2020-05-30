@@ -2,7 +2,7 @@ import threading
 import time
 import serial
 import requests as rq
-from constants import URL_DASHBOARD, PORT, MICROBIT_PORT_MAC, MICROBIT_PORT_MAC2
+from constants import URL_DASHBOARD, PORT, MICROBIT_PORT_MAC, MICROBIT_PORT_MAC2, MICROBIT_PORT_LINUX2
 from request import request_queue
 from utility import get_ip, lock_queue, condition_variable
 from constants import MICROBIT_PORT_LINUX, Operation, DELIMITER
@@ -12,7 +12,7 @@ try:
     s = serial.Serial(MICROBIT_PORT_MAC, 115200)
     print(MICROBIT_PORT_MAC + ' opened...')
 except serial.serialutil.SerialException:
-    print("\nNo such file or directory: " + MICROBIT_PORT_LINUX)
+    print("\nNo such file or directory: " + MICROBIT_PORT_MAC)
 
     try:
         s = serial.Serial(MICROBIT_PORT_MAC2, 115200)
@@ -25,6 +25,12 @@ except serial.serialutil.SerialException:
             print(MICROBIT_PORT_LINUX + ' opened...')
         except serial.serialutil.SerialException:
             print("\nNo such file or directory: " + MICROBIT_PORT_LINUX)
+
+            try:
+                s = serial.Serial(MICROBIT_PORT_LINUX2, 115200)
+                print(MICROBIT_PORT_LINUX2 + ' opened...')
+            except serial.serialutil.SerialException:
+                print("\nNo such file or directory: " + MICROBIT_PORT_LINUX2)
             exit(1)
 
 s.timeout = 1
@@ -61,8 +67,8 @@ def read_serial():
     byte = s.readline()
     line = byte.decode(encoding='UTF-8').strip()
     try:
-        req, s_n, ping_, param_ = line.split(";")
-        yield req, s_n, ping_, param_
+        req, s_n, signal_, param_ = line.split(";")
+        yield req, s_n, signal_, param_
     except ValueError:
         pass
 
@@ -78,8 +84,8 @@ def write_serial(data):
 # Request or response from RADIO-dashboard
 def reader():
     while True:
-        for request, serial_number, ping, param in read_serial():
-            print("Request or Response from Radio-Dashboard:")
+        for request, serial_number, signal, param in read_serial():
+            print("Response from Radio:")
 
             if request is not None:
                 request = int(request)
@@ -179,24 +185,22 @@ def reader():
                         if request == Operation.CONNECTION.value:
                             reply = rq.put(url=URL_DASHBOARD + '/request',
                                            json={'request': request,
+                                                 'signal': signal,
                                                  'serial': serial_number,
                                                  'url': URL,
-                                                 'signal': ping,
                                                  'param': param})
                         else:
                             reply = rq.put(url=URL_DASHBOARD + '/request',
                                            json={'request': request,
                                                  'serial': serial_number,
                                                  'url': URL,
-                                                 'ping': ping,
                                                  'param': param})
                     else:
                         print(str(request) + " / " + serial_number)
                         reply = rq.put(url=URL_DASHBOARD + '/request',
                                        json={'request': request,
                                              'serial': serial_number,
-                                             'url': URL,
-                                             'ping': ping})
+                                             'url': URL})
                     print(reply)
 
                 else:

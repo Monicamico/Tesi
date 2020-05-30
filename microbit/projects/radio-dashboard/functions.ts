@@ -131,6 +131,7 @@ function drawNumberOfVases(dim_list:number) {
         led.plot(i % 5, i / 5)
         i++
     }
+    return
 }
 
 function setDeadping(){

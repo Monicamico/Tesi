@@ -33,8 +33,8 @@
         <div class="list-group list-group-flush" id="list-group">
 
             {% if current_user.is_authenticated %}
-                <p style="margin-top: 0px; margin-left: 3rem;
-                        margin-bottom: 2rem; margin-right: 3rem;
+                <p style="margin-top: 0px; margin-left: 2rem;
+                        margin-bottom: 2rem; margin-right: 2rem;
                         padding-top: 20px; padding-bottom: 20px;
                         text-align: center; background-color: #4c565d;
                         border-radius: 150px">
@@ -151,7 +151,7 @@
 
         <div class="container-fluid">
         <div class="row justify-content-lg-center">
-            <div class="col-lg-auto">
+            <div class="col-lg-auto" style="overflow: paged-y-controls">
               {% block content %}
 
               {% endblock %}

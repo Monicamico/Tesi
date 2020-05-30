@@ -3,9 +3,10 @@ from enum import Enum
 URL_DASHBOARD = 'http://192.168.1.18:5000'
 MICROBIT_PORT_MAC = '/dev/cu.usbmodem14102'   # right
 MICROBIT_PORT_MAC2 = '/dev/cu.usbmodem14202'  # left
-MICROBIT_PORT_LINUX = '/dev/ttyACM0'
+MICROBIT_PORT_LINUX = '/dev/ttyACM1'
+MICROBIT_PORT_LINUX2 = '/dev/ttyACM0'
 DELIMITER = '#'
-PORT = 5000
+PORT = 5001
 
 
 class Operation(Enum):
@@ -34,6 +35,7 @@ class Operation(Enum):
     RADIO_JOIN = 22
     RADIO_TRANSMIT_POWER = 23
     VASE_TRANSMIT_POWER = 24
+    ADD_EXISTING_VASE = 26
 
 
 class WaterContainerState(Enum):

@@ -1,9 +1,11 @@
 from math import ceil
+from time import strftime
+
 from flask_sqlalchemy import SQLAlchemy
 import requests as snd_req
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from constant import Role
+import time
 
 db = SQLAlchemy()
 
@@ -26,6 +28,7 @@ class User(db.Model):
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
+        db.session.commit()
 
     @property
     def is_admin(self):
@@ -42,6 +45,25 @@ class User(db.Model):
 
     def get_id(self):
         return self.id
+
+    def set_username(self,username):
+        try:
+            self.username = username
+            db.session.commit()
+            return True
+        except:
+            return False
+
+    def set_role(self,role):
+        self.role = role
+        db.session.commit()
+        return True
+
+
+def correct_password_user(username, password):
+    user = User.query.filter_by(username=username).first()
+    checked = check_password_hash(user.password, password)
+    return checked
 
 
 def get_user(username):
@@ -83,37 +105,30 @@ class ConnectionRequest(db.Model):
     radio_id = db.Column(db.String, primary_key=True)
 
 
-def add_conn_req(idv, signalv, pairingv, radio):
+def add_conn_req(idv, signalv, pairingv, radio_id):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is None:
-        conn = ConnectionRequest.query.filter_by(radio_id=radio, id=idv).first()
+        conn = ConnectionRequest.query.filter_by(pairing=pairingv, id=idv).first()
         if conn is None:
-            db.session.add(ConnectionRequest(id=idv, signal=signalv, pairing=pairingv,radio_id=radio))
+            db.session.add(ConnectionRequest(id=idv, signal=signalv, pairing=pairingv, radio_id=radio_id))
             db.session.commit()
             return True
         else:
-            if signalv > conn.signal:
-                conn.signal = signalv
+            if int(signalv) > int(conn.signal):
+                conn.signal = int(signalv)
                 url = 'http://' + url_from_radio(conn.radio_id)
                 snd_req.put(url + '/request', json={'request': 'refused', 'serial': idv})
-                conn.radio_id = radio
+                conn.radio_id = radio_id
+                db.session.commit()
             conn.pairing = pairingv
             db.session.commit()
     else:
-        url = 'http://' + url_from_plant(idv)
-        url_radio = url_from_radio(radio)
-        if url != url_radio:
-            try:
-                snd_req.put(url + '/request', json={'request': 'deleted', 'serial': idv})
-                plant.url_radio = url_from_radio(radio)
-                db.session.commit()
-            except:
-                print("Try to delete the vase from the old radio: Invalid URL")
         try:
-            url = 'http://' + url_radio
-            snd_req.put(url + '/request', json={'request': 'joined', 'serial': idv})
+            snd_req.put('http://' + url_from_plant(idv) + '/request', json={'request': 'joined', 'serial': idv})
         except:
-            print("Try to add the vase to the new radio: Invalid URL")
+            delete_plant(idv)
+            db.session.add(ConnectionRequest(id=idv, signal=signalv, pairing=pairingv, radio_id=radio_id))
+            db.session.commit()
 
 
 def delete_conn_req(idv, radio):
@@ -183,21 +198,25 @@ def delete_radio(radio):
 
 
 def add_radio(radio, url_radio):
-    r = Radio.query.filter_by(id=radio).first()
+    r = Radio.query.filter_by(id=radio, url_radio=url_radio).first()
     if r is None:
-        db.session.add(Radio(id=radio, name=radio,
-                             url_radio=url_radio,
-                             transmit_power=7,
-                             sleep_time=10))
-        db.session.commit()
-    else:
-        radio_with_url = Radio.query.filter_by(id=radio, url_radio=url_radio).first()
+        r = Radio.query.filter_by(id=radio).first()
+        if r is None:
+            db.session.add(Radio(id=radio, name=radio,
+                                 url_radio=url_radio,
+                                 transmit_power=7,
+                                 sleep_time=10))
+            db.session.commit()
+            return True
         # the url of the radio is changed
-        if radio_with_url is None:
+        else:
             r.url_radio = url_radio
             r.transmit_power = 7
             r.sleep_time = 10
             db.session.commit()
+            return False
+    else:
+        return False
 
 
 def url_from_radio(radio):
@@ -213,9 +232,14 @@ def radio_from_url(url):
     return r
 
 
+def associated_plants(radio_id):
+    plants = Plant.query.filter_by(radio_id=radio_id).all()
+    return plants
+
+
 class Plant(db.Model):
     __tablename__ = 'plant'
-    id = db.Column(db.String(13), primary_key=True, unique=True, nullable=False)
+    id = db.Column(db.String, primary_key=True, unique=True, nullable=False)
     radio_id = db.Column(db.String(13), nullable=False)
     name = db.Column(db.String(24), unique=True)
     state_fitness = db.Column(db.Float)
@@ -228,7 +252,6 @@ class Plant(db.Model):
     temperature_min = db.Column(db.Integer)
     light_max = db.Column(db.Integer)
     light_min = db.Column(db.Integer)
-    ping = db.Column(db.Integer, nullable=False)
     watering_light = db.Column(db.Integer, default=70)
     water_container_state = db.Column(db.Boolean, nullable=False, default=True)
     water_container_size = db.Column(db.Float, nullable=False, default=0.5)
@@ -236,30 +259,29 @@ class Plant(db.Model):
     send_time = db.Column(db.Integer(), default=16)
 
 
-def add_plant(idv, ping, radio):
+def add_plant(idv, radio):
     print('add_plant')
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
-        if delete_conn_req(idv,radio) is not None:
-            plant = Plant.query.filter_by(id=idv).first()
-            if plant is None:
-                db.session.add(Plant(id=idv,
-                                     radio_id=radio,
-                                     name=idv,
-                                     ping=ping,
-                                     state_fitness=None,
-                                     humidity_min=300,
-                                     humidity_max=1000,
-                                     temperature_max=30,
-                                     temperature_min=15,
-                                     light_max=250,
-                                     light_min=50,
-                                     watering_light=70,
-                                     water_container_size=0.5,
-                                     water_container_state=True,
-                                     transmit_power=5,
-                                     send_time=15))
-                db.session.commit()
+        plant = Plant.query.filter_by(id=idv).first()
+        if plant is None:
+            db.session.add(Plant(id=idv,
+                                 radio_id=radio,
+                                 name=idv,
+                                 state_fitness=None,
+                                 humidity_min=300,
+                                 humidity_max=1000,
+                                 temperature_max=30,
+                                 temperature_min=15,
+                                 light_max=250,
+                                 light_min=50,
+                                 watering_light=70,
+                                 water_container_size=0.5,
+                                 water_container_state=True,
+                                 transmit_power=5,
+                                 send_time=15))
+            db.session.commit()
+            delete_conn_req(idv, radio)
 
 
 def url_from_plant(idv):
@@ -267,7 +289,7 @@ def url_from_plant(idv):
     if plant is not None:
         radio = Radio.query.filter_by(id=plant.radio_id).first()
         if radio is not None:
-            return 'http://'+radio.url_radio
+            return 'http://' + radio.url_radio
     return -1
 
 
@@ -303,29 +325,26 @@ def update_send_time(idv, st):
         db.session.commit()
 
 
-def update_hum(idv, ping, humidity):
+def update_hum(idv, humidity):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         plant.humidity = humidity
-        plant.ping = ping
         update_plant_state_fitness(idv)
         db.session.commit()
 
 
-def update_temp(idv, ping, temperature):
+def update_temp(idv, temperature):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         plant.temperature = temperature
-        plant.ping = ping
         update_plant_state_fitness(idv)
         db.session.commit()
 
 
-def update_light(idv, ping, light):
+def update_light(idv, light):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         plant.light = light
-        plant.ping = ping
         update_plant_state_fitness(idv)
         db.session.commit()
 
@@ -335,7 +354,7 @@ def update_plant_state_fitness(idv):
     if plant is not None:
         if (plant.humidity is not None) and (plant.temperature is not None) and (plant.light is not None):
             ideal_humidity: int = ceil((plant.humidity_max + plant.humidity_min) / 2)
-            hum = abs(plant.humidity - ideal_humidity) / ideal_humidity
+            hum = abs(int(plant.humidity) - ideal_humidity) / ideal_humidity
             ideal_temperature: int = ceil((plant.temperature_max + plant.temperature_min) / 2)
             temp = abs(plant.temperature - ideal_temperature) / ideal_temperature
             ideal_light: int = ceil((plant.light_max + plant.light_min) / 2)
@@ -350,81 +369,65 @@ def update_plant_state_fitness(idv):
     return None
 
 
-def update_temp_min(idv, ping, temp_m):
+def update_temp_min(idv, temp_m):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         plant.temperature_min = temp_m
-        plant.ping = ping
         db.session.commit()
 
 
-def update_temp_max(idv, ping, temp_m):
+def update_temp_max(idv, temp_m):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         plant.temperature_max = temp_m
-        plant.ping = ping
         db.session.commit()
 
 
-def update_hum_min(idv, ping, hum_m):
+def update_hum_min(idv, hum_m):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         plant.humidity_min = hum_m
-        plant.ping = ping
         db.session.commit()
 
 
-def update_hum_max(idv, ping, hum_m):
+def update_hum_max(idv, hum_m):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         plant.humidity_max = hum_m
-        plant.ping = ping
         db.session.commit()
 
 
-def update_light_max(idv, ping, li_m):
+def update_light_max(idv, li_m):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         plant.light_max = li_m
-        plant.ping = ping
         db.session.commit()
 
 
-def update_light_min(idv, ping, li_m):
+def update_light_min(idv, li_m):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         plant.light_min = li_m
-        plant.ping = ping
         db.session.commit()
 
 
-def update_watering_light(idv, ping, wl):
+def update_watering_light(idv, wl):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         plant.watering_light = wl
-        plant.ping = ping
         db.session.commit()
 
 
-def update_water_container_size(idv, ping, wcs):
+def update_water_container_size(idv, wcs):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         plant.water_container_size = wcs
-        plant.ping = ping
         db.session.commit()
 
 
-def update_ping(idv, ping):
+def update_water_container_state(idv, state):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
-        plant.ping = ping
-        db.session.commit()
-
-
-def update_water_container_state(idv, ping, state):
-    plant = Plant.query.filter_by(id=idv).first()
-    if plant is not None:
-        plant.ping = ping
         if state == 0:
             plant.water_container_state = False
         if state == 1:

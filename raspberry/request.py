@@ -109,6 +109,10 @@ def request():
             req = str(Operation.SET_RADIO_PAUSE_TIME.value) + ";" + id_s + ";" + param + DELIMITER
             print('radio sleep_time / '+id_s)
 
+        elif req_type == 'existing_vase':
+            req = str(Operation.ADD_EXISTING_VASE.value) + ";" + id_s + ";" + DELIMITER
+            print('existing_vase / '+id_s)
+
         lock_queue.acquire()
         request_queue.append(req)
         condition_variable.notify_all()

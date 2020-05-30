@@ -2,17 +2,72 @@ from flask import Blueprint, render_template, flash, request as rcv_req, redirec
 from flask_login import login_required
 from auth import is_admin
 from forms import UserForm
-from gio_db import ConnectionRequest, add_user, User
+from gio_db import ConnectionRequest, add_user, User, get_user, correct_password_user
 
 user_settings_page = Blueprint('user_settings_page', __name__)
 
 
 @login_required
-@user_settings_page.route('/user_settings/<string:user>', methods=['POST','GET'])
+@user_settings_page.route('/user_settings/<string:user>', methods=['POST', 'GET'])
 def user_settings(user):
     if is_admin():
+        form = UserForm()
         conn_list = ConnectionRequest.query.all()
-        user_first = User.query.filter_by(username=user).first()
+        user_first = get_user(user)
+
+        if form.validate_on_submit():
+            try:
+                username = rcv_req.form['username']
+                if username == '':
+                    raise ValueError
+            except:
+                flash('Inserisci un username', 'warning')
+
+            try:
+                password = rcv_req.form['password']
+                if password == '':
+                    raise ValueError
+            except:
+                flash('Inserisci la password', 'warning')
+
+            try:
+                new_password = rcv_req.form['new_password']
+                password_repeat = rcv_req.form['password_repeat']
+            except:
+                print('password non cambiata')
+
+            try:
+                ruolo_utente = int(rcv_req.form.get('ruolo_utente'))
+            except:
+                flash('Inserisci un ruolo', 'warning')
+
+            if correct_password_user(user_first.username, password) is True:
+
+                if new_password is not None and password_repeat is not None:
+                    if new_password == password_repeat != '':
+                        user_first.set_password(new_password)
+                        flash('Password cambiata con successo', 'success')
+                    else:
+                        if new_password != password_repeat and new_password != '' and password_repeat != '':
+                            flash('Password non corrispondenti', 'danger')
+
+                if user_first.username != username:
+                    if user_first.set_username(username) is True:
+                        flash('Username cambiato con successo', 'success')
+
+                if user_first.role != ruolo_utente:
+                    try:
+                        if ruolo_utente != 1 and ruolo_utente != 0:
+                            raise ValueError
+                        user_first.set_role(ruolo_utente)
+                        flash('Ruolo cambiato con successo','success')
+                    except:
+                        flash('Ruolo errato', 'warning')
+            else:
+                flash('Per apportare modifiche al profilo inserisci la password', 'danger')
+
+            redirect('#')
         return render_template('user_settings.html',
+                               form=form,
                                user=user_first,
                                connections=conn_list)

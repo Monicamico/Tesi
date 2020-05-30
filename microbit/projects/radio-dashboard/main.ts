@@ -219,6 +219,14 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
         setTransmitPower(param)   
         sendToRB(`${OPERATION.RADIO_TRANSMIT_POWER};${serial_number};0;${param}`)
         return
+
+    } else if (request == OPERATION.ADD_EXISTING_VASE) {
+        let n = dim_vase_list
+        dim_vase_list = insertVase(serialNumber,input.runningTime(),vase_list)
+        if (n == dim_vase_list - 1) {
+            sendToRB(`${OPERATION.JOINED};${serialNumber};${input.runningTime()};${serial_number}`)
+        }
+        return
     }
     
     let vase_exist = getVase(serialNumber, vase_list)
@@ -259,7 +267,15 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
     
     } else {
 
-        if (request == OPERATION.JOINED) {   
+        if (request == OPERATION.DELETED) {
+            basic.showString("del")
+            sendToVase(request, serialNumber)
+            sendToRB(`${OPERATION.DELETED};${vase_exist.serial_number};0;0`)
+            drawNumberOfVases(dim_vase_list)
+            return
+        }
+
+        else if (request == OPERATION.JOINED) {   
             //get and remove from the conn_list the ping of the vase
             let ping = deleteRequest(serialNumber,conn_request)
             if (ping!= -1) {
