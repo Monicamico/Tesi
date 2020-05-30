@@ -9,16 +9,16 @@ from constants import MICROBIT_PORT_LINUX, Operation, DELIMITER
 
 
 try:
-    s = serial.Serial(MICROBIT_PORT_MAC, 115200)
-    print(MICROBIT_PORT_MAC + ' opened...')
+    s = serial.Serial(MICROBIT_PORT_MAC2, 115200)
+    print(MICROBIT_PORT_MAC2 + ' opened...')
 except serial.serialutil.SerialException:
-    print("\nNo such file or directory: " + MICROBIT_PORT_MAC)
+    print("\nNo such file or directory: " + MICROBIT_PORT_MAC2)
 
     try:
-        s = serial.Serial(MICROBIT_PORT_MAC2, 115200)
-        print(MICROBIT_PORT_MAC2 + ' opened...')
+        s = serial.Serial(MICROBIT_PORT_MAC, 115200)
+        print(MICROBIT_PORT_MAC + ' opened...')
     except serial.serialutil.SerialException:
-        print("\nNo such file or directory: " + MICROBIT_PORT_MAC2)
+        print("\nNo such file or directory: " + MICROBIT_PORT_MAC)
 
         try:
             s = serial.Serial(MICROBIT_PORT_LINUX, 115200)
@@ -31,7 +31,7 @@ except serial.serialutil.SerialException:
                 print(MICROBIT_PORT_LINUX2 + ' opened...')
             except serial.serialutil.SerialException:
                 print("\nNo such file or directory: " + MICROBIT_PORT_LINUX2)
-            exit(1)
+                exit(1)
 
 s.timeout = 1
 dummy = s.readline()
