@@ -17,6 +17,11 @@ def add_plant_from_conn(idv, radio_id):
         try:
             snd_req.put('http://'+url + '/request', json={'request': 'joined', 'serial': idv})
             time.sleep(2)
+            connections = ConnectionRequest.query.filter_by(id=idv).all()
+            for c in connections:
+                if c.radio_id != radio_id:
+                    url = url_from_radio(c.radio_id)
+                    snd_req.put('http://' + url + '/request', json={'request': 'refused', 'serial': idv})
             flash('Richiesta inoltrata alla radio con successo', 'success')
         except:
             flash('Impossibile inoltrare la richiesta alla radio - Operazione fallita', 'danger')

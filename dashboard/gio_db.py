@@ -11,6 +11,38 @@ db = SQLAlchemy()
 
 
 class User(db.Model):
+    """
+       A class used to represent an User
+
+       Attributes
+       ----------
+       id : int
+          id of the user
+       username : str
+           the name of the user
+       password : str
+       role : int
+           the role of the User
+           0 = Admin
+           1 = User
+
+       Methods
+       -------
+       is_authenticated()
+           return the value of the variable is_authenticated
+
+       set_password(password)
+           generate a password to authenticate the user
+
+       authenticate(password)
+           if the password is correct, it authenticate the user
+
+       get_id()
+           returns the id of the user
+
+       set_username(new)
+            change the username with new
+       """
     __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String, unique=True, nullable=False)
@@ -61,26 +93,35 @@ class User(db.Model):
 
 
 def correct_password_user(username, password):
+    """ :return true if the password is correct otherwise false"""
     user = User.query.filter_by(username=username).first()
     checked = check_password_hash(user.password, password)
     return checked
 
 
 def get_user(username):
+    """ :return the user with username equal to the parameter, if it exist, otherwise none. """
     user = User.query.filter_by(username=username).first()
     return user
 
 
 def add_user(username, password, role):
+    """ Add a user into the database
+
+        :param username
+        :param password
+        :param role
+
+    """
     user = User()
     user.username = username
     user.role = role
     user.set_password(password=password)
     try:
         db.session.add(user)
+        db.session.commit()
     except:
         return False
-    db.session.commit()
     return True
 
 
@@ -100,7 +141,9 @@ def delete_user(username, password):
 class ConnectionRequest(db.Model):
     __tablename__ = 'connectionRequest'
     id = db.Column(db.String, primary_key=True, nullable=False)
-    signal = db.Column(db.Integer) #the value ranges from -128 to -42 (-128 means a weak signal and -42 means a strong one.)
+    # the value of the signal ranges from -128 to -42
+    # (-128 means a weak signal and -42 means a strong one.)
+    signal = db.Column(db.Integer)
     pairing = db.Column(db.Integer)
     radio_id = db.Column(db.String, primary_key=True)
 
@@ -139,18 +182,6 @@ def delete_conn_req(idv, radio):
     db.session.delete(req)
     db.session.commit()
     return req
-
-
-"""
-def delete_conn_idv(idv):
-    requests = ConnectionRequest.query.filter_by(id=idv)
-    if requests is not None:
-        for req in requests:
-            db.session.delete(req)
-            db.session.commit()
-        return True
-    return None
-"""
 
 
 class Radio(db.Model):
