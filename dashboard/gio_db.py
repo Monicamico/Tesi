@@ -108,7 +108,7 @@ class ConnectionRequest(db.Model):
 def add_conn_req(idv, signalv, pairingv, radio_id):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is None:
-        conn = ConnectionRequest.query.filter_by(pairing=pairingv, id=idv).first()
+        conn = ConnectionRequest.query.filter_by(id=idv).first()
         if conn is None:
             db.session.add(ConnectionRequest(id=idv, signal=signalv, pairing=pairingv, radio_id=radio_id))
             db.session.commit()
@@ -117,7 +117,8 @@ def add_conn_req(idv, signalv, pairingv, radio_id):
             if int(signalv) > int(conn.signal):
                 conn.signal = int(signalv)
                 url = 'http://' + url_from_radio(conn.radio_id)
-                snd_req.put(url + '/request', json={'request': 'refused', 'serial': idv})
+                if conn.radio_id != radio_id:
+                    snd_req.put(url + '/request', json={'request': 'refused', 'serial': idv})
                 conn.radio_id = radio_id
                 db.session.commit()
             conn.pairing = pairingv

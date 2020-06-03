@@ -22,4 +22,4 @@ if __name__ == "__main__":
         exit(1)
     app = create_app()
     IP = get_ip()
-    app.run(host=IP, port=PORT)
+    app.run(host=IP,port=PORT)

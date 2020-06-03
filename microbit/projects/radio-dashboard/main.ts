@@ -7,7 +7,7 @@
 /*--------------------------------- VARIABLE STATEMENTS --------------------------------*/
 
 let dim_vase_list: number = 0;           // size of vase_list
-let pause_time = 200000                  //
+let pause_time = 20                       //
 let not_registered_pause_time = 8000
 let current_time;
 let deadping = 60               
@@ -23,6 +23,8 @@ serial.redirectToUSB()
 serial.writeLine('') //utile per bytes b'\x00 che scrive il microbit all'avvio
 dim_vase_list = vase_list.length
 DEBUG = true
+setRadioPauseTime(pause_time)
+setDeadping()
 
 
 /*------------------------------------------ MAIN CODE ------------------------------------------- */
@@ -98,12 +100,11 @@ radio.onReceivedNumber(function (received: number) {
     const serialNumber = radio.receivedPacket(RadioPacketProperty.SerialNumber)
 
     if (received == OPERATION.PING) {
-        let ping = Math.ceil(input.runningTime()/60000);
         let vase = getVase(serialNumber, vase_list)
         if (vase) {
             vase.dying = false
-            vase.ping = ping
-            sendToRB(`${OPERATION.PING};${serialNumber};${ping};${ping}`)
+            vase.ping = Math.ceil(input.runningTime()/60000);
+            sendToRB(`${OPERATION.PING};${serialNumber};${0};${0}`)
         }
     }
 })
@@ -133,7 +134,7 @@ radio.onReceivedValue(function (request: string, param: number) {
             return
         }
         if (containRequest(serialNumber, conn_request)){
-            deleteRequest(serialNumber,conn_request)
+           return
         } 
         conn_request.push(new Request(serialNumber, ping, param))
         //send connection request to raspberry

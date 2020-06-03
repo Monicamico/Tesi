@@ -42,15 +42,7 @@ def create_app():
     login_manager.init_app(app)
 
     db.init_app(app=app)
-    db.drop_all(app=app)
     db.create_all(app=app)
-    with app.app_context():
-        if User.query.filter_by(username="Chiara").first() is None:
-            add_user("admin", "admin", Role.ADMIN.value)
-        if User.query.filter_by(username="Monica").first() is None:
-            add_user("Monica", "utente23", Role.ADMIN.value)
-        if User.query.filter_by(username="Utente").first() is None:
-            add_user("Utente", "utente", Role.USER.value)
     return app
 
 

@@ -40,11 +40,6 @@ amount_water -=  single_water_amount
 // considero un waters() in meno 
 
 DEBUG = true 
-/*
-if (DEBUG) {
-    pause_time = 100000 
-    send_time =  100000 
-} /*
 
 /*---------------------------------------------- MAIN CODE ------------------------------------------- */
 
@@ -52,15 +47,12 @@ basic.forever(function () {
 
     if (!joined) 
         radio.sendValue(OPERATION.CONNECTION.toString(), pairing_number)
-
     measure()
     setState()
-
     if (currentState == State.Happy)
         basic.showIcon(IconNames.Happy)
     else
          basic.showIcon(IconNames.Sad)
-
     if (humidity_measure < hum_min && light_measure <= watering_light && water_container_full){
         if (amount_water >= single_water_amount)
             waters() //feeds the plant and update the amount_water
@@ -70,7 +62,6 @@ basic.forever(function () {
         }     
     }
     basic.clearScreen()
-
     if (time >= send_time) {
         if (joined){
             basic.showString(">")
@@ -81,7 +72,6 @@ basic.forever(function () {
         }
         time = 0
     } 
-
     basic.pause(pause_time)
     time += pause_time
 })
@@ -128,7 +118,8 @@ radio.onReceivedBuffer(function () {
                 joined=true
                 radio_serial_number = serial_packet
                 setPauseTime()
-                radio.sendValue(OPERATION.JOINED.toString(),radio_serial_number) 
+                basic.showString('j')
+                radio.sendValue(OPERATION.JOINED.toString(),radio_serial_number)
             } 
             
         } else if (request == OPERATION.PING) 
@@ -142,8 +133,15 @@ radio.onReceivedBuffer(function () {
                 if (joined){
                     joined = false
                     pairing_number = getRandomIntInclusive()
-                    pause_time = 8000
-                }     
+                    pause_time = 1200000
+                }
+            } 
+
+            if (request == OPERATION.REFUSED){
+                if (joined) {
+                    joined = false
+                    pause_time = 1200000
+                }
             } 
             
             else if (request == OPERATION.WATER) {
@@ -205,6 +203,7 @@ radio.onReceivedBuffer(function () {
 
 input.onButtonPressed(Button.A, function(){
     if (joined){
+        basic.showString('>')
         sendHumidity()
         sendLight()
         sendTemperature()

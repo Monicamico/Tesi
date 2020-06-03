@@ -16,7 +16,7 @@ def radio_settings(idr):
     conn_list = ConnectionRequest.query.all()
     settings_form = SettingsForm()
     if is_admin():
-        url_raspberry = str(url_from_radio(idr))
+        url_raspberry ='http://'+ str(url_from_radio(idr))
         if url_raspberry is None:
             flash(u'Errore di connessione con la radio','danger')
             return redirect("radio_settings/" + idr)

@@ -66,7 +66,7 @@ function deleteVase(id:number, vase_list: Vase[]): number{
         }
         i++;
     }
-    return dim_list;
+    return undefined;
 }
 
 /**
@@ -135,7 +135,7 @@ function drawNumberOfVases(dim_list:number) {
 }
 
 function setDeadping(){
-    deadping = pause_time * 2;
+    deadping = Math.ceil((pause_time * 3)/ 60000);
 }
 
 function setRadioPauseTime(x:number){
