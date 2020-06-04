@@ -31,7 +31,7 @@
           var label = node.data.label||""
 
           if (node.data.label == "Gio-Vase")
-              var w = ctx.measureText(""+label).width + 90
+              var w = ctx.measureText(""+label).width + 60
           else {
             if (node.data.shape=='dot') {
               var w = ctx.measureText("" + label).width + 20
@@ -65,13 +65,13 @@
 
             ctx.textAlign = "center"
             ctx.fillStyle = "black"
-            ctx.font = "18px Helvetica"
+            ctx.font = "14px Helvetica"
             if (node.data.color=='none') ctx.fillStyle = '#333333'
             if (node.data.shape=='dot'){
-                ctx.fillStyle = "white"
                 if (node.data.label == "Gio-Vase"){
-                  ctx.font = "19px Helvetica bold"
+                  ctx.font = "16px Helvetica"
                 }
+                ctx.fillStyle = "white"
                 ctx.fillText(label||"", pt.x, pt.y+4)
             } else {
               ctx.fillText(label||"", pt.x, pt.y+10)

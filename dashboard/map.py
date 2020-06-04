@@ -48,11 +48,11 @@ def mappa_page():
         elem = {'src': plant.id, 'dest': plant.radio_id}
         edges.append(elem)
 
-    data = {
+    data3 = {
         "nodes": nodes,
         "edges": edges
     }
 
-    datajson = json.dumps(data)
+    datajson3 = json.dumps(data3)
     conn_list = ConnectionRequest.query.all()
-    return render_template('map.html', radios= radio_list,form=form, connections=conn_list, data=datajson)
+    return render_template('map.html', radios= radio_list,form=form, connections=conn_list, data3=datajson3)

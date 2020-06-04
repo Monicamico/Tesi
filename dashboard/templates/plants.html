@@ -9,10 +9,10 @@
 
     <h2 class="mt-3"> Piante registrate </h2>
         {% for radio in radios: %}
-            <h4 style="margin-top: 50px" class="mt-0"> Piante della radio <code style="font-size: 23px">{{radio.name}}:</code> </h4>
+            <h4 style=" font-size: 18px; margin-top: 50px" class="mt-0"> Piante della radio <code style="font-size: 20px">{{radio.name}}:</code> </h4>
             {% for plant in plants %}
                 {% if radio.id == plant.radio_id %}
-                <a class="myButton" style="font-size: 18px; margin: 3px" title="Info" href="/plant/{{ plant.id }}">
+                <a class="myButton" style="font-size: 14px; margin: 3px" title="Info" href="/plant/{{ plant.id }}">
                     <i class="fas fa-heartbeat"></i> {{ plant.name }}
                 </a>
              {% endif %}

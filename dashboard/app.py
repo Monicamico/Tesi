@@ -48,5 +48,7 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(host='192.168.1.18',port=5000)
+    with app.app_context():
+        add_user('Monica','utente23',0)
+    app.run(host='192.168.1.18', port=5000)
 

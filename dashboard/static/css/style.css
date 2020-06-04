@@ -5,7 +5,7 @@
 body {
     margin: 0;
     font-family: 'Ubuntu', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 400;
     line-height: 1.5;
     color: rgb(7, 19, 24);
@@ -19,13 +19,7 @@ body {
 }
 
 g, rect {
-    font-weight: normal;
-    font-size: 14px;
-    -webkit-font-smoothing: antialiased;
-}
-g>text {
-    font-size: 15px;
-    -webkit-font-smoothing: antialiased;
+    font-size: 12px;
 }
 
 p >.list-group{
@@ -137,9 +131,9 @@ code {
 	cursor:pointer;
 	color: #bbe4e6;
 	font-family:Arial;
-	font-size:17px;
+	font-size:14px;
 	font-weight:bold;
-	padding:8px 6px;
+	padding:7px 5px;
 	text-decoration:none;
 }
 
@@ -152,6 +146,36 @@ code {
 	top:1px;
 }
 
+.input-group-prepend {
+    /* margin-right: -1px; */
+    margin-bottom: 5px;
+}
+
+.input-group-append {
+    /* margin-right: -1px; */
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.input-group-text {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: .375rem .55rem;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    height: 32px;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
 
 /*
  * Stile tabella
@@ -169,29 +193,34 @@ table {
 table.myTable {
     opacity: 0.7;
     max-height: 50%;
+    max-width: 50%;
     margin-top: 10px;
     border: 5px;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 table.MyTable th, tr, td {
     padding: 10px 12px;
     width: 300px;
+    font-size: 13px;
     border: #2a2a2a;
     text-decoration: none;
 }
 
 table.MyTable th {
+    font-size: 13px;
     background: rgb(183, 255, 231);
     color: #05050c;
 }
 
 table.MyTable tr:nth-child(odd){
   background-color: rgba(208, 240, 243, 0.91);
+    font-size: 12px;
 }
 
 table.MyTable tr:nth-child(even){
   background-color: ghostwhite;
+    font-size: 12px;
 }
 
 table.MyTable a {
@@ -233,6 +262,9 @@ body.B2 {
     margin-top: 1.3rem!important;
     margin-bottom: 1.5rem;
 }
+.mt-3{
+    font-size: 25px;
+}
 
 canvas.linkable{
    cursor: pointer;
@@ -240,15 +272,22 @@ canvas.linkable{
 
 .donutchart {
     height: 500px;
-    overflow: hidden;
+    overflow: paged-y-controls;
+    display: inline-table;
+}
+
+.barchart_value{
+    height: 300px;
+    width: 400px;
+    overflow: paged-y-controls;
     display: inline-table;
 }
 
 .ltr {
-    margin-left: 200px;
+    margin-left: 300px;
     position: relative;
-    width: 796px;
-    height: 500px;
+    width: 500px;
+    height: 300px;
 }
 
 .form-control-sm {
@@ -287,7 +326,8 @@ canvas.linkable{
 
 .mb-sm-0, .my-sm-0 {
     margin-bottom: 0!important;
-    margin-right: 10px;
+    margin-right: 5px;
+    font-size: 13px;
     color: white;
 }
 
@@ -310,6 +350,29 @@ canvas.linkable{
 .input-group>.input-group-prepend>.input-group-text {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    color: #1f2225;
+    color: #454b51;
     font-weight: bold;
+    font-size:12px;
+}
+
+.input-group-text {
+    font-weight: bold;
+    font-size:12px;
+}
+
+.input-group>.form-control {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    font-size: 12px;
+}
+
+canvas {
+  background-color: white;
+  width: 80%;
+  height: auto;
+}
+
+.barchart_values {
+    width: 20%;
+    height: auto;
 }

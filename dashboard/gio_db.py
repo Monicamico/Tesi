@@ -391,7 +391,7 @@ def update_plant_state_fitness(idv):
             temp = abs(plant.temperature - ideal_temperature) / ideal_temperature
             ideal_light: int = ceil((plant.light_max + plant.light_min) / 2)
             lig = abs(int(plant.light) - ideal_light) / ideal_light
-            state_fitness = (hum + temp + lig) * 0.33
+            state_fitness = (hum + temp + lig) / 3
             state_fitness = round(state_fitness, 2)
             plant.state_fitness = 1 - state_fitness
             db.session.commit()

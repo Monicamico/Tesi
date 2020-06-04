@@ -35,7 +35,7 @@
         {% block javascript %}
         <script>
             var sys = arbor.ParticleSystem(50,600,0.5,true);
-            var data = JSON.parse('{{ data|safe }}');
+            var data = JSON.parse('{{ data3|safe }}');
             sys.renderer = Renderer("#viewport")
               for (const node of data.nodes) {
                   if (node.type == 'dashboard')

@@ -13,7 +13,7 @@
         {% endif %}
     </h2>
 
-     <table class="MyTable">
+     <table class="MyTable" width="640px">
         <thead>
             <tr>
                 <th>Luce per innaffiare </th>
@@ -51,7 +51,7 @@
         </tbody>
     </table>
 
-   <table class="MyTable">
+   <table class="MyTable" width="640px">
     <thead>
     <tr>
         <th> Umidita' </th>
@@ -103,7 +103,7 @@
 
     </p>
 
-    <table class="MyTable">
+    <table class="MyTable" width="640px">
     <thead>
         <tr>
             <th> Umidita' minima </th>
@@ -136,10 +136,10 @@
 
 
     <h2>
-        <a style="font-size: 17px;" class="myButton"href="/plants"> <i class="fas fa-arrow-circle-left"></i> Torna alla lista </a>
+        <a style="font-size: 14px;" class="myButton"href="/plants"> <i class="fas fa-arrow-circle-left"></i> Torna alla lista </a>
         {% if current_user.is_admin %}
-        <a style="font-size: 17px" class="myButton" href="" data-toggle="modal" data-target="#deletePlantModal" title="Elimina"> <i class="fas fa-trash"></i> Elimina </a>
-        <a style="font-size: 17px" class="myButton" title="Modifica" href="/settings/{{ plant.id }}"> <i class="fas fa-cog"></i> Modifica </a>
+        <a style="font-size: 14px" class="myButton" href="" data-toggle="modal" data-target="#deletePlantModal" title="Elimina"> <i class="fas fa-trash"></i> Elimina </a>
+        <a style="font-size: 14px" class="myButton" title="Modifica" href="/settings/{{ plant.id }}"> <i class="fas fa-cog"></i> Modifica </a>
         {% endif %}
     </h2>
 

@@ -49,10 +49,7 @@ basic.forever(function () {
         radio.sendValue(OPERATION.CONNECTION.toString(), pairing_number)
     measure()
     setState()
-    if (currentState == State.Happy)
-        basic.showIcon(IconNames.Happy)
-    else
-         basic.showIcon(IconNames.Sad)
+   
     if (humidity_measure < hum_min && light_measure <= watering_light && water_container_full){
         if (amount_water >= single_water_amount)
             waters() //feeds the plant and update the amount_water
@@ -217,5 +214,8 @@ input.onButtonPressed(Button.B, function(){
 
 //to show the pairing number
 input.onButtonPressed(Button.AB, function(){
-    basic.showNumber(pairing_number)
+    if (currentState == State.Happy)
+        basic.showIcon(IconNames.Happy)
+    else
+        basic.showIcon(IconNames.Sad)
 })

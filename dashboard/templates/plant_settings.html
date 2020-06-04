@@ -5,15 +5,15 @@
 
     {% block content %}
 
-    <h2 class="mt-3"> Impostazioni del vaso <br> <code>{{ plant.name }}</code> </h2>
+    <h2 class="mt-3"> Impostazioni del vaso <code>{{ plant.name }}</code> </h2>
 
         <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
 
-          <table  width="500px" style="margin-bottom: 30px" class="MyTable" align="center">
-            <tr class="m-3">
+          <table  width="400px" style="margin-bottom: 30px" class="MyTable" align="center">
+            <tr>
               <td>
-                <div style="text-align: center; width: 300px" class="input-group m-3">
+                <div style="text-align: center; width: 250px" class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1"> Nome Pianta
                         </span>
@@ -24,11 +24,11 @@
                </tr>
           </table>
 
-         <table width="750px"  style=" margin-bottom:0px" class="MyTable" align="center">
+         <table width="500px"  style=" margin-bottom:0px" class="MyTable" align="center">
 
              <tr>
                  <td>
-                     <div style="text-align: center; width: 300px" class="input-group m-3">
+                     <div style="text-align: center; width: 250px" class="input-group">
 
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="huminAddon"> Umidita' Minima
@@ -47,7 +47,7 @@
                  </td>
 
                  <td>
-                    <div style="text-align: center; width: 300px" class="input-group m-3">
+                    <div style="text-align: center; width: 250px" class="input-group">
 
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="hummaxAddon"> Umidita' Massima
@@ -68,7 +68,7 @@
 
              <tr>
                  <td>
-                     <div style="text-align: center; width: 300px" class="input-group m-3">
+                     <div style="text-align: center; width: 250px" class="input-group">
 
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="lightMinAddon"> Luce Minima
@@ -86,7 +86,7 @@
                      </div>
                  </td>
                  <td>
-                    <div style="text-align: center; width: 300px" class="input-group m-3">
+                    <div style="text-align: center; width: 250px" class="input-group">
 
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="lightMaxAddon"> Luce Massima
@@ -107,7 +107,7 @@
 
               <tr>
                  <td>
-                    <div style="text-align: center; width: 300px" class="input-group m-3">
+                    <div style="text-align: center; width: 250px" class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="tempMinAddon"> Temperatura Minima
                             </span>
@@ -125,7 +125,7 @@
                  </td>
 
                  <td>
-                    <div style="text-align: center; width: 300px" class="input-group m-3">
+                    <div style="text-align: center; width: 250px" class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="tempMaxAddon"> Temperatura Massima
                             </span>
@@ -145,7 +145,7 @@
 
              <tr>
                  <td>
-                    <div style="text-align: center; width: 300px" class="input-group m-3">
+                    <div style="text-align: center; width: 250px" class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="LuceInnaff"> Luce per Innaffiare
                             </span>
@@ -163,7 +163,7 @@
                  </td>
 
                  <td>
-                     <div style="text-align: center; width: 300px" class="input-group m-3">
+                     <div style="text-align: center; width: 250px" class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="ContainerSize"> Capienza Container
                             </span>
@@ -183,7 +183,7 @@
 
              <tr>
                  <td>
-                      <div style="text-align: center; width: 300px" class="input-group m-3">
+                      <div style="text-align: center; width: 250px" class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="transmitPoweradd"> Transmit-Power
                             </span>
@@ -237,7 +237,7 @@
                  </td>
 
                  <td>
-                     <div style="text-align: center; width: 300px" class="input-group m-3">
+                     <div style="text-align: center; width: 250px" class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="sendAdd"> Send-Time
                             </span>
@@ -309,17 +309,15 @@
              </tr>
 
          </table>
-         <table width="750px" class="MyTable" style=" margin-top: 0px; text-align: center" align="center">
+         <table width="550px" class="MyTable" style=" margin-top: 0px; text-align: center" align="center">
              <tr>
                  <td> <button class="myButton" name="submit" type="submit"> Imposta</button> </td>
              </tr>
          </table>
 
-
     </form>
-    <br>
-    <br>
-    <a class="myButton" href="/plant/{{plant.id}}"> <i class="fas fa-arrow-circle-left"></i> Indietro </a>
+
+    <a class="myButton" style="margin-bottom: 20px" href="/plant/{{plant.id}}"> <i class="fas fa-arrow-circle-left"></i> Indietro </a>
 
 
   {% endblock %}

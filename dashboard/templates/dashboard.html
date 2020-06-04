@@ -6,6 +6,7 @@
 
 <html>
   <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js">
     </script>
 
@@ -28,11 +29,13 @@
         ]);
 
         var options = {
+          width: 600,
           title: 'Stato delle piante',
-          pieHole: 0.5 ,
+          pieHole: 0.4 ,
           pieStartAngle: 100,
           pieSliceTextStyle: {
             color: 'black',
+            fontWeight: 'bold'
           },
           colors: ['indianred','orange','gold','greenyellow','mediumseagreen','#b8e1fa']
         };
@@ -82,8 +85,8 @@
 
           var options = {
             title: "Distribuzione dei vasi",
-            width: 800,
-            height: 400,
+            width: 600,
+              height: 400,
             bar: {groupWidth: "95%"},
             legend: { position: "none" },
           };
@@ -95,27 +98,68 @@
     {% endblock %}
 
   </head>
-  <body class="B2">
-    <h2 class="mt-3"> Dashboard </h2>
-    <table align="center" class="MyTable" width="300px">
-        <tr>
-           <td><b> Totale piante </b>  </td>
-           <td> {{plants|length}} </td>
-        </tr>
-        <tr>
-           <td> <b> Totale radio </b> </td>
-           <td> {{radios|length}} </td>
-        </tr>
-    </table>
 
-    {% if plants %}
-        <div id="donutchart" style="height: 500px; width: 800px; overflow: paged-y-controls;";></div>
-    {% endif %}
+    <body class="B2">
+
+    <h2 class="mt-3"> Dashboard </h2>
+
+     <table align="center" class="MyTable" width="200px" style="margin-bottom: 30px">
+            <tr>
+               <td><b> Totale piante </b>  </td>
+               <td> {{plants|length}} </td>
+            </tr>
+            <tr>
+               <td> <b> Totale radio </b> </td>
+               <td> {{radios|length}} </td>
+            </tr>
+     </table>
+     <p align="center">Fai doppio click su un vaso per vederne i dettagli</p>
     {% if radios %}
-    <div id="barchart_values"  style="display: inline-table;"></div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <script src="{{ url_for('static', filename='js/arbor.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/arbor-tween.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/graphics.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/colors.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/primitives.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/renderer.js')}}"></script>
+
+        <canvas id="viewport" width="900" height="600" style="overflow: scroll"></canvas>
+        <script>
+            var sys = arbor.ParticleSystem(50,600,0.5,true);
+            var data = JSON.parse('{{ data3|safe }}');
+            sys.renderer = Renderer("#viewport")
+              for (const node of data.nodes) {
+                  if (node.type == 'dashboard')
+                      sys.addNode(node.name,{'color':'#373d43','shape': 'dot','label':node.toshow, 'l': 'no' });
+                  else if(node.type == 'radio')
+                    sys.addNode(node.name,{'color':'darkgrey','shape': 'dot','label':node.toshow, 'l': 'no'});
+
+                  else if (node.type == 'vase'){
+                      let color = '#b8e1fa'
+                      if (node.color == '0-20')
+                          color = 'indianred';
+                      else if (node.color == '20-40')
+                          color = 'orange'
+                      else if (node.color == '40-60')
+                          color = 'gold'
+                      else if (node.color == '60-80')
+                          color = 'greenyellow'
+                      else if (node.color == '80-100')
+                          color = 'mediumseagreen'
+                      sys.addNode(node.name,{'color':color,'label':node.toshow, 'link': node.link});
+                  }
+              }
+              for (const edge of data.edges) {
+                  sys.addEdge(sys.getNode(edge.src),sys.getNode(edge.dest));
+              }
+
+        </script>
+        {% if plants %}
+            <div id="donutchart" width="600" style="margin-top:0px;display: inline-table; height: 500px; width: 600px; margin-right: -100px; overflow: paged-y-controls;";></div>
+        {% endif %}
+        <div id="barchart_values" style="margin-top:0px; display: inline-table;"></div>
     {% endif %}
   </body>
-
   {% endblock %}
 
 </html>
