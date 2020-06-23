@@ -5,11 +5,16 @@
     {% block content %}
     {% if plant %}
     <h2 class="mt-3">
-        Stato della pianta <br> <code>{{ plant.name }}</code> :
+        Stato di <code>{{ plant.name }}</code> :
         {% if plant.state_fitness is sameas None %}
             Non rilevato
         {% else %}
             {{ (plant.state_fitness * 100) | round | int }}%
+        {% endif %}
+
+        {% if plant.typeplant_id  == 'None' %}
+        {% else %}
+            <br> Tipo: <code>{{ plant.typeplant_id }}</code>
         {% endif %}
     </h2>
 
@@ -125,13 +130,27 @@
             <th> Luce massima  </th>
         </tr>
     </thead>
-        <tbody>
+    <tbody>
        <tr>
            <td> {{ (plant.humidity_max * 100 / 1023) | round | int }}% </td>
            <td> {{ plant.temperature_max }}°C  </td>
            <td> {{ (plant.light_max * 100 / 255) | round | int }}% </td>
        </tr>
-        </tbody>
+     </tbody>
+    <thead>
+        <tr>
+            <th> Umidita' ideale </th>
+            <th> Temperatura ideale </th>
+            <th> Luce ideale  </th>
+        </tr>
+    </thead>
+    <tbody>
+       <tr>
+           <td> {{ (plant.ideal_h * 100 / 1023) | round | int }}% </td>
+           <td> {{ plant.ideal_t }}°C  </td>
+           <td> {{ (plant.ideal_l * 100 / 255) | round | int }}% </td>
+       </tr>
+     </tbody>
     </table>
 
 

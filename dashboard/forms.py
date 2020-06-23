@@ -5,10 +5,13 @@ from wtforms.validators import DataRequired
 
 class SettingsForm(FlaskForm):
     hum_min = IntegerField('Umidita minima:')
+    ideal_h = IntegerField('Umidita ideale')
     hum_max = IntegerField('Umidita massima:')
     temp_min = IntegerField('Temperatura minima:')
+    ideal_t = IntegerField('temperatura ideale')
     temp_max = IntegerField('Temperatura massima:')
     light_min = IntegerField('Luce minima:')
+    ideal_l = IntegerField('Luce ideale')
     light_max = IntegerField('Luce massima:')
     watering_light = IntegerField('Luce per innaffiare:')
     water_container_size = FloatField('Dimensione contenitore:')
@@ -17,6 +20,7 @@ class SettingsForm(FlaskForm):
     transmit_power = IntegerField('Transmit Power: ')
     sleep_time = IntegerField('Sleep time: ')
     send_time = IntegerField('Send time: ')
+    typeplant_id = StringField('Tipo')
     submit = SubmitField('Imposta')
 
 

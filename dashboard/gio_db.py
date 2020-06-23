@@ -1,12 +1,8 @@
 from math import ceil
-from time import strftime
-
 from flask_sqlalchemy import SQLAlchemy
 import requests as snd_req
 from werkzeug.security import generate_password_hash, check_password_hash
 from constant import Role
-import time
-
 db = SQLAlchemy()
 
 
@@ -273,11 +269,15 @@ class Plant(db.Model):
     __tablename__ = 'plant'
     id = db.Column(db.String, primary_key=True, unique=True, nullable=False)
     radio_id = db.Column(db.String(13), nullable=False)
+    typeplant_id = db.Column(db.String, db.ForeignKey('TypePlant.id'))
     name = db.Column(db.String(24), unique=True)
     state_fitness = db.Column(db.Float)
     humidity = db.Column(db.Integer)
     temperature = db.Column(db.Integer)
     light = db.Column(db.Integer)
+    ideal_h = db.Column(db.Integer)
+    ideal_t = db.Column(db.Integer)
+    ideal_l = db.Column(db.Integer)
     humidity_min = db.Column(db.Integer)
     humidity_max = db.Column(db.Integer)
     temperature_max = db.Column(db.Integer)
@@ -292,7 +292,6 @@ class Plant(db.Model):
 
 
 def add_plant(idv, radio):
-    print('add_plant')
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
         plant = Plant.query.filter_by(id=idv).first()
@@ -301,10 +300,17 @@ def add_plant(idv, radio):
                                  radio_id=radio,
                                  name=idv,
                                  state_fitness=None,
-                                 humidity_min=300,
-                                 humidity_max=1000,
+                                 typeplant_id='Nessuno',
+                                 humidity=None,
+                                 light=None,
+                                 temperature=None,
+                                 ideal_h=None,
+                                 ideal_l=None,
+                                 ideal_t=None,
+                                 humidity_min=250,
+                                 humidity_max=410,
                                  temperature_max=30,
-                                 temperature_min=15,
+                                 temperature_min=25,
                                  light_max=250,
                                  light_min=50,
                                  watering_light=70,
@@ -313,6 +319,12 @@ def add_plant(idv, radio):
                                  transmit_power=5,
                                  send_time=15))
             db.session.commit()
+            plant = Plant.query.filter_by(id=idv).first()
+            if plant is not None:
+                plant.ideal_h = ceil((plant.humidity_max + plant.humidity_min) / 2)
+                plant.ideal_t = ceil((plant.temperature_max + plant.temperature_min) / 2)
+                plant.ideal_l: int = ceil((plant.light_max + plant.light_min) / 2)
+                db.session.commit()
             delete_conn_req(idv, radio)
 
 
@@ -339,6 +351,33 @@ def update_name(idv, name):
         if plant is not None:
             plant.name = name
             db.session.commit()
+            return True
+    return False
+
+
+def change_type(idv, idt, url):
+    plant = Plant.query.filter_by(id=idv).first()
+    if plant is not None:
+        type = TypePlant.query.filter_by(id=idt).first()
+        if type is not None:
+            plant.typeplant_id = idt
+            db.session.commit()
+            if idt != 'Nessuno':
+                try:
+                    snd_req.put(url + '/request',
+                                json=dict(request='light_max', serial=idv, param=type.light_max))
+                    snd_req.put(url + '/request',
+                                json=dict(request='light_min', serial=idv, param=type.light_min))
+                    snd_req.put(url + '/request',
+                                json=dict(request='hum_min', serial=idv, param=type.humidity_min))
+                    snd_req.put(url + '/request',
+                                json=dict(request='hum_max', serial=idv, param=type.humidity_max))
+                    snd_req.put(url + '/request',
+                                json=dict(request='temp_max', serial=idv, param=type.temperature_max))
+                    snd_req.put(url + '/request',
+                               json=dict(request='temp_min', serial=idv, param=type.temperature_min))
+                except:
+                    print('impossibile inoltrare alla radio')
             return True
     return False
 
@@ -381,21 +420,49 @@ def update_light(idv, light):
         db.session.commit()
 
 
+def update_ideal_hum(idv, ideal_humidity):
+    plant = Plant.query.filter_by(id=idv).first()
+    if plant is not None:
+        plant.ideal_h = ideal_humidity
+        db.session.commit()
+        update_plant_state_fitness(idv)
+
+
+def update_ideal_light(idv, ideal_light):
+    plant = Plant.query.filter_by(id=idv).first()
+    if plant is not None:
+        plant.ideal_l = ideal_light
+        db.session.commit()
+        update_plant_state_fitness(idv)
+
+
+def update_ideal_temp(idv, ideal_temp):
+    plant = Plant.query.filter_by(id=idv).first()
+    if plant is not None:
+        plant.ideal_t = ideal_temp
+        db.session.commit()
+        update_plant_state_fitness(idv)
+
+
 def update_plant_state_fitness(idv):
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
+
         if (plant.humidity is not None) and (plant.temperature is not None) and (plant.light is not None):
-            ideal_humidity: int = ceil((plant.humidity_max + plant.humidity_min) / 2)
+
+            ideal_humidity: int = plant.ideal_h
+            ideal_temperature: int = plant.ideal_t
+            ideal_light = plant.ideal_l
+
             hum = abs(int(plant.humidity) - ideal_humidity) / ideal_humidity
-            ideal_temperature: int = ceil((plant.temperature_max + plant.temperature_min) / 2)
             temp = abs(plant.temperature - ideal_temperature) / ideal_temperature
-            ideal_light: int = ceil((plant.light_max + plant.light_min) / 2)
             lig = abs(int(plant.light) - ideal_light) / ideal_light
+
             state_fitness = (hum + temp + lig) / 3
             state_fitness = round(state_fitness, 2)
             plant.state_fitness = 1 - state_fitness
             db.session.commit()
-            print(round(plant.state_fitness, 2))
+
             return state_fitness
         return None
     return None
@@ -465,3 +532,36 @@ def update_water_container_state(idv, state):
         if state == 1:
             plant.water_container_state = True
         db.session.commit()
+
+
+class TypePlant(db.Model):
+    __tablename__ = 'TypePlant'
+    id = db.Column(db.String, primary_key=True)
+    plants = db.relationship('Plant', backref='TypePlant')
+    humidity_min = db.Column(db.Integer)
+    humidity_max = db.Column(db.Integer)
+    temperature_max = db.Column(db.Integer)
+    temperature_min = db.Column(db.Integer)
+    light_max = db.Column(db.Integer)
+    light_min = db.Column(db.Integer)
+
+    @property
+    def is_none(self):
+        if self.id == 'None':
+            return True
+        else:
+            return False
+
+
+def add_type(idt, hum_min, hum_max, temp_min, temp_max, light_max, light_min):
+    t = TypePlant.query.filter_by(id=idt).first()
+    if t is None:
+        db.session.add(TypePlant(id=idt,
+                                 humidity_min=hum_min,
+                                 humidity_max=hum_max,
+                                 temperature_max=temp_max,
+                                 temperature_min=temp_min,
+                                 light_max=light_max,
+                                 light_min=light_min))
+        db.session.commit()
+

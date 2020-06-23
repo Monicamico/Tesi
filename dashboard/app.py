@@ -12,7 +12,8 @@ from radios import radios_page
 from map import map_page
 from radio_settings import radio_settings_page
 from plant_settings import settings_page
-from gio_db import db, add_user, User, add_plant, add_radio, update_light, update_hum, update_temp
+from gio_db import db, add_user, User, add_plant, add_radio, update_light, update_hum, update_temp, add_type, \
+    change_type
 from request import request_page
 from user_settings import user_settings_page
 from users import users_page
@@ -42,6 +43,7 @@ def create_app():
     login_manager.init_app(app)
 
     db.init_app(app=app)
+    db.drop_all(app=app)
     db.create_all(app=app)
     return app
 
@@ -50,5 +52,12 @@ if __name__ == "__main__":
     app = create_app()
     with app.app_context():
         add_user('Monica','utente23',0)
+        add_type('Nessuno', None, None, None, None, None, None)
+        add_type('Yucca', 400, 500, 20, 26, 150, 200)
+        add_type('Grassa', 400, 500, 20, 26, 150, 200)
+        add_radio('radio','urlfinto')
+        add_plant('pianta','radio')
+        add_plant('pianta1', 'radio')
+        change_type('pianta','Yucca','url')
     app.run(host='192.168.1.18', port=5000)
 

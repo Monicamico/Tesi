@@ -10,25 +10,47 @@
         <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
 
-          <table  width="400px" style="margin-bottom: 30px" class="MyTable" align="center">
+          <table  width="600px" style="margin-bottom: 30px" class="MyTable" align="center">
             <tr>
               <td>
-                <div style="text-align: center; width: 250px" class="input-group">
+                <div style="text-align: center; width: 200px" class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1"> Nome Pianta
                         </span>
                     </div>
                     <input id="name" aria-describedby="basic-addon1" type="text" class="form-control" name="name" value={{plant.name}}>
                 </div>
-              <td>  <button class="myButton" id="submit" name="submit" type="submit"> Imposta </button>  </td>
-               </tr>
+              </td>
+              <td>
+                <div style="text-align: center; width: 200px" class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="type"> Tipo
+                        </span>
+                    </div>
+
+                    <select aria-labelledby="type" name="typeplant_id" class="form-control">
+                        {% for t in typeplant %}
+                         {% if plant.typeplant_id == t.id %}
+                            <option selected> {{ t.id }}</option>
+                         {% else %}
+                            <option>{{ t.id }}</option>
+                         {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+              </td>
+              <td> <button class="myButton" id="submit" name="submit" type="submit"> Imposta </button>  </td>
+            </tr>
           </table>
 
-         <table width="500px"  style=" margin-bottom:0px" class="MyTable" align="center">
+
+        {% if plant.typeplant_id == 'Nessuno' %}
+
+         <table width="600px"  style=" margin-bottom:0px" class="MyTable" align="center">
 
              <tr>
                  <td>
-                     <div style="text-align: center; width: 250px" class="input-group">
+                     <div style="text-align: center; width: 240px" class="input-group">
 
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="huminAddon"> Umidita' Minima
@@ -40,14 +62,14 @@
                                name="hum_min" value= "{{ (plant.humidity_min * 100 / 1023) |round |int }}">
 
                         <div class="input-group-append">
-                            <span class="input-group-text" id="percentuale"> % </span>
+                            <span class="input-group-text"> % </span>
                         </div>
 
-                    </div>
+                     </div>
                  </td>
 
                  <td>
-                    <div style="text-align: center; width: 250px" class="input-group">
+                    <div style="text-align: center; width: 240px" class="input-group">
 
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="hummaxAddon"> Umidita' Massima
@@ -64,11 +86,30 @@
 
                     </div>
                  </td>
+                 <td>
+                     <div style="text-align: center; width: 240px" class="input-group">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="humAddon"> Umidita' Ideale
+                            </span>
+                        </div>
+
+                         <input id="ideal_h" aria-labelledby="humAddon"
+                               type="text" class="form-control"
+                               name="ideal_h" value= "{{ (plant.ideal_h * 100 / 1023) |round |int }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="percentuale"> % </span>
+                        </div>
+
+                    </div>
+                 </td>
+
              </tr>
 
              <tr>
                  <td>
-                     <div style="text-align: center; width: 250px" class="input-group">
+                     <div style="text-align: center; width: 240px" class="input-group">
 
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="lightMinAddon"> Luce Minima
@@ -86,7 +127,7 @@
                      </div>
                  </td>
                  <td>
-                    <div style="text-align: center; width: 250px" class="input-group">
+                    <div style="text-align: center; width: 240px" class="input-group">
 
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="lightMaxAddon"> Luce Massima
@@ -103,11 +144,29 @@
 
                     </div>
                  </td>
+                  <td>
+                     <div style="text-align: center; width: 240px" class="input-group">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="lightAddon"> Luce Ideale
+                            </span>
+                        </div>
+
+                         <input id="ideal_l" aria-labelledby="humAddon"
+                               type="text" class="form-control"
+                               name="ideal_l" value= "{{ (plant.ideal_l * 100 / 255) |round |int }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"> % </span>
+                        </div>
+
+                    </div>
+                 </td>
              </tr>
 
               <tr>
                  <td>
-                    <div style="text-align: center; width: 250px" class="input-group">
+                    <div style="text-align: center; width: 240px" class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="tempMinAddon"> Temperatura Minima
                             </span>
@@ -125,7 +184,7 @@
                  </td>
 
                  <td>
-                    <div style="text-align: center; width: 250px" class="input-group">
+                    <div style="text-align: center; width: 240px" class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="tempMaxAddon"> Temperatura Massima
                             </span>
@@ -141,7 +200,87 @@
 
                     </div>
                  </td>
+                  <td>
+                    <div style="text-align: center; width: 240px" class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="tempAddon"> Temperatura Ideale
+                            </span>
+                        </div>
+
+                        <input id="ideal_t" aria-labelledby="tempAddon"
+                               type="text" class="form-control"
+                               name="ideal_t" value= "{{ plant.ideal_t }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"> °C </span>
+                        </div>
+
+                    </div>
+                 </td>
              </tr>
+         </table>
+
+         {% else %}
+             <table width="600px"  style=" margin-bottom:0px" class="MyTable" align="center">
+                 <tr>
+                  <td>
+                     <div style="text-align: center; width: 180px" class="input-group">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="hum1Addon"> Umidita' Ideale
+                            </span>
+                        </div>
+
+                         <input aria-labelledby="humAddon"
+                               type="text" class="form-control"
+                               name="ideal_h" value= "{{ (plant.ideal_h * 100 / 1023) |round |int }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"> % </span>
+                        </div>
+
+                    </div>
+                 </td>
+                 <td>
+                     <div style="text-align: center; width: 170px" class="input-group">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="light1Addon"> Luce Ideale
+                            </span>
+                        </div>
+
+                         <input aria-labelledby="humAddon"
+                               type="text" class="form-control"
+                               name="ideal_l" value= "{{ (plant.ideal_l * 100 / 255) |round |int }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"> % </span>
+                        </div>
+
+                    </div>
+                 </td>
+                  <td>
+                    <div style="text-align: center; width: 170px" class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="temp1Addon"> Temp. Ideale
+                            </span>
+                        </div>
+
+                        <input aria-labelledby="tempAddon"
+                               type="text" class="form-control"
+                               name="ideal_t" value= "{{ plant.ideal_t }}">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"> °C </span>
+                        </div>
+
+                    </div>
+                 </td>
+             </tr>
+             </table>
+         {% endif %}
+
+         <table width="600px" class="MyTable" style="margin-bottom: 0px; margin-top: 0px; text-align: center" align="center">
 
              <tr>
                  <td>
@@ -243,17 +382,6 @@
                             </span>
                         </div>
                      <select aria-labelledby="sendAdd" name="send_time" class="form-control">
-                        {% if plant.send_time == 5 %}
-                            <option value="5" selected>5 min.</option>
-                         {% else %}
-                            <option value="5">5 min.</option>
-                         {% endif %}
-
-                         {% if plant.send_time == 10 %}
-                            <option value="10" selected>10 min.</option>
-                         {% else %}
-                            <option value="10">10 min.</option>
-                         {% endif %}
 
                          {% if plant.send_time == 15 %}
                             <option value="15" selected>15 min.</option>
@@ -261,28 +389,10 @@
                             <option value="15">15 min.</option>
                          {% endif %}
 
-                         {% if plant.send_time == 20 %}
-                            <option value="20" selected>20 min.</option>
-                         {% else %}
-                            <option value="20">20 min.</option>
-                         {% endif %}
-
-                        {% if plant.send_time == 25 %}
-                            <option value="25" selected>25 min.</option>
-                        {% else %}
-                            <option value="25">25 min.</option>
-                        {% endif %}
-
                         {% if plant.send_time == 30 %}
                             <option value="30" selected>30 min.</option>
                         {% else %}
                             <option value="30">30 min.</option>
-                        {% endif %}
-
-                        {% if plant.send_time == 35 %}
-                            <option value="35" selected>35 min.</option>
-                        {% else %}
-                            <option value="35">35 min.</option>
                         {% endif %}
 
                         {% if plant.send_time == 40 %}
@@ -302,14 +412,26 @@
                         {% else %}
                             <option value="60">1 h.</option>
                         {% endif %}
+
+                         {% if plant.send_time == 120 %}
+                            <option value="120" selected>2 h.</option>
+                         {% else %}
+                            <option value="120">2 h.</option>
+                         {% endif %}
+
+                         {% if plant.send_time == 180 %}
+                            <option value="180" selected>3 h.</option>
+                         {% else %}
+                            <option value="180">3 h.</option>
+                         {% endif %}
+
                      </select>
                      </div>
                  </td>
 
              </tr>
-
          </table>
-         <table width="550px" class="MyTable" style=" margin-top: 0px; text-align: center" align="center">
+         <table width="600px" class="MyTable" style=" margin-top: 0px; text-align: center" align="center">
              <tr>
                  <td> <button class="myButton" name="submit" type="submit"> Imposta</button> </td>
              </tr>

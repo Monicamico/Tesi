@@ -3,7 +3,8 @@ from flask_login import login_required
 from flask import Blueprint, render_template, flash, request as rcv_req, redirect
 from auth import is_admin, current_user
 from forms import SettingsForm
-from gio_db import Plant, update_name, url_from_plant, ConnectionRequest
+from gio_db import Plant, update_name, url_from_plant, ConnectionRequest, update_ideal_hum, update_ideal_temp, \
+    update_ideal_light, TypePlant, change_type
 import time
 import requests as snd_req
 
@@ -16,6 +17,7 @@ def settings(idv):
     if is_admin():
         plant_s = Plant.query.filter_by(id=idv).first()
         conn_list = ConnectionRequest.query.all()
+        type_list = TypePlant.query.all()
         settings_form = SettingsForm()
         URL_RASPBERRY = str(url_from_plant(idv))
         if URL_RASPBERRY == str(-1):
@@ -28,8 +30,12 @@ def settings(idv):
             light_min = round(int(rcv_req.form['light_min']) / 100 * 255)
             temp_max = int(rcv_req.form['temp_max'])
             temp_min = int(rcv_req.form['temp_min'])
+            ideal_t = int(rcv_req.form['ideal_t'])
+            ideal_l = round(int(rcv_req.form['ideal_l']) / 100 * 255)
             hum_min = round(int(rcv_req.form['hum_min']) / 100 * 1023)
             hum_max = round(int(rcv_req.form['hum_max']) / 100 * 1023)
+            ideal_h = round(int(rcv_req.form['ideal_h']) / 100 * 1023)
+            typeplant_id = rcv_req.form['typeplant_id']
             watering_light = round(int(rcv_req.form['watering_light']) / 100 * 255)
             water_container_size = rcv_req.form['water_container_size']
             transmit_power = int(rcv_req.form.get('transmit_power'))
@@ -40,7 +46,29 @@ def settings(idv):
                     flash('Nome della pianta cambiato con successo', 'success')
                 else:
                     flash('Impossibile cambiare nome il della pianta - possibile duplicato', 'error')
-                return redirect('/settings/'+ idv)
+
+            if typeplant_id != plant_s.typeplant_id:
+                if change_type(idv, typeplant_id, URL_RASPBERRY):
+                    flash('Tipo della pianta cambiato con successo', 'success')
+                    return redirect('/settings/' + idv)
+                else:
+                    flash('Impossibile cambiare il tipo della pianta', 'error')
+                return redirect('/settings/' + idv)
+
+            if ideal_h != plant_s.ideal_h:
+                if 0 <= ideal_h <= 1023 and hum_min <= ideal_h <= hum_max:
+                    update_ideal_hum(plant_s.id, ideal_h)
+                else:
+                    flash('Controlla che il valore sia tra lo 0% e il 100%', 'warning')
+
+            if ideal_t != plant_s.ideal_t and temp_min <= ideal_t <= temp_max:
+                update_ideal_temp(plant_s.id, ideal_t)
+
+            if ideal_l != plant_s.ideal_l and light_min <= ideal_l <= light_max:
+                if 0 <= ideal_h <= 255:
+                    update_ideal_light(plant_s.id, ideal_l)
+                else:
+                    flash('Controlla che il valore sia tra lo 0% e il 100%', 'warning')
 
             if light_max != plant_s.light_max:
                 if 0 <= light_max <= 255:
@@ -48,7 +76,6 @@ def settings(idv):
                         snd_req.put(URL_RASPBERRY + '/request', json=dict(request='light_max', serial=idv, param=light_max))
                     except:
                         flash('Impossible inoltrare la richiesta', 'danger')
-                        return redirect('/settings/' + idv)
                 else:
                     flash('Controlla che il valore sia tra lo 0% e il 100%', 'warning')
 
@@ -62,7 +89,6 @@ def settings(idv):
                         return redirect('/settings/' + idv)
                 else:
                     flash('Controlla che il valore sia tra lo 0% e il 100% - (Luce massima)', 'warning')
-                    return redirect('/settings/' + idv)
 
             if watering_light != plant_s.watering_light:
                 if 0 <= watering_light <= 255:
@@ -71,7 +97,6 @@ def settings(idv):
                                     json={'request': 'watering_light', 'serial': idv, 'param': watering_light})
                     except:
                         flash('Impossible inoltrare la richiesta', 'danger')
-                        return redirect('/settings/' + idv)
                 else:
                     flash('Controlla che il valore sia tra lo 0% e il 100% - (Luce per innaffiare)', 'warning')
 
@@ -81,7 +106,6 @@ def settings(idv):
                         snd_req.put(URL_RASPBERRY + '/request', json={'request': 'hum_min', 'serial': idv, 'param': hum_min})
                     except:
                         flash('Impossible inoltrare la richiesta', 'danger')
-                        return redirect('/settings/' + idv)
                 else:
                     flash('Controlla che il valore sia tra lo 0% e il 100% - (Umidita minima)', 'warning')
 
@@ -91,7 +115,6 @@ def settings(idv):
                         snd_req.put(URL_RASPBERRY + '/request', json={'request': 'hum_max', 'serial': idv, 'param': hum_max})
                     except:
                         flash('Impossible inoltrare la richiesta', 'danger')
-                        return redirect('/settings/' + idv)
                 else:
                     flash('Controlla che il valore sia tra lo 0% e il 100% - (Umidita massima)', 'warning')
 
@@ -100,21 +123,18 @@ def settings(idv):
                     snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temp_min', 'serial': idv, 'param': temp_min})
                 except:
                     flash('Impossible inoltrare la richiesta', 'danger')
-                    return redirect('/settings/' + idv)
 
             if temp_max != plant_s.temperature_max:
                 try:
                     snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temp_max', 'serial': idv, 'param': temp_max})
                 except:
                     flash('Impossible inoltrare la richiesta', 'danger')
-                    return redirect('/settings/' + idv)
 
             if float(water_container_size) != float(plant_s.water_container_size):
                 try:
                     snd_req.put(URL_RASPBERRY + '/request', json={'request': 'water_container_size', 'serial': idv, 'param': water_container_size})
                 except:
                     flash('Impossible inoltrare la richiesta', 'danger')
-                    return redirect('/settings/' + idv)
 
             if send_time != plant_s.send_time:
                 if send_time > 1:
@@ -123,7 +143,6 @@ def settings(idv):
                                     json={'request': 'send_time', 'serial': idv, 'param': send_time})
                     except:
                         flash('Impossible inoltrare la richiesta - (Tempo invio dati)', 'error')
-                        return redirect('/settings/' + idv)
                 else:
                     flash('Il tempo trascorso deve essere almeno di un minuto! - (Tempo invio dati)', 'danger')
 
@@ -135,13 +154,13 @@ def settings(idv):
                 except:
                     flash('Impossible inoltrare la richiesta - (Potenza trasmissione dati)', 'danger')
 
-            flash(u'Richiesta inoltrata alla radio','success')
             time.sleep(4)
             return redirect('/settings/' + idv)
 
         else:
             return render_template('plant_settings.html',
                                    connections=conn_list,
+                                   typeplant=type_list,
                                    plant=plant_s,
                                    form=settings_form,
                                    title="Settings")
