@@ -1,6 +1,6 @@
 from flask import Blueprint, request as rcv_req
 import requests as snd_req
-from gio_db import add_radio, add_conn_req, delete_conn_req, \
+from model.gio_db import add_radio, add_conn_req, delete_conn_req, \
     add_plant, delete_plant, \
     update_hum, update_light, update_temp, \
     update_water_container_state, \
@@ -10,7 +10,7 @@ from gio_db import add_radio, add_conn_req, delete_conn_req, \
     update_watering_light, \
     update_vase_transmit_power, update_radio_transmit_power, update_water_container_size, \
     update_send_time, update_sleep_time, update_plant_state_fitness, radio_from_url, associated_plants
-from constant import Operation
+from model.constant import Operation
 
 request_page = Blueprint('request_page', __name__)
 
@@ -18,6 +18,13 @@ request_page = Blueprint('request_page', __name__)
 # Request or response received from raspberry(RADIO)
 @request_page.route("/request", methods=['POST', 'PUT'])
 def request():
+    """
+        **Recive a request from a Radio-Raspberry**
+
+        - Types of request:
+            - Operation.RADIO_JOIN
+
+    """
     data = rcv_req.json
     try:
         req = int(data['request'])

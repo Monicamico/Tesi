@@ -1,9 +1,8 @@
-import time
 from flask import Blueprint, render_template, request as rcv_req, redirect, flash
 from flask_login import login_required
-from auth import is_admin
-from forms import SettingsForm
-from gio_db import Radio, url_from_radio, update_radio_name, ConnectionRequest, update_radio_transmit_power
+from view.login import is_admin
+from model.forms import SettingsForm
+from model.gio_db import Radio, url_from_radio, update_radio_name, ConnectionRequest
 import requests as snd_req
 
 radio_settings_page = Blueprint('radio_settings_page', __name__)

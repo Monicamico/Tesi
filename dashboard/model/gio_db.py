@@ -2,43 +2,23 @@ from math import ceil
 from flask_sqlalchemy import SQLAlchemy
 import requests as snd_req
 from werkzeug.security import generate_password_hash, check_password_hash
-from constant import Role
+from model.constant import Role
 db = SQLAlchemy()
 
 
 class User(db.Model):
     """
-       A class used to represent an User
+    Rappresents one user.
 
-       Attributes
-       ----------
-       id : int
-          id of the user
-       username : str
-           the name of the user
-       password : str
-       role : int
-           the role of the User
-           0 = Admin
-           1 = User
+    Params:
+        - id
+        - username
+        - password
+        - role
+        - is_active: boolean
+        - is_anonymous: boolean
 
-       Methods
-       -------
-       is_authenticated()
-           return the value of the variable is_authenticated
-
-       set_password(password)
-           generate a password to authenticate the user
-
-       authenticate(password)
-           if the password is correct, it authenticate the user
-
-       get_id()
-           returns the id of the user
-
-       set_username(new)
-            change the username with new
-       """
+    """
     __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String, unique=True, nullable=False)
@@ -62,8 +42,8 @@ class User(db.Model):
     def set_password(self, password):
         """
         set the password of the user
-        :param password: user password
-        :type password: string
+        :param: password: user password
+        :type: password: string
         """
         self.password = generate_password_hash(password)
         db.session.commit()
@@ -82,8 +62,8 @@ class User(db.Model):
     def authenticate(self, password):
         """
         if the password provided is correct, it authenticates the user
-        :param password: user password
-        :type password: string
+        :param: password: user password
+        :type: password: string
         :return: True or False
         """
         # print(password, " ", self.password)
@@ -145,20 +125,23 @@ def correct_password_user(username, password):
 
 def get_user(username):
     """
-     :param username:
-     :return the user with username equal to the parameter, if it exist, otherwise none.
-     """
+
+    :param username:
+    :return the user with username equal to the parameter, if it exist, otherwise none.
+
+    """
     user = User.query.filter_by(username=username).first()
     return user
 
 
 def add_user(username, password, role):
-    """ Add a user into the database
+    """
+    Add a user into the database
 
-        :param username
-        :param password
-        :param role
-        :return: True if the operation was successful otherwise False
+    :param username
+    :param password
+    :param role
+    :return True if the operation was successful otherwise False
 
     """
     user = User()
@@ -175,13 +158,15 @@ def add_user(username, password, role):
 
 def delete_user(username, password):
     """
-    it delete the user username
+    Delete the user username.
+
     :param username:
-    :type username: string
+    :type username: str
     :param password:
-    :type password: string
+    :type password: str
     :return: True if the operation was successful otherwise False
-    :rtype: Boolean
+    :rtype: bool
+
     """
     user = get_user(username)
     if user:
@@ -197,19 +182,14 @@ def delete_user(username, password):
 
 class ConnectionRequest(db.Model):
     """
-    A class used to represent a connection request from plant
+   A class used to represent a connection request from plant
 
-       Attributes
-       ----------
-       id : String
-          vase serial number
-       signal: int
-           the value of the request's signal.
-           Ranges from -128 to -42, -128 means a weak signal and -42 means a strong one.
-       pairing: int
-            three-digit random integer, representing the connection request of the plant.
-       radio_id : String
-          radio serial number
+   Params:
+    - id : String, vase serial number
+    - signal: int, the value of the request's signal, ranges from -128 to -42. -128 means a weak signal and -42 means a strong one.
+    - pairing: int, three-digit random integer, representing the connection request of the plant.
+    - radio_id : String,  radio serial number
+
     """
     __tablename__ = 'connectionRequest'
     id = db.Column(db.String, primary_key=True, nullable=False)
@@ -222,8 +202,8 @@ class ConnectionRequest(db.Model):
 
 def add_conn_req(idv, signalv, pairingv, radio_id):
     """
-    if there is no connection request or a plant with id equal to the idv parameter,
-     it adds the connection request and returns the value True.
+    - if there is no connection request or a plant with id equal to the idv parameter:
+        it adds the connection request and returns the value True.
     - If the connection request with idv was already present:
         controls the signal strength of both requests (new and old).
         If the signal strength of the new request is greater,
@@ -236,6 +216,7 @@ def add_conn_req(idv, signalv, pairingv, radio_id):
         if this request is not successful, the plant is deleted
         and the new connection request is inserted, otherwise it does nothing.
         In this case the function returns the value False.
+
     :param idv: vase serial number
     :type idv: string
     :param signalv: the value of the request's signal.
@@ -250,6 +231,7 @@ def add_conn_req(idv, signalv, pairingv, radio_id):
              False - if a plant with id equal to idv was present
              and cannot communicate with the associated radio.
     :rtype: boolean
+
     """
     plant = Plant.query.filter_by(id=idv).first()
     if plant is None:
@@ -283,13 +265,14 @@ def add_conn_req(idv, signalv, pairingv, radio_id):
 def delete_conn_req(idv, radio):
     """
     if present, it eliminates the connection request with id equal to the first parameter
-     from the radio with id equal to the second parameter.
+    from the radio with id equal to the second parameter.
+
     :param idv: connection (plant) serial number
     :type idv: string
     :param radio: radio serial number
     :type radio: string
     :return: None or the deleted request
-    :rtype:
+
     """
     req = ConnectionRequest.query.filter_by(id=idv, radio_id=radio).first()
     if req is None:
@@ -303,19 +286,12 @@ class Radio(db.Model):
     """
     A class used to represent the radio-raspberry
 
-      Attributes
-      ----------
-      id: String
-        radio serial number
-      name: string
-        radio name
-      url_radio: string
-       raspberry url, used to communicate operation request to the radio
-       and to the associated plants
-      transmit_power : int
-        radio transmission power, range 0-7 (lower, higher)
-      sleep_time:
-        time interval in which the radio is in sleep state (minutes)
+    Params:
+        - id: String, radio serial number
+        - name: string, radio name
+        - url_radio: string, raspberry url used to communicate operation request to the radio and to the associated plants
+        - transmit_power : int, radio transmission power, range 0-7 (lower, higher)
+        - sleep_time: time interval in which the radio is in sleep state (minutes)
 
     """
     __tablename__ = 'radio'
@@ -328,13 +304,15 @@ class Radio(db.Model):
 
 def update_radio_name(radio, name):
     """
-    change the name of the radio
+    Change the name of the radio
+
     :param radio: radio serial number
     :type radio: string
     :param name: name to associate with the radio
     :type name: string
     :return: True if the operation is successful, otherwise False
     :rtype: boolean
+
     """
     r = Radio.query.filter_by(name=name).first()
     if r is None:
@@ -348,13 +326,15 @@ def update_radio_name(radio, name):
 
 def update_sleep_time(radio, time):
     """
-    change the sleep-time of the radio
+    Change the sleep-time of the radio
+
     :param radio: radio serial number
-    :type radio: string
+    :type radio: str
     :param time: new sleep time (minutes)
     :type time: int
     :return: True or False
-    :rtype: Boolean
+    :rtype: bool
+
     """
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
@@ -366,13 +346,15 @@ def update_sleep_time(radio, time):
 
 def update_radio_transmit_power(radio, tr):
     """
-    change the transmit-power of the radio
+    Change the transmit-power of the radio
+
     :param radio: radio serial number
-    :type radio: string
+    :type radio: str
     :param tr: new transmit power
     :type tr: int
     :return: True or False
     :rtype: bool
+
     """
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
@@ -385,11 +367,13 @@ def update_radio_transmit_power(radio, tr):
 
 def delete_radio(radio):
     """
-    delete the radio with serial number equal to parameter
+    Delete the radio with serial number equal to parameter
+
     :param radio: serial number
-    :type radio: string
+    :type radio: str
     :return: True or False
     :rtype: bool
+
     """
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
@@ -401,17 +385,19 @@ def delete_radio(radio):
 
 def add_radio(radio, url_radio):
     """
-    If the radio is not in the database:
-     add it, and return the value True.
-    If the radio is already present:
-    - if the url has not changed: it does nothing and returns the False value,
-    - if the url has changed: change url and reset all the parameters, return the False value
+    - If the radio is not in the database:
+        add it, and return the value True.
+    - If the radio is already present:
+        - if the url has not changed: it does nothing and returns the False value,
+        - if the url has changed: change url and reset all the parameters, return the False value
+
     :param radio: serial number
-    :type radio: string
+    :type radio: str
     :param url_radio: raspberry (radio) url
-    :type url_radio: string
+    :type url_radio: str
     :return: True or False
     :rtype: bool
+
     """
     r = Radio.query.filter_by(id=radio, url_radio=url_radio).first()
     if r is None:
@@ -436,11 +422,13 @@ def add_radio(radio, url_radio):
 
 def url_from_radio(radio):
     """
-    gets radio url
+    Gets the radio url.
+
     :param radio: serial number
     :type radio: string
     :return: the url of the radio or None
     :rtype: string
+
     """
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
@@ -451,11 +439,13 @@ def url_from_radio(radio):
 
 def radio_from_url(url):
     """
-    gets the radio with url equal to parameter
+    Gets the radio with url equal to parameter.
+
     :param url: raspberry-radio url
-    :type url: string
+    :type url: str
     :return: object radio or None
     :rtype: radio
+
     """
     r = Radio.query.filter_by(url_radio=url).first()
     return r
@@ -463,11 +453,13 @@ def radio_from_url(url):
 
 def associated_plants(radio_id):
     """
-    gets plants list associated with the radio
+    Gets plants list associated with the radio
+
     :param radio_id: radio serial number
     :type radio_id:
     :return: the list of plants associated with the radio
     :rtype: plant list
+
     """
     plants = Plant.query.filter_by(radio_id=radio_id).all()
     return plants
@@ -476,46 +468,6 @@ def associated_plants(radio_id):
 class Plant(db.Model):
     """
      A class used to represent the plant
-
-      Attributes
-      ----------
-      id: String
-        plant serial number
-      name: string
-        plant's name
-      radio_id: string
-       radio id
-      typeplant_id : int
-        id of the type of plant, foreign-key
-      state_fitness: int
-        plant status
-      humidity: int
-        humidity measure
-      temperature: int
-        temperature measure
-      light: int
-        light measure
-      ideal_h: int
-        ideal humidity
-      ideal_l: int
-        ideal light
-      ideal_t:  int
-        ideal temperature
-      humidity_min:
-      humidity_max:
-      temperature_max:
-      temperature_min:
-      light_max:
-      light_min:
-      watering_light: int
-        minumum light measure to water the plant
-      water_container_state: int
-        full or empty
-      water_container_size: float
-      transmit_power:
-      send_time: int
-        time interval to send data to dashboard
-
     """
     __tablename__ = 'plant'
     id = db.Column(db.String, primary_key=True, unique=True, nullable=False)
@@ -547,10 +499,12 @@ def add_plant(idv, radio):
     if the radio with serial number equal to the second parameter exists
     and the plant doesn't exist, adds the plant with serial number equal
     to idv, and deletes the connection request with id equal to idv.
+
     :param idv: plant serial number
     :type idv: string
     :param radio: radio serial number
     :type radio: string
+
     """
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
@@ -583,18 +537,20 @@ def add_plant(idv, radio):
             if plant is not None:
                 plant.ideal_h = ceil((plant.humidity_max + plant.humidity_min) / 2)
                 plant.ideal_t = ceil((plant.temperature_max + plant.temperature_min) / 2)
-                plant.ideal_l: int = ceil((plant.light_max + plant.light_min) / 2)
+                plant.ideal_l = ceil((plant.light_max + plant.light_min) / 2)
                 db.session.commit()
             delete_conn_req(idv, radio)
 
 
 def url_from_plant(idv):
     """
-    gets the url of the associated raspberry-radio
+    Gets the url of the associated raspberry-radio.
+
     :param idv: plant serial number
-    :type idv: string
+    :type idv: str
     :return: url or -1
-    :rtype: string
+    :rtype: str
+
     """
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
@@ -606,11 +562,11 @@ def url_from_plant(idv):
 
 def delete_plant(idv):
     """
-    delete
-    :param idv:
-    :type idv:
-    :return:
-    :rtype:
+    Delete the plant with serial number equal to idv, if presents.
+
+    :param idv: plant serial number
+    :type idv: str
+
     """
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
@@ -619,6 +575,17 @@ def delete_plant(idv):
 
 
 def update_name(idv, name):
+    """
+    Change the plant's name.
+
+    :param idv: plant serial number
+    :type idv: str
+    :param name: new name
+    :type name: str
+    :return: True (success) or False
+    :rtype: bool
+
+    """
     plant = Plant.query.filter_by(name=name).first()
     if plant is None:
         plant = Plant.query.filter_by(id=idv).first()
@@ -630,6 +597,19 @@ def update_name(idv, name):
 
 
 def change_type(idv, idt, url):
+    """
+    Change the type of the plant
+
+    :param idv: plant serial number
+    :type idv: str
+    :param idt: type of plant id
+    :type idt: int
+    :param url: associated radio's url
+    :type url: str
+    :return: True in case of success, otherwise False
+    :rtype: bool
+
+    """
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         type = TypePlant.query.filter_by(id=idt).first()
@@ -657,10 +637,23 @@ def change_type(idv, idt, url):
 
 
 def update_vase_transmit_power(idv, tr):
+    """
+    Change the radio transmit power of the plant
+
+    :param idv: serial number
+    :type idv: str
+    :param tr: value of the new transmit power
+    :type tr: int
+    :return: True or False
+    :rtype: bool
+
+    """
     p = Plant.query.filter_by(id=idv).first()
     if p is not None:
         p.transmit_power = tr
         db.session.commit()
+        return True
+    return False
 
 
 def update_send_time(idv, st):
@@ -719,6 +712,17 @@ def update_ideal_temp(idv, ideal_temp):
 
 
 def update_plant_state_fitness(idv):
+    """
+    Update the plant status, calculated with the values of:
+        - ideal humidity, ideal light, ideal temperature
+        - current humidity, current light, current temperature
+
+    :param idv: serial number
+    :type idv: str
+    :return: the fitness state
+    :rtype: float
+
+    """
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
 
@@ -809,6 +813,9 @@ def update_water_container_state(idv, state):
 
 
 class TypePlant(db.Model):
+    """
+    Rappresents the type of plant
+    """
     __tablename__ = 'TypePlant'
     id = db.Column(db.String, primary_key=True)
     plants = db.relationship('Plant', backref='TypePlant')
@@ -828,6 +835,25 @@ class TypePlant(db.Model):
 
 
 def add_type(idt, hum_min, hum_max, temp_min, temp_max, light_max, light_min):
+    """
+    Adds a new type of plant
+
+    :param idt: id (name) of the type
+    :type idt: str
+    :param hum_min: min. humidity of the type
+    :type hum_min: int
+    :param hum_max: max. humidity of the type
+    :type hum_max: int
+    :param temp_min: min. temperature of the type
+    :type temp_min: int
+    :param temp_max: max. temperature of the type
+    :type temp_max: int
+    :param light_max: max. light of the type
+    :type light_max: int
+    :param light_min: min. light of the type
+    :type light_min: int
+
+    """
     t = TypePlant.query.filter_by(id=idt).first()
     if t is None:
         db.session.add(TypePlant(id=idt,

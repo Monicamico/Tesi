@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from gio_db import ConnectionRequest
+from model.gio_db import ConnectionRequest
 
 homepage = Blueprint('homepage', __name__)
 

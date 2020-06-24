@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request as http_req
+from flask import Blueprint, render_template
 from flask_login import login_required
 
-from gio_db import Plant, Radio, ConnectionRequest
+from model.gio_db import Plant, Radio, ConnectionRequest
 
 plants_page = Blueprint('plants_page',__name__)
 

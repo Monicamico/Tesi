@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, request as http_req
+from flask import Blueprint, render_template
 from flask_login import login_required
 
-from auth import is_admin
-from gio_db import Radio, ConnectionRequest
+from view.login import is_admin
+from model.gio_db import Radio, ConnectionRequest
 
 radios_page = Blueprint('radios_page',__name__)
 

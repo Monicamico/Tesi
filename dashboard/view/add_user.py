@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, flash, request as rcv_req, redirect
 from flask_login import login_required
-from auth import is_admin
-from forms import UserForm
-from gio_db import ConnectionRequest, add_user
+from view.login import is_admin
+from model.forms import UserForm
+from model.gio_db import ConnectionRequest, add_user
 
 adduser_page = Blueprint('adduser_page', __name__)
 

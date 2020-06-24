@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request as rcv_req, redirect, flash
 from flask_login import login_required
 
-from forms import PlantForm
-from gio_db import Plant, url_from_plant, ConnectionRequest, delete_plant
+from model.forms import PlantForm
+from model.gio_db import Plant, url_from_plant, ConnectionRequest
 import requests as snd_req
 import time
 

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 from flask_login import login_required
-from auth import is_admin
-from gio_db import User, ConnectionRequest
+from view.login import is_admin
+from model.gio_db import User, ConnectionRequest
 
 users_page = Blueprint('users_page', __name__)
 

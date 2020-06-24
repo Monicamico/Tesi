@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, request as http_req
+from flask import Blueprint, render_template
 from flask import json
 from flask_login import login_required
 
-from forms import LoginForm
-from gio_db import ConnectionRequest, Plant, Radio
+from model.forms import LoginForm
+from model.gio_db import ConnectionRequest, Plant, Radio
 
 dashboard_page = Blueprint('dashboard_page', __name__)
 

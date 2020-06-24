@@ -1,9 +1,8 @@
-from math import ceil
 from flask_login import login_required
 from flask import Blueprint, render_template, flash, request as rcv_req, redirect
-from auth import is_admin, current_user
-from forms import SettingsForm
-from gio_db import Plant, update_name, url_from_plant, ConnectionRequest, update_ideal_hum, update_ideal_temp, \
+from view.login import is_admin
+from model.forms import SettingsForm
+from model.gio_db import Plant, update_name, url_from_plant, ConnectionRequest, update_ideal_hum, update_ideal_temp, \
     update_ideal_light, TypePlant, change_type
 import time
 import requests as snd_req
