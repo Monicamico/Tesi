@@ -1,22 +1,20 @@
 from flask import Flask
-from add_user import adduser_page
-from auth import login_manager
-from auth import auth
-from constant import Role, DEBUG
-from dashboard import dashboard_page
-from home import homepage
-from connections import connections_page
-from plant import plant_id_page
-from plants import plants_page
-from radios import radios_page
-from map import map_page
-from radio_settings import radio_settings_page
-from plant_settings import settings_page
-from gio_db import db, add_user, User, add_plant, add_radio, update_light, update_hum, update_temp, add_type, \
+from view.add_user import adduser_page
+from view.login import login_manager
+from view.login import auth
+from view.dashboard import dashboard_page
+from view.home import homepage
+from view.connections import connections_page
+from view.plant import plant_id_page
+from view.plants import plants_page
+from view.radios import radios_page
+from view.radio_settings import radio_settings_page
+from view.plant_settings import settings_page
+from gio_db import db, add_user, add_plant, add_radio, add_type, \
     change_type
 from request import request_page
-from user_settings import user_settings_page
-from users import users_page
+from view.user_settings import user_settings_page
+from view.users import users_page
 
 
 def create_app():

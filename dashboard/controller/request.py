@@ -80,12 +80,6 @@ def request():
         except:
             print("Temperature, state update: error")
 
-    elif req == Operation.PING.value:
-        try:
-            serial_number = data['serial']
-        except:
-            print()
-
     elif req == Operation.SET_WATERING_LIGHT.value:
         serial_number = data['serial']
         param = data['param']

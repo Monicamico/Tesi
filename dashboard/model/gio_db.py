@@ -52,29 +52,60 @@ class User(db.Model):
         self.is_authenticated = False
 
     def is_authenticated(self):
+        """
+        it returns true if the user is already authenticated, otherwise false
+        :return: self.is_authenticated
+        :rtype: true or false
+        """
         return self.is_authenticated
 
     def set_password(self, password):
+        """
+        set the password of the user
+        :param password: user password
+        :type password: string
+        """
         self.password = generate_password_hash(password)
         db.session.commit()
 
     @property
     def is_admin(self):
+        """
+        check if the user is admin
+        :return: True or False
+        """
         if self.role == Role.ADMIN.value:
             return True
         else:
             return False
 
     def authenticate(self, password):
+        """
+        if the password provided is correct, it authenticates the user
+        :param password: user password
+        :type password: string
+        :return: True or False
+        """
         # print(password, " ", self.password)
         checked = check_password_hash(self.password, password)
         self.is_authenticated = checked
         return self.is_authenticated
 
     def get_id(self):
+        """
+        :return: the user id
+        :rtype: Integer
+        """
         return self.id
 
     def set_username(self,username):
+        """
+        it sets the user username
+        :param username: new username
+        :type username: string
+        :return: true if username has been set, otherwise false
+        :rtype: Boolean
+        """
         try:
             self.username = username
             db.session.commit()
@@ -83,20 +114,40 @@ class User(db.Model):
             return False
 
     def set_role(self,role):
-        self.role = role
-        db.session.commit()
-        return True
+        """
+        It sets the user role
+        :param role: the role
+        :type role: value of the enum Role
+        :return: True if the user's role has been set, otherwise false
+        :rtype: Boolean
+        """
+        try:
+            self.role = role
+            db.session.commit()
+            return True
+        except:
+            return False
 
 
 def correct_password_user(username, password):
-    """ :return true if the password is correct otherwise false"""
+    """
+    :param username:
+    :type username: string
+    :param password:
+    :type password: string
+    :return: True if the user's password is correct otherwise False
+    :rtype: boolean
+    """
     user = User.query.filter_by(username=username).first()
     checked = check_password_hash(user.password, password)
     return checked
 
 
 def get_user(username):
-    """ :return the user with username equal to the parameter, if it exist, otherwise none. """
+    """
+     :param username:
+     :return the user with username equal to the parameter, if it exist, otherwise none.
+     """
     user = User.query.filter_by(username=username).first()
     return user
 
@@ -107,6 +158,7 @@ def add_user(username, password, role):
         :param username
         :param password
         :param role
+        :return: True if the operation was successful otherwise False
 
     """
     user = User()
@@ -122,6 +174,15 @@ def add_user(username, password, role):
 
 
 def delete_user(username, password):
+    """
+    it delete the user username
+    :param username:
+    :type username: string
+    :param password:
+    :type password: string
+    :return: True if the operation was successful otherwise False
+    :rtype: Boolean
+    """
     user = get_user(username)
     if user:
         if user.authenticate(password=password):
@@ -135,6 +196,21 @@ def delete_user(username, password):
 
 
 class ConnectionRequest(db.Model):
+    """
+    A class used to represent a connection request from plant
+
+       Attributes
+       ----------
+       id : String
+          vase serial number
+       signal: int
+           the value of the request's signal.
+           Ranges from -128 to -42, -128 means a weak signal and -42 means a strong one.
+       pairing: int
+            three-digit random integer, representing the connection request of the plant.
+       radio_id : String
+          radio serial number
+    """
     __tablename__ = 'connectionRequest'
     id = db.Column(db.String, primary_key=True, nullable=False)
     # the value of the signal ranges from -128 to -42
@@ -145,6 +221,36 @@ class ConnectionRequest(db.Model):
 
 
 def add_conn_req(idv, signalv, pairingv, radio_id):
+    """
+    if there is no connection request or a plant with id equal to the idv parameter,
+     it adds the connection request and returns the value True.
+    - If the connection request with idv was already present:
+        controls the signal strength of both requests (new and old).
+        If the signal strength of the new request is greater,
+        it replaces the old one with the new one and sends the refusal
+        operation to the radio of the old connection request,
+        otherwise only the pairing number changes.
+        In both cases the function returns the value True.
+    - If there was already a plant with id equal to idv (parameter):
+        send the join request to the associated radio:
+        if this request is not successful, the plant is deleted
+        and the new connection request is inserted, otherwise it does nothing.
+        In this case the function returns the value False.
+    :param idv: vase serial number
+    :type idv: string
+    :param signalv: the value of the request's signal.
+    :type signalv: int
+    :param pairingv: three-digit random integer
+    :type pairingv: int
+    :param radio_id: radio serial number
+    :type radio_id: string
+    :return: True - if there was no connection request with id equal to idv,
+             or if it was present, but it has been replaced
+             because the signal of the new request is stronger.
+             False - if a plant with id equal to idv was present
+             and cannot communicate with the associated radio.
+    :rtype: boolean
+    """
     plant = Plant.query.filter_by(id=idv).first()
     if plant is None:
         conn = ConnectionRequest.query.filter_by(id=idv).first()
@@ -162,16 +268,29 @@ def add_conn_req(idv, signalv, pairingv, radio_id):
                 db.session.commit()
             conn.pairing = pairingv
             db.session.commit()
+            return True
     else:
         try:
             snd_req.put('http://' + url_from_plant(idv) + '/request', json={'request': 'joined', 'serial': idv})
+            return False
         except:
             delete_plant(idv)
             db.session.add(ConnectionRequest(id=idv, signal=signalv, pairing=pairingv, radio_id=radio_id))
             db.session.commit()
+            return False
 
 
 def delete_conn_req(idv, radio):
+    """
+    if present, it eliminates the connection request with id equal to the first parameter
+     from the radio with id equal to the second parameter.
+    :param idv: connection (plant) serial number
+    :type idv: string
+    :param radio: radio serial number
+    :type radio: string
+    :return: None or the deleted request
+    :rtype:
+    """
     req = ConnectionRequest.query.filter_by(id=idv, radio_id=radio).first()
     if req is None:
         return None
@@ -181,6 +300,24 @@ def delete_conn_req(idv, radio):
 
 
 class Radio(db.Model):
+    """
+    A class used to represent the radio-raspberry
+
+      Attributes
+      ----------
+      id: String
+        radio serial number
+      name: string
+        radio name
+      url_radio: string
+       raspberry url, used to communicate operation request to the radio
+       and to the associated plants
+      transmit_power : int
+        radio transmission power, range 0-7 (lower, higher)
+      sleep_time:
+        time interval in which the radio is in sleep state (minutes)
+
+    """
     __tablename__ = 'radio'
     id = db.Column(db.String(13), primary_key=True, unique=True, nullable=False)
     name = db.Column(db.String(24), unique=True)
@@ -190,6 +327,15 @@ class Radio(db.Model):
 
 
 def update_radio_name(radio, name):
+    """
+    change the name of the radio
+    :param radio: radio serial number
+    :type radio: string
+    :param name: name to associate with the radio
+    :type name: string
+    :return: True if the operation is successful, otherwise False
+    :rtype: boolean
+    """
     r = Radio.query.filter_by(name=name).first()
     if r is None:
         r = Radio.query.filter_by(id=radio).first()
@@ -201,6 +347,15 @@ def update_radio_name(radio, name):
 
 
 def update_sleep_time(radio, time):
+    """
+    change the sleep-time of the radio
+    :param radio: radio serial number
+    :type radio: string
+    :param time: new sleep time (minutes)
+    :type time: int
+    :return: True or False
+    :rtype: Boolean
+    """
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
         r.sleep_time = time
@@ -210,22 +365,54 @@ def update_sleep_time(radio, time):
 
 
 def update_radio_transmit_power(radio, tr):
+    """
+    change the transmit-power of the radio
+    :param radio: radio serial number
+    :type radio: string
+    :param tr: new transmit power
+    :type tr: int
+    :return: True or False
+    :rtype: bool
+    """
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
-        r.transmit_power = tr
+        if 0 <= tr <= 7:
+            r.transmit_power = tr
+            db.session.commit()
+            return True
+    return False
+
+
+def delete_radio(radio):
+    """
+    delete the radio with serial number equal to parameter
+    :param radio: serial number
+    :type radio: string
+    :return: True or False
+    :rtype: bool
+    """
+    r = Radio.query.filter_by(id=radio).first()
+    if r is not None:
+        db.session.delete(r)
         db.session.commit()
         return True
     return False
 
 
-def delete_radio(radio):
-    r = Radio.query.filter_by(id=radio).first()
-    if r is not None:
-        db.session.delete(r)
-        db.session.commit()
-
-
 def add_radio(radio, url_radio):
+    """
+    If the radio is not in the database:
+     add it, and return the value True.
+    If the radio is already present:
+    - if the url has not changed: it does nothing and returns the False value,
+    - if the url has changed: change url and reset all the parameters, return the False value
+    :param radio: serial number
+    :type radio: string
+    :param url_radio: raspberry (radio) url
+    :type url_radio: string
+    :return: True or False
+    :rtype: bool
+    """
     r = Radio.query.filter_by(id=radio, url_radio=url_radio).first()
     if r is None:
         r = Radio.query.filter_by(id=radio).first()
@@ -248,6 +435,13 @@ def add_radio(radio, url_radio):
 
 
 def url_from_radio(radio):
+    """
+    gets radio url
+    :param radio: serial number
+    :type radio: string
+    :return: the url of the radio or None
+    :rtype: string
+    """
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
         return r.url_radio
@@ -256,16 +450,73 @@ def url_from_radio(radio):
 
 
 def radio_from_url(url):
+    """
+    gets the radio with url equal to parameter
+    :param url: raspberry-radio url
+    :type url: string
+    :return: object radio or None
+    :rtype: radio
+    """
     r = Radio.query.filter_by(url_radio=url).first()
     return r
 
 
 def associated_plants(radio_id):
+    """
+    gets plants list associated with the radio
+    :param radio_id: radio serial number
+    :type radio_id:
+    :return: the list of plants associated with the radio
+    :rtype: plant list
+    """
     plants = Plant.query.filter_by(radio_id=radio_id).all()
     return plants
 
 
 class Plant(db.Model):
+    """
+     A class used to represent the plant
+
+      Attributes
+      ----------
+      id: String
+        plant serial number
+      name: string
+        plant's name
+      radio_id: string
+       radio id
+      typeplant_id : int
+        id of the type of plant, foreign-key
+      state_fitness: int
+        plant status
+      humidity: int
+        humidity measure
+      temperature: int
+        temperature measure
+      light: int
+        light measure
+      ideal_h: int
+        ideal humidity
+      ideal_l: int
+        ideal light
+      ideal_t:  int
+        ideal temperature
+      humidity_min:
+      humidity_max:
+      temperature_max:
+      temperature_min:
+      light_max:
+      light_min:
+      watering_light: int
+        minumum light measure to water the plant
+      water_container_state: int
+        full or empty
+      water_container_size: float
+      transmit_power:
+      send_time: int
+        time interval to send data to dashboard
+
+    """
     __tablename__ = 'plant'
     id = db.Column(db.String, primary_key=True, unique=True, nullable=False)
     radio_id = db.Column(db.String(13), nullable=False)
@@ -292,6 +543,15 @@ class Plant(db.Model):
 
 
 def add_plant(idv, radio):
+    """
+    if the radio with serial number equal to the second parameter exists
+    and the plant doesn't exist, adds the plant with serial number equal
+    to idv, and deletes the connection request with id equal to idv.
+    :param idv: plant serial number
+    :type idv: string
+    :param radio: radio serial number
+    :type radio: string
+    """
     r = Radio.query.filter_by(id=radio).first()
     if r is not None:
         plant = Plant.query.filter_by(id=idv).first()
@@ -329,6 +589,13 @@ def add_plant(idv, radio):
 
 
 def url_from_plant(idv):
+    """
+    gets the url of the associated raspberry-radio
+    :param idv: plant serial number
+    :type idv: string
+    :return: url or -1
+    :rtype: string
+    """
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         radio = Radio.query.filter_by(id=plant.radio_id).first()
@@ -338,6 +605,13 @@ def url_from_plant(idv):
 
 
 def delete_plant(idv):
+    """
+    delete
+    :param idv:
+    :type idv:
+    :return:
+    :rtype:
+    """
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
         db.session.delete(plant)
