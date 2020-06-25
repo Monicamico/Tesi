@@ -11,6 +11,14 @@ dashboard_page = Blueprint('dashboard_page', __name__)
 @dashboard_page.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dash_page():
+    """
+
+    Dashboard page, show a map and charts.
+    The map was created with *arbor.js*.
+
+    :return: template *dashboard.html*
+    :rtype: template
+    """
 
     form = LoginForm()
     conn_list = ConnectionRequest.query.all()

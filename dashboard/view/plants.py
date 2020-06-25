@@ -9,6 +9,13 @@ plants_page = Blueprint('plants_page',__name__)
 @plants_page.route('/plants')
 @login_required
 def plants():
+    """
+    Shows all the plants in the *giovase.db*
+
+    :return: template *plants.html*
+    :rtype: template
+
+    """
     plants_list = Plant.query.all()
     radios_list = Radio.query.all()
     conn_list = ConnectionRequest.query.all()

@@ -10,6 +10,13 @@ adduser_page = Blueprint('adduser_page', __name__)
 @login_required
 @adduser_page.route('/add_user', methods=['POST','GET'])
 def add_user_page():
+    """
+    Register user page
+
+    :return: template *add_user.html*
+    :rtype: template
+
+    """
     if is_admin():
         form = UserForm()
         conn_list = ConnectionRequest.query.all()
@@ -45,6 +52,6 @@ def add_user_page():
                 flash(u'Ricontrolla i parametri', 'warning')
             redirect('#')
 
-        return render_template('../templates/add_user.html',
+        return render_template('add_user.html',
                                form=form,
                                connections=conn_list)

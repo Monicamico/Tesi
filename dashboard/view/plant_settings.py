@@ -13,6 +13,15 @@ settings_page = Blueprint('settings_page', __name__)
 @settings_page.route('/settings/<string:idv>', methods=['POST', 'GET'])
 @login_required
 def settings(idv):
+    """
+    If the current user is admin, show the plant settings.
+
+    :param idv: plant serial number
+    :type idv: str
+    :return: template *plant_settings.html* or *error.html*
+    :rtype: template
+
+    """
     if is_admin():
         plant_s = Plant.query.filter_by(id=idv).first()
         conn_list = ConnectionRequest.query.all()
