@@ -8,7 +8,7 @@ db = SQLAlchemy()
 
 class User(db.Model):
     """
-    Rappresents one user.
+    Represent one user.
 
     Params:
         - id
@@ -814,7 +814,7 @@ def update_water_container_state(idv, state):
 
 class TypePlant(db.Model):
     """
-    Rappresents the type of plant
+    Represent the type of plant
     """
     __tablename__ = 'TypePlant'
     id = db.Column(db.String, primary_key=True)

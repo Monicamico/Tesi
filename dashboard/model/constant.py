@@ -16,7 +16,7 @@ class Role(Enum):
 
 class Operation(Enum):
     """
-    Type of operations:
+    Enum used to represent Type of operations:
         - JOINED = 0
         - REFUSED = 1
         - PING = 2
