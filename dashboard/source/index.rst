@@ -16,7 +16,17 @@ GioVase Dashboard - Database
 .. automodule:: model.gio_db
    :members:
 
+GioVase Dashboard - Constant
+=====================================
+.. automodule:: model.constant
+   :members:
+
 GioVase Dashboard - Request
 =====================================
 .. automodule:: controller.request
+   :members:
+
+GioVase Dashboard - Connections (view)
+=======================================
+.. automodule:: view.connections
    :members:

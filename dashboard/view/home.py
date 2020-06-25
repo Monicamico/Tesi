@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, url_for
 from model.gio_db import ConnectionRequest
 
 homepage = Blueprint('homepage', __name__)

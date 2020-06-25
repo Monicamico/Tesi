@@ -75,7 +75,7 @@
 
 \title{Gio Vase 
  Dashboard}
-\date{Jun 24, 2020}
+\date{Jun 25, 2020}
 \release{1.6}
 \author{Author: Monica Amico}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -818,23 +818,371 @@ string
 
 
 
-\chapter{GioVase Dashboard \sphinxhyphen{} Request}
-\label{\detokenize{index:module-controller.request}}\label{\detokenize{index:giovase-dashboard-request}}\index{module@\spxentry{module}!controller.request@\spxentry{controller.request}}\index{controller.request@\spxentry{controller.request}!module@\spxentry{module}}\index{request() (in module controller.request)@\spxentry{request()}\spxextra{in module controller.request}}
+\chapter{GioVase Dashboard \sphinxhyphen{} Constant}
+\label{\detokenize{index:module-model.constant}}\label{\detokenize{index:giovase-dashboard-constant}}\index{module@\spxentry{module}!model.constant@\spxentry{model.constant}}\index{model.constant@\spxentry{model.constant}!module@\spxentry{module}}\index{Operation (class in model.constant)@\spxentry{Operation}\spxextra{class in model.constant}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:controller.request.request}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.request.}}\sphinxbfcode{\sphinxupquote{request}}}{}{}
-\sphinxstylestrong{Recive a request from a Radio\sphinxhyphen{}Raspberry}
-\begin{itemize}
-\item {} \begin{description}
-\item[{Types of request:}] \leavevmode\begin{itemize}
+\phantomsection\label{\detokenize{index:model.constant.Operation}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{model.constant.}}\sphinxbfcode{\sphinxupquote{Operation}}}{\emph{\DUrole{n}{value}}}{}~\begin{description}
+\item[{Type of operations:}] \leavevmode\begin{itemize}
 \item {} 
-Operation.RADIO\_JOIN
+JOINED = 0
+
+\item {} 
+REFUSED = 1
+
+\item {} 
+PING = 2
+
+\item {} 
+HUMIDITY = 3
+
+\item {} 
+TEMPERATURE = 4
+
+\item {} 
+LIGHT = 5
+
+\item {} 
+WATER = 6
+
+\item {} 
+SET\_HUMIDITY\_MIN = 7
+
+\item {} 
+SET\_HUMIDITY\_MAX = 8
+
+\item {} 
+SET\_TEMPERATURE\_MIN = 9
+
+\item {} 
+SET\_TEMPERATURE\_MAX = 10
+
+\item {} 
+SET\_LIGHT\_MAX = 11
+
+\item {} 
+SET\_LIGHT\_MIN = 12
+
+\item {} 
+SET\_VASE\_PAUSE\_TIME = 13
+
+\item {} 
+SET\_VASE\_SEND\_TIME = 14
+
+\item {} 
+SET\_RADIO\_PAUSE\_TIME = 15
+
+\item {} 
+SET\_RADIO\_DIED\_PING = 16
+
+\item {} 
+CONNECTION = 17
+
+\item {} 
+DELETED = 18
+
+\item {} 
+SET\_WATERING\_LIGHT = 19
+
+\item {} 
+SET\_WATER\_CONTAINER\_SIZE = 20
+
+\item {} 
+WATER\_CONTAINER\_STATE = 21
+
+\item {} 
+RADIO\_JOIN = 22
+
+\item {} 
+RADIO\_TRANSMIT\_POWER = 23
+
+\item {} 
+VASE\_TRANSMIT\_POWER = 24
 
 \end{itemize}
 
 \end{description}
 
+\end{fulllineitems}
+
+\index{Role (class in model.constant)@\spxentry{Role}\spxextra{class in model.constant}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:model.constant.Role}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{model.constant.}}\sphinxbfcode{\sphinxupquote{Role}}}{\emph{\DUrole{n}{value}}}{}~\begin{description}
+\item[{Enum used for users role:}] \leavevmode\begin{itemize}
+\item {} 
+ADMIN = 0
+
+\item {} 
+USER = 1
+
 \end{itemize}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{WaterContainerState (class in model.constant)@\spxentry{WaterContainerState}\spxextra{class in model.constant}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:model.constant.WaterContainerState}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{model.constant.}}\sphinxbfcode{\sphinxupquote{WaterContainerState}}}{\emph{\DUrole{n}{value}}}{}~\begin{description}
+\item[{Water container state:}] \leavevmode\begin{itemize}
+\item {} 
+Empty = 0
+
+\item {} 
+Full = 1
+
+\end{itemize}
+
+\end{description}
+
+\end{fulllineitems}
+
+
+
+\chapter{GioVase Dashboard \sphinxhyphen{} Request}
+\label{\detokenize{index:module-controller.request}}\label{\detokenize{index:giovase-dashboard-request}}\index{module@\spxentry{module}!controller.request@\spxentry{controller.request}}\index{controller.request@\spxentry{controller.request}!module@\spxentry{module}}\index{request() (in module controller.request)@\spxentry{request()}\spxextra{in module controller.request}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.request.request}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.request.}}\sphinxbfcode{\sphinxupquote{request}}}{}{}
+\sphinxstylestrong{Recive a request or response from a Radio\sphinxhyphen{}Raspberry}
+\begin{description}
+\item[{\sphinxstylestrong{Data received:}}] \leavevmode\begin{itemize}
+\item {} 
+data{[}‘request’{]}
+
+\item {} 
+data{[}‘serial’{]}
+
+\end{itemize}
+
+\item[{\sphinxstylestrong{Optional Data received:}}] \leavevmode\begin{itemize}
+\item {} 
+data{[}‘signal’{]}
+
+\item {} 
+data{[}‘param’{]}
+
+\item {} 
+data{[}‘url’{]}
+
+\end{itemize}
+
+\end{description}
+
+\sphinxstylestrong{Types of request:}
+\begin{itemize}
+\item {} 
+Operation.RADIO\_JOIN:
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{add\_radio(id, url)}, the id and url are data (json) received from the
+radio\sphinxhyphen{}raspberry, and if the radio has associated vases, send an http request to send
+information about them, so that the radio can add them to the list.
+\end{quote}
+
+\item {} 
+Operation.CONNECTION
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{add\_conn\_req} with the received data.
+\end{quote}
+
+\item {} 
+Operation.REFUSED
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{delete\_conn\_req}
+\end{quote}
+
+\item {} 
+Operation.JOINED
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{add\_plant}
+\end{quote}
+
+\item {} 
+Operation.DELETED
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{delete\_plant}
+\end{quote}
+
+\item {} 
+Operation.HUMIDITY
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_hum(serial, param)} and \sphinxstyleemphasis{update\_plant\_state\_fitness(serial)}
+\end{quote}
+
+\item {} 
+Operation.LIGHT
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_light(serial, param)} and \sphinxstyleemphasis{update\_plant\_state\_fitness(serial)}
+\end{quote}
+
+\item {} 
+Operation.TEMPERATURE
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_temp(serial, param)} and \sphinxstyleemphasis{update\_plant\_state\_fitness(serial)}
+\end{quote}
+
+\item {} 
+Operation.SET\_WATERING\_LIGHT
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_watering\_light(serial, param)}
+\end{quote}
+
+\item {} 
+Operation.WATER\_CONTAINER\_STATE
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_water\_container\_state(serial, param)}
+\end{quote}
+
+\item {} 
+Operation.SET\_WATER\_CONTAINER\_SIZE
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_water\_container\_size(serial, param)}
+\end{quote}
+
+\item {} 
+Operation.SET\_HUMIDITY\_MIN
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_hum\_min(serial, param)} and \sphinxstyleemphasis{update\_plant\_state\_fitness(serial)}
+\end{quote}
+
+\item {} 
+Operation.SET\_HUMIDITY\_MAX
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_hum\_max(serial, param)} and \sphinxstyleemphasis{update\_plant\_state\_fitness(serial)}
+\end{quote}
+
+\item {} 
+Operation.SET\_LIGHT\_MIN
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_light\_min(serial, param)} and \sphinxstyleemphasis{update\_plant\_state\_fitness(serial)}
+\end{quote}
+
+\item {} 
+Operation.SET\_LIGHT\_MAX
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_light\_max(serial, param)} and \sphinxstyleemphasis{update\_plant\_state\_fitness(serial)}
+\end{quote}
+
+\item {} 
+Operation.SET\_TEMPERATURE\_MIN
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_temp\_min(serial, param)} and \sphinxstyleemphasis{update\_plant\_state\_fitness(serial)}
+\end{quote}
+
+\item {} 
+Operation.SET\_TEMPERATURE\_MAX
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_temp\_max(serial, param)} and \sphinxstyleemphasis{update\_plant\_state\_fitness(serial)}
+\end{quote}
+
+\item {} 
+Operation.VASE\_TRANSMIT\_POWER
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_vase\_transmit\_power(serial, param)}
+\end{quote}
+
+\item {} 
+Operation.RADIO\_TRANSMIT\_POWER
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_radio\_transmit\_power(serial, param)}
+\end{quote}
+
+\item {} 
+Operation.SET\_VASE\_SEND\_TIME
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_send\_time(serial, param)}
+\end{quote}
+
+\item {} 
+Operation.SET\_RADIO\_PAUSE\_TIME
+\begin{quote}
+
+call the func. \sphinxstyleemphasis{update\_sleep\_time(serial, param)}
+\end{quote}
+
+\end{itemize}
+
+\end{fulllineitems}
+
+
+
+\chapter{GioVase Dashboard \sphinxhyphen{} Connections (view)}
+\label{\detokenize{index:module-view.connections}}\label{\detokenize{index:giovase-dashboard-connections-view}}\index{module@\spxentry{module}!view.connections@\spxentry{view.connections}}\index{view.connections@\spxentry{view.connections}!module@\spxentry{module}}\index{add\_plant\_from\_conn() (in module view.connections)@\spxentry{add\_plant\_from\_conn()}\spxextra{in module view.connections}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.connections.add_plant_from_conn}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.connections.}}\sphinxbfcode{\sphinxupquote{add\_plant\_from\_conn}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{radio\_id}}}{}
+Add a plant from a connection request:
+sends a HTTP request to the radio\sphinxhyphen{}raspberry with serial n. equal to radio\_id, to join the plant into its list,
+and sends another HTTP request to the others radio to refuse the plant.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{radio\_id}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} radio serial number
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{conn\_page() (in module view.connections)@\spxentry{conn\_page()}\spxextra{in module view.connections}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.connections.conn_page}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.connections.}}\sphinxbfcode{\sphinxupquote{conn\_page}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+Show all connection requests, if the user is Admin
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+template connections.html
+
+\item[{Return type}] \leavevmode
+template
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{refuse\_plant\_from\_conn() (in module view.connections)@\spxentry{refuse\_plant\_from\_conn()}\spxextra{in module view.connections}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.connections.refuse_plant_from_conn}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.connections.}}\sphinxbfcode{\sphinxupquote{refuse\_plant\_from\_conn}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{radio\_id}}}{}
+Refuse a plant sending HTTP request to the radio with serial number equal to radio\_id.
+If the radio\sphinxhyphen{}raspberry is unreachable then delete the connection request of the vase from this radio.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{radio\_id}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} radio serial number
+
+\end{itemize}
+
+\end{description}\end{quote}
 
 \end{fulllineitems}
 
@@ -847,7 +1195,11 @@ Operation.RADIO\_JOIN
 \item\relax\sphinxstyleindexentry{controller.request}\sphinxstyleindexpageref{index:\detokenize{module-controller.request}}
 \indexspace
 \bigletter{m}
+\item\relax\sphinxstyleindexentry{model.constant}\sphinxstyleindexpageref{index:\detokenize{module-model.constant}}
 \item\relax\sphinxstyleindexentry{model.gio\_db}\sphinxstyleindexpageref{index:\detokenize{module-model.gio_db}}
+\indexspace
+\bigletter{v}
+\item\relax\sphinxstyleindexentry{view.connections}\sphinxstyleindexpageref{index:\detokenize{module-view.connections}}
 \end{sphinxtheindex}
 
 \renewcommand{\indexname}{Index}

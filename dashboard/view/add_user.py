@@ -45,6 +45,6 @@ def add_user_page():
                 flash(u'Ricontrolla i parametri', 'warning')
             redirect('#')
 
-        return render_template('add_user.html',
+        return render_template('../templates/add_user.html',
                                form=form,
                                connections=conn_list)

@@ -19,10 +19,104 @@ request_page = Blueprint('request_page', __name__)
 @request_page.route("/request", methods=['POST', 'PUT'])
 def request():
     """
-        **Recive a request from a Radio-Raspberry**
+        **Recive a request or response from a Radio-Raspberry**
 
-        - Types of request:
-            - Operation.RADIO_JOIN
+        **Data received:**
+            - data['request']
+            - data['serial']
+
+        **Optional Data received:**
+            - data['signal']
+            - data['param']
+            - data['url']
+
+        **Types of request:**
+
+            - Operation.RADIO_JOIN:
+
+                call the func. *add_radio(id, url)*, the id and url are data (json) received from the
+                radio-raspberry, and if the radio has associated vases, send an http request to send
+                information about them, so that the radio can add them to the list.
+
+            - Operation.CONNECTION
+
+                call the func. *add_conn_req* with the received data.
+
+            - Operation.REFUSED
+
+                call the func. *delete_conn_req*
+
+            - Operation.JOINED
+
+                 call the func. *add_plant*
+
+            - Operation.DELETED
+
+                call the func. *delete_plant*
+
+            - Operation.HUMIDITY
+
+                 call the func. *update_hum(serial, param)* and *update_plant_state_fitness(serial)*
+
+            - Operation.LIGHT
+
+                call the func. *update_light(serial, param)* and *update_plant_state_fitness(serial)*
+
+            - Operation.TEMPERATURE
+
+                call the func. *update_temp(serial, param)* and *update_plant_state_fitness(serial)*
+
+            - Operation.SET_WATERING_LIGHT
+
+                call the func. *update_watering_light(serial, param)*
+
+            - Operation.WATER_CONTAINER_STATE
+
+                call the func. *update_water_container_state(serial, param)*
+
+            - Operation.SET_WATER_CONTAINER_SIZE
+
+                call the func. *update_water_container_size(serial, param)*
+
+            - Operation.SET_HUMIDITY_MIN
+
+                call the func. *update_hum_min(serial, param)* and *update_plant_state_fitness(serial)*
+
+            - Operation.SET_HUMIDITY_MAX
+
+                 call the func. *update_hum_max(serial, param)* and *update_plant_state_fitness(serial)*
+
+            - Operation.SET_LIGHT_MIN
+
+                 call the func. *update_light_min(serial, param)* and *update_plant_state_fitness(serial)*
+
+            - Operation.SET_LIGHT_MAX
+
+                 call the func. *update_light_max(serial, param)* and *update_plant_state_fitness(serial)*
+
+            - Operation.SET_TEMPERATURE_MIN
+
+                 call the func. *update_temp_min(serial, param)* and *update_plant_state_fitness(serial)*
+
+            - Operation.SET_TEMPERATURE_MAX
+
+                 call the func. *update_temp_max(serial, param)* and *update_plant_state_fitness(serial)*
+
+            - Operation.VASE_TRANSMIT_POWER
+
+                 call the func. *update_vase_transmit_power(serial, param)*
+
+            - Operation.RADIO_TRANSMIT_POWER
+
+                 call the func. *update_radio_transmit_power(serial, param)*
+
+            - Operation.SET_VASE_SEND_TIME
+
+                 call the func. *update_send_time(serial, param)*
+
+            - Operation.SET_RADIO_PAUSE_TIME
+
+                 call the func. *update_sleep_time(serial, param)*
 
     """
     data = rcv_req.json

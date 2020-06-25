@@ -11,6 +11,18 @@ connections_page = Blueprint('connections', __name__)
 
 @connections_page.route("/add_plant_from_conn/<string:idv>/<string:radio_id>", methods=['GET'])
 def add_plant_from_conn(idv, radio_id):
+    """
+
+    Add a plant from a connection request:
+    sends a HTTP request to the radio-raspberry with serial n. equal to radio_id, to join the plant into its list,
+    and sends another HTTP request to the others radio to refuse the plant.
+
+    :param idv: plant serial number
+    :type idv: str
+    :param radio_id: radio serial number
+    :type radio_id: str
+
+    """
     conn = ConnectionRequest.query.filter_by(id=idv, radio_id=radio_id).first()
     if conn is not None:
         url = url_from_radio(radio_id)
@@ -30,6 +42,17 @@ def add_plant_from_conn(idv, radio_id):
 
 @connections_page.route("/refuse_plant_from_conn/<string:idv>/<string:radio_id>", methods=['GET'])
 def refuse_plant_from_conn(idv,radio_id):
+    """
+
+    Refuse a plant sending HTTP request to the radio with serial number equal to radio_id.
+    If the radio-raspberry is unreachable then delete the connection request of the vase from this radio.
+
+    :param idv: plant serial number
+    :type idv: str
+    :param radio_id: radio serial number
+    :type radio_id: str
+
+    """
     conn = ConnectionRequest.query.filter_by(id=idv,radio_id=radio_id).first()
     radio = Radio.query.filter_by(id=radio_id).first()
     if conn is not None:
@@ -50,6 +73,13 @@ def refuse_plant_from_conn(idv,radio_id):
 @connections_page.route('/connections')
 @login_required
 def conn_page():
+    """
+    Show all connection requests, if the user is Admin
+
+    :return: template connections.html
+    :rtype: template
+
+    """
     conn_list = ConnectionRequest.query.all()
     radios = Radio.query.all()
     if is_admin():

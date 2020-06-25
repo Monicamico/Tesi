@@ -18,7 +18,7 @@ from view.users import users_page
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder='../templates', static_folder='../static')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # suppress pytest warning
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///giovase.db'
     app.config['SECRET_KEY'] = 'keysecret0679623'
@@ -30,7 +30,6 @@ def create_app():
     app.register_blueprint(connections_page)
     app.register_blueprint(settings_page)
     app.register_blueprint(radio_settings_page)
-    app.register_blueprint(map_page)
     app.register_blueprint(dashboard_page)
     app.register_blueprint(request_page)
     app.register_blueprint(users_page)
