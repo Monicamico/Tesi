@@ -10,8 +10,8 @@ from view.plants import plants_page
 from view.radios import radios_page
 from view.radio_settings import radio_settings_page
 from view.plant_settings import settings_page
-from model.gio_db import db, add_user, add_plant, add_radio, add_type, \
-    change_type
+from model.gio_db import db
+from controller.utility import add_user, add_radio, add_plant, change_type, add_type
 from controller.request import request_page
 from view.user_settings import user_settings_page
 from view.users import users_page

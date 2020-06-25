@@ -1,7 +1,8 @@
 from flask_login import login_required
 
 from view.login import is_admin
-from model.gio_db import delete_conn_req, ConnectionRequest, Radio, url_from_radio
+from model.gio_db import ConnectionRequest, Radio
+from controller.utility import delete_conn_req, url_from_radio
 from flask import Blueprint, render_template, redirect, flash
 import requests as snd_req
 import time

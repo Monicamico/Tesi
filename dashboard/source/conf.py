@@ -18,12 +18,12 @@ sys.setrecursionlimit(1500)
 
 # -- Project information -----------------------------------------------------
 
-project = 'Gio Vase \n Dashboard'
+project = 'Gio Vase, Dashboard'
 copyright = '2020, Monica Amico'
 author = 'Author: Monica Amico'
 
 # The full version, including alpha/beta/rc tags
-release = '1.6'
+release = '1.8'
 
 
 # -- General configuration ---------------------------------------------------

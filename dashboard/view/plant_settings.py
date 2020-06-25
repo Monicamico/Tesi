@@ -2,8 +2,9 @@ from flask_login import login_required
 from flask import Blueprint, render_template, flash, request as rcv_req, redirect
 from view.login import is_admin
 from model.forms import SettingsForm
-from model.gio_db import Plant, update_name, url_from_plant, ConnectionRequest, update_ideal_hum, update_ideal_temp, \
-    update_ideal_light, TypePlant, change_type
+from model.gio_db import Plant, ConnectionRequest, TypePlant
+from controller.utility import url_from_plant, update_name, change_type, update_ideal_hum, update_ideal_light, \
+    update_ideal_temp
 import time
 import requests as snd_req
 

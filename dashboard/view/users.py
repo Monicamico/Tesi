@@ -9,6 +9,14 @@ users_page = Blueprint('users_page', __name__)
 @login_required
 @users_page.route('/users')
 def users_list_page():
+    """
+
+    If current user is admin, show all the users.
+
+    :return: template *users.html*
+    :rtype: template
+
+    """
     if is_admin():
         users_list = User.query.all()
         conn_list = ConnectionRequest.query.all()

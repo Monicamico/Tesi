@@ -5,99 +5,177 @@
 \let\spxextra \sphinxstyleindexextra
 
   \bigletter A
-  \item \spxentry{add\_conn\_req()}\spxextra{in module model.gio\_db}, \hyperpage{2}
-  \item \spxentry{add\_plant()}\spxextra{in module model.gio\_db}, \hyperpage{2}
-  \item \spxentry{add\_plant\_from\_conn()}\spxextra{in module view.connections}, \hyperpage{11}
-  \item \spxentry{add\_radio()}\spxextra{in module model.gio\_db}, \hyperpage{3}
-  \item \spxentry{add\_type()}\spxextra{in module model.gio\_db}, \hyperpage{3}
-  \item \spxentry{add\_user()}\spxextra{in module model.gio\_db}, \hyperpage{3}
-  \item \spxentry{associated\_plants()}\spxextra{in module model.gio\_db}, \hyperpage{3}
-  \item \spxentry{authenticate()}\spxextra{model.gio\_db.User method}, \hyperpage{1}
+  \item \spxentry{add\_conn\_req()}\spxextra{in module controller.utility}, \hyperpage{5}
+  \item \spxentry{add\_plant()}\spxextra{in module controller.utility}, \hyperpage{5}
+  \item \spxentry{add\_plant\_from\_conn()}\spxextra{in module view.connections}, \hyperpage{17}
+  \item \spxentry{add\_radio()}\spxextra{in module controller.utility}, \hyperpage{5}
+  \item \spxentry{add\_type()}\spxextra{in module controller.utility}, \hyperpage{6}
+  \item \spxentry{add\_user()}\spxextra{in module controller.utility}, \hyperpage{6}
+  \item \spxentry{add\_user\_page()}\spxextra{in module view.add\_user}, \hyperpage{33}
+  \item \spxentry{associated\_plants()}\spxextra{in module controller.utility}, \hyperpage{6}
+  \item \spxentry{authenticate()}\spxextra{model.gio\_db.User method}, \hyperpage{3}
 
   \indexspace
   \bigletter C
-  \item \spxentry{change\_type()}\spxextra{in module model.gio\_db}, \hyperpage{3}
-  \item \spxentry{conn\_page()}\spxextra{in module view.connections}, \hyperpage{11}
-  \item \spxentry{ConnectionRequest}\spxextra{class in model.gio\_db}, \hyperpage{1}
+  \item \spxentry{change\_type()}\spxextra{in module controller.utility}, \hyperpage{6}
+  \item \spxentry{conn\_page()}\spxextra{in module view.connections}, \hyperpage{17}
+  \item \spxentry{ConnectionRequest}\spxextra{class in model.gio\_db}, \hyperpage{3}
+  \item \spxentry{container\_state()}\spxextra{in module view.plant}, \hyperpage{21}
   \item \spxentry{controller.request}
-    \subitem \spxentry{module}, \hyperpage{9}
-  \item \spxentry{correct\_password\_user()}\spxextra{in module model.gio\_db}, \hyperpage{4}
+    \subitem \spxentry{module}, \hyperpage{11}
+  \item \spxentry{controller.utility}
+    \subitem \spxentry{module}, \hyperpage{5}
+  \item \spxentry{correct\_password\_user()}\spxextra{in module controller.utility}, \hyperpage{6}
 
   \indexspace
   \bigletter D
-  \item \spxentry{delete\_conn\_req()}\spxextra{in module model.gio\_db}, \hyperpage{4}
-  \item \spxentry{delete\_plant()}\spxextra{in module model.gio\_db}, \hyperpage{4}
-  \item \spxentry{delete\_radio()}\spxextra{in module model.gio\_db}, \hyperpage{4}
-  \item \spxentry{delete\_user()}\spxextra{in module model.gio\_db}, \hyperpage{4}
+  \item \spxentry{dash\_page()}\spxextra{in module view.dashboard}, \hyperpage{15}
+  \item \spxentry{delete\_conn\_req()}\spxextra{in module controller.utility}, \hyperpage{7}
+  \item \spxentry{delete\_plant()}\spxextra{in module controller.utility}, \hyperpage{7}
+  \item \spxentry{delete\_radio()}\spxextra{in module controller.utility}, \hyperpage{7}
+  \item \spxentry{delete\_user()}\spxextra{in module controller.utility}, \hyperpage{7}
 
   \indexspace
   \bigletter G
-  \item \spxentry{get\_id()}\spxextra{model.gio\_db.User method}, \hyperpage{2}
-  \item \spxentry{get\_user()}\spxextra{in module model.gio\_db}, \hyperpage{4}
+  \item \spxentry{get\_id()}\spxextra{model.gio\_db.User method}, \hyperpage{4}
+  \item \spxentry{get\_user()}\spxextra{in module controller.utility}, \hyperpage{7}
+
+  \indexspace
+  \bigletter H
+  \item \spxentry{humidity()}\spxextra{in module view.plant}, \hyperpage{21}
 
   \indexspace
   \bigletter I
-  \item \spxentry{is\_admin()}\spxextra{model.gio\_db.User property}, \hyperpage{2}
-  \item \spxentry{is\_authenticated()}\spxextra{model.gio\_db.User method}, \hyperpage{2}
+  \item \spxentry{is\_admin()}\spxextra{in module view.login}, \hyperpage{13}
+  \item \spxentry{is\_admin()}\spxextra{model.gio\_db.User property}, \hyperpage{4}
+  \item \spxentry{is\_authenticated()}\spxextra{model.gio\_db.User method}, \hyperpage{4}
+
+  \indexspace
+  \bigletter L
+  \item \spxentry{light()}\spxextra{in module view.plant}, \hyperpage{21}
+  \item \spxentry{load\_user()}\spxextra{in module view.login}, \hyperpage{13}
+  \item \spxentry{login()}\spxextra{in module view.login}, \hyperpage{13}
+  \item \spxentry{logout()}\spxextra{in module view.login}, \hyperpage{13}
 
   \indexspace
   \bigletter M
   \item \spxentry{model.constant}
-    \subitem \spxentry{module}, \hyperpage{7}
-  \item \spxentry{model.gio\_db}
     \subitem \spxentry{module}, \hyperpage{1}
+  \item \spxentry{model.gio\_db}
+    \subitem \spxentry{module}, \hyperpage{3}
   \item \spxentry{module}
-    \subitem \spxentry{controller.request}, \hyperpage{9}
-    \subitem \spxentry{model.constant}, \hyperpage{7}
-    \subitem \spxentry{model.gio\_db}, \hyperpage{1}
-    \subitem \spxentry{view.connections}, \hyperpage{11}
+    \subitem \spxentry{controller.request}, \hyperpage{11}
+    \subitem \spxentry{controller.utility}, \hyperpage{5}
+    \subitem \spxentry{model.constant}, \hyperpage{1}
+    \subitem \spxentry{model.gio\_db}, \hyperpage{3}
+    \subitem \spxentry{view.add\_user}, \hyperpage{33}
+    \subitem \spxentry{view.connections}, \hyperpage{17}
+    \subitem \spxentry{view.dashboard}, \hyperpage{15}
+    \subitem \spxentry{view.login}, \hyperpage{13}
+    \subitem \spxentry{view.plant}, \hyperpage{21}
+    \subitem \spxentry{view.plant\_settings}, \hyperpage{23}
+    \subitem \spxentry{view.plants}, \hyperpage{19}
+    \subitem \spxentry{view.radio\_settings}, \hyperpage{27}
+    \subitem \spxentry{view.radios}, \hyperpage{25}
+    \subitem \spxentry{view.user\_settings}, \hyperpage{31}
+    \subitem \spxentry{view.users}, \hyperpage{29}
 
   \indexspace
   \bigletter O
-  \item \spxentry{Operation}\spxextra{class in model.constant}, \hyperpage{7}
+  \item \spxentry{Operation}\spxextra{class in model.constant}, \hyperpage{1}
 
   \indexspace
   \bigletter P
-  \item \spxentry{Plant}\spxextra{class in model.gio\_db}, \hyperpage{1}
+  \item \spxentry{Plant}\spxextra{class in model.gio\_db}, \hyperpage{3}
+  \item \spxentry{plant\_page()}\spxextra{in module view.plant}, \hyperpage{21}
+  \item \spxentry{plants()}\spxextra{in module view.plants}, \hyperpage{19}
 
   \indexspace
   \bigletter R
-  \item \spxentry{Radio}\spxextra{class in model.gio\_db}, \hyperpage{1}
-  \item \spxentry{radio\_from\_url()}\spxextra{in module model.gio\_db}, \hyperpage{4}
-  \item \spxentry{refuse\_plant\_from\_conn()}\spxextra{in module view.connections}, \hyperpage{11}
-  \item \spxentry{request()}\spxextra{in module controller.request}, \hyperpage{9}
-  \item \spxentry{Role}\spxextra{class in model.constant}, \hyperpage{7}
+  \item \spxentry{Radio}\spxextra{class in model.gio\_db}, \hyperpage{3}
+  \item \spxentry{radio\_from\_url()}\spxextra{in module controller.utility}, \hyperpage{7}
+  \item \spxentry{radio\_settings()}\spxextra{in module view.radio\_settings}, \hyperpage{27}
+  \item \spxentry{radios()}\spxextra{in module view.radios}, \hyperpage{25}
+  \item \spxentry{refuse\_plant\_from\_conn()}\spxextra{in module view.connections}, \hyperpage{17}
+  \item \spxentry{request()}\spxextra{in module controller.request}, \hyperpage{11}
+  \item \spxentry{Role}\spxextra{class in model.constant}, \hyperpage{1}
 
   \indexspace
   \bigletter S
-  \item \spxentry{set\_password()}\spxextra{model.gio\_db.User method}, \hyperpage{2}
-  \item \spxentry{set\_role()}\spxextra{model.gio\_db.User method}, \hyperpage{2}
-  \item \spxentry{set\_username()}\spxextra{model.gio\_db.User method}, \hyperpage{2}
+  \item \spxentry{set\_password()}\spxextra{model.gio\_db.User method}, \hyperpage{4}
+  \item \spxentry{set\_role()}\spxextra{model.gio\_db.User method}, \hyperpage{4}
+  \item \spxentry{set\_username()}\spxextra{model.gio\_db.User method}, \hyperpage{4}
+  \item \spxentry{settings()}\spxextra{in module view.plant\_settings}, \hyperpage{23}
 
   \indexspace
   \bigletter T
-  \item \spxentry{TypePlant}\spxextra{class in model.gio\_db}, \hyperpage{1}
+  \item \spxentry{temperature()}\spxextra{in module view.plant}, \hyperpage{21}
+  \item \spxentry{TypePlant}\spxextra{class in model.gio\_db}, \hyperpage{3}
 
   \indexspace
   \bigletter U
-  \item \spxentry{update\_name()}\spxextra{in module model.gio\_db}, \hyperpage{4}
-  \item \spxentry{update\_plant\_state\_fitness()}\spxextra{in module model.gio\_db}, \hyperpage{5}
-  \item \spxentry{update\_radio\_name()}\spxextra{in module model.gio\_db}, \hyperpage{5}
-  \item \spxentry{update\_radio\_transmit\_power()}\spxextra{in module model.gio\_db}, 
-		\hyperpage{5}
-  \item \spxentry{update\_sleep\_time()}\spxextra{in module model.gio\_db}, \hyperpage{5}
-  \item \spxentry{update\_vase\_transmit\_power()}\spxextra{in module model.gio\_db}, \hyperpage{5}
-  \item \spxentry{url\_from\_plant()}\spxextra{in module model.gio\_db}, \hyperpage{6}
-  \item \spxentry{url\_from\_radio()}\spxextra{in module model.gio\_db}, \hyperpage{6}
-  \item \spxentry{User}\spxextra{class in model.gio\_db}, \hyperpage{1}
+  \item \spxentry{update\_hum()}\spxextra{in module controller.utility}, \hyperpage{7}
+  \item \spxentry{update\_hum\_max()}\spxextra{in module controller.utility}, \hyperpage{7}
+  \item \spxentry{update\_hum\_min()}\spxextra{in module controller.utility}, \hyperpage{8}
+  \item \spxentry{update\_ideal\_hum()}\spxextra{in module controller.utility}, \hyperpage{8}
+  \item \spxentry{update\_ideal\_light()}\spxextra{in module controller.utility}, \hyperpage{8}
+  \item \spxentry{update\_ideal\_temp()}\spxextra{in module controller.utility}, \hyperpage{8}
+  \item \spxentry{update\_light()}\spxextra{in module controller.utility}, \hyperpage{8}
+  \item \spxentry{update\_light\_max()}\spxextra{in module controller.utility}, \hyperpage{8}
+  \item \spxentry{update\_light\_min()}\spxextra{in module controller.utility}, \hyperpage{8}
+  \item \spxentry{update\_name()}\spxextra{in module controller.utility}, \hyperpage{8}
+  \item \spxentry{update\_plant\_state\_fitness()}\spxextra{in module controller.utility}, 
+		\hyperpage{8}
+  \item \spxentry{update\_radio\_name()}\spxextra{in module controller.utility}, \hyperpage{8}
+  \item \spxentry{update\_radio\_transmit\_power()}\spxextra{in module controller.utility}, 
+		\hyperpage{9}
+  \item \spxentry{update\_send\_time()}\spxextra{in module controller.utility}, \hyperpage{9}
+  \item \spxentry{update\_sleep\_time()}\spxextra{in module controller.utility}, \hyperpage{9}
+  \item \spxentry{update\_temp()}\spxextra{in module controller.utility}, \hyperpage{9}
+  \item \spxentry{update\_temp\_max()}\spxextra{in module controller.utility}, \hyperpage{9}
+  \item \spxentry{update\_temp\_min()}\spxextra{in module controller.utility}, \hyperpage{9}
+  \item \spxentry{update\_vase\_transmit\_power()}\spxextra{in module controller.utility}, 
+		\hyperpage{9}
+  \item \spxentry{update\_water\_container\_size()}\spxextra{in module controller.utility}, 
+		\hyperpage{9}
+  \item \spxentry{update\_water\_container\_state()}\spxextra{in module controller.utility}, 
+		\hyperpage{9}
+  \item \spxentry{update\_watering\_light()}\spxextra{in module controller.utility}, \hyperpage{10}
+  \item \spxentry{url\_from\_plant()}\spxextra{in module controller.utility}, \hyperpage{10}
+  \item \spxentry{url\_from\_radio()}\spxextra{in module controller.utility}, \hyperpage{10}
+  \item \spxentry{User}\spxextra{class in model.gio\_db}, \hyperpage{3}
+  \item \spxentry{user\_settings()}\spxextra{in module view.user\_settings}, \hyperpage{31}
+  \item \spxentry{users\_list\_page()}\spxextra{in module view.users}, \hyperpage{29}
 
   \indexspace
   \bigletter V
+  \item \spxentry{vase\_state\_req()}\spxextra{in module view.plant}, \hyperpage{22}
+  \item \spxentry{view.add\_user}
+    \subitem \spxentry{module}, \hyperpage{33}
   \item \spxentry{view.connections}
-    \subitem \spxentry{module}, \hyperpage{11}
+    \subitem \spxentry{module}, \hyperpage{17}
+  \item \spxentry{view.dashboard}
+    \subitem \spxentry{module}, \hyperpage{15}
+  \item \spxentry{view.login}
+    \subitem \spxentry{module}, \hyperpage{13}
+  \item \spxentry{view.plant}
+    \subitem \spxentry{module}, \hyperpage{21}
+  \item \spxentry{view.plant\_settings}
+    \subitem \spxentry{module}, \hyperpage{23}
+  \item \spxentry{view.plants}
+    \subitem \spxentry{module}, \hyperpage{19}
+  \item \spxentry{view.radio\_settings}
+    \subitem \spxentry{module}, \hyperpage{27}
+  \item \spxentry{view.radios}
+    \subitem \spxentry{module}, \hyperpage{25}
+  \item \spxentry{view.user\_settings}
+    \subitem \spxentry{module}, \hyperpage{31}
+  \item \spxentry{view.users}
+    \subitem \spxentry{module}, \hyperpage{29}
 
   \indexspace
   \bigletter W
-  \item \spxentry{WaterContainerState}\spxextra{class in model.constant}, \hyperpage{8}
+  \item \spxentry{water()}\spxextra{in module view.plant}, \hyperpage{22}
+  \item \spxentry{WaterContainerState}\spxextra{class in model.constant}, \hyperpage{2}
 
 \end{sphinxtheindex}

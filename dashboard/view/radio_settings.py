@@ -2,7 +2,8 @@ from flask import Blueprint, render_template, request as rcv_req, redirect, flas
 from flask_login import login_required
 from view.login import is_admin
 from model.forms import SettingsForm
-from model.gio_db import Radio, url_from_radio, update_radio_name, ConnectionRequest
+from model.gio_db import Radio, ConnectionRequest
+from controller.utility import update_radio_name, url_from_radio
 import requests as snd_req
 
 radio_settings_page = Blueprint('radio_settings_page', __name__)
@@ -11,6 +12,16 @@ radio_settings_page = Blueprint('radio_settings_page', __name__)
 @radio_settings_page.route('/radio_settings/<string:idr>', methods=['POST', 'GET'])
 @login_required
 def radio_settings(idr):
+    """
+
+    If current user is admin, show the radio idr settings
+
+    :param idr: radio serial number
+    :type idr: str
+    :return: template *radio_settings.html*
+    :rtype: template
+
+    """
     radio = Radio.query.filter_by(id=idr).first()
     conn_list = ConnectionRequest.query.all()
     settings_form = SettingsForm()

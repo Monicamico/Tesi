@@ -2,7 +2,8 @@ from flask import Blueprint, render_template, flash, request as rcv_req, redirec
 from flask_login import login_required
 from view.login import is_admin
 from model.forms import UserForm
-from model.gio_db import ConnectionRequest, get_user, correct_password_user
+from model.gio_db import ConnectionRequest
+from controller.utility import correct_password_user, get_user
 
 user_settings_page = Blueprint('user_settings_page', __name__)
 
@@ -10,6 +11,14 @@ user_settings_page = Blueprint('user_settings_page', __name__)
 @login_required
 @user_settings_page.route('/user_settings/<string:user>', methods=['POST', 'GET'])
 def user_settings(user):
+    """
+    If current user is admin, show the user's settings.
+
+    :param user: username
+    :type user: str
+    :return: template *user_settings.html* or *error.html*
+    :rtype: template
+    """
     if is_admin():
         form = UserForm()
         conn_list = ConnectionRequest.query.all()

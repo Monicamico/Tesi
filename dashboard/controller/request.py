@@ -1,15 +1,10 @@
 from flask import Blueprint, request as rcv_req
 import requests as snd_req
-from model.gio_db import add_radio, add_conn_req, delete_conn_req, \
-    add_plant, delete_plant, \
-    update_hum, update_light, update_temp, \
-    update_water_container_state, \
-    update_hum_min, update_hum_max, \
-    update_light_min, update_light_max, \
-    update_temp_min, update_temp_max, \
-    update_watering_light, \
-    update_vase_transmit_power, update_radio_transmit_power, update_water_container_size, \
-    update_send_time, update_sleep_time, update_plant_state_fitness, radio_from_url, associated_plants
+from controller.utility import add_conn_req, delete_conn_req, update_sleep_time, update_radio_transmit_power, add_radio, \
+    radio_from_url, associated_plants, add_plant, delete_plant, update_vase_transmit_power, update_send_time, \
+    update_hum, update_temp, update_light, update_plant_state_fitness, update_temp_min, update_temp_max, update_hum_min, \
+    update_hum_max, update_light_max, update_light_min, update_watering_light, update_water_container_size, \
+    update_water_container_state
 from model.constant import Operation
 
 request_page = Blueprint('request_page', __name__)
@@ -19,7 +14,7 @@ request_page = Blueprint('request_page', __name__)
 @request_page.route("/request", methods=['POST', 'PUT'])
 def request():
     """
-        **Recive a request or response from a Radio-Raspberry**
+        *Recive a request or response from a Radio-Raspberry*
 
         **Data received:**
             - data['request']

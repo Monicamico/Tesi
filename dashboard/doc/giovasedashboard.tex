@@ -73,10 +73,9 @@
 
 
 
-\title{Gio Vase 
- Dashboard}
+\title{Gio Vase, Dashboard}
 \date{Jun 25, 2020}
-\release{1.6}
+\release{1.8}
 \author{Author: Monica Amico}
 \newcommand{\sphinxlogo}{\vbox{}}
 \renewcommand{\releasename}{Release}
@@ -92,8 +91,131 @@
 
 
 
-\chapter{GioVase Dashboard \sphinxhyphen{} Database}
-\label{\detokenize{index:module-model.gio_db}}\label{\detokenize{index:giovase-dashboard-database}}\index{module@\spxentry{module}!model.gio\_db@\spxentry{model.gio\_db}}\index{model.gio\_db@\spxentry{model.gio\_db}!module@\spxentry{module}}\index{ConnectionRequest (class in model.gio\_db)@\spxentry{ConnectionRequest}\spxextra{class in model.gio\_db}}
+\chapter{Model, Constant}
+\label{\detokenize{index:module-model.constant}}\label{\detokenize{index:model-constant}}\index{module@\spxentry{module}!model.constant@\spxentry{model.constant}}\index{model.constant@\spxentry{model.constant}!module@\spxentry{module}}\index{Operation (class in model.constant)@\spxentry{Operation}\spxextra{class in model.constant}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:model.constant.Operation}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{model.constant.}}\sphinxbfcode{\sphinxupquote{Operation}}}{\emph{\DUrole{n}{value}}}{}~\begin{description}
+\item[{Enum used to represent Type of operations:}] \leavevmode\begin{itemize}
+\item {} 
+JOINED = 0
+
+\item {} 
+REFUSED = 1
+
+\item {} 
+PING = 2
+
+\item {} 
+HUMIDITY = 3
+
+\item {} 
+TEMPERATURE = 4
+
+\item {} 
+LIGHT = 5
+
+\item {} 
+WATER = 6
+
+\item {} 
+SET\_HUMIDITY\_MIN = 7
+
+\item {} 
+SET\_HUMIDITY\_MAX = 8
+
+\item {} 
+SET\_TEMPERATURE\_MIN = 9
+
+\item {} 
+SET\_TEMPERATURE\_MAX = 10
+
+\item {} 
+SET\_LIGHT\_MAX = 11
+
+\item {} 
+SET\_LIGHT\_MIN = 12
+
+\item {} 
+SET\_VASE\_PAUSE\_TIME = 13
+
+\item {} 
+SET\_VASE\_SEND\_TIME = 14
+
+\item {} 
+SET\_RADIO\_PAUSE\_TIME = 15
+
+\item {} 
+SET\_RADIO\_DIED\_PING = 16
+
+\item {} 
+CONNECTION = 17
+
+\item {} 
+DELETED = 18
+
+\item {} 
+SET\_WATERING\_LIGHT = 19
+
+\item {} 
+SET\_WATER\_CONTAINER\_SIZE = 20
+
+\item {} 
+WATER\_CONTAINER\_STATE = 21
+
+\item {} 
+RADIO\_JOIN = 22
+
+\item {} 
+RADIO\_TRANSMIT\_POWER = 23
+
+\item {} 
+VASE\_TRANSMIT\_POWER = 24
+
+\end{itemize}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{Role (class in model.constant)@\spxentry{Role}\spxextra{class in model.constant}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:model.constant.Role}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{model.constant.}}\sphinxbfcode{\sphinxupquote{Role}}}{\emph{\DUrole{n}{value}}}{}~\begin{description}
+\item[{Enum used for users role:}] \leavevmode\begin{itemize}
+\item {} 
+ADMIN = 0
+
+\item {} 
+USER = 1
+
+\end{itemize}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{WaterContainerState (class in model.constant)@\spxentry{WaterContainerState}\spxextra{class in model.constant}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:model.constant.WaterContainerState}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{model.constant.}}\sphinxbfcode{\sphinxupquote{WaterContainerState}}}{\emph{\DUrole{n}{value}}}{}~\begin{description}
+\item[{Water container state:}] \leavevmode\begin{itemize}
+\item {} 
+Empty = 0
+
+\item {} 
+Full = 1
+
+\end{itemize}
+
+\end{description}
+
+\end{fulllineitems}
+
+
+
+\chapter{Model, Database}
+\label{\detokenize{index:module-model.gio_db}}\label{\detokenize{index:model-database}}\index{module@\spxentry{module}!model.gio\_db@\spxentry{model.gio\_db}}\index{model.gio\_db@\spxentry{model.gio\_db}!module@\spxentry{module}}\index{ConnectionRequest (class in model.gio\_db)@\spxentry{ConnectionRequest}\spxextra{class in model.gio\_db}}
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:model.gio_db.ConnectionRequest}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{ConnectionRequest}}}{\emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
@@ -271,10 +393,13 @@ it sets the user username
 
 \end{fulllineitems}
 
-\index{add\_conn\_req() (in module model.gio\_db)@\spxentry{add\_conn\_req()}\spxextra{in module model.gio\_db}}
+
+
+\chapter{Controller, Utility functions}
+\label{\detokenize{index:module-controller.utility}}\label{\detokenize{index:controller-utility-functions}}\index{module@\spxentry{module}!controller.utility@\spxentry{controller.utility}}\index{controller.utility@\spxentry{controller.utility}!module@\spxentry{module}}\index{add\_conn\_req() (in module controller.utility)@\spxentry{add\_conn\_req()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.add_conn_req}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{add\_conn\_req}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{signalv}}, \emph{\DUrole{n}{pairingv}}, \emph{\DUrole{n}{radio\_id}}}{}~\begin{itemize}
+\phantomsection\label{\detokenize{index:controller.utility.add_conn_req}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{add\_conn\_req}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{signalv}}, \emph{\DUrole{n}{pairingv}}, \emph{\DUrole{n}{radio\_id}}}{}~\begin{itemize}
 \item {} \begin{description}
 \item[{if there is no connection request or a plant with id equal to the idv parameter:}] \leavevmode
 it adds the connection request and returns the value True.
@@ -332,10 +457,10 @@ boolean
 
 \end{fulllineitems}
 
-\index{add\_plant() (in module model.gio\_db)@\spxentry{add\_plant()}\spxextra{in module model.gio\_db}}
+\index{add\_plant() (in module controller.utility)@\spxentry{add\_plant()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.add_plant}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{add\_plant}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{radio}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.add_plant}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{add\_plant}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{radio}}}{}
 if the radio with serial number equal to the second parameter exists
 and the plant doesn’t exist, adds the plant with serial number equal
 to idv, and deletes the connection request with id equal to idv.
@@ -353,10 +478,10 @@ to idv, and deletes the connection request with id equal to idv.
 
 \end{fulllineitems}
 
-\index{add\_radio() (in module model.gio\_db)@\spxentry{add\_radio()}\spxextra{in module model.gio\_db}}
+\index{add\_radio() (in module controller.utility)@\spxentry{add\_radio()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.add_radio}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{add\_radio}}}{\emph{\DUrole{n}{radio}}, \emph{\DUrole{n}{url\_radio}}}{}~\begin{itemize}
+\phantomsection\label{\detokenize{index:controller.utility.add_radio}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{add\_radio}}}{\emph{\DUrole{n}{radio}}, \emph{\DUrole{n}{url\_radio}}}{}~\begin{itemize}
 \item {} \begin{description}
 \item[{If the radio is not in the database:}] \leavevmode
 add it, and return the value True.
@@ -396,10 +521,10 @@ bool
 
 \end{fulllineitems}
 
-\index{add\_type() (in module model.gio\_db)@\spxentry{add\_type()}\spxextra{in module model.gio\_db}}
+\index{add\_type() (in module controller.utility)@\spxentry{add\_type()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.add_type}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{add\_type}}}{\emph{\DUrole{n}{idt}}, \emph{\DUrole{n}{hum\_min}}, \emph{\DUrole{n}{hum\_max}}, \emph{\DUrole{n}{temp\_min}}, \emph{\DUrole{n}{temp\_max}}, \emph{\DUrole{n}{light\_max}}, \emph{\DUrole{n}{light\_min}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.add_type}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{add\_type}}}{\emph{\DUrole{n}{idt}}, \emph{\DUrole{n}{hum\_min}}, \emph{\DUrole{n}{hum\_max}}, \emph{\DUrole{n}{temp\_min}}, \emph{\DUrole{n}{temp\_max}}, \emph{\DUrole{n}{light\_max}}, \emph{\DUrole{n}{light\_min}}}{}
 Adds a new type of plant
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -430,23 +555,34 @@ Adds a new type of plant
 
 \end{fulllineitems}
 
-\index{add\_user() (in module model.gio\_db)@\spxentry{add\_user()}\spxextra{in module model.gio\_db}}
+\index{add\_user() (in module controller.utility)@\spxentry{add\_user()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.add_user}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{add\_user}}}{\emph{\DUrole{n}{username}}, \emph{\DUrole{n}{password}}, \emph{\DUrole{n}{role}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.add_user}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{add\_user}}}{\emph{\DUrole{n}{username}}, \emph{\DUrole{n}{password}}, \emph{\DUrole{n}{role}}}{}
 Add a user into the database
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{username}} \textendash{} 
 
-:param username
-:param password
-:param role
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{password}} \textendash{} 
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{role}} \textendash{} 
+
+\end{itemize}
+
+\end{description}\end{quote}
+
 :return True if the operation was successful otherwise False
 
 \end{fulllineitems}
 
-\index{associated\_plants() (in module model.gio\_db)@\spxentry{associated\_plants()}\spxextra{in module model.gio\_db}}
+\index{associated\_plants() (in module controller.utility)@\spxentry{associated\_plants()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.associated_plants}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{associated\_plants}}}{\emph{\DUrole{n}{radio\_id}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.associated_plants}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{associated\_plants}}}{\emph{\DUrole{n}{radio\_id}}}{}
 Gets plants list associated with the radio
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode
@@ -462,10 +598,10 @@ plant list
 
 \end{fulllineitems}
 
-\index{change\_type() (in module model.gio\_db)@\spxentry{change\_type()}\spxextra{in module model.gio\_db}}
+\index{change\_type() (in module controller.utility)@\spxentry{change\_type()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.change_type}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{change\_type}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{idt}}, \emph{\DUrole{n}{url}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.change_type}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{change\_type}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{idt}}, \emph{\DUrole{n}{url}}}{}
 Change the type of the plant
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -490,10 +626,10 @@ bool
 
 \end{fulllineitems}
 
-\index{correct\_password\_user() (in module model.gio\_db)@\spxentry{correct\_password\_user()}\spxextra{in module model.gio\_db}}
+\index{correct\_password\_user() (in module controller.utility)@\spxentry{correct\_password\_user()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.correct_password_user}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{correct\_password\_user}}}{\emph{\DUrole{n}{username}}, \emph{\DUrole{n}{password}}}{}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{index:controller.utility.correct_password_user}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{correct\_password\_user}}}{\emph{\DUrole{n}{username}}, \emph{\DUrole{n}{password}}}{}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{username}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} 
@@ -513,10 +649,10 @@ boolean
 
 \end{fulllineitems}
 
-\index{delete\_conn\_req() (in module model.gio\_db)@\spxentry{delete\_conn\_req()}\spxextra{in module model.gio\_db}}
+\index{delete\_conn\_req() (in module controller.utility)@\spxentry{delete\_conn\_req()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.delete_conn_req}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{delete\_conn\_req}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{radio}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.delete_conn_req}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{delete\_conn\_req}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{radio}}}{}
 if present, it eliminates the connection request with id equal to the first parameter
 from the radio with id equal to the second parameter.
 \begin{quote}\begin{description}
@@ -536,10 +672,10 @@ None or the deleted request
 
 \end{fulllineitems}
 
-\index{delete\_plant() (in module model.gio\_db)@\spxentry{delete\_plant()}\spxextra{in module model.gio\_db}}
+\index{delete\_plant() (in module controller.utility)@\spxentry{delete\_plant()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.delete_plant}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{delete\_plant}}}{\emph{\DUrole{n}{idv}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.delete_plant}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{delete\_plant}}}{\emph{\DUrole{n}{idv}}}{}
 Delete the plant with serial number equal to idv, if presents.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode
@@ -549,10 +685,10 @@ Delete the plant with serial number equal to idv, if presents.
 
 \end{fulllineitems}
 
-\index{delete\_radio() (in module model.gio\_db)@\spxentry{delete\_radio()}\spxextra{in module model.gio\_db}}
+\index{delete\_radio() (in module controller.utility)@\spxentry{delete\_radio()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.delete_radio}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{delete\_radio}}}{\emph{\DUrole{n}{radio}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.delete_radio}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{delete\_radio}}}{\emph{\DUrole{n}{radio}}}{}
 Delete the radio with serial number equal to parameter
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode
@@ -568,10 +704,10 @@ bool
 
 \end{fulllineitems}
 
-\index{delete\_user() (in module model.gio\_db)@\spxentry{delete\_user()}\spxextra{in module model.gio\_db}}
+\index{delete\_user() (in module controller.utility)@\spxentry{delete\_user()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.delete_user}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{delete\_user}}}{\emph{\DUrole{n}{username}}, \emph{\DUrole{n}{password}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.delete_user}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{delete\_user}}}{\emph{\DUrole{n}{username}}, \emph{\DUrole{n}{password}}}{}
 Delete the user username.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -593,12 +729,12 @@ bool
 
 \end{fulllineitems}
 
-\index{get\_user() (in module model.gio\_db)@\spxentry{get\_user()}\spxextra{in module model.gio\_db}}
+\index{get\_user() (in module controller.utility)@\spxentry{get\_user()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.get_user}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{get\_user}}}{\emph{\DUrole{n}{username}}}{}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{index:controller.utility.get_user}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{get\_user}}}{\emph{\DUrole{n}{username}}}{}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode
-\sphinxstyleliteralstrong{\sphinxupquote{username}} \textendash{} 
+\sphinxstyleliteralstrong{\sphinxupquote{username}} \textendash{} user’s username
 
 \end{description}\end{quote}
 
@@ -606,10 +742,10 @@ bool
 
 \end{fulllineitems}
 
-\index{radio\_from\_url() (in module model.gio\_db)@\spxentry{radio\_from\_url()}\spxextra{in module model.gio\_db}}
+\index{radio\_from\_url() (in module controller.utility)@\spxentry{radio\_from\_url()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.radio_from_url}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{radio\_from\_url}}}{\emph{\DUrole{n}{url}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.radio_from_url}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{radio\_from\_url}}}{\emph{\DUrole{n}{url}}}{}
 Gets the radio with url equal to parameter.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode
@@ -625,10 +761,119 @@ radio
 
 \end{fulllineitems}
 
-\index{update\_name() (in module model.gio\_db)@\spxentry{update\_name()}\spxextra{in module model.gio\_db}}
+\index{update\_hum() (in module controller.utility)@\spxentry{update\_hum()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.update_name}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{update\_name}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{name}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.update_hum}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_hum}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{humidity}}}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{humidity}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} humidity measure
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{update\_hum\_max() (in module controller.utility)@\spxentry{update\_hum\_max()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_hum_max}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_hum\_max}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{hum\_m}}}{}
+\end{fulllineitems}
+
+\index{update\_hum\_min() (in module controller.utility)@\spxentry{update\_hum\_min()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_hum_min}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_hum\_min}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{hum\_m}}}{}
+\end{fulllineitems}
+
+\index{update\_ideal\_hum() (in module controller.utility)@\spxentry{update\_ideal\_hum()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_ideal_hum}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_ideal\_hum}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{ideal\_humidity}}}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{ideal\_humidity}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} 
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{update\_ideal\_light() (in module controller.utility)@\spxentry{update\_ideal\_light()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_ideal_light}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_ideal\_light}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{ideal\_light}}}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{ideal\_light}} \textendash{} 
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{update\_ideal\_temp() (in module controller.utility)@\spxentry{update\_ideal\_temp()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_ideal_temp}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_ideal\_temp}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{ideal\_temp}}}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{ideal\_temp}} \textendash{} 
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{update\_light() (in module controller.utility)@\spxentry{update\_light()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_light}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_light}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{light}}}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{light}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} light measure
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{update\_light\_max() (in module controller.utility)@\spxentry{update\_light\_max()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_light_max}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_light\_max}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{li\_m}}}{}
+\end{fulllineitems}
+
+\index{update\_light\_min() (in module controller.utility)@\spxentry{update\_light\_min()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_light_min}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_light\_min}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{li\_m}}}{}
+\end{fulllineitems}
+
+\index{update\_name() (in module controller.utility)@\spxentry{update\_name()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_name}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_name}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{name}}}{}
 Change the plant’s name.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -650,10 +895,10 @@ bool
 
 \end{fulllineitems}
 
-\index{update\_plant\_state\_fitness() (in module model.gio\_db)@\spxentry{update\_plant\_state\_fitness()}\spxextra{in module model.gio\_db}}
+\index{update\_plant\_state\_fitness() (in module controller.utility)@\spxentry{update\_plant\_state\_fitness()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.update_plant_state_fitness}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{update\_plant\_state\_fitness}}}{\emph{\DUrole{n}{idv}}}{}~\begin{description}
+\phantomsection\label{\detokenize{index:controller.utility.update_plant_state_fitness}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_plant\_state\_fitness}}}{\emph{\DUrole{n}{idv}}}{}~\begin{description}
 \item[{Update the plant status, calculated with the values of:}] \leavevmode\begin{itemize}
 \item {} 
 ideal humidity, ideal light, ideal temperature
@@ -678,10 +923,10 @@ float
 
 \end{fulllineitems}
 
-\index{update\_radio\_name() (in module model.gio\_db)@\spxentry{update\_radio\_name()}\spxextra{in module model.gio\_db}}
+\index{update\_radio\_name() (in module controller.utility)@\spxentry{update\_radio\_name()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.update_radio_name}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{update\_radio\_name}}}{\emph{\DUrole{n}{radio}}, \emph{\DUrole{n}{name}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.update_radio_name}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_radio\_name}}}{\emph{\DUrole{n}{radio}}, \emph{\DUrole{n}{name}}}{}
 Change the name of the radio
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -703,10 +948,10 @@ boolean
 
 \end{fulllineitems}
 
-\index{update\_radio\_transmit\_power() (in module model.gio\_db)@\spxentry{update\_radio\_transmit\_power()}\spxextra{in module model.gio\_db}}
+\index{update\_radio\_transmit\_power() (in module controller.utility)@\spxentry{update\_radio\_transmit\_power()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.update_radio_transmit_power}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{update\_radio\_transmit\_power}}}{\emph{\DUrole{n}{radio}}, \emph{\DUrole{n}{tr}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.update_radio_transmit_power}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_radio\_transmit\_power}}}{\emph{\DUrole{n}{radio}}, \emph{\DUrole{n}{tr}}}{}
 Change the transmit\sphinxhyphen{}power of the radio
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -728,10 +973,27 @@ bool
 
 \end{fulllineitems}
 
-\index{update\_sleep\_time() (in module model.gio\_db)@\spxentry{update\_sleep\_time()}\spxextra{in module model.gio\_db}}
+\index{update\_send\_time() (in module controller.utility)@\spxentry{update\_send\_time()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.update_sleep_time}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{update\_sleep\_time}}}{\emph{\DUrole{n}{radio}}, \emph{\DUrole{n}{time}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.update_send_time}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_send\_time}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{st}}}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{st}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} send time interval, minutes
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{update\_sleep\_time() (in module controller.utility)@\spxentry{update\_sleep\_time()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_sleep_time}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_sleep\_time}}}{\emph{\DUrole{n}{radio}}, \emph{\DUrole{n}{time}}}{}
 Change the sleep\sphinxhyphen{}time of the radio
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -753,10 +1015,39 @@ bool
 
 \end{fulllineitems}
 
-\index{update\_vase\_transmit\_power() (in module model.gio\_db)@\spxentry{update\_vase\_transmit\_power()}\spxextra{in module model.gio\_db}}
+\index{update\_temp() (in module controller.utility)@\spxentry{update\_temp()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.update_vase_transmit_power}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{update\_vase\_transmit\_power}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{tr}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.update_temp}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_temp}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{temperature}}}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{temperature}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} temperature measure
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{update\_temp\_max() (in module controller.utility)@\spxentry{update\_temp\_max()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_temp_max}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_temp\_max}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{temp\_m}}}{}
+\end{fulllineitems}
+
+\index{update\_temp\_min() (in module controller.utility)@\spxentry{update\_temp\_min()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_temp_min}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_temp\_min}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{temp\_m}}}{}
+\end{fulllineitems}
+
+\index{update\_vase\_transmit\_power() (in module controller.utility)@\spxentry{update\_vase\_transmit\_power()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_vase_transmit_power}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_vase\_transmit\_power}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{tr}}}{}
 Change the radio transmit power of the plant
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -778,10 +1069,28 @@ bool
 
 \end{fulllineitems}
 
-\index{url\_from\_plant() (in module model.gio\_db)@\spxentry{url\_from\_plant()}\spxextra{in module model.gio\_db}}
+\index{update\_water\_container\_size() (in module controller.utility)@\spxentry{update\_water\_container\_size()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.url_from_plant}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{url\_from\_plant}}}{\emph{\DUrole{n}{idv}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.update_water_container_size}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_water\_container\_size}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{wcs}}}{}
+\end{fulllineitems}
+
+\index{update\_water\_container\_state() (in module controller.utility)@\spxentry{update\_water\_container\_state()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_water_container_state}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_water\_container\_state}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{state}}}{}
+\end{fulllineitems}
+
+\index{update\_watering\_light() (in module controller.utility)@\spxentry{update\_watering\_light()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.update_watering_light}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{update\_watering\_light}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{wl}}}{}
+\end{fulllineitems}
+
+\index{url\_from\_plant() (in module controller.utility)@\spxentry{url\_from\_plant()}\spxextra{in module controller.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:controller.utility.url_from_plant}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{url\_from\_plant}}}{\emph{\DUrole{n}{idv}}}{}
 Gets the url of the associated raspberry\sphinxhyphen{}radio.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode
@@ -797,10 +1106,10 @@ str
 
 \end{fulllineitems}
 
-\index{url\_from\_radio() (in module model.gio\_db)@\spxentry{url\_from\_radio()}\spxextra{in module model.gio\_db}}
+\index{url\_from\_radio() (in module controller.utility)@\spxentry{url\_from\_radio()}\spxextra{in module controller.utility}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.gio_db.url_from_radio}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{model.gio\_db.}}\sphinxbfcode{\sphinxupquote{url\_from\_radio}}}{\emph{\DUrole{n}{radio}}}{}
+\phantomsection\label{\detokenize{index:controller.utility.url_from_radio}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.utility.}}\sphinxbfcode{\sphinxupquote{url\_from\_radio}}}{\emph{\DUrole{n}{radio}}}{}
 Gets the radio url.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode
@@ -818,135 +1127,12 @@ string
 
 
 
-\chapter{GioVase Dashboard \sphinxhyphen{} Constant}
-\label{\detokenize{index:module-model.constant}}\label{\detokenize{index:giovase-dashboard-constant}}\index{module@\spxentry{module}!model.constant@\spxentry{model.constant}}\index{model.constant@\spxentry{model.constant}!module@\spxentry{module}}\index{Operation (class in model.constant)@\spxentry{Operation}\spxextra{class in model.constant}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.constant.Operation}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{model.constant.}}\sphinxbfcode{\sphinxupquote{Operation}}}{\emph{\DUrole{n}{value}}}{}~\begin{description}
-\item[{Enum used to represent Type of operations:}] \leavevmode\begin{itemize}
-\item {} 
-JOINED = 0
-
-\item {} 
-REFUSED = 1
-
-\item {} 
-PING = 2
-
-\item {} 
-HUMIDITY = 3
-
-\item {} 
-TEMPERATURE = 4
-
-\item {} 
-LIGHT = 5
-
-\item {} 
-WATER = 6
-
-\item {} 
-SET\_HUMIDITY\_MIN = 7
-
-\item {} 
-SET\_HUMIDITY\_MAX = 8
-
-\item {} 
-SET\_TEMPERATURE\_MIN = 9
-
-\item {} 
-SET\_TEMPERATURE\_MAX = 10
-
-\item {} 
-SET\_LIGHT\_MAX = 11
-
-\item {} 
-SET\_LIGHT\_MIN = 12
-
-\item {} 
-SET\_VASE\_PAUSE\_TIME = 13
-
-\item {} 
-SET\_VASE\_SEND\_TIME = 14
-
-\item {} 
-SET\_RADIO\_PAUSE\_TIME = 15
-
-\item {} 
-SET\_RADIO\_DIED\_PING = 16
-
-\item {} 
-CONNECTION = 17
-
-\item {} 
-DELETED = 18
-
-\item {} 
-SET\_WATERING\_LIGHT = 19
-
-\item {} 
-SET\_WATER\_CONTAINER\_SIZE = 20
-
-\item {} 
-WATER\_CONTAINER\_STATE = 21
-
-\item {} 
-RADIO\_JOIN = 22
-
-\item {} 
-RADIO\_TRANSMIT\_POWER = 23
-
-\item {} 
-VASE\_TRANSMIT\_POWER = 24
-
-\end{itemize}
-
-\end{description}
-
-\end{fulllineitems}
-
-\index{Role (class in model.constant)@\spxentry{Role}\spxextra{class in model.constant}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.constant.Role}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{model.constant.}}\sphinxbfcode{\sphinxupquote{Role}}}{\emph{\DUrole{n}{value}}}{}~\begin{description}
-\item[{Enum used for users role:}] \leavevmode\begin{itemize}
-\item {} 
-ADMIN = 0
-
-\item {} 
-USER = 1
-
-\end{itemize}
-
-\end{description}
-
-\end{fulllineitems}
-
-\index{WaterContainerState (class in model.constant)@\spxentry{WaterContainerState}\spxextra{class in model.constant}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{index:model.constant.WaterContainerState}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{model.constant.}}\sphinxbfcode{\sphinxupquote{WaterContainerState}}}{\emph{\DUrole{n}{value}}}{}~\begin{description}
-\item[{Water container state:}] \leavevmode\begin{itemize}
-\item {} 
-Empty = 0
-
-\item {} 
-Full = 1
-
-\end{itemize}
-
-\end{description}
-
-\end{fulllineitems}
-
-
-
-\chapter{GioVase Dashboard \sphinxhyphen{} Request}
-\label{\detokenize{index:module-controller.request}}\label{\detokenize{index:giovase-dashboard-request}}\index{module@\spxentry{module}!controller.request@\spxentry{controller.request}}\index{controller.request@\spxentry{controller.request}!module@\spxentry{module}}\index{request() (in module controller.request)@\spxentry{request()}\spxextra{in module controller.request}}
+\chapter{Controller, Request}
+\label{\detokenize{index:module-controller.request}}\label{\detokenize{index:controller-request}}\index{module@\spxentry{module}!controller.request@\spxentry{controller.request}}\index{controller.request@\spxentry{controller.request}!module@\spxentry{module}}\index{request() (in module controller.request)@\spxentry{request()}\spxextra{in module controller.request}}
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:controller.request.request}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{controller.request.}}\sphinxbfcode{\sphinxupquote{request}}}{}{}
-\sphinxstylestrong{Recive a request or response from a Radio\sphinxhyphen{}Raspberry}
+\sphinxstyleemphasis{Recive a request or response from a Radio\sphinxhyphen{}Raspberry}
 \begin{description}
 \item[{\sphinxstylestrong{Data received:}}] \leavevmode\begin{itemize}
 \item {} 
@@ -1128,8 +1314,96 @@ call the func. \sphinxstyleemphasis{update\_sleep\_time(serial, param)}
 
 
 
-\chapter{GioVase Dashboard \sphinxhyphen{} Connections (view)}
-\label{\detokenize{index:module-view.connections}}\label{\detokenize{index:giovase-dashboard-connections-view}}\index{module@\spxentry{module}!view.connections@\spxentry{view.connections}}\index{view.connections@\spxentry{view.connections}!module@\spxentry{module}}\index{add\_plant\_from\_conn() (in module view.connections)@\spxentry{add\_plant\_from\_conn()}\spxextra{in module view.connections}}
+\chapter{View, Login Page}
+\label{\detokenize{index:module-view.login}}\label{\detokenize{index:view-login-page}}\index{module@\spxentry{module}!view.login@\spxentry{view.login}}\index{view.login@\spxentry{view.login}!module@\spxentry{module}}\index{is\_admin() (in module view.login)@\spxentry{is\_admin()}\spxextra{in module view.login}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.login.is_admin}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.login.}}\sphinxbfcode{\sphinxupquote{is\_admin}}}{}{}
+If the current user is authenticated and is admin return True, otherwise False
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+True or False
+
+\item[{Return type}] \leavevmode
+bool
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{load\_user() (in module view.login)@\spxentry{load\_user()}\spxextra{in module view.login}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.login.load_user}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.login.}}\sphinxbfcode{\sphinxupquote{load\_user}}}{\emph{\DUrole{n}{user\_id}}}{}
+Gets the user with id equal to user\_id
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{user\_id}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} id
+
+\item[{Returns}] \leavevmode
+user
+
+\item[{Return type}] \leavevmode
+{\hyperref[\detokenize{index:model.gio_db.User}]{\sphinxcrossref{User}}}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{login() (in module view.login)@\spxentry{login()}\spxextra{in module view.login}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.login.login}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.login.}}\sphinxbfcode{\sphinxupquote{login}}}{}{}
+If current user is already authenticated return redirect to the homepage,
+otherwise return the loginpage.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+render\_template or redirect
+
+\item[{Return type}] \leavevmode
+Response
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{logout() (in module view.login)@\spxentry{logout()}\spxextra{in module view.login}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.login.logout}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.login.}}\sphinxbfcode{\sphinxupquote{logout}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+Call the function \sphinxstyleemphasis{logout\_user()}
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+\sphinxstyleemphasis{redirect ‘/login’}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\chapter{View, Dashboard Page}
+\label{\detokenize{index:module-view.dashboard}}\label{\detokenize{index:view-dashboard-page}}\index{module@\spxentry{module}!view.dashboard@\spxentry{view.dashboard}}\index{view.dashboard@\spxentry{view.dashboard}!module@\spxentry{module}}\index{dash\_page() (in module view.dashboard)@\spxentry{dash\_page()}\spxextra{in module view.dashboard}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.dashboard.dash_page}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.dashboard.}}\sphinxbfcode{\sphinxupquote{dash\_page}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+Dashboard page, show a map and charts.
+The map was created with \sphinxstyleemphasis{arbor.js}.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+template \sphinxstyleemphasis{dashboard.html}
+
+\item[{Return type}] \leavevmode
+template
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\chapter{View, Connections Page}
+\label{\detokenize{index:module-view.connections}}\label{\detokenize{index:view-connections-page}}\index{module@\spxentry{module}!view.connections@\spxentry{view.connections}}\index{view.connections@\spxentry{view.connections}!module@\spxentry{module}}\index{add\_plant\_from\_conn() (in module view.connections)@\spxentry{add\_plant\_from\_conn()}\spxextra{in module view.connections}}
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:view.connections.add_plant_from_conn}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.connections.}}\sphinxbfcode{\sphinxupquote{add\_plant\_from\_conn}}}{\emph{\DUrole{n}{idv}}, \emph{\DUrole{n}{radio\_id}}}{}
@@ -1188,18 +1462,321 @@ If the radio\sphinxhyphen{}raspberry is unreachable then delete the connection r
 
 
 
+\chapter{View, Plants Page}
+\label{\detokenize{index:module-view.plants}}\label{\detokenize{index:view-plants-page}}\index{module@\spxentry{module}!view.plants@\spxentry{view.plants}}\index{view.plants@\spxentry{view.plants}!module@\spxentry{module}}\index{plants() (in module view.plants)@\spxentry{plants()}\spxextra{in module view.plants}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.plants.plants}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.plants.}}\sphinxbfcode{\sphinxupquote{plants}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+Shows all the plants in the \sphinxstyleemphasis{giovase.db}
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+template \sphinxstyleemphasis{plants.html}
+
+\item[{Return type}] \leavevmode
+template
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\chapter{View, Plant Page}
+\label{\detokenize{index:module-view.plant}}\label{\detokenize{index:view-plant-page}}\index{module@\spxentry{module}!view.plant@\spxentry{view.plant}}\index{view.plant@\spxentry{view.plant}!module@\spxentry{module}}\index{container\_state() (in module view.plant)@\spxentry{container\_state()}\spxextra{in module view.plant}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.plant.container_state}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.plant.}}\sphinxbfcode{\sphinxupquote{container\_state}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+Send an http request to the radio\sphinxhyphen{}raspberry associated with the plant,
+
+to request the \sphinxstyleemphasis{WATER\_CONTAINER\_STATE} Operation
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item[{Returns}] \leavevmode
+redirect to the plantpage
+
+\item[{Return type}] \leavevmode
+Response
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{humidity() (in module view.plant)@\spxentry{humidity()}\spxextra{in module view.plant}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.plant.humidity}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.plant.}}\sphinxbfcode{\sphinxupquote{humidity}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+Send an http request to the radio\sphinxhyphen{}raspberry associated with the plant,
+
+to request the \sphinxstyleemphasis{HUMIDITY} Operation
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item[{Returns}] \leavevmode
+redirect to the plantpage
+
+\item[{Return type}] \leavevmode
+Response
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{light() (in module view.plant)@\spxentry{light()}\spxextra{in module view.plant}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.plant.light}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.plant.}}\sphinxbfcode{\sphinxupquote{light}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+Send an http request to the radio\sphinxhyphen{}raspberry associated with the plant,
+
+to request the \sphinxstyleemphasis{LIGHT} Operation
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item[{Returns}] \leavevmode
+redirect to the plantpage
+
+\item[{Return type}] \leavevmode
+Response
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{plant\_page() (in module view.plant)@\spxentry{plant\_page()}\spxextra{in module view.plant}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.plant.plant_page}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.plant.}}\sphinxbfcode{\sphinxupquote{plant\_page}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+Show the plant page with id equal to idv.
+The page will contain the vital values of the plant and buttons
+to modify/delete the plant or request operations on it.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item[{Returns}] \leavevmode
+template \sphinxstyleemphasis{plant.html}
+
+\item[{Return type}] \leavevmode
+template
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{temperature() (in module view.plant)@\spxentry{temperature()}\spxextra{in module view.plant}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.plant.temperature}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.plant.}}\sphinxbfcode{\sphinxupquote{temperature}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+Send an http request to the radio\sphinxhyphen{}raspberry associated with the plant,
+
+to request the \sphinxstyleemphasis{TEMPERATURE} Operation
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item[{Returns}] \leavevmode
+redirect to the plantpage
+
+\item[{Return type}] \leavevmode
+Response
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{vase\_state\_req() (in module view.plant)@\spxentry{vase\_state\_req()}\spxextra{in module view.plant}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.plant.vase_state_req}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.plant.}}\sphinxbfcode{\sphinxupquote{vase\_state\_req}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+Send three http request to the radio\sphinxhyphen{}raspberry associated with the plant,
+
+to request the \sphinxstyleemphasis{TEMPERATURE}, \sphinxstyleemphasis{LIGHT}, \sphinxstyleemphasis{HUMIDITY}  Operations
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item[{Returns}] \leavevmode
+redirect to the plantpage
+
+\item[{Return type}] \leavevmode
+Response
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{water() (in module view.plant)@\spxentry{water()}\spxextra{in module view.plant}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.plant.water}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.plant.}}\sphinxbfcode{\sphinxupquote{water}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+Send an http request to the radio\sphinxhyphen{}raspberry associated with the plant,
+
+to request the \sphinxstyleemphasis{WATER} Operation
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item[{Returns}] \leavevmode
+redirect to the plantpage
+
+\item[{Return type}] \leavevmode
+Response
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\chapter{View, PlantSettings Page}
+\label{\detokenize{index:module-view.plant_settings}}\label{\detokenize{index:view-plantsettings-page}}\index{module@\spxentry{module}!view.plant\_settings@\spxentry{view.plant\_settings}}\index{view.plant\_settings@\spxentry{view.plant\_settings}!module@\spxentry{module}}\index{settings() (in module view.plant\_settings)@\spxentry{settings()}\spxextra{in module view.plant\_settings}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.plant_settings.settings}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.plant\_settings.}}\sphinxbfcode{\sphinxupquote{settings}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+If the current user is admin, show the plant settings.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{idv}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} plant serial number
+
+\item[{Returns}] \leavevmode
+template \sphinxstyleemphasis{plant\_settings.html} or \sphinxstyleemphasis{error.html}
+
+\item[{Return type}] \leavevmode
+template
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\chapter{View, Radios Page}
+\label{\detokenize{index:module-view.radios}}\label{\detokenize{index:view-radios-page}}\index{module@\spxentry{module}!view.radios@\spxentry{view.radios}}\index{view.radios@\spxentry{view.radios}!module@\spxentry{module}}\index{radios() (in module view.radios)@\spxentry{radios()}\spxextra{in module view.radios}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.radios.radios}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.radios.}}\sphinxbfcode{\sphinxupquote{radios}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+If the current user is admin, show all radios in the \sphinxstyleemphasis{giovase.db}.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+template \sphinxstyleemphasis{radios.html}
+
+\item[{Return type}] \leavevmode
+template
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\chapter{View, RadioSettings Page}
+\label{\detokenize{index:module-view.radio_settings}}\label{\detokenize{index:view-radiosettings-page}}\index{module@\spxentry{module}!view.radio\_settings@\spxentry{view.radio\_settings}}\index{view.radio\_settings@\spxentry{view.radio\_settings}!module@\spxentry{module}}\index{radio\_settings() (in module view.radio\_settings)@\spxentry{radio\_settings()}\spxextra{in module view.radio\_settings}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.radio_settings.radio_settings}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.radio\_settings.}}\sphinxbfcode{\sphinxupquote{radio\_settings}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+If current user is admin, show the radio idr settings
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{idr}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} radio serial number
+
+\item[{Returns}] \leavevmode
+template \sphinxstyleemphasis{radio\_settings.html}
+
+\item[{Return type}] \leavevmode
+template
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\chapter{View, Users Page}
+\label{\detokenize{index:module-view.users}}\label{\detokenize{index:view-users-page}}\index{module@\spxentry{module}!view.users@\spxentry{view.users}}\index{view.users@\spxentry{view.users}!module@\spxentry{module}}\index{users\_list\_page() (in module view.users)@\spxentry{users\_list\_page()}\spxextra{in module view.users}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.users.users_list_page}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.users.}}\sphinxbfcode{\sphinxupquote{users\_list\_page}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+If current user is admin, show all the users.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+template \sphinxstyleemphasis{users.html}
+
+\item[{Return type}] \leavevmode
+template
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\chapter{View, UserSettings Page}
+\label{\detokenize{index:module-view.user_settings}}\label{\detokenize{index:view-usersettings-page}}\index{module@\spxentry{module}!view.user\_settings@\spxentry{view.user\_settings}}\index{view.user\_settings@\spxentry{view.user\_settings}!module@\spxentry{module}}\index{user\_settings() (in module view.user\_settings)@\spxentry{user\_settings()}\spxextra{in module view.user\_settings}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.user_settings.user_settings}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.user\_settings.}}\sphinxbfcode{\sphinxupquote{user\_settings}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+If current user is admin, show the user’s settings.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{user}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} username
+
+\item[{Returns}] \leavevmode
+template \sphinxstyleemphasis{user\_settings.html} or \sphinxstyleemphasis{error.html}
+
+\item[{Return type}] \leavevmode
+template
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\chapter{View, Register User Page}
+\label{\detokenize{index:module-view.add_user}}\label{\detokenize{index:view-register-user-page}}\index{module@\spxentry{module}!view.add\_user@\spxentry{view.add\_user}}\index{view.add\_user@\spxentry{view.add\_user}!module@\spxentry{module}}\index{add\_user\_page() (in module view.add\_user)@\spxentry{add\_user\_page()}\spxextra{in module view.add\_user}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:view.add_user.add_user_page}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{view.add\_user.}}\sphinxbfcode{\sphinxupquote{add\_user\_page}}}{\emph{\DUrole{o}{*}\DUrole{n}{args}}, \emph{\DUrole{o}{**}\DUrole{n}{kwargs}}}{}
+Register user page
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+template \sphinxstyleemphasis{add\_user.html}
+
+\item[{Return type}] \leavevmode
+template
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
 \renewcommand{\indexname}{Python Module Index}
 \begin{sphinxtheindex}
 \let\bigletter\sphinxstyleindexlettergroup
 \bigletter{c}
 \item\relax\sphinxstyleindexentry{controller.request}\sphinxstyleindexpageref{index:\detokenize{module-controller.request}}
+\item\relax\sphinxstyleindexentry{controller.utility}\sphinxstyleindexpageref{index:\detokenize{module-controller.utility}}
 \indexspace
 \bigletter{m}
 \item\relax\sphinxstyleindexentry{model.constant}\sphinxstyleindexpageref{index:\detokenize{module-model.constant}}
 \item\relax\sphinxstyleindexentry{model.gio\_db}\sphinxstyleindexpageref{index:\detokenize{module-model.gio_db}}
 \indexspace
 \bigletter{v}
+\item\relax\sphinxstyleindexentry{view.add\_user}\sphinxstyleindexpageref{index:\detokenize{module-view.add_user}}
 \item\relax\sphinxstyleindexentry{view.connections}\sphinxstyleindexpageref{index:\detokenize{module-view.connections}}
+\item\relax\sphinxstyleindexentry{view.dashboard}\sphinxstyleindexpageref{index:\detokenize{module-view.dashboard}}
+\item\relax\sphinxstyleindexentry{view.login}\sphinxstyleindexpageref{index:\detokenize{module-view.login}}
+\item\relax\sphinxstyleindexentry{view.plant}\sphinxstyleindexpageref{index:\detokenize{module-view.plant}}
+\item\relax\sphinxstyleindexentry{view.plant\_settings}\sphinxstyleindexpageref{index:\detokenize{module-view.plant_settings}}
+\item\relax\sphinxstyleindexentry{view.plants}\sphinxstyleindexpageref{index:\detokenize{module-view.plants}}
+\item\relax\sphinxstyleindexentry{view.radio\_settings}\sphinxstyleindexpageref{index:\detokenize{module-view.radio_settings}}
+\item\relax\sphinxstyleindexentry{view.radios}\sphinxstyleindexpageref{index:\detokenize{module-view.radios}}
+\item\relax\sphinxstyleindexentry{view.user\_settings}\sphinxstyleindexpageref{index:\detokenize{module-view.user_settings}}
+\item\relax\sphinxstyleindexentry{view.users}\sphinxstyleindexpageref{index:\detokenize{module-view.users}}
 \end{sphinxtheindex}
 
 \renewcommand{\indexname}{Index}

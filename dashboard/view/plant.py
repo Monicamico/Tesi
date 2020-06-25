@@ -2,7 +2,8 @@ from flask import Blueprint, render_template, request as rcv_req, redirect, flas
 from flask_login import login_required
 
 from model.forms import PlantForm
-from model.gio_db import Plant, url_from_plant, ConnectionRequest
+from model.gio_db import Plant, ConnectionRequest
+from controller.utility import url_from_plant
 import requests as snd_req
 import time
 
@@ -14,6 +15,7 @@ plant_id_page = Blueprint('plant_id_page', __name__)
 def water(idv):
     """
     Send an http request to the radio-raspberry associated with the plant,
+
     to request the *WATER* Operation
 
     :param idv: plant serial number
@@ -36,6 +38,7 @@ def water(idv):
 def humidity(idv):
     """
     Send an http request to the radio-raspberry associated with the plant,
+
     to request the *HUMIDITY* Operation
 
     :param idv: plant serial number
@@ -60,6 +63,7 @@ def humidity(idv):
 def temperature(idv):
     """
     Send an http request to the radio-raspberry associated with the plant,
+
     to request the *TEMPERATURE* Operation
 
     :param idv: plant serial number
@@ -84,6 +88,7 @@ def temperature(idv):
 def light(idv):
     """
         Send an http request to the radio-raspberry associated with the plant,
+
         to request the *LIGHT* Operation
 
         :param idv: plant serial number
@@ -108,6 +113,7 @@ def light(idv):
 def container_state(idv):
     """
         Send an http request to the radio-raspberry associated with the plant,
+
         to request the *WATER_CONTAINER_STATE* Operation
 
         :param idv: plant serial number
@@ -132,6 +138,7 @@ def container_state(idv):
 def vase_state_req(idv):
     """
         Send three http request to the radio-raspberry associated with the plant,
+
         to request the *TEMPERATURE*, *LIGHT*, *HUMIDITY*  Operations
 
         :param idv: plant serial number

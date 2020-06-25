@@ -10,6 +10,12 @@ radios_page = Blueprint('radios_page',__name__)
 @radios_page.route('/radios')
 @login_required
 def radios():
+    """
+    If the current user is admin, show all radios in the *giovase.db*.
+
+    :return: template *radios.html*
+    :rtype: template
+    """
     if is_admin():
         radios_list = Radio.query.all()
         conn_list = ConnectionRequest.query.all()

@@ -1,5 +1,6 @@
 from flask_login import login_manager, current_user, LoginManager, login_required, logout_user, login_user
-from model.gio_db import User, get_user
+from model.gio_db import User
+from controller.utility import get_user
 from flask import Blueprint, redirect, flash, render_template, request as rcv_req
 from model.forms import LoginForm
 
