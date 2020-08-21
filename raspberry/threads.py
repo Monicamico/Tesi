@@ -8,6 +8,7 @@ from utility import get_ip, lock_queue, condition_variable
 from constants import MICROBIT_PORT_LINUX, Operation, DELIMITER
 
 
+global s
 try:
     s = serial.Serial(MICROBIT_PORT_MAC2, 115200)
     print(MICROBIT_PORT_MAC2 + ' opened...')
@@ -31,39 +32,64 @@ except serial.serialutil.SerialException:
                 print(MICROBIT_PORT_LINUX2 + ' opened...')
             except serial.serialutil.SerialException:
                 print("\nNo such file or directory: " + MICROBIT_PORT_LINUX2)
-                exit(1)
 
+"""
 s.timeout = 1
 dummy = s.readline()
 s.timeout = None
 print('Dummy byte received: ' + str(dummy))
-
+"""
 ip_address = get_ip()
 URL = str(ip_address) + ":" + str(PORT)
 print(URL)
 
 
 class Reader(threading.Thread):
+    """
+    Thread Reader
+    """
     def __init__(self, nome):
         threading.Thread.__init__(self)
         self.nome = nome
 
     def run(self):
+        """
+
+        Method representing the thread’s activity.
+
+        It calls the function *reader()*
+        """
         print(self.nome + " started!")
         reader()
 
 
 class Writer(threading.Thread):
+    """
+    Thread Writer
+    """
     def __init__(self, nome):
         threading.Thread.__init__(self)
         self.nome = nome
 
     def run(self):
+        """
+        Method representing the thread’s activity.
+
+        It calls the function *writer()*
+
+        """
         print(self.nome + " started!")
         writer()
 
 
 def read_serial():
+    """
+
+    Read a row from the serial port.
+
+    :return: request, serial number, signal, param
+    :rtype: str
+    """
     byte = s.readline()
     line = byte.decode(encoding='UTF-8').strip()
     try:
@@ -74,6 +100,15 @@ def read_serial():
 
 
 def write_serial(data):
+    """
+    Writes data in the serial port.
+
+    :param data: data to be written in the serial port
+    :type data: str
+    :return: len(data)
+    :rtype: int
+
+    """
     content = bytes(data, 'utf-8')
     try:
         return s.write(content)
@@ -83,6 +118,11 @@ def write_serial(data):
 
 # Request or response from RADIO-dashboard
 def reader():
+    """
+    Called from the Thread Reader, to read request/response from radio-microbit.
+    if the request/response received is valid send it to the dashboard,
+    trow HTTP request.
+    """
     while True:
         for request, serial_number, signal, param in read_serial():
             print("Response from Radio:")
@@ -210,6 +250,10 @@ def reader():
 
 
 def writer():
+    """
+    Called from the Thread Writer, to take the requests from the queue (dashboard's requests)
+    and to send them to the microbit, writing the data of the requests into the serial port.
+    """
     while True:
         lock_queue.acquire()
         while len(request_queue) == 0:

@@ -69,7 +69,7 @@ def dash_page():
              "n_10": n_10, "n_None": n_None}]
 
     for radio in radio_list:
-        elem = {'name': radio.id, 'type': 'radio', 'toshow': radio.name}
+        elem = {'name': radio.id, 'type': 'radio', 'toshow': radio.name, 'link': '/radio_settings/' + radio.id}
         nodes.append(elem)
         elem = {'src': radio.id, 'dest': 'dashboard'}
         edges.append(elem)

@@ -9,7 +9,9 @@ request_queue = []
 # Request received from DASHBOARD Server, it will be added to the request queue
 @request_page.route("/request", methods=['POST', 'PUT'])
 def request():
-
+    """
+    Reads the received request from the dashobard server and adds that to the request queue.
+    """
     global req
     print("Request from dashboard:")
     try:
@@ -117,7 +119,7 @@ def request():
         request_queue.append(req)
         condition_variable.notify_all()
         lock_queue.release()
-        return "ok"
+        return "200"
 
     except ValueError:
         pass

@@ -9,7 +9,7 @@
 /**
  * @summary the function getVase returns the vase with serial number equal to id. 
  *           if the vase does not exist returns undefined
- * @param id (number) the serial number of the vase.
+ * @param {id} the serial number of the vase.
  * @return the vase with serial number equal to id.
 */
 function getVase(id: number, vase_list: Vase[]): Vase {
@@ -23,7 +23,7 @@ function getVase(id: number, vase_list: Vase[]): Vase {
 
 /**
  * @summary the function insert the vase with serial number equal to id into the list.
- * @param id (number) the serial number of the vase.
+ * @param {id} the serial number of the vase.
  * @return the size of the list
 */
 function insertVase(id: number, p:number, vase_list: Vase[]): number {
@@ -48,7 +48,7 @@ function insertVase(id: number, p:number, vase_list: Vase[]): number {
 
 /**
  * @summary the function delete the vase with serial number equal to id into the list.
- * @param id (number) the serial number of the vase.
+ * @param {id} the serial number of the vase.
  * @returns lenght of the new list or undefined
 */
 function deleteVase(id:number, vase_list: Vase[]): number{
@@ -71,8 +71,8 @@ function deleteVase(id:number, vase_list: Vase[]): number{
 
 /**
  * @summary the function check if the connection request has already been received
- * @param id the serial number of the vase.
- * @param conn_request the list of requests
+ * @param {id} the serial number of the vase.
+ * @param {conn_request} the list of requests
  * @return true if the list contains the request, false otherwise
 */
 function containRequest(id: number, conn_request: Request[]):boolean {
@@ -169,9 +169,9 @@ function register(){
 
 /**
  * @summary to send a request to smart-vase
- * @param request contains a number that rappresent the type of operation
- * @param serial serial number of the smart-vase
- * @param x optional parameter, it could be useful to insert an additional value
+ * @param {request} contains a number that rappresent the type of operation
+ * @param {serial} serial number of the smart-vase
+ * @param {x} optional parameter, it could be useful to insert an additional value
  */
 
 function sendToVase(request: number, serial: number, x?: number) {

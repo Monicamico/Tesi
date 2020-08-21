@@ -1,0 +1,5 @@
+Nome del Tipo, Hum-min, Hum-max, Temp-min, Temp-max, Light-min, Light-max
+Nessuno, 0,0,0,0,0,0
+AceroFiorito, 25, 49, 10, 18, 100, 255
+PloverEggs, 25, 49, 18, 26, 75, 200
+Lipstick Vine, 25, 49, 18, 26, 75, 200

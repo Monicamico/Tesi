@@ -15,6 +15,7 @@ from controller.utility import add_user, add_radio, add_plant, change_type, add_
 from controller.request import request_page
 from view.user_settings import user_settings_page
 from view.users import users_page
+import csv
 
 
 def create_app():
@@ -47,14 +48,18 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
+    with open('PlantTypesData.txt', mode='r') as plantType_file:
+        csv_reader = csv.reader(plantType_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count != 0:
+                with app.app_context():
+                    add_type(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
+            line_count += 1
+        print(f'Processed {line_count} lines.')
     with app.app_context():
-        add_user('Monica','utente23',0)
-        add_type('Nessuno', None, None, None, None, None, None)
-        add_type('Yucca', 400, 500, 20, 26, 150, 200)
-        add_type('Grassa', 400, 500, 20, 26, 150, 200)
-        add_radio('radio','urlfinto')
-        add_plant('pianta','radio')
+        add_user('Monica', 'utente23', 0)
+        add_radio('radio', 'urlfinto')
+        add_plant('pianta', 'radio')
         add_plant('pianta1', 'radio')
-        change_type('pianta','Yucca','url')
-    app.run(host='192.168.1.18', port=5000)
-
+    app.run(host='192.168.1.10',port=5000)

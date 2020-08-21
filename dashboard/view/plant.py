@@ -187,7 +187,7 @@ def plant_page(idv):
                 time.sleep(3)
                 flash('Operazione inoltrata alla radio', 'success')
             except:
-                flash("Impossibile eliminare la pianta", 'danger')
+                flash("Impossibile eliminare la pianta - Radio non raggiungibile", 'danger')
                 return redirect("/plant/" + idv)
             return redirect("/plants")
         else:

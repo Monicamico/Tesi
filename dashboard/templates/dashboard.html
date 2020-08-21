@@ -113,7 +113,7 @@
                <td> {{radios|length}} </td>
             </tr>
      </table>
-     <p align="center">Fai doppio click su un vaso per vederne i dettagli</p>
+     <p align="center">Fai doppio click su un vaso per vederne i dettagli <br> o su una radio per vederne le impostazioni</p>
     {% if radios %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
         <script src="{{ url_for('static', filename='js/arbor.js')}}"></script>
@@ -132,7 +132,7 @@
                   if (node.type == 'dashboard')
                       sys.addNode(node.name,{'color':'#373d43','shape': 'dot','label':node.toshow, 'l': 'no' });
                   else if(node.type == 'radio')
-                    sys.addNode(node.name,{'color':'darkgrey','shape': 'dot','label':node.toshow, 'l': 'no'});
+                    sys.addNode(node.name,{'color':'darkgrey','shape': 'dot','label':node.toshow, 'link': node.link});
 
                   else if (node.type == 'vase'){
                       let color = '#b8e1fa'

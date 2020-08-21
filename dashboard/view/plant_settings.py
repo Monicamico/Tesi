@@ -54,14 +54,14 @@ def settings(idv):
                 if update_name(idv, name):
                     flash('Nome della pianta cambiato con successo', 'success')
                 else:
-                    flash('Impossibile cambiare nome il della pianta - possibile duplicato', 'error')
+                    flash('Impossibile cambiare il nome della pianta - possibile duplicato', 'danger')
 
             if typeplant_id != plant_s.typeplant_id:
                 if change_type(idv, typeplant_id, URL_RASPBERRY):
                     flash('Tipo della pianta cambiato con successo', 'success')
                     return redirect('/settings/' + idv)
                 else:
-                    flash('Impossibile cambiare il tipo della pianta', 'error')
+                    flash('Impossibile cambiare il tipo della pianta - Radio non raggiungibile', 'warning')
                 return redirect('/settings/' + idv)
 
             if ideal_h != plant_s.ideal_h:

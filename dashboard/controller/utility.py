@@ -1,6 +1,7 @@
 from math import ceil
 
 import requests as snd_req
+from flask import flash
 from werkzeug.security import check_password_hash
 
 from model.gio_db import User, db, Plant, ConnectionRequest, Radio, TypePlant
@@ -442,24 +443,30 @@ def change_type(idv, idt, url):
     if plant is not None:
         type = TypePlant.query.filter_by(id=idt).first()
         if type is not None:
-            plant.typeplant_id = idt
-            db.session.commit()
             if idt != 'Nessuno':
                 try:
                     snd_req.put(url + '/request',
                                 json=dict(request='light_max', serial=idv, param=type.light_max))
+
                     snd_req.put(url + '/request',
                                 json=dict(request='light_min', serial=idv, param=type.light_min))
+
                     snd_req.put(url + '/request',
                                 json=dict(request='hum_min', serial=idv, param=type.humidity_min))
+
                     snd_req.put(url + '/request',
                                 json=dict(request='hum_max', serial=idv, param=type.humidity_max))
+
                     snd_req.put(url + '/request',
                                 json=dict(request='temp_max', serial=idv, param=type.temperature_max))
+
                     snd_req.put(url + '/request',
-                               json=dict(request='temp_min', serial=idv, param=type.temperature_min))
+                                json=dict(request='temp_min', serial=idv, param=type.temperature_min))
+
+                    plant.typeplant_id = idt
+                    db.session.commit()
                 except:
-                    print('impossibile inoltrare alla radio')
+                    return False
             return True
     return False
 
@@ -611,7 +618,6 @@ def update_plant_state_fitness(idv):
     if plant is not None:
 
         if (plant.humidity is not None) and (plant.temperature is not None) and (plant.light is not None):
-
             ideal_humidity: int = plant.ideal_h
             ideal_temperature: int = plant.ideal_t
             ideal_light = plant.ideal_l
@@ -707,7 +713,7 @@ def update_water_container_state(idv, state):
         db.session.commit()
 
 
-def add_type(idt, hum_min, hum_max, temp_min, temp_max, light_max, light_min):
+def add_type(idt, hum_min, hum_max, temp_min, temp_max, light_min, light_max):
     """
     Adds a new type of plant
 
@@ -728,6 +734,14 @@ def add_type(idt, hum_min, hum_max, temp_min, temp_max, light_max, light_min):
 
     """
     t = TypePlant.query.filter_by(id=idt).first()
+
+    light_max = round(int(light_max) / 100 * 255)
+    light_min = round(int(light_min) / 100 * 255)
+    hum_max = round(int(hum_max) / 100 * 1023)
+    hum_min = round(int(hum_min) / 100 * 1023)
+    temp_max = int(temp_max)
+    temp_min = int(temp_min)
+
     if t is None:
         db.session.add(TypePlant(id=idt,
                                  humidity_min=hum_min,
