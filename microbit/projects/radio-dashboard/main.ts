@@ -24,8 +24,6 @@ serial.writeLine('') //utile per bytes b'\x00 che scrive il microbit all'avvio
 dim_vase_list = vase_list.length
 DEBUG = true
 setRadioPauseTime(pause_time)
-setDeadping()
-
 
 /*------------------------------------------ MAIN CODE ------------------------------------------- */
 
@@ -118,6 +116,7 @@ radio.onReceivedNumber(function (received: number) {
  *   - TEMPERATURE VALUE has been received from a SMART-VASE
  *   - LIGHT VALUE has been received from a SMART-VASE
  *   - WATER CONTAINER STATE has been received from a smart-vase
+ *  ... operations from a smart-vase
 */
 radio.onReceivedValue(function (request: string, param: number) {
 

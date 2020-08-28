@@ -3,84 +3,25 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to GioVase Dashboard's documentation!
-==============================================
+Welcome to GioVase Raspberry-radio's documentation!
+=====================================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-Model, Constant
+Constant
 =====================================
-.. automodule:: model.constant
+.. automodule:: constants
    :members:
 
-Model, Database
+Request
 =====================================
-.. automodule:: model.gio_db
+.. automodule:: request
    :members:
 
-Controller, Utility functions
+Threads
 =====================================
-.. automodule:: controller.utility
+.. automodule:: threads
    :members:
 
-Controller, Request
-=====================================
-.. automodule:: controller.request
-   :members:
-
-View, Login Page
-=======================================
-.. automodule:: view.login
-   :members:
-
-View, Dashboard Page
-=========================================
-.. automodule:: view.dashboard
-   :members:
-
-View, Connections Page
-=======================================
-.. automodule:: view.connections
-   :members:
-
-View, Plants Page
-=========================================
-.. automodule:: view.plants
-   :members:
-
-View, Plant Page
-=========================================
-.. automodule:: view.plant
-   :members:
-
-View, PlantSettings Page
-======================================
-.. automodule:: view.plant_settings
-   :members:
-
-View, Radios Page
-=========================================
-.. automodule:: view.radios
-   :members:
-
-View, RadioSettings Page
-=========================================
-.. automodule:: view.radio_settings
-   :members:
-
-View, Users Page
-=========================================
-.. automodule:: view.users
-   :members:
-
-View, UserSettings Page
-=========================================
-.. automodule:: view.user_settings
-   :members:
-
-View, Register User Page
-================================
-.. automodule:: view.add_user
-   :members:

@@ -1,5 +1,50 @@
-Nome del Tipo, Hum-min, Hum-max, Temp-min, Temp-max, Light-min, Light-max
+Nome del Tipo, Umidita-min, Umidita-max, Temp-min, Temp-max, Luca-min, Luce-max
 Nessuno, 0,0,0,0,0,0
-AceroFiorito, 25, 49, 10, 18, 100, 255
-PloverEggs, 25, 49, 18, 26, 75, 200
+Plover Eggs, 25, 49, 18, 26, 75, 200
 Lipstick Vine, 25, 49, 18, 26, 75, 200
+Flowering Maple, 25, 49, 10, 18, 90, 100
+Chenile Plant, 25, 49, 18, 23, 90, 100
+Magic Flower, 25, 49, 18, 23, 80, 95
+Sweet Flag, 25, 49, 18, 23, 80, 100
+Miniature Sweet Flag, 25, 49, 18, 23, 80, 100
+Maidenhair Fern, 50, 100, 18, 23, 80, 100
+Crinkle-Leaf, 25, 49, 18, 23, 80, 100
+Silver Vase, 25, 49, 18, 23, 80, 100
+Purplish Coral Berry, 25, 49, 18, 23, 80, 100
+Royal Wine Bromeliad, 25, 49, 18, 23, 80, 100
+Zebra Basket Vine, 25, 49, 18, 23, 80, 90
+Variegated Century Plant, 5, 24, 18, 23, 90, 100
+Queen Agave, 25, 49, 18, 23, 90, 100
+Chinese Evergreen, 25, 49, 18, 23, 1, 80
+Silver King, 25, 49, 18, 23, 1, 80
+Silver Queen, 25, 49, 18, 23, 1, 80
+Allamanda, 25, 100, 18, 23, 90, 100
+Miniature Pouch Flower, 25, 100, 18, 23, 25, 90
+Candelabra Plant, 5, 24, 21, 29, 90, 100
+Medicine Plant, 5, 24, 21, 29, 90, 100
+Brevifolia Aloe, 5, 24, 21, 29, 90, 100
+Pineapple, 5, 24, 21, 29, 90, 100
+Dwarf Crystal Anthurium, 25, 100, 18, 23, 25, 90
+Bird’s Nest Anthurium, 25, 100, 18, 23, 25, 90
+Flamingo Flower, 25, 100, 18, 23, 25, 90
+Zebra Plant, 25, 49, 18, 23, 80, 90
+Norfolk Island Pine, 25, 49, 18, 23, 25, 80
+Ardisia, 25, 49, 18, 23, 25, 80
+Plume Asparagus, 25, 49, 18, 23, 25, 80
+Foxtail Fern, 25, 49, 18, 23, 25, 80
+Sickle Thorn, 25, 49, 18, 23, 25, 80
+Cast Iron Plant, 5, 24, 18, 23, 1, 80
+Mother Fern, 25, 49, 18, 23, 25, 80
+Bird’s Nest Fern, 25, 49, 18, 23, 25, 80
+Bishop’s Cap, 5, 24, 18, 23, 80, 90
+Ponytail, 5, 24, 18, 23, 90, 100
+Cuban Holly, 25, 49, 18, 23, 25, 90
+Metallic Leaf Begonia, 25, 49, 18, 23, 25, 90
+Rex Begonia, 25, 49, 18, 23, 25, 90
+Wax Begonia, 25, 49, 10, 18, 80, 100
+Queen’s Tears, 25, 49, 18, 23, 25, 80
+Urn Plant, 25, 49, 18, 23, 25, 80
+Zebra Plant, 25, 49, 18, 23, 25, 80
+Bougainvillea, 5, 24, 18, 23, 90, 100
+Schefflera, 25, 49, 18, 23, 25, 80
+Dwarf Schefflera, 25, 49, 18, 23, 25, 80

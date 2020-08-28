@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.6.24)  25 JUN 2020 16:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.6.24)  29 JUN 2020 13:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**giovasedashboard.tex
-(./giovasedashboard.tex
+**giovaseraspberry-radio.tex
+(./giovaseraspberry-radio.tex
 LaTeX2e <2020-02-02> patch level 5
 L3 programming layer <2020-03-06> (./sphinxmanual.cls
 Document Class: sphinxmanual 2019/12/01 v2.3.0 Document class (Sphinx manual)
@@ -514,17 +514,17 @@ Package: hypcap 2016/05/16 v1.12 Adjusting the anchors of captions (HO)
 Package: sphinxmessages 2019/01/04 v2.0 Localized LaTeX macros (Sphinx team)
 )
 \@indexfile=\write4
-\openout4 = `giovasedashboard.idx'.
+\openout4 = `giovaseraspberry-radio.idx'.
 
 
-Writing index file giovasedashboard.idx
+Writing index file giovaseraspberry-radio.idx
 (/usr/local/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
 File: l3backend-pdfmode.def 2020-03-12 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count284
 \l__pdf_internal_box=\box64
 )
-(./giovasedashboard.aux)
-\openout1 = `giovasedashboard.aux'.
+(./giovaseraspberry-radio.aux)
+\openout1 = `giovaseraspberry-radio.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 83.
 LaTeX Font Info:    ... okay on input line 83.
@@ -623,9 +623,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 83.
 LaTeX Info: Redefining \pageref on input line 83.
 LaTeX Info: Redefining \nameref on input line 83.
- (./giovasedashboard.out) (./giovasedashboard.out)
+ (./giovaseraspberry-radio.out) (./giovaseraspberry-radio.out)
 \@outlinefile=\write5
-\openout5 = `giovasedashboard.out'.
+\openout5 = `giovaseraspberry-radio.out'.
 
 Package hyperref Info: Option `pageanchor' set `false' on input line 86.
 LaTeX Font Info:    Trying to load font information for T1+phv on input line 86
@@ -677,9 +677,9 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 ]
-(./giovasedashboard.toc)
+(./giovaseraspberry-radio.toc)
 \tf@toc=\write6
-\openout6 = `giovasedashboard.toc'.
+\openout6 = `giovaseraspberry-radio.toc'.
 
  [1
 
@@ -693,7 +693,7 @@ LaTeX Font Info:    Trying to load font information for T1+pcr on input line 98
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-00.
+01.
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
@@ -703,163 +703,43 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 Chapter 2.
 [3
 
-] [4]
+] [4
+
+]
 Chapter 3.
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <10> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 433.
-[5
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 276.
+[5] [6
 
-]
-Underfull \hbox (badness 10000) in paragraph at lines 527--527
-[]\T1/ptm/m/it/10 idt\T1/ptm/m/n/10 , \T1/ptm/m/it/10 hum_min\T1/ptm/m/n/10 , \
-T1/ptm/m/it/10 hum_max\T1/ptm/m/n/10 , \T1/ptm/m/it/10 temp_min\T1/ptm/m/n/10 ,
- \T1/ptm/m/it/10 temp_max\T1/ptm/m/n/10 , \T1/ptm/m/it/10 light_max\T1/ptm/m/n/
-10 ,
- []
-
-[6] [7] [8] [9] [10]
-Chapter 4.
-[11
-
-] [12]
-Chapter 5.
-[13
-
-] [14
-
-]
-Chapter 6.
-[15] [16
-
-]
-Chapter 7.
-[17] [18
-
-]
-Chapter 8.
-[19] [20
-
-]
-Chapter 9.
-[21] [22]
-Chapter 10.
-[23
-
-] [24
-
-]
-Chapter 11.
-[25] [26
-
-]
-Chapter 12.
-[27] [28
-
-]
-Chapter 13.
-[29] [30
-
-]
-Chapter 14.
-[31] [32
-
-]
-Chapter 15.
-[33] [34
-
-] [35
+] [7
 
 
-] (./giovasedashboard.ind [36
+] (./giovaseraspberry-radio.ind [8
 
 
-]
-Underfull \hbox (badness 10000) in paragraph at lines 10--11
-[]\T1/pcr/m/n/10 add_plant_from_conn() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-u
-le
- []
+] [9
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 15--16
-[]\T1/pcr/m/n/10 associated_plants() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule
- con-
- []
+])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 314.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 314.
 
+(./giovaseraspberry-radio.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 314.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 314.
+Package rerunfilecheck Info: File `giovaseraspberry-radio.out' has not changed.
 
-Underfull \hbox (badness 10000) in paragraph at lines 28--29
-[]\T1/pcr/m/n/10 correct_password_user() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod
--ule con-
- []
-
-[37
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 99--100
-[]\T1/pcr/m/n/10 refuse_plant_from_conn() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mo
-d-ule
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 121--122
-[]\T1/pcr/m/n/10 update_ideal_light() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ul
-e con-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 122--123
-[]\T1/pcr/m/n/10 update_ideal_temp() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule
- con-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 127--129
-[]\T1/pcr/m/n/10 update_plant_state_fitness() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 i
-n mod-ule
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 129--130
-[]\T1/pcr/m/n/10 update_radio_name() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule
- con-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 133--134
-[]\T1/pcr/m/n/10 update_sleep_time() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule
- con-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 137--139
-[]\T1/pcr/m/n/10 update_vase_transmit_power() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 i
-n mod-ule
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 143--144
-[]\T1/pcr/m/n/10 update_watering_light() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod
--ule con-
- []
-
-[38])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1784.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1784.
- (./giovasedashboard.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1784.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1784.
-
-Package rerunfilecheck Info: File `giovasedashboard.out' has not changed.
-(rerunfilecheck)             Checksum: AB20B3565DACA06BBFCF1968C76D708F;2444.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1784.
+(rerunfilecheck)             Checksum: F9861BC5680E9A52DADA8A84A576CBE2;455.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 314.
  ) 
 Here is how much of TeX's memory you used:
- 13637 strings out of 480608
- 195162 string characters out of 5903630
- 475391 words of memory out of 5000000
- 29082 multiletter control sequences out of 15000+600000
+ 13426 strings out of 480608
+ 190780 string characters out of 5903630
+ 467924 words of memory out of 5000000
+ 28977 multiletter control sequences out of 15000+600000
  571738 words of font info for 69 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
- 38i,11n,49p,438b,597s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,11n,49p,331b,446s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2020/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2
 020/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2020/texm
@@ -869,10 +749,10 @@ ype1/urw/helvetic/uhvbo8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/u
 rw/helvetic/uhvr8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/time
 s/utmb8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/times/utmr8a.p
 fb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on giovasedashboard.pdf (42 pages, 148127 bytes).
+Output written on giovaseraspberry-radio.pdf (13 pages, 98164 bytes).
 PDF statistics:
- 543 PDF objects out of 1000 (max. 8388607)
- 480 compressed objects within 5 object streams
- 136 named destinations out of 1000 (max. 500000)
- 157 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 169 PDF objects out of 1000 (max. 8388607)
+ 138 compressed objects within 2 object streams
+ 30 named destinations out of 1000 (max. 500000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
 
