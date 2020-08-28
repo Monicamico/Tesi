@@ -21,5 +21,8 @@ dashboard/static/css/v4*
 dashboard/static/js/gulpfile.js
 dashboard/static/js/primitives.js
 
-
+dashboard/doc
+dashboard/source
+raspberry/doc
+raspberry/source
 
