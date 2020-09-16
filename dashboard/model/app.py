@@ -11,7 +11,8 @@ from view.radios import radios_page
 from view.radio_settings import radio_settings_page
 from view.plant_settings import settings_page
 from model.gio_db import db
-from controller.utility import add_user, add_radio, add_plant, change_type, add_type
+from controller.utility import add_user, add_radio, add_plant, change_type, add_type, update_hum, update_light, \
+    update_temp
 from controller.request import request_page
 from view.user_settings import user_settings_page
 from view.users import users_page
@@ -58,8 +59,6 @@ if __name__ == "__main__":
             line_count += 1
         print(f'Processed {line_count} lines.')
     with app.app_context():
-        add_user('Monica', 'utente23', 0)
-        add_radio('radio', 'urlfinto')
-        add_plant('pianta', 'radio')
-        add_plant('pianta1', 'radio')
-    app.run(host='192.168.1.10',port=5000)
+        add_user('Admin', 'admin', 0)
+        add_user('Monica', 'utente23', 1)
+    app.run(host='192.168.1.7',port=5000)

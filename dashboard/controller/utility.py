@@ -42,16 +42,19 @@ def add_user(username, password, role):
     :return True if the operation was successful otherwise False
 
     """
-    user = User()
-    user.username = username
-    user.role = role
-    user.set_password(password=password)
-    try:
-        db.session.add(user)
-        db.session.commit()
-    except:
-        return False
-    return True
+    userGet = User.query.filter_by(username=username).first()
+    if userGet is None:
+        user = User()
+        user.username = username
+        user.role = role
+        user.set_password(password=password)
+        try:
+            db.session.add(user)
+            db.session.commit()
+        except:
+            return False
+        return True
+    return False
 
 
 def delete_user(username, password):

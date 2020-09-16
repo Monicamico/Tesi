@@ -65,7 +65,6 @@ function setLightMin(min: number) {
         light_min = min;
         radio.sendValue(OPERATION.SET_LIGHT_MIN.toString(),min)
     }
-        
 }
 
 /**
@@ -77,7 +76,6 @@ function setLightMax(max: number) {
         light_max = max;
         radio.sendValue(OPERATION.SET_LIGHT_MAX.toString(),max)
     }
-        
 }
 
 /**
@@ -89,7 +87,6 @@ function setWateringLight(x: number) {
         watering_light = x;
         radio.sendValue(OPERATION.SET_WATERING_LIGHT.toString(),x)
     }
-        
 }
 
 
