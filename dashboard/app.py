@@ -60,4 +60,4 @@ if __name__ == "__main__":
     with app.app_context():
         add_user('Admin', 'admin', 0)
         add_user('Monica', 'utente23', 1)
-    app.run(host='127.0.0.1',port=5000)
+    app.run(host='0.0.0.0',port=5000)
