@@ -20,7 +20,7 @@ import csv
 
 
 def create_app():
-    app = Flask(__name__, template_folder='../templates', static_folder='../static')
+    app = Flask(__name__, template_folder='./templates', static_folder='../static')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # suppress pytest warning
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///giovase.db'
     app.config['SECRET_KEY'] = 'keysecret0679623'
@@ -42,7 +42,6 @@ def create_app():
     login_manager.init_app(app)
 
     db.init_app(app=app)
-    db.drop_all(app=app)
     db.create_all(app=app)
     return app
 
