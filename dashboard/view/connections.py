@@ -1,5 +1,4 @@
 from flask_login import login_required
-
 from view.login import is_admin
 from model.gio_db import ConnectionRequest, Radio
 from controller.utility import delete_conn_req, url_from_radio

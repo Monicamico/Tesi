@@ -32,6 +32,7 @@ except serial.serialutil.SerialException:
                 print(MICROBIT_PORT_LINUX2 + ' opened...')
             except serial.serialutil.SerialException:
                 print("\nNo such file or directory: " + MICROBIT_PORT_LINUX2)
+                exit(1)
 
 """
 s.timeout = 1
