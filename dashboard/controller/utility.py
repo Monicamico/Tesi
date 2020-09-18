@@ -134,7 +134,7 @@ def add_conn_req(idv, signalv, pairingv, radio_id):
             return True
     else:
         try:
-            snd_req.put('http://' + url_from_plant(idv) + '/request', json={'request': 'joined', 'serial': idv})
+            snd_req.put(url_from_plant(idv) + '/request', json={'request': 'joined', 'serial': idv})
             return False
         except:
             delete_plant(idv)
@@ -382,7 +382,6 @@ def url_from_plant(idv):
     :type idv: str
     :return: url or -1
     :rtype: str
-
     """
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
@@ -444,28 +443,25 @@ def change_type(idv, idt, url):
     """
     plant = Plant.query.filter_by(id=idv).first()
     if plant is not None:
-        type = TypePlant.query.filter_by(id=idt).first()
-        if type is not None:
+        current_type = TypePlant.query.filter_by(id=idt).first()
+        if current_type is not None:
             if idt != 'Nessuno':
                 try:
-                    snd_req.put(url + '/request',
-                                json=dict(request='light_max', serial=idv, param=type.light_max))
+                    snd_req.put(url + '/request', json={'request': 'light_max', 'serial': idv, 'param': current_type.light_max})
 
-                    snd_req.put(url + '/request',
-                                json=dict(request='light_min', serial=idv, param=type.light_min))
+                    snd_req.put(url + '/request', json={'request': 'light_min', 'serial': idv, 'param': current_type.light_min})
 
-                    snd_req.put(url + '/request',
-                                json=dict(request='hum_min', serial=idv, param=type.humidity_min))
+                    snd_req.put(url + '/request', json={'request': 'hum_min', 'serial': idv, 'param': current_type.humidity_min})
 
-                    snd_req.put(url + '/request',
-                                json=dict(request='hum_max', serial=idv, param=type.humidity_max))
+                    snd_req.put(url + '/request', json={'request': 'hum_max', 'serial': idv, 'param': current_type.humidity_max})
 
-                    snd_req.put(url + '/request',
-                                json=dict(request='temp_max', serial=idv, param=type.temperature_max))
+                    snd_req.put(url + '/request', json={'request': 'temp_max', 'serial': idv, 'param': current_type.temperature_max})
 
-                    snd_req.put(url + '/request',
-                                json=dict(request='temp_min', serial=idv, param=type.temperature_min))
+                    snd_req.put(url + '/request', json={'request': 'temp_min', 'serial': idv, 'param': current_type.temperature_min})
 
+                except:
+                    return False
+                try:
                     plant.typeplant_id = idt
                     db.session.commit()
                 except:

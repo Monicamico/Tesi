@@ -68,7 +68,7 @@ def settings(idv):
                 if 0 <= ideal_h <= 1023 and hum_min <= ideal_h <= hum_max:
                     update_ideal_hum(plant_s.id, ideal_h)
                 else:
-                    flash('Controlla che il valore sia tra lo 0% e il 100%', 'warning')
+                    flash('Controlla che il valore sia tra lo 0% e il 100% e che il valore sia compreso tra il min e il max', 'warning')
 
             if ideal_t != plant_s.ideal_t and temp_min <= ideal_t <= temp_max:
                 update_ideal_temp(plant_s.id, ideal_t)
@@ -77,7 +77,7 @@ def settings(idv):
                 if 0 <= ideal_h <= 255:
                     update_ideal_light(plant_s.id, ideal_l)
                 else:
-                    flash('Controlla che il valore sia tra lo 0% e il 100%', 'warning')
+                    flash('Controlla che il valore sia tra lo 0% e il 100% e che il valore sia compreso tra il min e il max', 'warning')
 
             if light_max != plant_s.light_max:
                 if 0 <= light_max <= 255:
