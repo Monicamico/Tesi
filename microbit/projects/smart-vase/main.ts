@@ -206,10 +206,13 @@ input.onButtonPressed(Button.A, function(){
         sendTemperature()
     } else
         basic.showNumber(pairing_number)
+    basic.clearScreen()
 })
 
 input.onButtonPressed(Button.B, function(){
     setWaterContainerFull(true)
+    basic.showString("full")
+    basic.clearScreen()
 })
 
 //to show the pairing number
@@ -218,4 +221,5 @@ input.onButtonPressed(Button.AB, function(){
         basic.showIcon(IconNames.Happy)
     else
         basic.showIcon(IconNames.Sad)
+    basic.clearScreen()
 })
