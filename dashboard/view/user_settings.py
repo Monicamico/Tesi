@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, flash, request as rcv_req, redirect
-from flask_login import login_required
-from view.login import is_admin
+from flask_login import login_required, current_user
+from flask_login import login_manager
+from view.login import admin
 from model.forms import UserForm
 from model.gio_db import ConnectionRequest
 from controller.utility import correct_password_user, get_user
@@ -19,7 +20,8 @@ def user_settings(user):
     :return: template *user_settings.html* or *error.html*
     :rtype: template
     """
-    if is_admin():
+
+    if current_user.username == user or admin():
         form = UserForm()
         conn_list = ConnectionRequest.query.all()
         user_first = get_user(user)
@@ -80,3 +82,5 @@ def user_settings(user):
                                form=form,
                                user=user_first,
                                connections=conn_list)
+    else:
+        return login_manager.unauthorized()

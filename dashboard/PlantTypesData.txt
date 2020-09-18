@@ -1,7 +1,8 @@
-Nome del Tipo, Umidita-min, Umidita-max, Temp-min, Temp-max, Luca-min, Luce-max
+Nome del Tipo, Umidita-min, Umidita-max, Temp-min, Temp-max, Luce-min, Luce-max
 Nessuno, 0,0,0,0,0,0
-Plover Eggs, 25, 49, 18, 26, 75, 200
-Lipstick Vine, 25, 49, 18, 26, 75, 200
+Generica, 50, 90, 20, 25, 50, 100
+Plover Eggs, 25, 49, 18, 26, 75, 100
+Lipstick Vine, 25, 49, 18, 26, 75, 100
 Flowering Maple, 25, 49, 10, 18, 90, 100
 Chenile Plant, 25, 49, 18, 23, 90, 100
 Magic Flower, 25, 49, 18, 23, 80, 95

@@ -36,6 +36,20 @@ def is_admin():
         return login_manager.unauthorized()
 
 
+def admin():
+    """
+    If the current user is authenticated and is admin return True, otherwise False
+
+    :return: True or False
+    :rtype: bool
+
+    """
+    if current_user.is_authenticated and current_user.is_admin:
+        return True
+    else:
+        False
+
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     """

@@ -76,6 +76,13 @@ class User(db.Model):
         """
         return self.id
 
+    def get_username(self):
+        """
+        :return: the user's username
+        :rtype: String
+        """
+        return self.username
+
     def set_username(self,username):
         """
         it sets the user username

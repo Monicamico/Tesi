@@ -39,7 +39,7 @@
                     <input id="password_repeat" aria-labelledby="basic-addon3" type="password" class="form-control" name="password_repeat" placeholder="Ripeti nuova password">
                 </div>
               </td></tr>
-
+              {% if current_user.is_admin %}
               <tr><td>
                   <div style="text-align: center; width: 280px" class="input-group m-3">
                         <select name="ruolo_utente" class="form-control">
@@ -56,14 +56,15 @@
                          </select>
                     </div>
               </td></tr>
+              {% endif %}
               <tr> <td>
                   <a style="font-size: 17px; margin-bottom:4px;" class="myButton" href="" data-toggle="modal" data-target="#ModifyUserModal" title="Modifica"> Modifica </a>
               </td></tr>
          </table>
 
-
-        <a style="font-size: 17px; margin-top: 20px" class="myButton" href="/users"> <i class="fas fa-arrow-circle-left"></i> Lista Utenti </a>
-
+        {% if current_user.is_admin %}
+        <a style="font-size: 16px; margin-top: 20px" class="myButton" href="/users"> <i class="fas fa-arrow-circle-left"></i> Lista Utenti </a>
+        {% endif %}
         <!-- Modal MODIFICA UTENTE -->
         <div style="margin-left: 100px; margin-top: 200px" class="modal fade" id="ModifyUserModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog">
