@@ -141,8 +141,9 @@ function setPauseTime() {
  * @summary read humidity using pins P1, P0
  */
 function readHumidity() {
-    pins.analogWritePin(AnalogPin.P1, 1)
+    pins.analogWritePin(AnalogPin.P1, 1023)
     humidity_measure = pins.analogReadPin(AnalogPin.P0)
+    basic.showNumber(humidity_measure)
     pins.analogWritePin(AnalogPin.P1, 0)
 }
 

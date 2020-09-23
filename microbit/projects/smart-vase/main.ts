@@ -9,8 +9,8 @@
 let temp_min = 15                                 // minimum temperature value
 let temp_max = 30                                 // maximum temperature value
 let hum_max = 1000                                // maximum humidity value
-let hum_min = 300                                 // minimum humidity value
-let light_min = 50
+let hum_min = 255                                // minimum humidity value
+let light_min = 30
 let light_max = 250
 let temperature_measure = 0                       // temperature measure
 let humidity_measure = 0                          // humidity measure
