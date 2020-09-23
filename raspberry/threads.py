@@ -219,6 +219,13 @@ def reader():
             if request == Operation.REFUSED.value:
                 valid_request = True
 
+            if request == Operation.ADD_EXISTING_VASE.value:
+                param = int(param)
+                if valid_request_param:
+                    valid_request = True
+                else:
+                    valid_request = False
+
             if valid_request:
                 if serial_number is not None:
                     if param is not None:

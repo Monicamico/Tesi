@@ -91,6 +91,11 @@ def request():
             req = str(Operation.SET_WATER_CONTAINER_SIZE.value) + ";" + id_s + ";" + param + DELIMITER
             print('water_container_size / '+id_s)
 
+        elif req_type == 'water_container_state':
+            param = str(data['param'])
+            req = str(Operation.WATER_CONTAINER_STATE.value) + ";" + id_s + ";" + param + DELIMITER
+            print('water_container_state / ' + id_s)
+
         elif req_type == 'vase_transmit_power':
             param = str(data['param'])
             req = str(Operation.VASE_TRANSMIT_POWER.value) + ";" + id_s + ";" + param + DELIMITER
