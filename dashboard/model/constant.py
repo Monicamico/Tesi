@@ -69,6 +69,7 @@ class Operation(Enum):
     RADIO_JOIN = 22
     RADIO_TRANSMIT_POWER = 23
     VASE_TRANSMIT_POWER = 24
+    ADD_EXISTING_VASE = 26
 
 
 class WaterContainerState(Enum):

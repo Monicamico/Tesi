@@ -74,7 +74,7 @@ def settings(idv):
                 update_ideal_temp(plant_s.id, ideal_t)
 
             if ideal_l != plant_s.ideal_l and light_min <= ideal_l <= light_max:
-                if 0 <= ideal_h <= 255:
+                if 0 <= ideal_l <= 255:
                     update_ideal_light(plant_s.id, ideal_l)
                 else:
                     flash('Controlla che il valore sia tra lo 0% e il 100% e che il valore sia compreso tra il min e il max', 'warning')

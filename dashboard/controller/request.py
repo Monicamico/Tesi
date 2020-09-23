@@ -138,6 +138,32 @@ def request():
         if add_conn_req(data['serial'], signal, param, r.id) is True:
             return "200"
 
+    elif req == Operation.ADD_EXISTING_VASE.value:
+        plant_id = data['serial']
+        radio_id = data['param']
+        url = data['url']
+        plants = associated_plants(radio_id)
+        for plant in plants:
+            if plant.id == plant_id:
+                snd_req.put('http://' + url + '/request',
+                            json={'request': 'water_container_size', 'serial': plant_id, 'param': plant.water_container_size})
+                snd_req.put('http://' + url + '/request',
+                            json={'request': 'water_container_state', 'serial': plant_id, 'param': plant.water_container_state})
+                snd_req.put('http://' + url + '/request',
+                            json={'request': 'light_min', 'serial': plant_id, 'param': plant.light_min})
+                snd_req.put('http://' + url + '/request',
+                            json={'request': 'light_max', 'serial': plant_id, 'param': plant.light_max})
+                snd_req.put('http://' + url + '/request',
+                            json={'request': 'hum_min', 'serial': plant_id, 'param': plant.humidity_min})
+                snd_req.put('http://' + url + '/request',
+                            json={'request': 'hum_max', 'serial': plant_id, 'param': plant.humidity_max})
+                snd_req.put('http://' + url + '/request',
+                            json={'request': 'temp_min', 'serial': plant_id, 'param': plant.temperature_min})
+                snd_req.put('http://' + url + '/request',
+                            json={'request': 'temp_max', 'serial': plant_id, 'param': plant.temperature_max})
+                snd_req.put('http://' + url + '/request',
+                            json={'request': 'send_time', 'serial': plant_id, 'param': plant.send_time})
+
     elif req == Operation.REFUSED.value:
         radio = radio_from_url(data['url'])
         delete_conn_req(data['serial'], radio.id)

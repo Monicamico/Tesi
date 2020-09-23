@@ -372,6 +372,9 @@ def add_plant(idv, radio):
                 plant.ideal_l = ceil((plant.light_max + plant.light_min) / 2)
                 db.session.commit()
             delete_conn_req(idv, radio)
+            return True;
+        else:
+            return False;
 
 
 def url_from_plant(idv):
