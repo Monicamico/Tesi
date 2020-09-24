@@ -18,10 +18,10 @@ let light_measure = 0                             // light measure
 let send_time = 900000                            // time interval in wich the vase sends data  (16 MINUTI circa)
 let pause_time = send_time / 2                       
 let time = 0
-let joined = false
+let joined = 0
 let radio_serial_number = 0
 let watering_light = 70
-let water_container_size = 0.5                    // in liters (default 0.5 liter)
+let water_container_size = 0.05                    // in liters (default 0.05 liter)
 let water_container_full = true                     
 let amount_water = 0.5
 let transmit_power = 5                             // range = (0...7) lower to upper
@@ -45,8 +45,6 @@ DEBUG = true
 
 basic.forever(function () {
 
-    if (!joined) 
-        radio.sendValue(OPERATION.CONNECTION.toString(), pairing_number)
     measure()
     setState()
    
@@ -59,8 +57,12 @@ basic.forever(function () {
         }     
     }
     basic.clearScreen()
+
+    if (joined == 0) 
+        radio.sendValue(OPERATION.CONNECTION.toString(), pairing_number)
+
     if (time >= send_time) {
-        if (joined){
+        if (joined == 1){
             basic.showString(">")
             sendHumidity()
             sendTemperature()
@@ -112,7 +114,7 @@ radio.onReceivedBuffer(function () {
              * (-128 means a weak signal and -42 means a strong one.) 
              */
             if(!joined && signal_strenght > min_signal_strenght) {
-                joined=true
+                joined=1
                 radio_serial_number = serial_packet
                 setPauseTime()
                 basic.showString('j')
@@ -127,16 +129,16 @@ radio.onReceivedBuffer(function () {
 
             //Join operation failed or the vase has been deleted from the list
             if (request == OPERATION.DELETED){
-                if (joined){
-                    joined = false
+                if (joined==1){
+                    joined = 0
                     pairing_number = getRandomIntInclusive()
                     pause_time = 1200000
                 }
             } 
 
             if (request == OPERATION.REFUSED){
-                if (joined) {
-                    joined = false
+                if (joined == 1) {
+                    joined = 0
                     pause_time = 1200000
                 }
             } 
@@ -205,7 +207,7 @@ input.onButtonPressed(Button.A, function(){
         sendLight()
         sendTemperature()
     } else
-        basic.showNumber(pairing_number)
+        readHumidity()
     basic.clearScreen()
 })
 

@@ -141,10 +141,14 @@ function setPauseTime() {
  * @summary read humidity using pins P1, P0
  */
 function readHumidity() {
+    let i=0
+    let humidity = 0
     pins.analogWritePin(AnalogPin.P1, 1023)
-    humidity_measure = pins.analogReadPin(AnalogPin.P0)
-    basic.showNumber(humidity_measure)
+    humidity = pins.analogReadPin(AnalogPin.P0)
     pins.analogWritePin(AnalogPin.P1, 0)
+    basic.showNumber(humidity)
+    humidity_measure = humidity
+    return humidity
 }
 
 /**
@@ -177,16 +181,15 @@ function measure() {
 function sendTemperature() {
     readTemperature()
     radio.sendValue(OPERATION.TEMPERATURE.toString(), temperature_measure)
-    basic.pause(2000)
+    basic.pause(3000)
 }
 
 /**
  * @summary sends the humidity value to the radio-dashboard
  */
 function sendHumidity() {
-    readHumidity()
-    radio.sendValue(OPERATION.HUMIDITY.toString(), humidity_measure)
-    basic.pause(2000)
+    radio.sendValue(OPERATION.HUMIDITY.toString(), (readHumidity())/4)
+    basic.pause(3000)
 }
 
 /**
@@ -195,7 +198,7 @@ function sendHumidity() {
 function sendLight() {
     readLight()
     radio.sendValue((OPERATION.LIGHT).toString(), light_measure)
-    basic.pause(2000)
+    basic.pause(3000)
 }
 
 function sendWaterContainerState() {

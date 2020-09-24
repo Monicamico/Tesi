@@ -1,6 +1,6 @@
 from enum import Enum
 
-URL_DASHBOARD = 'http://192.168.2.4:5000'
+URL_DASHBOARD = 'http://192.168.2.6:5000'
 MICROBIT_PORT_MAC = '/dev/cu.usbmodem14102'   # right
 MICROBIT_PORT_MAC2 = '/dev/cu.usbmodem14202'  # left
 MICROBIT_PORT_LINUX = '/dev/ttyACM1'

@@ -126,9 +126,8 @@ def request():
         url = data['url']
         if add_radio(radio_id, url) is False:
             plants = associated_plants(radio_id)
-            if plants is not None:
-                for plant in plants:
-                    snd_req.put('http://' + url + '/request', json={'request': 'existing_vase', 'serial': plant.id})
+            for plant in plants:
+                snd_req.put('http://' + url + '/request', json={'request': 'existing_vase', 'serial': plant.id})
 
     elif req == Operation.CONNECTION.value:
         signal = data['signal']
@@ -146,9 +145,12 @@ def request():
         for plant in plants:
             if plant.id == plant_id:
                 snd_req.put('http://' + url + '/request',
-                            json={'request': 'water_container_size', 'serial': plant_id, 'param': plant.water_container_size})
+                            json={'request': 'water_container_size', 'serial': plant_id,
+                                  'param': plant.water_container_size})
+
                 snd_req.put('http://' + url + '/request',
-                            json={'request': 'water_container_state', 'serial': plant_id, 'param': plant.water_container_state})
+                            json={'request': 'water_container_state', 'serial': plant_id,
+                                  'param': plant.water_container_state})
                 snd_req.put('http://' + url + '/request',
                             json={'request': 'light_min', 'serial': plant_id, 'param': plant.light_min})
                 snd_req.put('http://' + url + '/request',
@@ -170,7 +172,7 @@ def request():
 
     elif req == Operation.JOINED.value:
         param = data['param']
-        add_plant(data['serial'],param)
+        add_plant(data['serial'], param)
 
     elif req == Operation.DELETED.value:
         delete_plant(data['serial'])
@@ -210,7 +212,7 @@ def request():
     elif req == Operation.WATER_CONTAINER_STATE.value:
         serial_number = data['serial']
         param = data['param']
-        update_water_container_state(serial_number,  param)
+        update_water_container_state(serial_number, param)
 
     elif req == Operation.SET_WATER_CONTAINER_SIZE.value:
         serial_number = data['serial']
@@ -281,7 +283,7 @@ def request():
         try:
             serial_number = data['serial']
             param = data['param']
-            update_vase_transmit_power(serial_number,param)
+            update_vase_transmit_power(serial_number, param)
         except:
             print()
 

@@ -42,7 +42,7 @@ enum OPERATION {
 let currentState = State.Happy
 let serial_number = control.deviceSerialNumber()  // serial number of the vase
 let DEBUG = true
-let single_water_amount = 0.02
+let single_water_amount = 0.025
 /*
  * signal strength:
  * the value ranges from -128 to -42 

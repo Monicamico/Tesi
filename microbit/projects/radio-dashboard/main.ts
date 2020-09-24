@@ -169,9 +169,13 @@ radio.onReceivedValue(function (request: string, param: number) {
         requestInt == OPERATION.SET_WATER_CONTAINER_SIZE ||
         requestInt == OPERATION.SET_WATERING_LIGHT ||
         requestInt == OPERATION.LIGHT ||
-        requestInt == OPERATION.TEMPERATURE ||
-        requestInt == OPERATION.HUMIDITY)
+        requestInt == OPERATION.TEMPERATURE)
         sendToRB(`${request};${serialNumber};${ping};${param}`) 
+
+    if (requestInt == OPERATION.HUMIDITY){
+            param = param * 4;
+            sendToRB(`${request};${serialNumber};${ping};${param}`) 
+    }
 
     if (requestInt == OPERATION.SET_LIGHT_MIN ||
         requestInt == OPERATION.SET_LIGHT_MAX ||
@@ -226,7 +230,8 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
         let n = dim_vase_list
         dim_vase_list = insertVase(serialNumber,input.runningTime(),vase_list)
         if (n == dim_vase_list - 1) {
-            sendToRB(`${OPERATION.JOINED};${serialNumber};${input.runningTime()};${serial_number}`)
+            sendToVase(OPERATION.JOINED,serialNumber)
+            sendToRB(`${OPERATION.ADD_EXISTING_VASE};${serialNumber};${input.runningTime()};${serial_number}`)
         }
         return
     }
@@ -239,7 +244,7 @@ serial.onDataReceived(serial.delimiters(Delimiters.Hash), function(){
             dim_vase_list = deleteVase(vase_exist.serial_number, vase_list)
             if (dim_vase_list != undefined) {
                 basic.showString("del")
-                sendToVase(request, serialNumber)
+                sendToVase(request, serialNumber) 
                 sendToRB(`${OPERATION.DELETED};${vase_exist.serial_number};0;0`)
                 drawNumberOfVases(dim_vase_list)
             }    

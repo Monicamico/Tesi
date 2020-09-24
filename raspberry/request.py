@@ -95,6 +95,7 @@ def request():
             param = str(data['param'])
             req = str(Operation.WATER_CONTAINER_STATE.value) + ";" + id_s + ";" + param + DELIMITER
             print('water_container_state / ' + id_s)
+            print('water_container_state / ' + id_s)
 
         elif req_type == 'vase_transmit_power':
             param = str(data['param'])
