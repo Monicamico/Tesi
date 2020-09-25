@@ -42,6 +42,7 @@ screenOn = 0
 temperature_measure = 0                      
 humidity_measure = 0                   
 light_measure = 0     
+water_container_full = false
 
 /*---------------------------------------------- MAIN CODE ------------------------------------------- */
 
@@ -55,7 +56,7 @@ basic.forever(function () {
     measure()
     //setState()
    
-    if (humidity_measure < hum_min && light_measure <= watering_light && water_container_full){
+    if (humidity_measure < hum_min && !(humidity_measure > hum_max) && light_measure <= watering_light && water_container_full){
         if (amount_water >= single_water_amount)
             waters() //feeds the plant and update the amount_water
         if (amount_water < single_water_amount){
@@ -86,14 +87,19 @@ radio.onReceivedBuffer(function () {
     const content_list: string[] = content.split(";")
     let size = content_list.length
 
-    basic.showLeds(`
-        # # # # #
-        # # . # #
-        # . # . #
-        # . . . #
-        # # # # #
-    `)
-
+    if (screenOn == 0) {
+        screenOn = 1
+        basic.showLeds(`
+            # # # # #
+            # # . # #
+            # . # . #
+            # . . . #
+            # # # # #
+        `)
+        basic.clearScreen()
+        screenOn = 0
+    }
+    
     let request = 0
     let id = 0
     let x = 0
