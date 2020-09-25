@@ -1,9 +1,7 @@
 from math import ceil
-
+import time
 import requests as snd_req
-from flask import flash
 from werkzeug.security import check_password_hash
-
 from model.gio_db import User, db, Plant, ConnectionRequest, Radio, TypePlant
 
 
@@ -361,7 +359,7 @@ def add_plant(idv, radio):
                                  light_min=50,
                                  watering_light=70,
                                  water_container_size=0.5,
-                                 water_container_state=True,
+                                 water_container_state=False,
                                  transmit_power=5,
                                  send_time=15))
             db.session.commit()
@@ -451,16 +449,22 @@ def change_type(idv, idt, url):
             if idt != 'Nessuno':
                 try:
                     snd_req.put(url + '/request', json={'request': 'light_max', 'serial': idv, 'param': current_type.light_max})
+                    time.sleep(2)
 
                     snd_req.put(url + '/request', json={'request': 'light_min', 'serial': idv, 'param': current_type.light_min})
+                    time.sleep(2)
 
                     snd_req.put(url + '/request', json={'request': 'hum_min', 'serial': idv, 'param': current_type.humidity_min})
+                    time.sleep(2)
 
                     snd_req.put(url + '/request', json={'request': 'hum_max', 'serial': idv, 'param': current_type.humidity_max})
+                    time.sleep(2)
 
                     snd_req.put(url + '/request', json={'request': 'temp_max', 'serial': idv, 'param': current_type.temperature_max})
+                    time.sleep(2)
 
                     snd_req.put(url + '/request', json={'request': 'temp_min', 'serial': idv, 'param': current_type.temperature_min})
+                    time.sleep(2)
 
                 except:
                     return False
@@ -630,6 +634,8 @@ def update_plant_state_fitness(idv):
 
             state_fitness = (hum + temp + lig) / 3
             state_fitness = round(state_fitness, 2)
+            if state_fitness > 1:
+                state_fitness = 0.9
             plant.state_fitness = 1 - state_fitness
             db.session.commit()
 

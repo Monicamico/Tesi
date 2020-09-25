@@ -1,3 +1,5 @@
+import time
+
 from flask import Blueprint, request as rcv_req
 import requests as snd_req
 from controller.utility import add_conn_req, delete_conn_req, update_sleep_time, update_radio_transmit_power, add_radio, \
@@ -145,24 +147,29 @@ def request():
         for plant in plants:
             if plant.id == plant_id:
                 snd_req.put('http://' + url + '/request',
-                            json={'request': 'water_container_size', 'serial': plant_id,
-                                  'param': plant.water_container_size})
-
+                            json={'request': 'water_container_size', 'serial': plant_id, 'param': plant.water_container_size})
+                time.sleep(3)
                 snd_req.put('http://' + url + '/request',
-                            json={'request': 'water_container_state', 'serial': plant_id,
-                                  'param': plant.water_container_state})
+                            json={'request': 'water_container_state', 'serial': plant_id, 'param': plant.water_container_state})
+                time.sleep(3)
                 snd_req.put('http://' + url + '/request',
                             json={'request': 'light_min', 'serial': plant_id, 'param': plant.light_min})
+                time.sleep(3)
                 snd_req.put('http://' + url + '/request',
                             json={'request': 'light_max', 'serial': plant_id, 'param': plant.light_max})
+                time.sleep(3)
                 snd_req.put('http://' + url + '/request',
                             json={'request': 'hum_min', 'serial': plant_id, 'param': plant.humidity_min})
+                time.sleep(3)
                 snd_req.put('http://' + url + '/request',
                             json={'request': 'hum_max', 'serial': plant_id, 'param': plant.humidity_max})
+                time.sleep(3)
                 snd_req.put('http://' + url + '/request',
                             json={'request': 'temp_min', 'serial': plant_id, 'param': plant.temperature_min})
+                time.sleep(3)
                 snd_req.put('http://' + url + '/request',
                             json={'request': 'temp_max', 'serial': plant_id, 'param': plant.temperature_max})
+                time.sleep(3)
                 snd_req.put('http://' + url + '/request',
                             json={'request': 'send_time', 'serial': plant_id, 'param': plant.send_time})
 

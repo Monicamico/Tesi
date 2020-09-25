@@ -50,7 +50,7 @@ def humidity(idv):
     try:
         reply = snd_req.put(str(url_from_plant(idv)) + '/request', json={"request": "humidity", "serial": idv})
         print(reply)
-        time.sleep(2)
+        time.sleep(4)
         flash('Operazione inoltrata alla radio', 'success')
     except:
         flash("Impossibile inoltrare la richiesta alla radio",'danger')
@@ -75,7 +75,7 @@ def temperature(idv):
     try:
         reply = snd_req.put(str(url_from_plant(idv)) + '/request', json={'request': 'temperature', 'serial': idv})
         print(reply)
-        time.sleep(2)
+        time.sleep(4)
         flash('Operazione inoltrata alla radio', 'success')
     except:
         flash("Impossibile inoltrare la richiesta alla radio", 'danger')
@@ -100,7 +100,7 @@ def light(idv):
     try:
         reply = snd_req.put(str(url_from_plant(idv)) + '/request', json={'request': 'light', 'serial': idv})
         print(reply)
-        time.sleep(2)
+        time.sleep(4)
         flash('Operazione inoltrata alla radio', 'success')
     except:
         flash("Impossibile inoltrare la richiesta alla radio", 'danger')
@@ -126,7 +126,7 @@ def container_state(idv):
         reply = snd_req.put(str(url_from_plant(idv)) + '/request', json={'request': 'container_state', 'serial': idv})
         print(reply)
         flash('Operazione inoltrata alla radio', 'success')
-        time.sleep(2)
+        time.sleep(3)
     except:
         flash("Impossibile inoltrare la richiesta alla radio",'danger')
         return redirect("/plant/" + idv)
@@ -155,6 +155,7 @@ def vase_state_req(idv):
         reply = snd_req.put(str(url_from_plant(idv)) + '/request', json={'request': 'temperature', 'serial': idv})
         print(reply)
         flash('Richiesta dello stato della pianta inoltrata alla radio', 'success')
+        time.sleep(7)
     except:
         flash('Impossibile inoltrare la richiesta alla radio','danger')
         return redirect("/plant/" + idv)
