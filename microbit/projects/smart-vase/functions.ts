@@ -141,28 +141,47 @@ function setPauseTime() {
  * @summary read humidity using pins P1, P0
  */
 function readHumidity() {
-    let i=0
-    let humidity = 0
-    pins.analogWritePin(AnalogPin.P1, 1023)
-    humidity = pins.analogReadPin(AnalogPin.P0)
-    pins.analogWritePin(AnalogPin.P1, 0)
-    basic.showNumber(humidity)
-    humidity_measure = humidity
-    return humidity
+    let tmp = 0
+    for (let index = 0; index < 100; index++) {
+        pins.analogWritePin(AnalogPin.P1, 1023)
+        tmp += pins.analogReadPin(AnalogPin.P0)
+        pins.analogWritePin(AnalogPin.P1, 0)
+        basic.pause(100)
+    }
+    tmp = Math.floor(tmp / 100)
+    humidity_measure = tmp
+    return tmp
+    basic.pause(1000)
 }
 
 /**
  * @summary read temperature
  */
 function readTemperature() {
-    temperature_measure = input.temperature()
+    let temperature_tmp = 0
+    for (let index = 0; index < 100; index++) {
+        temperature_tmp += input.temperature()
+        basic.pause(100)
+    }
+    temperature_measure = Math.floor(temperature_tmp / 100)
+    basic.pause(1000)
 }
 
 /**
  *@summary read light 
  */
 function readLight() {
-    light_measure = input.lightLevel()
+    let light_tmp = 0
+    if (screenOn == 0) {
+        screenOn = 1
+        for (let index = 0; index < 100; index++) {
+            light_tmp += input.lightLevel()
+            basic.pause(100)
+        }
+        light_measure = Math.floor (light_tmp / 100)
+        screenOn = 0
+    }
+    basic.pause(2000)
 }
 
 /**
@@ -172,7 +191,6 @@ function measure() {
     readHumidity()
     readTemperature()
     readLight()
-    setState()
 }
 
 /**
@@ -209,7 +227,7 @@ function sendWaterContainerState() {
     basic.pause(2000)
 }
 
-function setState() {
+/*function setState() {
     
     if ((humidity_measure <= hum_max && humidity_measure >= hum_min) && 
         (light_measure <=light_max && light_measure >= light_min) &&
@@ -219,7 +237,7 @@ function setState() {
     else 
         currentState = State.Sad
 
-}
+}*/
 
 function getRandomIntInclusive() {
     return Math.floor(Math.random() * (400 - 100 + 1)) + 100; //Il max è incluso e il min è incluso 

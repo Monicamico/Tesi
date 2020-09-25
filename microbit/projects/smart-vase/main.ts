@@ -18,14 +18,14 @@ let light_measure = 0                             // light measure
 let send_time = 900000                            // time interval in wich the vase sends data  (16 MINUTI circa)
 let pause_time = send_time / 2                       
 let time = 0
-let joined = 0
+let joined = false
 let radio_serial_number = 0
 let watering_light = 70
-let water_container_size = 0.05                    // in liters (default 0.05 liter)
-let water_container_full = true                     
+let water_container_size = 0.5                     // in liters (default 0.05 liter)
+let water_container_full = false                     
 let amount_water = 0.5
 let transmit_power = 5                             // range = (0...7) lower to upper
-
+let screenOn = 0
 
 /* ------------------------------------------- INITIAL CODE ------------------------------------------- */
 
@@ -38,32 +38,33 @@ amount_water = water_container_size
 amount_water -=  single_water_amount
 // problema: anche se e' presente ancora acqua nel contenitore non riesce a prenderla perche' troppo poca.
 // considero un waters() in meno 
-
-DEBUG = true 
+screenOn = 0
+temperature_measure = 0                      
+humidity_measure = 0                   
+light_measure = 0     
 
 /*---------------------------------------------- MAIN CODE ------------------------------------------- */
 
 basic.forever(function () {
 
+    if (!joined) 
+        radio.sendValue(OPERATION.CONNECTION.toString(), pairing_number)
+
+    basic.pause(5000)
+
     measure()
-    setState()
+    //setState()
    
     if (humidity_measure < hum_min && light_measure <= watering_light && water_container_full){
         if (amount_water >= single_water_amount)
             waters() //feeds the plant and update the amount_water
         if (amount_water < single_water_amount){
             setWaterContainerFull(false)
-            basic.showString('!')
         }     
     }
-    basic.clearScreen()
-
-    if (joined == 0) 
-        radio.sendValue(OPERATION.CONNECTION.toString(), pairing_number)
 
     if (time >= send_time) {
-        if (joined == 1){
-            basic.showString(">")
+        if (joined){
             sendHumidity()
             sendTemperature()
             sendLight()
@@ -114,10 +115,9 @@ radio.onReceivedBuffer(function () {
              * (-128 means a weak signal and -42 means a strong one.) 
              */
             if(!joined && signal_strenght > min_signal_strenght) {
-                joined=1
+                joined=true
                 radio_serial_number = serial_packet
                 setPauseTime()
-                basic.showString('j')
                 radio.sendValue(OPERATION.JOINED.toString(),radio_serial_number)
             } 
             
@@ -129,16 +129,16 @@ radio.onReceivedBuffer(function () {
 
             //Join operation failed or the vase has been deleted from the list
             if (request == OPERATION.DELETED){
-                if (joined==1){
-                    joined = 0
+                if (joined){
+                    joined = false
                     pairing_number = getRandomIntInclusive()
                     pause_time = 1200000
                 }
             } 
 
             if (request == OPERATION.REFUSED){
-                if (joined == 1) {
-                    joined = 0
+                if (joined) {
+                    joined = false
                     pause_time = 1200000
                 }
             } 
@@ -148,7 +148,6 @@ radio.onReceivedBuffer(function () {
                     waters()
                 else if (amount_water < single_water_amount){
                     setWaterContainerFull(false)
-                    basic.showString('!')
                 }     
             }
             
@@ -201,27 +200,14 @@ radio.onReceivedBuffer(function () {
 })
 
 input.onButtonPressed(Button.A, function(){
-    if (joined){
-        basic.showString('>')
-        sendHumidity()
-        sendLight()
-        sendTemperature()
-    } else
-        readHumidity()
-    basic.clearScreen()
+    if (screenOn == 0) {
+        screenOn = 1
+        basic.showNumber(pairing_number)
+        basic.pause(200)
+        screenOn = 0
+    }
 })
 
 input.onButtonPressed(Button.B, function(){
     setWaterContainerFull(true)
-    basic.showString("full")
-    basic.clearScreen()
-})
-
-//to show the pairing number
-input.onButtonPressed(Button.AB, function(){
-    if (currentState == State.Happy)
-        basic.showIcon(IconNames.Happy)
-    else
-        basic.showIcon(IconNames.Sad)
-    basic.clearScreen()
 })
