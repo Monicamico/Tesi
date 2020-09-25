@@ -4,7 +4,7 @@ from view.login import is_admin
 from model.forms import SettingsForm
 from model.gio_db import Plant, ConnectionRequest, TypePlant
 from controller.utility import url_from_plant, update_name, change_type, update_ideal_hum, update_ideal_light, \
-    update_ideal_temp
+    update_ideal_temp, update_light_max, update_light_min, update_temp_min, update_temp_max
 import time
 import requests as snd_req
 
@@ -82,19 +82,21 @@ def settings(idv):
             if light_max != plant_s.light_max:
                 if 0 <= light_max <= 255:
                     try:
-                        snd_req.put(URL_RASPBERRY + '/request', json=dict(request='light_max', serial=idv, param=light_max))
+                        """ snd_req.put(URL_RASPBERRY + '/request', json=dict(request='light_max', serial=idv, param=light_max))"""
+                        update_light_max(idv,light_max)
                     except:
-                        flash('Impossible inoltrare la richiesta', 'danger')
+                        flash('Impossible effettuare la richiesta', 'danger')
                 else:
                     flash('Controlla che il valore sia tra lo 0% e il 100%', 'warning')
 
             if light_min != plant_s.light_min:
                 if 0 <= light_min <= 255:
                     try:
-                        snd_req.put(URL_RASPBERRY + '/request',
-                                    json={'request': 'light_min', 'serial': idv, 'param': light_min})
+                        """snd_req.put(URL_RASPBERRY + '/request',
+                                    json={'request': 'light_min', 'serial': idv, 'param': light_min}) """
+                        update_light_min(idv, light_min)
                     except:
-                        flash('Impossible inoltrare la richiesta', 'danger')
+                        flash('Impossible effettuare la richiesta', 'danger')
                         return redirect('/settings/' + idv)
                 else:
                     flash('Controlla che il valore sia tra lo 0% e il 100% - (Luce massima)', 'warning')
@@ -129,13 +131,15 @@ def settings(idv):
 
             if temp_min != plant_s.temperature_min:
                 try:
-                    snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temp_min', 'serial': idv, 'param': temp_min})
+                    """snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temp_min', 'serial': idv, 'param': temp_min})"""
+                    update_temp_min(idv,temp_min)
                 except:
                     flash('Impossible inoltrare la richiesta', 'danger')
 
             if temp_max != plant_s.temperature_max:
                 try:
-                    snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temp_max', 'serial': idv, 'param': temp_max})
+                    """snd_req.put(URL_RASPBERRY + '/request', json={'request': 'temp_max', 'serial': idv, 'param': temp_max})"""
+                    update_temp_max(idv, temp_max)
                 except:
                     flash('Impossible inoltrare la richiesta', 'danger')
 
@@ -164,6 +168,7 @@ def settings(idv):
                     flash('Impossible inoltrare la richiesta - (Potenza trasmissione dati)', 'danger')
 
             time.sleep(4)
+            flash('Operazione effettuata con successo','success')
             return redirect('/settings/' + idv)
 
         else:

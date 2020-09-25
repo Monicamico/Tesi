@@ -153,10 +153,8 @@ def request():
                             json={'request': 'water_container_state', 'serial': plant_id, 'param': plant.water_container_state})
                 time.sleep(3)
                 snd_req.put('http://' + url + '/request',
-                            json={'request': 'light_min', 'serial': plant_id, 'param': plant.light_min})
-                time.sleep(3)
-                snd_req.put('http://' + url + '/request',
-                            json={'request': 'light_max', 'serial': plant_id, 'param': plant.light_max})
+                            json={'request': 'send_time', 'serial': plant_id, 'param': plant.send_time})
+
                 time.sleep(3)
                 snd_req.put('http://' + url + '/request',
                             json={'request': 'hum_min', 'serial': plant_id, 'param': plant.humidity_min})
@@ -164,14 +162,6 @@ def request():
                 snd_req.put('http://' + url + '/request',
                             json={'request': 'hum_max', 'serial': plant_id, 'param': plant.humidity_max})
                 time.sleep(3)
-                snd_req.put('http://' + url + '/request',
-                            json={'request': 'temp_min', 'serial': plant_id, 'param': plant.temperature_min})
-                time.sleep(3)
-                snd_req.put('http://' + url + '/request',
-                            json={'request': 'temp_max', 'serial': plant_id, 'param': plant.temperature_max})
-                time.sleep(3)
-                snd_req.put('http://' + url + '/request',
-                            json={'request': 'send_time', 'serial': plant_id, 'param': plant.send_time})
 
     elif req == Operation.REFUSED.value:
         radio = radio_from_url(data['url'])
