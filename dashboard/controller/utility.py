@@ -448,22 +448,15 @@ def change_type(idv, idt, url):
         if current_type is not None:
             if idt != 'Nessuno':
                 try:
-                    snd_req.put(url + '/request', json={'request': 'light_max', 'serial': idv, 'param': current_type.light_max})
-                    time.sleep(2)
-
-                    snd_req.put(url + '/request', json={'request': 'light_min', 'serial': idv, 'param': current_type.light_min})
-                    time.sleep(2)
+                    update_light_max(idv, current_type.light_max)
+                    update_light_min(idv, current_type.light_min)
+                    update_temp_max(idv, current_type.temperature_max)
+                    update_temp_min(idv,  current_type.temperature_min)
 
                     snd_req.put(url + '/request', json={'request': 'hum_min', 'serial': idv, 'param': current_type.humidity_min})
                     time.sleep(2)
 
                     snd_req.put(url + '/request', json={'request': 'hum_max', 'serial': idv, 'param': current_type.humidity_max})
-                    time.sleep(2)
-
-                    snd_req.put(url + '/request', json={'request': 'temp_max', 'serial': idv, 'param': current_type.temperature_max})
-                    time.sleep(2)
-
-                    snd_req.put(url + '/request', json={'request': 'temp_min', 'serial': idv, 'param': current_type.temperature_min})
                     time.sleep(2)
 
                 except:
